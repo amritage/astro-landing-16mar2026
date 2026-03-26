@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogPostHero from "../../components/blog/BlogPostHero.astro";
+import BlogPostBody from "../../components/blog/BlogPostBody.astro";
+import BlogPostFAQ from "../../components/blog/BlogPostFAQ.astro";
+import BlogPostCTA from "../../components/blog/BlogPostCTA.astro";
+import { blogPosts } from "../../data/blog";
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<BaseLayout title={`${post.title} | Amrita Global`} description={post.excerpt}>
+  <BlogPostHero post={post} />
+  <BlogPostBody post={post} />
+  <BlogPostFAQ post={post} />
+  <BlogPostCTA />
+</BaseLayout>

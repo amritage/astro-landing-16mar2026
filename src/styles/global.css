@@ -1,0 +1,155 @@
+@import "@fontsource/newsreader/400.css";
+@import "@fontsource/newsreader/500.css";
+@import "@fontsource/newsreader/700.css";
+@import "@fontsource/newsreader/800.css";
+@import "@fontsource/newsreader/400-italic.css";
+
+@import "@fontsource/manrope/400.css";
+@import "@fontsource/manrope/500.css";
+@import "@fontsource/manrope/600.css";
+@import "@fontsource/manrope/700.css";
+@import "@fontsource/manrope/800.css";
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+@import "tailwindcss";
+
+@theme {
+  /* preserve Tailwind defaults */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* brand */
+  --color-primary: #041632;
+  --color-primary-hover: #0a224a;
+  --color-accent: #123a73;
+  --color-secondary: #8d6708;
+  --color-secondary-light: #e8b84b;
+
+  /* surfaces */
+  --color-background: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f3f4f6;
+  --color-surface-low: #f6f7f8;
+  --color-surface-high: #eceff1;
+  --color-border: #d9dfe5;
+  --color-outline: #c7cdd4;
+
+  /* text */
+  --color-text: #191c1d;
+  --color-text-secondary: #44474d;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  /* extras */
+  --color-navy-dim: #b7c7eb;
+  --color-amber-warm: #fef3c7;
+
+  /* fonts */
+  --font-headline: "Newsreader", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Inter", sans-serif;
+}
+
+:root {
+  --color-primary: #041632;
+  --color-primary-hover: #0a224a;
+  --color-accent: #123a73;
+  --color-secondary: #8d6708;
+
+  --color-background: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f3f4f6;
+  --color-surface-low: #f6f7f8;
+  --color-surface-high: #eceff1;
+  --color-border: #d9dfe5;
+  --color-outline: #c7cdd4;
+
+  --color-text: #191c1d;
+  --color-text-secondary: #44474d;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  --shadow-soft: 0 8px 30px rgba(15, 23, 42, 0.07);
+  --shadow-md: 0 18px 48px rgba(15, 23, 42, 0.12);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+
+  --container-width: 1280px;
+
+  --font-headline: "Newsreader", serif;
+  --font-body: "Manrope", sans-serif;
+  --font-label: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+button,
+input,
+select,
+textarea,
+a {
+  font-family: inherit;
+}
+
+.container-main {
+  width: min(100% - 24px, var(--container-width));
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .container-main {
+    width: min(100% - 40px, var(--container-width));
+  }
+}
+
+.font-headline {
+  font-family: var(--font-headline);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-label {
+  font-family: var(--font-label);
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #041632 0%, #0a224a 55%, #123a73 100%);
+}
+
+.metallic-gradient {
+  background: linear-gradient(135deg, #041632 0%, #1b2b48 100%);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+}
+
+.footer-grid-line {
+  background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+}

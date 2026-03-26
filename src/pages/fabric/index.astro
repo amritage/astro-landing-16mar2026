@@ -1,0 +1,87 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+import ProductHero from "../../components/product/ProductHero.astro";
+import ProductIntro from "../../components/product/ProductIntro.astro";
+import ProductSection from "../../components/product/ProductSection.astro";
+import ProductCTA from "../../components/product/ProductCTA.astro";
+import ProductGuide from "../../components/product/ProductGuide.astro";
+import ProductFAQ from "../../components/product/ProductFAQ.astro";
+
+const products = [
+  {
+    id: "695FA90E",
+    name: "Majestica-767",
+    category: "Cotton Twill",
+    weight: "125 GSM",
+    width: "146 cm",
+    color: "#5d4037",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuC9xtemFE8R-_Ghd9GxQmLbeYWNuLOzcfzT8kavlwQudjwWhoA9wfQ6Y1FzkwBgGk_PlfugVAV29pZRYU0ZTjHnwrGlMM7ZTFSSU08c7syL3JXB6ImJbCuWUyAAAhR1faQi9L5HjeoVR654FUhOWoLgnMgqHgKQqXp1TIau0olKmB-wMsVUkF2d3DdwLu7a1MgP29ekdDfsOSfcDd2yncjOm2sEGNRTCU2pUgw9ix1MDkIneMCHU_pKiBRmpfe6JIaxIkKgexfgkYnZ",
+    href: "/fabric/majestica-767",
+  },
+  {
+    id: "A200X91",
+    name: "AeroWeave-200",
+    category: "Technical Mesh",
+    weight: "200 GSM",
+    width: "150 cm",
+    color: "#041632",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuDTw7LDQK7hN6bNTNULL3MLL2Z6pBA6_zAal90sKd_fULaOHfJ4eADx5oJVZzJm6MtWgWPeEDyOGlPU19uqk4saY_y63kqS3QkG9I4UAMWaNMMUL5SZHBjpklPjJxzAI6OegXBOEsORmxYud-QfMbzS4ilZUlykMqDKOExYqyNlfMw-2GM00bz7Ws17B5RLXDxOMpWFwtshuwig6ecI0JCOK7Y_kqxWJDqT0w47eviup3xp91ufpZy03Z1Pf_3WNdImacBmThMM3_Si",
+    href: "/fabric/aeroweave-200",
+  },
+  {
+    id: "L180ELT",
+    name: "Lino-Elite",
+    category: "Organic Linen",
+    weight: "180 GSM",
+    width: "140 cm",
+    color: "#f5f5f5",
+    image:
+      "https://lh3.googleusercontent.com/aida-public/AB6AXuCvjMyPN7J7f8SPecuqYmy0G-57aAFVePcR6xZVrjFjxFmschxC0h-DZSZnrzexW_DHGZumTD1a96txQhTXx15JQE4sw5nKjwntKn-FuG6RgVZOJ98i7WFDBxYbx4KFf93MtIv8c7rglagLLCZ4TWK3NlgqsPuHrdaOcHvtGN8N32NEMKsVoqjdg3n2GRDaZw1IstCVUtr4-7DHemV4fboklmh5CHzjjfXHRlJr8mxDvbrjWFWg5ciMcGoOCdEjeh4tIjnIaYfzWbUP",
+    href: "/fabric/lino-elite",
+  },
+];
+
+const categories = [
+  "Cotton Twill",
+  "Performance Poly",
+  "Recycled Weaves",
+  "Technical Mesh",
+];
+
+const finishes = ["Mercerized", "Waterproof", "Brushed"];
+
+const faqItems = [
+  {
+    question: "What is your Minimum Order Quantity (MOQ)?",
+    answer: "Our standard MOQ for stock items is 100 meters per color.",
+  },
+  {
+    question: "Do you provide Oeko-Tex certifications?",
+    answer:
+      "Yes, selected products can be supplied with relevant testing and certification documents based on buyer requirements.",
+  },
+];
+---
+
+<BaseLayout
+  title="Shop Fabric Catalog | Amrita Global Enterprises"
+  description="Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."
+>
+  <main class="bg-white text-slate-900">
+    <ProductHero />
+    <ProductIntro />
+
+    <ProductSection
+      products={products}
+      categories={categories}
+      finishes={finishes}
+    />
+
+    <ProductCTA />
+    <ProductGuide />
+    <ProductFAQ items={faqItems} />
+  </main>
+</BaseLayout>

@@ -1,0 +1,43 @@
+---
+import type { Product } from "../../data/products";
+interface Props { product: Product }
+const { product } = Astro.props;
+---
+
+<!-- Related Products -->
+<section class="max-w-7xl mx-auto px-4 lg:px-8 py-16 lg:py-20">
+  <div class="flex justify-between items-end mb-10">
+    <h2 class="font-serif text-2xl lg:text-3xl font-bold">Related Fabric Options</h2>
+    <a href="/fabric" class="text-[#775a19] font-bold text-sm lg:text-base underline">View Collection</a>
+  </div>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+    {product.related.map((rel) => (
+      <a href={`/fabric/${rel.slug}`} class="group block">
+        <div class="aspect-[3/4] bg-[#e7e8e9] mb-4 overflow-hidden group-hover:opacity-80 transition-opacity"></div>
+        <h4 class="font-bold text-xs lg:text-sm">{rel.name}</h4>
+        <p class="text-[10px] lg:text-xs text-[#44474d] font-sans">{rel.gsm} • {rel.weave}</p>
+      </a>
+    ))}
+  </div>
+</section>
+
+<!-- Bottom CTA -->
+<section class="max-w-5xl mx-auto px-4 lg:px-8 py-10 mb-10 lg:mb-20">
+  <div class="bg-[#775a19] p-8 lg:p-12 text-center text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 p-8 opacity-10 hidden lg:block">
+      <span class="material-symbols-outlined text-9xl">inventory_2</span>
+    </div>
+    <h2 class="font-serif text-3xl lg:text-4xl font-bold mb-4">Request a Quote for Bulk Supply</h2>
+    <p class="mb-8 text-[#ffdea5] opacity-90 text-sm lg:text-base">
+      Experience the premium feel and technical excellence of {product.name.split(" ").slice(0, 2).join(" ")} in your next collection.
+    </p>
+    <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+      <a href="/contact" class="bg-[#041632] px-10 py-4 font-bold hover:bg-[#374765] transition-colors w-full md:w-auto text-center">
+        Start Bulk Inquiry
+      </a>
+      <button class="bg-white text-[#775a19] px-10 py-4 font-bold hover:bg-[#f3f4f5] transition-colors w-full md:w-auto">
+        Download Data Sheet
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+---
+interface Props {
+  categories: string[];
+  finishes: string[];
+}
+
+const { categories, finishes } = Astro.props;
+---
+
+<aside class="hidden lg:block lg:w-64 lg:flex-shrink-0">
+  <div class="sticky top-28 space-y-8">
+    <div>
+      <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">
+        Filter By Category
+      </h3>
+      <ul class="space-y-3">
+        {categories.map((item) => (
+          <li>
+            <label class="flex cursor-pointer items-center text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input
+                type="checkbox"
+                class="mr-3 rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]"
+              />
+              {item}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">
+        Weight (GSM)
+      </h3>
+      <input type="range" min="50" max="500" class="w-full accent-[#775a19]" />
+      <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">
+        <span>50 GSM</span>
+        <span>500 GSM</span>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">
+        Core Finishes
+      </h3>
+      <ul class="space-y-3">
+        {finishes.map((item) => (
+          <li>
+            <label class="flex cursor-pointer items-center text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input
+                type="checkbox"
+                class="mr-3 rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]"
+              />
+              {item}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</aside>

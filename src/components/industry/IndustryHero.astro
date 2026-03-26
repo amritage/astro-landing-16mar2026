@@ -1,0 +1,31 @@
+---
+export interface Props {
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  badge = "Industrial Excellence since 1971",
+  title = "Precision Weaving for Global Markets.",
+  subtitle = "Providing bespoke textile solutions to over 50+ countries with unparalleled craftsmanship.",
+  image = "https://lh3.googleusercontent.com/aida-public/AB6AXuBm5v3fuYFcTs9lPlBcArdHeFthFb1_Q9men_H2JWnEqmppN3NWMRILt3aIdN75f8II0XxJh0v3_FoWs-UrTbC6AC5lL7JDTCl0TOKvV-rKTMRW0zGN-a4WdUn73-q11QOwzjoo9K9Coq4nuVeQ4VlrL8mSyTtjnrV1S_BBijeMAkR0muWMM5HP0c1GOhMN6zTIVV4PkJC4D3ag1dOuxAbRSRcnQ4OY2OsWrk6pB7d-373P5cUpFzMhHkxoko5G6XilyndyejSxeqQz",
+  imageAlt = "Industrial textile manufacturing loom in motion",
+} = Astro.props;
+---
+
+<section class="relative h-[618px] flex items-end overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <img class="w-full h-full object-cover" src={image} alt={imageAlt} />
+    <div class="absolute inset-0" style="background: linear-gradient(to top, #041632 0%, rgba(4,22,50,0.55) 50%, transparent 100%);"></div>
+  </div>
+  <div class="relative z-10 px-6 pb-12 w-full">
+    <div class="inline-flex items-center px-3 py-1 mb-4 rounded-full bg-[#8d6708]/20 border border-[#8d6708]/30">
+      <span class="font-label text-[10px] font-semibold text-[#e8b84b] tracking-widest uppercase">{badge}</span>
+    </div>
+    <h1 class="font-headline text-4xl md:text-5xl !text-white leading-tight mb-4">{title}</h1>
+    <p class="font-body text-[#b7c7eb] max-w-md opacity-90 text-base">{subtitle}</p>
+  </div>
+</section>

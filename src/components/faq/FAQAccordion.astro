@@ -1,0 +1,122 @@
+---
+import type { FAQCategory } from "../../data/faqs";
+
+interface Props {
+  categories: FAQCategory[];
+}
+
+const { categories } = Astro.props;
+---
+
+<section class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24">
+  <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+    <!-- Sidebar -->
+    <aside class="lg:w-1/4">
+      <div class="lg:sticky lg:top-32 space-y-4">
+        <h3 class="font-headline text-2xl text-[#041632] italic mb-2">Categories</h3>
+        <nav class="grid grid-cols-2 lg:flex lg:flex-col gap-2" id="faq-sidebar">
+          {categories.map((cat, i) => (
+            <a
+              href={`#${cat.id}`}
+              data-category={cat.id}
+              class:list={[
+                "px-4 py-3 flex items-center gap-3 text-sm font-bold transition-colors",
+                i === 0
+                  ? "bg-[#041632] text-white border-l-4 border-[#775a19]"
+                  : "bg-[#f3f4f5] text-[#44474d] hover:bg-[#edeeef] hover:text-[#041632]",
+              ]}
+            >
+              <span class="material-symbols-outlined text-sm">{cat.icon}</span>
+              {cat.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Accordion -->
+    <div class="lg:w-3/4 space-y-16" id="faq-content">
+      {categories.map((cat) => (
+        <div class="scroll-mt-32" id={cat.id} data-section={cat.id}>
+          <h2 class="font-headline text-2xl md:text-3xl text-[#041632] mb-6 border-b border-[#c5c6ce] pb-4 flex items-center gap-4 italic">
+            <span class="material-symbols-outlined text-[#775a19]">{cat.icon}</span>
+            {cat.label}
+          </h2>
+
+          <div class="space-y-3">
+            {cat.faqs.map((faq) => (
+              <details class="group bg-white border border-[#c5c6ce]/40 faq-item">
+                <summary class="flex justify-between items-center p-5 md:p-6 cursor-pointer list-none">
+                  <span class="font-bold text-[#041632] md:text-lg pr-4">{faq.question}</span>
+                  <span class="material-symbols-outlined text-[#775a19] shrink-0 transition-transform duration-200 group-open:rotate-180">
+                    expand_more
+                  </span>
+                </summary>
+                <div class="px-5 md:px-6 pb-5 md:pb-6 text-[#44474d] leading-relaxed text-sm md:text-base border-t border-[#c5c6ce]/20 pt-4">
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- Empty state for search -->
+      <div id="faq-empty" class="hidden text-center py-16">
+        <span class="material-symbols-outlined text-5xl text-[#c5c6ce] mb-4 block">search_off</span>
+        <p class="text-[#44474d] text-lg font-medium">No results found.</p>
+        <p class="text-[#75777e] text-sm mt-2">Try a different keyword or browse the categories.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const searchInput = document.getElementById("faq-search") as HTMLInputElement;
+  const items = document.querySelectorAll<HTMLElement>(".faq-item");
+  const sections = document.querySelectorAll<HTMLElement>("[data-section]");
+  const emptyState = document.getElementById("faq-empty");
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+
+    items.forEach((item) => {
+      const text = item.textContent?.toLowerCase() ?? "";
+      const match = !q || text.includes(q);
+      item.style.display = match ? "" : "none";
+      if (match) visible++;
+    });
+
+    sections.forEach((sec) => {
+      const anyVisible = [...sec.querySelectorAll<HTMLElement>(".faq-item")].some(
+        (el) => el.style.display !== "none"
+      );
+      (sec as HTMLElement).style.display = anyVisible ? "" : "none";
+    });
+
+    emptyState?.classList.toggle("hidden", visible > 0);
+  });
+
+  // Active sidebar highlight on scroll
+  const sidebarLinks = document.querySelectorAll<HTMLAnchorElement>("[data-category]");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          sidebarLinks.forEach((link) => {
+            const active = link.dataset.category === id;
+            link.className = active
+              ? "px-4 py-3 flex items-center gap-3 text-sm font-bold bg-[#041632] text-white border-l-4 border-[#775a19] transition-colors"
+              : "px-4 py-3 flex items-center gap-3 text-sm font-bold bg-[#f3f4f5] text-[#44474d] hover:bg-[#edeeef] hover:text-[#041632] transition-colors";
+          });
+        }
+      });
+    },
+    { rootMargin: "-30% 0px -60% 0px" }
+  );
+
+  sections.forEach((sec) => observer.observe(sec));
+</script>

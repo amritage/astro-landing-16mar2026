@@ -1,0 +1,39 @@
+---
+const layers = [
+  {
+    icon: "layers",
+    title: "Moisture-Proof Barrier",
+    desc: "High-density polyethylene wrap prevents humidity ingress during maritime transit.",
+    accent: "border-[#775a19]",
+    iconColor: "text-[#775a19]",
+  },
+  {
+    icon: "inventory_2",
+    title: "Double-Wall Corrugation",
+    desc: "Reinforced industrial-grade boxing designed to withstand multi-modal handling stresses.",
+    accent: "border-[#041632]",
+    iconColor: "text-[#041632]",
+  },
+  {
+    icon: "verified",
+    title: "Seismic Stabilization",
+    desc: "Internal pallet bracing and shock-absorbent lining for maximum textile integrity.",
+    accent: "border-[#775a19]",
+    iconColor: "text-[#775a19]",
+  },
+];
+---
+<section class="px-6 py-16 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="font-headline text-3xl mb-10 text-[#041632]">Triple-Layer Protection</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {layers.map((l) => (
+        <div class:list={["bg-white p-6 border-l-4 shadow-sm", l.accent]}>
+          <span class:list={["material-symbols-outlined text-3xl mb-4 block", l.iconColor]}>{l.icon}</span>
+          <h3 class="font-headline text-xl text-[#041632] mb-2">{l.title}</h3>
+          <p class="text-[#44474d] text-sm leading-relaxed">{l.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

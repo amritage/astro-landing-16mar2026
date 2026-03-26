@@ -1,0 +1,48 @@
+---
+const ports = [
+  { label: "Gateway West", name: "Port Mundra", icon: "sailing" },
+  { label: "Gateway East", name: "Port Kolkata", icon: "directions_boat" },
+];
+
+const specs = [
+  { key: "Transit Time (EU)", value: "22–28 Days" },
+  { key: "Incoterms",         value: "FOB, CIF, DAP" },
+  { key: "Tracking",          value: "24/7 Digital Hub" },
+];
+---
+<section class="px-6 py-16 bg-[#f3f4f5]">
+  <div class="max-w-7xl mx-auto flex flex-col gap-8">
+    <div>
+      <h2 class="font-headline text-3xl mb-4 text-[#041632]">Strategic Port Connectivity</h2>
+      <p class="text-[#44474d] leading-relaxed max-w-2xl">
+        Our Ahmedabad HQ is strategically positioned between India's premier western and eastern maritime gateways.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {ports.map((p) => (
+        <div class="bg-white p-6 flex items-center justify-between group hover:bg-[#041632] transition-colors duration-300">
+          <div class="flex flex-col">
+            <span class="font-label text-[10px] uppercase text-[#775a19] group-hover:text-[#ffdea5]">{p.label}</span>
+            <span class="font-headline text-xl text-[#041632] group-hover:text-white">{p.name}</span>
+          </div>
+          <span class="material-symbols-outlined text-[#041632] group-hover:text-white">{p.icon}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="p-6 bg-[#1b2b48] text-white">
+      <h4 class="font-label text-xs uppercase tracking-widest text-[#775a19] mb-4">Logistics Specs</h4>
+      <table class="w-full text-left text-sm border-separate border-spacing-y-2">
+        <tbody>
+          {specs.map((s) => (
+            <tr>
+              <td class="py-2 text-[#8393b5]">{s.key}</td>
+              <td class="py-2 font-mono text-right text-white">{s.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

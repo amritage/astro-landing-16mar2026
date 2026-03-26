@@ -1,0 +1,37 @@
+---
+const departments = [
+  { role: "Logistics Lead", name: "Rajesh Varma", email: "logistics@amrita-fashions.com" },
+  { role: "Technical QC", name: "Ananya Desai", email: "qc@amrita-fashions.com" },
+  { role: "Billing & Accounts", name: "Sameer Khan", email: "billing@amrita-fashions.com" },
+  { role: "Global Compliance", name: "Dr. Elena Smith", email: "compliance@amrita-fashions.com" },
+];
+---
+<section class="py-20 md:py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-1 mb-4 border border-[#775a19] text-[#775a19] font-sans text-xs tracking-[0.2em] uppercase">
+        Direct Lines
+      </span>
+      <h2 class="font-serif text-4xl md:text-5xl text-[#041632] mb-4">Department Contacts</h2>
+      <div class="w-16 h-0.5 bg-[#775a19] mx-auto mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e1e3e4] border border-[#e1e3e4] rounded-lg overflow-hidden">
+      {departments.map((dept) => (
+        <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
+          <div class="w-12 h-12 bg-[#041632]/5 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="material-symbols-outlined text-[#1B2B48]">person</span>
+          </div>
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dept.role}</p>
+          <h5 class="font-serif text-lg text-[#041632] mb-4">{dept.name}</h5>
+          <a
+            href={`mailto:${dept.email}`}
+            class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"
+          >
+            Contact <span class="material-symbols-outlined text-sm">arrow_outward</span>
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

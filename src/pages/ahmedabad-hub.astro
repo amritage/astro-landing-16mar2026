@@ -1,0 +1,296 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Ahmedabad Industrial Hub | Amrita Global Enterprises"
+  description="Amrita Global Enterprises anchors its textile legacy in Ahmedabad — the Manchester of the East. Explore our manufacturing, warehouse, and logistics capabilities from Gujarat's industrial heart."
+>
+  <!-- Hero -->
+  <section class="relative min-h-[680px] flex items-center overflow-hidden bg-[#041632] text-white">
+    <div class="absolute inset-0 opacity-40">
+      <img
+        class="w-full h-full object-cover"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIoegvkmD7FECSQJVP_MF3E0OdHNLKwaM0W1qz9EpmDicBbUCmy5FEt-CczHjKt-4V7Jietha13NjwGho-eWflNBtPOLWmRY4KPHg6ehITBGukeL4lF_uN-zp9cElAIRrXQuRfbrabXO9VUPiFnkCVSj40eCRNjzi3TlEk1KI-pp1aMqdNmGOhmYLPxMhA2DJlGqyl399hJJgbtgQW4krAofUjIebyHFIqooP8qxJFgPySI3qaKJCIwz1BmsiDNDbw3LYuUIKk9ZSA"
+        alt="Aerial view of industrial textile manufacturing plant in Ahmedabad"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-[#041632] via-[#041632]/80 to-transparent"></div>
+    </div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full py-24">
+      <div class="max-w-3xl">
+        <span class="inline-block px-4 py-1.5 rounded-full border border-amber-400/30 text-amber-300 font-label text-xs uppercase tracking-[0.2em] mb-6 font-body">
+          Established 1971 · Ahmedabad HQ
+        </span>
+        <h1 class="font-serif text-5xl md:text-7xl leading-[1.1] tracking-tight mb-8">
+          The <em class="italic text-amber-300">Manchester</em> of the East.
+        </h1>
+        <p class="text-slate-300 text-lg md:text-xl font-body leading-relaxed mb-10 max-w-xl">
+          Amrita Global Enterprises anchors its textile legacy in the heart of Ahmedabad, blending five decades of technical mastery with Gujarat's industrial might.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="#supply"
+            class="bg-[#1b2b48] hover:bg-[#775a19] text-white px-8 py-4 rounded-md font-body font-bold flex items-center justify-center gap-3 transition-all duration-300 shadow-xl border border-white/10"
+          >
+            Explore Ahmedabad Supply
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+          <a
+            href="#location"
+            class="bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-md font-body font-bold flex items-center justify-center gap-3 transition-all border border-white/20"
+          >
+            Visit Safal Prelude HQ
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges -->
+  <section class="py-12 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-70 hover:opacity-100 transition-opacity duration-500">
+        {[
+          { icon: "verified", label: "ISO 9001:2015" },
+          { icon: "workspace_premium", label: "OEKO-TEX Standard" },
+          { icon: "history_edu", label: "Since 1971" },
+          { icon: "public", label: "Global Export Hub" },
+        ].map(({ icon, label }) => (
+          <div class="flex flex-col items-center text-center gap-2">
+            <span class="material-symbols-outlined text-4xl text-[#041632]" style="font-variation-settings: 'FILL' 1;">{icon}</span>
+            <span class="font-body text-xs font-bold tracking-tighter uppercase text-slate-700">{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Supply Strength Bento -->
+  <section class="py-24 bg-white overflow-hidden" id="supply">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div class="max-w-2xl">
+          <h2 class="font-serif text-4xl md:text-5xl text-[#041632] leading-tight mb-4">Industrial Excellence at Scale</h2>
+          <p class="text-slate-500 font-body">Leveraging Ahmedabad's logistical nexus to deliver high-performance textile solutions across the globe.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+        <!-- Precision Manufacturing -->
+        <div class="md:col-span-8 bg-white rounded-xl p-8 flex flex-col md:flex-row gap-8 shadow-sm border border-slate-100 group hover:shadow-md transition-shadow">
+          <div class="w-full md:w-1/2 aspect-square rounded-lg overflow-hidden">
+            <img
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCejsRuahUyAEN_QneJArGy8Ko2ts-wTtLw15V7Xr7EXaNEyDaHhFKJvf4tHOkUaEmU-Tf4iT3a26XJLjjd1ePg4vsKjSkgZFyYZ2u5wrvhx87nUaFXTmNQ8rGiQpRoM44bJ_55RzzjhehXGsRnvCv6gtj4BqPgPTERsDGmGGevWDqQ3MsA6VXH1S8OsiG6i7-j6n5Pe3FNyWmD374n_3-cO5smQlXUr-e3sZ1KfUQzoglPIvP5ecAK-FDDXbsW6ez7RLQLmMj4g84d"
+              alt="Technical fabric weaving loom in operation"
+            />
+          </div>
+          <div class="w-full md:w-1/2 flex flex-col justify-center">
+            <span class="text-[#775a19] font-body font-bold text-xs uppercase tracking-widest mb-2">Technical Textiles</span>
+            <h3 class="font-serif text-3xl text-[#041632] mb-4">Precision Manufacturing</h3>
+            <p class="text-slate-500 mb-6 text-sm leading-relaxed font-body">
+              High-tenacity yarns and specialty coatings engineered for aerospace, automotive, and heavy industry applications, produced in our flagship Ahmedabad unit.
+            </p>
+            <ul class="space-y-2 mb-8">
+              <li class="flex items-center gap-2 text-xs font-body text-[#041632]">
+                <span class="material-symbols-outlined text-lg text-[#775a19]">check_circle</span> 200+ Looms Capacity
+              </li>
+              <li class="flex items-center gap-2 text-xs font-body text-[#041632]">
+                <span class="material-symbols-outlined text-lg text-[#775a19]">check_circle</span> R&D Testing Center
+              </li>
+            </ul>
+            <a href="/capabilities" class="w-fit text-[#041632] font-bold text-sm border-b-2 border-[#775a19]/40 pb-1 hover:border-[#775a19] transition-colors font-body">
+              View Capabilities
+            </a>
+          </div>
+        </div>
+
+        <!-- Logistics Hub -->
+        <div class="md:col-span-4 bg-[#041632] text-white rounded-xl p-8 flex flex-col justify-between relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="text-amber-300 font-body font-bold text-xs uppercase tracking-widest mb-2 block">Logistics Hub</span>
+            <h3 class="font-serif text-2xl mb-4">Strategic Proximity</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6 font-body">
+              Located near Mundra Port and major rail terminals, ensuring 24-hour dispatch readiness.
+            </p>
+          </div>
+          <div class="relative z-10 flex flex-wrap gap-2">
+            <span class="bg-white/10 px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-tighter font-body">Mundra Connectivity</span>
+            <span class="bg-white/10 px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-tighter font-body">Air Cargo Access</span>
+          </div>
+          <div class="absolute -right-12 -bottom-12 opacity-10">
+            <span class="material-symbols-outlined text-[12rem]">local_shipping</span>
+          </div>
+        </div>
+
+        <!-- Zero Liquid Discharge -->
+        <div class="md:col-span-4 bg-slate-50 rounded-xl p-8 flex flex-col border border-slate-100">
+          <div class="mb-auto">
+            <span class="text-[#041632] font-body font-bold text-xs uppercase tracking-widest mb-2 block">Sustainable Unit</span>
+            <h3 class="font-serif text-2xl text-[#041632] mb-4">Zero Liquid Discharge</h3>
+          </div>
+          <p class="text-slate-500 text-sm mb-6 font-body">
+            Our Ahmedabad processing house is equipped with world-class ZLD technology, meeting international environmental compliance standards.
+          </p>
+          <div class="h-32 w-full rounded-lg overflow-hidden mt-auto">
+            <img
+              class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnpWRNYPTC9Xx973lIOD5HnEV1131s6P69MEoGf3BL4QVk3Rp5PJ2QWrxYYmmq_oaGBdR1YawRkeDb-irXrhTAykCYfQ9PY7eK6CSYnDLAaZtUp-V5Ht-zR5SqxBRHJSxunDDrA3BfQqW2Ake6XBhUxb_auib3l5GYSGy5-cGMDQd4oByEcWTu7DNM1CCPSUYVhu-Yz2i_18ndK7vSJFSy_-zeGhv5ps9-cOhRGdj7uaFYj4Im1hPOPd5ei_QoJVkHW7XWPmgH2p7z"
+              alt="Sustainable water treatment facility in factory"
+            />
+          </div>
+        </div>
+
+        <!-- Warehouse Central -->
+        <div class="md:col-span-8 bg-slate-50 rounded-xl p-8 grid md:grid-cols-2 gap-8 items-center border border-slate-100">
+          <div>
+            <h3 class="font-serif text-2xl text-[#041632] mb-4">Ahmedabad Warehouse Central</h3>
+            <p class="text-slate-500 text-sm mb-6 font-body">
+              Over 50,000 sq. ft. of climate-controlled storage maintaining optimal fabric humidity and tension.
+            </p>
+            <div class="flex gap-4 items-center">
+              <div class="text-center px-4 py-2 border-r border-slate-200">
+                <div class="text-2xl font-serif text-[#041632]">50k</div>
+                <div class="text-[10px] uppercase tracking-widest text-slate-400 font-body">Sq Ft Area</div>
+              </div>
+              <div class="text-center px-4 py-2">
+                <div class="text-2xl font-serif text-[#041632]">100%</div>
+                <div class="text-[10px] uppercase tracking-widest text-slate-400 font-body">Inventory Accuracy</div>
+              </div>
+            </div>
+          </div>
+          <div class="h-48 rounded-lg overflow-hidden">
+            <img
+              class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsr5SUw3Tw8HbcVI9YszThGx97BNiOYQshu-YvMX_hcPzj3swCdBM6mb0Gnx3X6jDfHQr70lWjR7IjmKmF6C_1DhMMh_yuN-RJcoxgDhZdRW5uz9uN-H6-kJUxXYy4ao8YKaKlllMwHBzeBMg9DRRHkv6tLPbmhAp40pjXVmtMlXw_s2RZgy_KPcKc6NsUGG3UZx4JFuRPdSQhL2jmiTSS6989jEuxTnm2Cv_lQC28bV_udsBJ60h6lmT17jBBwd5GN3h-GLrJw_Aq"
+              alt="Modern textile warehouse interior with tall shelves"
+            />
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Location & Map -->
+  <section class="py-24 bg-slate-50" id="location">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <div class="space-y-8">
+          <div>
+            <h2 class="font-serif text-4xl text-[#041632] mb-4">Visit Our Corporate Hub</h2>
+            <p class="text-slate-500 font-body leading-relaxed">Join us at our headquarters in Ahmedabad for technical consultations and product inspections.</p>
+          </div>
+          <div class="space-y-4">
+            <div class="flex gap-6 p-6 bg-white rounded-lg shadow-sm border border-slate-100">
+              <span class="material-symbols-outlined text-3xl text-[#775a19]">location_on</span>
+              <div>
+                <h4 class="font-bold text-[#041632] mb-1 font-body">Ahmedabad HQ</h4>
+                <p class="text-slate-500 text-sm leading-relaxed font-body italic">
+                  404, 4th Floor, Safal Prelude, Corporate Road,<br />
+                  Prahlad Nagar, Ahmedabad,<br />
+                  Gujarat 380015, India
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-6 p-6 bg-white rounded-lg shadow-sm border border-slate-100">
+              <span class="material-symbols-outlined text-3xl text-[#775a19]">factory</span>
+              <div>
+                <h4 class="font-bold text-[#041632] mb-1 font-body">Factory Address</h4>
+                <p class="text-slate-500 text-sm leading-relaxed font-body italic">
+                  1, Mohan Estate, Ramol Road,<br />
+                  Ahmedabad, Gujarat 382449, India
+                </p>
+              </div>
+            </div>
+            <div class="flex gap-6 p-6 bg-white rounded-lg shadow-sm border border-slate-100">
+              <span class="material-symbols-outlined text-3xl text-[#775a19]">schedule</span>
+              <div>
+                <h4 class="font-bold text-[#041632] mb-1 font-body">Business Hours</h4>
+                <p class="text-slate-500 text-sm font-body">Mon – Sat: 09:30 AM – 07:00 PM</p>
+                <p class="text-slate-400 text-xs mt-1 font-body">Closed on Sundays & Public Holidays</p>
+              </div>
+            </div>
+          </div>
+          <a
+            href="https://maps.google.com/?q=Safal+Prelude+Prahlad+Nagar+Ahmedabad"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-[#041632] text-white px-8 py-4 rounded-md font-body font-bold flex items-center gap-3 w-full justify-center lg:w-fit hover:bg-[#775a19] transition-colors"
+          >
+            Get Directions
+            <span class="material-symbols-outlined">map</span>
+          </a>
+        </div>
+
+        <!-- Map placeholder -->
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl h-[400px] lg:h-[500px] border border-slate-200">
+          <img
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyW0Xlw55sWiXJmHxKe8mN8I9fErwSAqM0BxsvIK8ftNR7DFqKRX2xpeb-LNRPiwBHu1HPrdc2VWT7R6KQKykEYlzonTETWWtu4uo-om2J6K9Xq9ajIvndbTRnZHgfPgpXQSZaMRbesFc8IyuvqZ3iETZCw8-UKGPTgCXbbr2fffQBXJv83kGk-DwPjSwv3AjXRdwA6Gm10vuGnGDVPnGOWszqNno9eukqhVKvHwWlxkSGRuQr9MZbxUTNkYTyae2vXz3PYPuGxUDx"
+            alt="Map showing Ahmedabad city area"
+          />
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+            <div class="bg-white p-2 rounded-full shadow-lg border-2 border-[#041632]">
+              <span class="material-symbols-outlined text-3xl text-[#041632]" style="font-variation-settings: 'FILL' 1;">location_on</span>
+            </div>
+            <div class="mt-2 bg-[#041632] text-white text-[10px] px-3 py-1 rounded font-bold uppercase whitespace-nowrap font-body">Amrita Global HQ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-6 md:px-12">
+      <h2 class="font-serif text-3xl md:text-4xl text-[#041632] mb-12 text-center italic underline decoration-[#775a19]/30 decoration-4 underline-offset-8">
+        Common Inquiries
+      </h2>
+      <div class="space-y-0 divide-y divide-slate-200" x-data="{ open: null }">
+        {[
+          {
+            q: "Do you offer factory visits for bulk orders?",
+            a: "Yes, we facilitate factory audits and visits for accredited partners and major textile buyers. Please coordinate with our Ahmedabad corporate office 48 hours in advance.",
+          },
+          {
+            q: "What is the lead time for export shipments?",
+            a: "Typical manufacturing lead times range from 3–6 weeks depending on fabric specs, with an additional 2–5 days for port clearance from Ahmedabad to Mundra.",
+          },
+          {
+            q: "Which industrial certifications do you hold?",
+            a: "We hold ISO 9001:2015, OEKO-TEX Standard 100, GOTS, and SA 8000 certifications. Full documentation is available on request.",
+          },
+          {
+            q: "Can you customize technical fabrics?",
+            a: "Absolutely. Our R&D center in Ahmedabad handles custom weave structures, coatings, and finishing treatments tailored to your application requirements.",
+          },
+        ].map(({ q, a }, i) => (
+          <details class="group py-6">
+            <summary class="flex justify-between items-center cursor-pointer list-none gap-4">
+              <span class="font-serif text-xl text-[#041632] group-hover:text-[#775a19] transition-colors">{q}</span>
+              <span class="material-symbols-outlined text-slate-400 group-open:rotate-45 transition-transform shrink-0">add</span>
+            </summary>
+            <p class="mt-4 text-slate-500 text-sm leading-relaxed font-body">{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-[#041632] text-white text-center">
+    <div class="max-w-2xl mx-auto px-6">
+      <h2 class="font-serif text-4xl mb-4">Ready to Source from Ahmedabad?</h2>
+      <p class="text-slate-300 font-body mb-8">Connect with our team for bulk inquiries, factory visits, or technical consultations.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/contact" class="bg-[#775a19] hover:bg-amber-600 text-white px-8 py-4 rounded-md font-body font-bold transition-colors">
+          Get in Touch
+        </a>
+        <a href="/capabilities" class="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-md font-body font-bold border border-white/20 transition-colors">
+          View Capabilities
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

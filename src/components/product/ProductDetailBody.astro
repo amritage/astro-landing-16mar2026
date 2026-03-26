@@ -1,0 +1,132 @@
+---
+import type { Product } from "../../data/products";
+interface Props { product: Product }
+const { product } = Astro.props;
+---
+
+<!-- Long Description -->
+<section class="max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-16">
+  <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 flex items-center">
+    <span class="w-10 h-px bg-[#775a19] mr-4"></span>About this Fabric
+  </h2>
+  <p class="text-[#44474d] font-sans leading-relaxed text-sm lg:text-base max-w-none">
+    <strong>100% Cotton Twill Fabric:</strong> {product.longDescription}
+  </p>
+</section>
+
+<!-- Technical Specs & Applications -->
+<section class="bg-[#f3f4f5] py-12 lg:py-20">
+  <div class="max-w-7xl mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+
+      <!-- Tech Specs Table -->
+      <div>
+        <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 lg:mb-8 flex items-center">
+          <span class="w-10 h-px bg-[#775a19] mr-4"></span>Technical Specifications
+        </h2>
+        <div class="overflow-x-auto shadow-sm">
+          <table class="w-full text-left font-sans min-w-[300px]">
+            <tbody>
+              {product.techSpecs.map((row) => (
+                <tr class="border-b border-[#edeeef]">
+                  <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">{row.label}</td>
+                  <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Application Suitability -->
+      <div>
+        <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 lg:mb-8 flex items-center">
+          <span class="w-10 h-px bg-[#775a19] mr-4"></span>Application Suitability (AI Analysis)
+        </h2>
+        <div class="space-y-4 lg:space-y-6">
+          {product.applications.map((app, i) => (
+            <div class={`bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]${i === product.applications.length - 1 ? " opacity-60" : ""}`}>
+              <div class="flex justify-between mb-2">
+                <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name}</span>
+                <span class="font-sans font-bold text-[#775a19] text-sm">{app.score}%</span>
+              </div>
+              <div class="w-full bg-[#e7e8e9] h-2">
+                <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
+              </div>
+              <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Certifications -->
+<section class="max-w-7xl mx-auto px-4 lg:px-8 py-16 lg:py-20">
+  <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-10 lg:mb-12 text-center">Quality &amp; Compliance</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+    {product.certifications.map((cert) => (
+      <div class="bg-white p-6 lg:p-8 border border-[#c5c6ce]/10 text-center flex flex-col items-center shadow-sm">
+        <span class="material-symbols-outlined text-3xl lg:text-4xl text-[#775a19] mb-4" style="font-variation-settings: 'FILL' 1;">{cert.icon}</span>
+        <h3 class="font-bold text-base lg:text-lg mb-2">{cert.title}</h3>
+        <p class="text-xs lg:text-sm text-[#44474d]">{cert.desc}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- Contextual: Region / Industries / FAQ -->
+<section class="bg-[#041632] text-white py-16 lg:py-20">
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+
+    <!-- Regional Preference -->
+    <div>
+      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Regional Preference</h3>
+      <div class="flex items-start space-x-4">
+        <span class="material-symbols-outlined text-[#775a19] mt-1">location_on</span>
+        <p class="text-[#8393b5] leading-relaxed text-sm lg:text-base">
+          Preferred choice for
+          {product.regionalCities.map((city, i) => (
+            <>
+              <span class="text-white font-bold">{city}</span>
+              {i < product.regionalCities.length - 1 && <span> and </span>}
+            </>
+          ))}
+          {" "}garment hubs due to its adaptable GSM and rich cocoa tone.
+        </p>
+      </div>
+    </div>
+
+    <!-- Industries -->
+    <div>
+      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Target Industries</h3>
+      <ul class="space-y-4 font-sans text-sm lg:text-base">
+        {product.industries.map((ind) => (
+          <li class="flex items-center">
+            <span class="w-1.5 h-1.5 bg-[#775a19] rounded-full mr-3"></span>
+            {ind}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- FAQ -->
+    <div>
+      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Industrial FAQ</h3>
+      <div class="space-y-4">
+        {product.faq.map((item) => (
+          <details class="group cursor-pointer">
+            <summary class="font-bold text-sm lg:text-base list-none flex justify-between items-center group-open:text-[#775a19]">
+              {item.q}
+              <span class="material-symbols-outlined text-sm">expand_more</span>
+            </summary>
+            <p class="text-[10px] lg:text-xs mt-2 text-[#8393b5]">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

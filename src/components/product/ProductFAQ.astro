@@ -1,0 +1,32 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="mx-auto max-w-4xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+  <h2 class="font-headline italic text-center text-2xl text-[#041632] md:text-3xl">
+    Buyer Intelligence &amp; FAQ
+  </h2>
+
+  <div class="mt-12 space-y-4 md:mt-16">
+    {items.map((item) => (
+      <details class="group border-b border-slate-200 pb-4">
+        <summary class="flex w-full cursor-pointer list-none items-center justify-between gap-4 text-left font-bold text-[#041632]">
+          <span>{item.question}</span>
+          <span class="material-symbols-outlined text-[#775a19] transition group-open:rotate-180">expand_more</span>
+        </summary>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600">
+          {item.answer}
+        </p>
+      </details>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,115 @@
+---
+const positions = [
+  {
+    icon: "factory",
+    department: "Operations",
+    type: "Full-time",
+    title: "Production Manager",
+    location: "Ahmedabad Plant",
+    experience: "8–12 Years Exp.",
+    description:
+      "Lead our core textile manufacturing division. Responsible for efficiency, quality control, and managing a workforce of 200+ specialized weavers.",
+    requirements: [
+      "Degree in Textile Engineering or Production Management.",
+      "Proven track record in industrial textile manufacturing.",
+      "Expertise in Lean Manufacturing & Six Sigma.",
+    ],
+  },
+  {
+    icon: "payments",
+    department: "Global Sales",
+    type: "Full-time",
+    title: "B2B Strategy Lead",
+    location: "Ahmedabad / Hybrid",
+    experience: "5–8 Years Exp.",
+    description:
+      "Drive partnerships for our manufacturing hub with global apparel brands across Europe and North America.",
+    requirements: [
+      "Experience in international B2B textile sales.",
+      "Strategic account management skills.",
+      "Fluent in English; additional languages preferred.",
+    ],
+  },
+  {
+    icon: "local_shipping",
+    department: "Supply Chain",
+    type: "Contract",
+    title: "Logistics Manager",
+    location: "UAE Office",
+    experience: "4–6 Years Exp.",
+    description:
+      "Coordinate complex global shipping operations between UAE, India, and our global distribution warehouses.",
+    requirements: [
+      "Strong background in international freight & customs.",
+      "Proficiency in ERP and logistics software.",
+      "Strong negotiation and vendor management skills.",
+    ],
+  },
+];
+---
+
+<section class="py-24 bg-[#f8f9fa]" id="positions">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="mb-16">
+      <span class="font-sans text-xs uppercase tracking-[0.3em] text-[#ffdea5] bg-[#041632] px-4 py-1 inline-block mb-4">
+        We're Hiring
+      </span>
+      <h2 class="font-serif text-5xl text-[#041632] italic">Open Opportunities</h2>
+      <div class="w-12 h-px bg-[#775a19] mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {positions.map((pos) => (
+        <div class="bg-white border border-[#e1e3e4] p-8 flex flex-col group hover:border-[#775a19] transition-colors">
+          <div class="flex justify-between items-start mb-6">
+            <span class="material-symbols-outlined text-[#775a19] bg-[#ffdea5]/30 p-2 text-2xl">
+              {pos.icon}
+            </span>
+            <div class="flex gap-2">
+              <span class="font-sans text-[10px] bg-[#041632] text-white px-2 py-1 uppercase tracking-widest">
+                {pos.department}
+              </span>
+              <span class="font-sans text-[10px] bg-[#fed488] text-[#261900] px-2 py-1 uppercase tracking-widest font-bold">
+                {pos.type}
+              </span>
+            </div>
+          </div>
+
+          <h3 class="font-serif text-2xl text-[#041632] mb-3">{pos.title}</h3>
+
+          <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs font-sans text-[#75777e] mb-4">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">location_on</span>
+              {pos.location}
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm">history</span>
+              {pos.experience}
+            </span>
+          </div>
+
+          <p class="text-sm text-[#44474d] leading-relaxed mb-6">{pos.description}</p>
+
+          <div class="mb-8 flex-1">
+            <h4 class="text-xs font-bold uppercase tracking-widest text-[#041632] mb-3">Key Requirements</h4>
+            <ul class="space-y-2">
+              {pos.requirements.map((req) => (
+                <li class="flex items-start gap-2 text-sm text-[#44474d]">
+                  <span class="material-symbols-outlined text-xs text-[#775a19] mt-0.5">check_circle</span>
+                  {req}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <a
+            href="#apply-now"
+            class="block text-center py-3 border border-[#041632] text-[#041632] font-sans font-bold uppercase tracking-widest text-xs hover:bg-[#041632] hover:text-white transition-colors"
+          >
+            Apply for This Role
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

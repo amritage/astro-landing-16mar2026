@@ -1,0 +1,114 @@
+---
+import type { Product } from "../../data/products";
+interface Props { product: Product }
+const { product } = Astro.props;
+---
+
+<section class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-4">
+  <!-- Gallery -->
+  <div class="lg:col-span-7">
+    <div class="relative group">
+      <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar bg-[#ffffff]">
+        <div class="snap-center shrink-0 w-full">
+          <img
+            src={product.image}
+            alt={product.imageAlt}
+            class="w-full h-[350px] lg:h-[600px] object-cover"
+          />
+        </div>
+        <div class="snap-center shrink-0 w-full bg-[#e7e8e9] flex items-center justify-center">
+          <span class="text-[#44474d] font-sans italic">Texture Detail View</span>
+        </div>
+        <div class="snap-center shrink-0 w-full bg-[#e7e8e9] flex items-center justify-center">
+          <span class="text-[#44474d] font-sans italic">Drape Visualization</span>
+        </div>
+        <div class="snap-center shrink-0 w-full bg-[#e7e8e9] flex items-center justify-center">
+          <span class="text-[#44474d] font-sans italic">Stock/Warehouse View</span>
+        </div>
+      </div>
+      <!-- Mobile dots -->
+      <div class="flex lg:hidden justify-center space-x-2 mt-4">
+        <div class="w-2 h-2 rounded-full bg-[#041632]"></div>
+        <div class="w-2 h-2 rounded-full bg-[#e1e3e4]"></div>
+        <div class="w-2 h-2 rounded-full bg-[#e1e3e4]"></div>
+        <div class="w-2 h-2 rounded-full bg-[#e1e3e4]"></div>
+      </div>
+    </div>
+    <!-- Thumbnails -->
+    <div class="hidden lg:grid grid-cols-4 gap-4 mt-4">
+      <div class="h-24 bg-[#e7e8e9] cursor-pointer border-2 border-[#041632]"></div>
+      <div class="h-24 bg-[#e7e8e9] cursor-pointer"></div>
+      <div class="h-24 bg-[#e7e8e9] cursor-pointer"></div>
+      <div class="h-24 bg-[#e7e8e9] cursor-pointer"></div>
+    </div>
+  </div>
+
+  <!-- Lead Panel -->
+  <div class="lg:col-span-5 flex flex-col space-y-6 lg:space-y-8">
+    <div>
+      <span class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold">{product.seriesLabel}</span>
+      <div class="flex flex-wrap items-center gap-4 mb-3">
+        <div class="flex items-center space-x-1 py-1 px-2 bg-[#e7e8e9] rounded-sm">
+          <span class="material-symbols-outlined text-sm text-[#FFD700]" style="font-variation-settings: 'FILL' 1;">star</span>
+          <span class="text-xs font-bold text-[#191c1d]">
+            {product.rating} <span class="font-normal text-[#44474d]">({product.ratingCount} ratings)</span>
+          </span>
+        </div>
+        <div class="text-xs font-sans text-[#44474d] flex items-center">
+          <span class="uppercase tracking-wider font-semibold">Category:</span>
+          <a href={`/category/${product.categorySlug}`} class="ml-1 hover:text-[#775a19] cursor-pointer transition-colors">{product.category}</a>
+        </div>
+      </div>
+      <h1 class="font-serif text-3xl lg:text-5xl font-extrabold mt-2 text-[#041632] leading-tight">{product.name}</h1>
+      <p class="mt-4 text-[#44474d] text-sm lg:text-base leading-relaxed border-l-4 border-[#775a19] pl-4">{product.shortDesc}</p>
+    </div>
+
+    <div class="bg-[#f3f4f5] p-6 lg:p-8 space-y-6">
+      <div class="flex items-center justify-between border-b border-[#c5c6ce]/20 pb-4">
+        <span class="text-sm font-sans uppercase">Supply Status</span>
+        <span class="flex items-center text-[#775a19] font-bold text-sm">
+          <span class="bg-[#775a19]/10 text-[#775a19] px-3 py-1 rounded-full flex items-center">
+            <span class="material-symbols-outlined text-sm mr-1.5" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+            {product.supplyStatus}
+          </span>
+        </span>
+      </div>
+      <div class="space-y-4">
+        <button class="w-full bg-[#041632] text-white py-4 px-6 font-bold flex items-center justify-center space-x-3 hover:bg-[#775a19] transition-colors">
+          <span class="material-symbols-outlined">mail</span>
+          <span>INQUIRE FOR BULK QUOTE</span>
+        </button>
+        <div class="grid grid-cols-2 gap-4">
+          <a href={product.whatsapp} class="flex items-center justify-center space-x-2 border border-[#c5c6ce] py-3 hover:bg-[#e7e8e9] transition-colors">
+            <span class="material-symbols-outlined text-green-600" style="font-variation-settings: 'FILL' 1;">chat</span>
+            <span class="text-sm font-bold">WhatsApp</span>
+          </a>
+          <a href={product.phone} class="flex items-center justify-center space-x-2 border border-[#c5c6ce] py-3 hover:bg-[#e7e8e9] transition-colors">
+            <span class="material-symbols-outlined">call</span>
+            <span class="text-sm font-bold">Call Us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Specs Strip -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#c5c6ce]/20 border border-[#c5c6ce]/20 overflow-hidden">
+      <div class="bg-white p-4 text-center">
+        <p class="text-[10px] uppercase font-sans text-[#44474d]">Material</p>
+        <p class="font-bold text-sm">{product.specs.material}</p>
+      </div>
+      <div class="bg-white p-4 text-center">
+        <p class="text-[10px] uppercase font-sans text-[#44474d]">Weight</p>
+        <p class="font-bold text-sm">{product.specs.weight}</p>
+      </div>
+      <div class="bg-white p-4 text-center">
+        <p class="text-[10px] uppercase font-sans text-[#44474d]">Width</p>
+        <p class="font-bold text-sm">{product.specs.width}</p>
+      </div>
+      <div class="bg-white p-4 text-center">
+        <p class="text-[10px] uppercase font-sans text-[#44474d]">Weave</p>
+        <p class="font-bold text-sm">{product.specs.weave}</p>
+      </div>
+    </div>
+  </div>
+</section>

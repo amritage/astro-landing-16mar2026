@@ -1,0 +1,115 @@
+---
+import type { BlogPost } from "../../data/blog";
+interface Props { post: BlogPost }
+const { post } = Astro.props;
+---
+<style>
+  .prose-body p { margin-bottom: 1.5rem; line-height: 1.8; color: #44474d; }
+  .prose-body h2 { font-family: 'Newsreader', serif; font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #041632; font-weight: 600; }
+  @media (min-width: 768px) { .prose-body h2 { font-size: 2.25rem; } }
+  .prose-body h3 { font-family: 'Newsreader', serif; font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #041632; font-style: italic; }
+  @media (min-width: 768px) { .prose-body h3 { font-size: 1.75rem; } }
+</style>
+
+<section class="max-w-5xl mx-auto px-8 pb-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+
+    <!-- Article body -->
+    <article class="lg:col-span-8 prose-body">
+
+      <!-- Intro blockquote -->
+      <p class="text-lg md:text-xl font-sans text-[#191c1d] leading-relaxed mb-10 italic opacity-80 border-l-4 border-[#775a19]/30 pl-6">
+        {post.excerpt}
+      </p>
+
+      <p class="text-[#44474d] font-sans leading-relaxed mb-6">{post.content.intro}</p>
+
+      {post.content.sections.map((section) => (
+        <div>
+          <h2>{section.heading}</h2>
+          <p class="text-[#44474d] font-sans leading-relaxed">{section.body}</p>
+
+          {/* Checklist after first section */}
+          {section === post.content.sections[0] && post.checklist && (
+            <ul class="space-y-4 my-8 list-none pl-0">
+              {post.checklist.map((item) => (
+                <li class="flex items-start gap-4 p-5 bg-[#f3f4f5] rounded-xl border border-[#c5c6ce]/20">
+                  <span class="material-symbols-outlined text-[#775a19] mt-1" style="font-variation-settings: 'FILL' 1;">{item.icon}</span>
+                  <div>
+                    <strong class="block text-[#041632] font-bold text-base mb-1">{item.title}</strong>
+                    <span class="text-sm text-[#44474d]">{item.desc}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {section.subSections && section.subSections.map((sub) => (
+            <div>
+              <h3>{sub.heading}</h3>
+              <p class="text-[#44474d] font-sans leading-relaxed">{sub.body}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <!-- Author box -->
+      <div class="mt-16 p-8 border border-[#c5c6ce]/20 rounded-2xl bg-white shadow-sm">
+        <h4 class="font-serif text-xl text-[#041632] mb-6">Expert Advice</h4>
+        <div class="flex gap-4 mb-6">
+          <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-[#775a19]/20 shrink-0">
+            <img src={post.author.avatar} alt={post.author.name} class="w-full h-full object-cover" />
+          </div>
+          <div>
+            <p class="text-base font-bold text-[#041632]">{post.author.name}</p>
+            <p class="text-[10px] uppercase text-[#75777e] font-bold tracking-widest">{post.author.role}</p>
+          </div>
+        </div>
+        <p class="text-sm text-[#44474d] italic leading-relaxed mb-6">
+          "Choosing a supplier is like choosing a foundation for a skyscraper. If the foundation is weak, the whole structure is at risk."
+        </p>
+        <a href="/contact" class="text-[#775a19] text-sm font-bold flex items-center gap-2 hover:gap-4 transition-all">
+          Consult with {post.author.name.split(" ")[0]}
+          <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="lg:col-span-4 space-y-8 lg:mt-0 mt-12">
+
+      {/* Benchmark card */}
+      {post.benchmark && (
+        <div class="bg-[#041632] text-white p-8 rounded-2xl shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-[#775a19]/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
+          <h4 class="font-serif text-2xl mb-4 italic">B2B Benchmarking</h4>
+          <p class="text-[#8393b5] text-sm mb-6">Compare your current supplier against our industry standard:</p>
+          <div class="space-y-0">
+            {post.benchmark.map((row) => (
+              <div class="flex justify-between items-center py-3 border-b border-[#1b2b48]">
+                <span class="text-xs font-sans uppercase opacity-60">{row.label}</span>
+                <span class="font-bold text-[#ffdea5] text-sm">{row.value}</span>
+              </div>
+            ))}
+          </div>
+          <a
+            href="/contact"
+            class="block w-full mt-8 py-4 bg-[#775a19] text-white text-center rounded-lg font-sans text-sm font-bold uppercase tracking-widest hover:bg-[#ffdea5] hover:text-[#041632] transition-colors"
+          >
+            Get Technical Sheet
+          </a>
+        </div>
+      )}
+
+      <!-- Back to blog -->
+      <a
+        href="/blog"
+        class="flex items-center gap-3 text-sm font-bold text-[#041632] border border-[#c5c6ce] rounded-xl px-6 py-4 hover:border-[#775a19] hover:text-[#775a19] transition-colors"
+      >
+        <span class="material-symbols-outlined text-base">arrow_back</span>
+        Back to All Insights
+      </a>
+    </aside>
+
+  </div>
+</section>

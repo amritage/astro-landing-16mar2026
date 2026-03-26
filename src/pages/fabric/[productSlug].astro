@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
+import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
+import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
+import { products } from "../../data/products";
+
+export function getStaticPaths() {
+  return products.map((product) => ({
+    params: { productSlug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+---
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<BaseLayout title={`${product.name} | Amrita Global Enterprises`} description={product.shortDesc}>
+  <!-- Breadcrumb -->
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
+    <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">
+      <a href="/" class="hover:text-[#041632]">Home</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <a href="/fabric" class="hover:text-[#041632]">Shop</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <a href={`/category/${product.categorySlug}`} class="hover:text-[#041632]">{product.category}</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <span class="text-[#041632] font-semibold">{product.name.split(" ").slice(0, 2).join(" ")}</span>
+    </nav>
+  </div>
+
+  <ProductDetailHero product={product} />
+  <ProductDetailBody product={product} />
+  <ProductDetailRelated product={product} />
+</BaseLayout>

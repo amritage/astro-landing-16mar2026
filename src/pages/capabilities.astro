@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import CapabilitiesHero from "../components/capabilities/CapabilitiesHero.astro";
+import CapabilitiesPillars from "../components/capabilities/CapabilitiesPillars.astro";
+import CapabilitiesProcess from "../components/capabilities/CapabilitiesProcess.astro";
+import CapabilitiesQualityHub from "../components/capabilities/CapabilitiesQuality.astro";
+import CapabilitiesExportReadiness from "../components/capabilities/CapabilitiesExportReadiness.astro";
+import CapabilitiesCertifications from "../components/capabilities/CapabilitiesCertifications.astro";
+import CapabilitiesBottomCTA from "../components/capabilities/CapabilitiesBottomCTA.astro";
+---
+
+<BaseLayout
+  title="Capabilities | Amrita Fashions"
+  description="Explore the manufacturing, quality, logistics, compliance, and technical capabilities of Amrita Fashions."
+>
+  <main class="bg-[#f8f9fa] text-[#191c1d]">
+    <CapabilitiesHero />
+    <CapabilitiesPillars />
+    <CapabilitiesProcess />
+    <CapabilitiesQualityHub />
+    <CapabilitiesExportReadiness />
+    <CapabilitiesCertifications />
+    <CapabilitiesBottomCTA />
+  </main>
+</BaseLayout>

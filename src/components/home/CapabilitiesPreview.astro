@@ -1,0 +1,54 @@
+---
+const capabilities = [
+  { no: "01", title: "7-Point Quality Check", text: "Every meter undergoes rigorous inspection for weave consistency, tensile strength, and color fastness." },
+  { no: "02", title: "Scalable Growth Partners", text: "From small boutique runs to million-meter monthly contracts, we scale as your brand grows." },
+  { no: "03", title: "Ethical Sourcing", text: "100% transparency in raw material procurement with OEKO-TEX certified sustainable practices." }
+];
+---
+
+<section class="py-16 md:py-24 bg-[#041632] text-white overflow-hidden">
+  <div class="container mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+
+    <div class="relative order-2 lg:order-1">
+      <div class="grid grid-cols-2 gap-4">
+        <div class="aspect-[3/4] rounded-xl overflow-hidden mt-8 md:mt-12">
+          <img
+            class="w-full h-full object-cover grayscale brightness-75"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoF5CifoMEijun-ERyO0MT4XVIWPKGTnP8RSpj7G3sRZGQByJDjPb27xesb7voeAR3x51BMiG7SQlddNT_e-aOdB0KffH1CZZkH9q4QOHooktHo3ZI6594Z2Mh6hzNnH0AlipOoogtsku0I28tbCnBrrnmLygHgv_ieVd8FyBYVg9CGRrDLeNydOmcfMK3Ej9fRZwbo44iw3DTDu_6I7M05BSN3h5yMnYz2Jc_bWOjaM2e-cPJw5RNt_YEQpQVKa2YeyaJzNb9Axmc"
+            alt="Industrial textile manufacturing floor and machines"
+          />
+        </div>
+        <div class="aspect-[3/4] rounded-xl overflow-hidden">
+          <img
+            class="w-full h-full object-cover grayscale brightness-75"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0MJeofBy5Kkz_phADu-uk5eR-f3H0tVVJh2pj9PFNvopxHLMSdOcE_88H6g3QFbh1oU02DfURs07FzAFWli_ugpgP44Epk2xRWS6FYRhUKOI4_85XwO-pvr1RFqE2sQuwbkqYfeKKN1b_oddAivSSpaLYQCOLuIjrcwxxwPevYT7fVM1BPaHAzbeeUC5WtVilT_PkiMNJZwRLCnf0nbDzxSPa1rYN84PQmSfb85sezNJ1p45IyrCfKJnLWBWVCltKR8_9EqLCM18H"
+            alt="Laboratory quality check for textile durability"
+          />
+        </div>
+      </div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="bg-[#775a19]/90 p-6 md:p-10 rounded-full backdrop-blur-sm">
+          <span class="material-symbols-outlined text-white text-4xl md:text-6xl">verified</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-1 lg:order-2">
+      <h2 class="font-headline text-4xl md:text-5xl mb-8 md:mb-12 text-center lg:text-left text-white">Manufacturing Integrity</h2>
+      <div class="space-y-8 md:space-y-12">
+        {capabilities.map((item) => (
+          <div class="flex flex-col sm:flex-row gap-4 md:gap-6 text-center sm:text-left items-center sm:items-start">
+            <div class="w-12 h-12 rounded-full bg-[#775a19]/20 flex items-center justify-center shrink-0">
+              <span class="text-[#775a19] font-bold font-label">{item.no}</span>
+            </div>
+            <div>
+              <h3 class="font-headline text-xl md:text-2xl mb-2 text-white">{item.title}</h3>
+              <p class="font-body text-sm md:text-base opacity-70">{item.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

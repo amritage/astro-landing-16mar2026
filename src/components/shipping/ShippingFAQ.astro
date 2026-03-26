@@ -1,0 +1,32 @@
+---
+const faqs = [
+  {
+    q: "What is the minimum order for export?",
+    a: "We typically handle Full Container Loads (FCL) for textile shipments, though Less than Container Load (LCL) options are available for specialized technical fabrics.",
+  },
+  {
+    q: "How are certifications handled?",
+    a: "All export documentation, including GOTS certificates and Certificates of Origin, are processed digitally and physically to ensure zero customs delays.",
+  },
+  {
+    q: "Do you offer door-to-door delivery?",
+    a: "Yes, through our regional hubs in the UAE and USA, we provide complete DDP/DAP services for approved corporate accounts.",
+  },
+];
+---
+<section class="px-6 py-16 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="font-headline text-3xl mb-10 text-[#041632] text-center">Logistics FAQ</h2>
+    <div class="space-y-4 max-w-3xl mx-auto">
+      {faqs.map((faq) => (
+        <details class="group bg-[#edeeef] p-5">
+          <summary class="flex justify-between items-center font-bold text-[#041632] list-none cursor-pointer">
+            <span>{faq.q}</span>
+            <span class="material-symbols-outlined shrink-0 transition-transform duration-200 group-open:rotate-180">expand_more</span>
+          </summary>
+          <p class="mt-4 text-[#44474d] text-sm leading-relaxed">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

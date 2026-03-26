@@ -1,0 +1,195 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Sitemap | Amrita Global Enterprises (AGE)"
+  description="Navigate through our comprehensive directory of textile manufacturing solutions, technical capabilities, and global trade infrastructures."
+>
+  <!-- Hero -->
+  <header class="max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-24 text-center">
+    <h1 class="font-serif text-4xl md:text-7xl font-bold text-[#1B2B48] tracking-tight mb-4 md:mb-6">Sitemap</h1>
+    <p class="font-body text-base md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+      Navigate through our comprehensive directory of textile manufacturing solutions, technical capabilities, and global trade infrastructures.
+    </p>
+    <div class="mt-8 md:mt-12 w-16 md:w-24 h-1 bg-[#775a19] mx-auto rounded-full opacity-30"></div>
+  </header>
+
+  <!-- Sitemap Grid -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-24">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+
+      <!-- Core Pages -->
+      <div class="md:col-span-4 bg-slate-50 p-6 md:p-8 rounded-xl">
+        <h3 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Core Pages</h3>
+        <ul class="space-y-4 text-slate-700">
+          {[
+            { label: "Home", href: "/" },
+            { label: "About Us", href: "/about" },
+            { label: "Contact", href: "/contact" },
+            { label: "Support", href: "/support" },
+            { label: "Search", href: "/search" },
+          ].map(({ label, href }) => (
+            <li>
+              <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Products & Categories -->
+      <div class="md:col-span-8 bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-100">
+        <h3 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Products &amp; Categories</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <ul class="space-y-4 text-slate-700">
+            {[
+              { label: "All Fabrics", href: "/fabric" },
+              { label: "Cotton Fabrics", href: "/category/cotton-fabric" },
+              { label: "Denim Fabrics", href: "/category/denim-fabric" },
+              { label: "Compare Fabrics", href: "/compare/cotton-vs-polyester" },
+            ].map(({ label, href }) => (
+              <li>
+                <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div class="relative overflow-hidden rounded-lg aspect-video hidden md:block">
+            <img
+              alt="Industrial weaving loom"
+              class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr3FZ3h1bYJV-0njc4dtyax3kO4zmr6h40mB7p1iHXg-zCUQF5iGi0nRnh0nlUwFp4MSG1Rnw8QlkA62t5lUPcOV7iDLdu7DDQ9Va0oz7BTCQGCzbeXXG9t3Mq-oeYaN81eMDtjvAOIRSIY1KU-sVaXSASvRrHDtQ2cTxB2wEcQgsGEopycjjoJKE3UzcBIDcZF6DEOOOhBSxBAZRxFuiTh4v9tELqAZUNywAGffOwYv1CSpN1WTTywijreUVNaeRePBnZpGcGpuuE"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Industry & Market -->
+      <div class="md:col-span-7 bg-slate-100 p-6 md:p-8 rounded-xl">
+        <h3 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Industry &amp; Market</h3>
+        <ul class="space-y-4 text-slate-700 mb-6">
+          {[
+            { label: "Industries Served", href: "/industry/apparel" },
+            { label: "Ahmedabad Textile Hub", href: "/ahmedabad-hub" },
+            { label: "Our Capabilities", href: "/capabilities" },
+            { label: "Home Textile Industry", href: "/industry/home-textile" },
+          ].map(({ label, href }) => (
+            <li>
+              <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div class="text-sm text-slate-500 italic leading-relaxed bg-white/60 p-4 rounded-lg">
+          Serving global textile markets with precision engineering from India's textile heartland to the Middle East trade corridors.
+        </div>
+      </div>
+
+      <!-- Knowledge Center -->
+      <div class="md:col-span-5 bg-slate-50 p-6 md:p-8 rounded-xl">
+        <h3 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Knowledge Center</h3>
+        <ul class="space-y-4 text-slate-700">
+          {[
+            { label: "Blog & Insights", href: "/blog" },
+            { label: "Guides & Knowledge", href: "/guides" },
+            { label: "FAQ", href: "/faq" },
+            { label: "Certifications", href: "/certifications" },
+          ].map(({ label, href }) => (
+            <li>
+              <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Corporate Governance -->
+      <div class="md:col-span-12 bg-[#1B2B48] text-white p-8 md:p-12 rounded-xl relative overflow-hidden">
+        <div class="relative z-10">
+          <h3 class="font-serif text-2xl md:text-3xl font-bold mb-8 text-center md:text-left">Corporate Governance</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <ul class="space-y-4 text-white/80">
+              {[
+                { label: "Careers", href: "/careers" },
+                { label: "Shipping & Logistics", href: "/shipping" },
+              ].map(({ label, href }) => (
+                <li>
+                  <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <ul class="space-y-4 text-white/80 border-t border-white/10 pt-4 md:border-0 md:pt-0">
+              {[
+                { label: "Terms & Conditions", href: "/terms-and-conditions" },
+                { label: "Trade Compliance", href: "/certifications" },
+              ].map(({ label, href }) => (
+                <li>
+                  <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <ul class="space-y-4 text-white/80 border-t border-white/10 pt-4 md:border-0 md:pt-0">
+              {[
+                { label: "XML Sitemap", href: "/sitemap-index.xml" },
+                { label: "Thank You", href: "/thank-you" },
+              ].map(({ label, href }) => (
+                <li>
+                  <a class="flex items-center gap-3 hover:text-[#775a19] transition-colors" href={href}>
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0"></span>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <!-- Decorative background -->
+        <div class="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none hidden md:block">
+          <img
+            alt="Textile pattern"
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD32VWhamFsiP4tsBnwKyyc2xyGTovgptvxaaO22uF8i6oVbUxpjy7zIauwtNC6lY6Y1I7i9JZBkhJOnHOMmpOz-qulhPnqKOsACK7ZTHh_FLhKzpK9ZiDAJ9jNqWPDYgauaLLm68av2dva0u1N6iMhpjQRPyFXruQaQHUPJP2CVeTmLoVduQSHLLGW7UUNYOc_UPVoSOmKg4HUH-rAN3q73U_-V5kIy6PZvCDWBoMC9A4ul0rVYj0BvezQWbY9vZMvTCVMUCW9mwAy"
+          />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-4xl mx-auto px-6 md:px-8 py-12 md:py-20 bg-slate-50 rounded-3xl text-center shadow-xl border border-white/40 mb-16 md:mb-24">
+    <h2 class="font-serif text-2xl md:text-4xl font-bold text-[#1B2B48] mb-4">Need customized advice?</h2>
+    <p class="text-slate-500 mb-10 text-base md:text-lg">Our specialists are available for consultation regarding bulk orders and industrial specifications.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a
+        href="/contact"
+        class="bg-[#1B2B48] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#775a19] transition-all shadow-lg flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-lg">mail</span>
+        Contact Specialists
+      </a>
+      <a
+        href="https://wa.me/919925155141"
+        class="bg-white text-[#1B2B48] border border-slate-200 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined text-lg text-green-600">chat</span>
+        WhatsApp Inquire
+      </a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,46 @@
+---
+const leaders = [
+  {
+    name: "Rajesh Goyal",
+    role: "Managing Director",
+    bio: "A visionary with 30+ years of expertise in textile technology and global supply chain optimization.",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCrTmlHjJe2wrY8yMKFkakJMM1s0AxaXUiEgoECWGOx9_R8_DF-OztlAZtyxWzCTs9iyXWjRVz2b9W2HLSziocoDqOhNCXe0ReQi6CR8p-DrJ-LeekeLJjbrT_CpcZ0Dh87931crhzoK_7i21zVThKKFZgZZuyBLk9SSm8CgbkbSHh2mKDVfSDIXuRlYnJxkndoG_47xTeJU-o4q3QWea7qU8uMBFaVuY0zJKuBB9XIRUqRJ-acyiSx7kkQMwzPMdLpAoRryc97oNkP",
+    offset: false,
+  },
+  {
+    name: "Sanjay Sharma",
+    role: "Operations Lead",
+    bio: "Architect of AGE's manufacturing excellence and sustainable energy initiatives.",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDidv60qfb97FQ5pghXZNsKajqKWo2loT6poPBKlvBsmBytNnCMeU8MCDlWyYrF_BBbLWeWX-E7lS9JWngvuoiyPsfxC497p10JkrOjfL6mr61OfJE_UnIh0ZescT2n5XcQJy7pJJ4xCfvPMg5uix3Cti_HJ41mm3_JaAoNtX7mYE0_pJ4ABAFClWRYeAywI8jYGjkxqKs1A9gNzutB9-moSwIEsbYrH2BfetYvCY0vaFecVa0W76OwWCGbhHBNFhT3jFDESM2yMhn4",
+    offset: true,
+  },
+  {
+    name: "Amit Vora",
+    role: "Global Strategy",
+    bio: "Driving the digital transformation and international partnership divisions.",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBMA34CeJgoec2mZBx_TsId_VayaYOuEJoFXBNfQIAAD3ahhaWYvg7Loxp3A3XbAyLLqYjbUZnx0ICHYW_XsTMY4NtYLmTYIOzVx7WuCl5TiD3CKx2f77UgZ3Z_CiGbXThMVh1FvjPsDyDoU6UcinoDUXML8HWABlx2wH4q1o-_gScVajlD6UFsc1qNHfkuqhLNR-rdWYzr6e4v0ygLiLk7mJe_yH7G1OxYgeMTdyUcbjQlmG-SfPsqRdaHUk4Gq0sVC7sC0rLx9ta4",
+    offset: false,
+  },
+];
+---
+<section class="py-32 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="mb-20 text-center">
+      <h2 class="font-serif text-5xl text-[#041632]">The <span class="italic text-[#775a19]">Leadership</span> Team</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {leaders.map((l) => (
+        <div class={`bg-[#f3f4f5] group overflow-hidden${l.offset ? " md:mt-12" : ""}`}>
+          <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+            <img src={l.img} alt={`Portrait of ${l.name}`} class="w-full h-full object-cover" />
+          </div>
+          <div class="p-8">
+            <h4 class="font-serif text-2xl text-[#041632]">{l.name}</h4>
+            <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mt-1">{l.role}</p>
+            <p class="text-[#44474d] text-sm mt-4 leading-relaxed">{l.bio}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

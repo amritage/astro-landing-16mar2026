@@ -1,0 +1,63 @@
+---
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  weight: string;
+  width: string;
+  color: string;
+  image: string;
+  href: string;
+}
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<article class="group cursor-pointer overflow-hidden rounded bg-white shadow-sm transition-all hover:shadow-xl">
+  <a href={product.href} class="block">
+    <div class="relative h-64 overflow-hidden">
+      <img
+        src={product.image}
+        alt={product.name}
+        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+      <span class="absolute right-4 top-4 bg-[#041632] px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-white">
+        ID: {product.id}
+      </span>
+    </div>
+
+    <div class="p-6">
+      <div class="mb-2 flex items-start justify-between">
+        <h3 class="font-headline italic text-2xl text-[#041632]">{product.name}</h3>
+        <span
+          class="mt-1 h-4 w-4 rounded-full border border-slate-300"
+          style={`background:${product.color}`}
+        ></span>
+      </div>
+
+      <p class="mb-4 text-sm font-label font-bold uppercase tracking-widest text-[#775a19]">
+        {product.category}
+      </p>
+
+      <div class="grid grid-cols-2 gap-4 border-t border-slate-200 pt-4">
+        <div>
+          <p class="text-[10px] font-label uppercase tracking-wide text-slate-500">Weight</p>
+          <p class="text-sm font-bold text-[#041632]">{product.weight}</p>
+        </div>
+        <div>
+          <p class="text-[10px] font-label uppercase tracking-wide text-slate-500">Width</p>
+          <p class="text-sm font-bold text-[#041632]">{product.width}</p>
+        </div>
+      </div>
+
+      <button class="mt-6 w-full bg-[#041632] py-3 text-xs font-label uppercase tracking-widest text-white transition hover:bg-[#775a19]">
+        View Specifications
+      </button>
+    </div>
+  </a>
+</article>

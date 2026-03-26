@@ -1,0 +1,38 @@
+---
+import ProductCard from "./ProductCard.astro";
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  weight: string;
+  width: string;
+  color: string;
+  image: string;
+  href: string;
+}
+
+interface Props {
+  products: Product[];
+}
+
+const { products } = Astro.props;
+---
+
+<div>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {products.map((product) => (
+      <ProductCard product={product} />
+    ))}
+  </div>
+
+  <div class="mt-12 flex items-center justify-center gap-2 font-label text-sm md:mt-16">
+    <a href="#" class="flex h-10 w-10 items-center justify-center bg-[#041632] font-bold text-white">1</a>
+    <a href="#" class="flex h-10 w-10 items-center justify-center transition hover:bg-slate-100">2</a>
+    <a href="#" class="flex h-10 w-10 items-center justify-center transition hover:bg-slate-100">3</a>
+    <span class="px-2 text-slate-500">...</span>
+    <a href="#" class="flex items-center pl-4 text-xs font-bold uppercase tracking-widest text-[#041632] transition hover:text-[#775a19]">
+      Next <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+    </a>
+  </div>
+</div>
