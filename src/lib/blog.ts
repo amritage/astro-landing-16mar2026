@@ -16,6 +16,8 @@ export interface ApiBlogPost {
   paragraph3: string;
   blogimage1CloudURL: string | null;
   blogimage2CloudURL: string | null;
+  altimage1: string | null;
+  altimage2: string | null;
   featuredImageUrl: string | null;
   featuredImageAlt: string | null;
   robots: string;

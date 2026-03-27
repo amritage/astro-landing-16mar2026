@@ -45,11 +45,11 @@ const { product } = Astro.props;
           <span class="w-10 h-px bg-[#775a19] mr-4"></span>Application Suitability (AI Analysis)
         </h2>
         <div class="space-y-4 lg:space-y-6">
-          {product.applications.map((app, i) => (
-            <div class={`bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]${i === product.applications.length - 1 ? " opacity-60" : ""}`}>
+          {[...product.applications].sort((a, b) => b.score - a.score).map((app, i, arr) => (
+            <div class={`bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]${i === arr.length - 1 ? " opacity-60" : ""}`}>
               <div class="flex justify-between mb-2">
-                <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name}</span>
-                <span class="font-sans font-bold text-[#775a19] text-sm">{app.score}%</span>
+                <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+
               </div>
               <div class="w-full bg-[#e7e8e9] h-2">
                 <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
@@ -116,14 +116,17 @@ const { product } = Astro.props;
     <!-- FAQ -->
     <div>
       <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Industrial FAQ</h3>
-      <div class="space-y-4">
+      <div class="space-y-3">
         {product.faq.map((item) => (
-          <details class="group cursor-pointer">
-            <summary class="font-bold text-sm lg:text-base list-none flex justify-between items-center group-open:text-[#775a19]">
-              {item.q}
-              <span class="material-symbols-outlined text-sm">expand_more</span>
+          <details class="group cursor-pointer rounded-lg bg-white/5 border border-white/10 hover:border-[#c9a84c]/40 transition-colors duration-200">
+            <summary class="list-none flex justify-between items-start gap-3 px-5 py-4 text-sm lg:text-base font-semibold text-white group-open:text-[#c9a84c] transition-colors duration-200">
+              <span>{item.q}</span>
+              <span class="material-symbols-outlined text-base flex-shrink-0 mt-0.5 text-[#c9a84c] group-open:rotate-180 transition-transform duration-200">expand_more</span>
             </summary>
-            <p class="text-[10px] lg:text-xs mt-2 text-[#8393b5]">{item.a}</p>
+            <div class="px-5 pb-5 pt-1">
+              <div class="w-8 h-px bg-[#c9a84c]/50 mb-3"></div>
+              <p class="text-sm text-[#cbd5e1] leading-relaxed">{item.a}</p>
+            </div>
           </details>
         ))}
       </div>

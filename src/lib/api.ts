@@ -170,3 +170,78 @@ export async function getProductBySlug(slug: string): Promise<ApiProduct | undef
   const all = await getAllProducts();
   return all.find((p) => p.productslug === slug);
 }
+
+// ── Topic Pages ────────────────────────────────────────────────────────────────
+
+export interface ApiTopicPage {
+  id: string;
+  name: string;
+  slug: string;
+  slug1: string;
+  description: string | null;
+  metaTitle: string | null;
+  excerpt: string | null;
+  pageType: string;
+  deleted: boolean;
+  image1CloudUrl: string | null;
+  image1CloudUrlWeb?: string | null;
+  image1CloudUrlCard?: string | null;
+  image1CloudUrlHero?: string | null;
+  altTextImage1?: string | null;
+  p1: string | null;
+  p2: string | null;
+  q1: string | null;
+  q2: string | null;
+  q3: string | null;
+  q4: string | null;
+  q5: string | null;
+  a1: string | null;
+  a2: string | null;
+  a3: string | null;
+  a4: string | null;
+  a5: string | null;
+}
+
+export async function getDynamicTopicPages(): Promise<ApiTopicPage[]> {
+  const res = await fetch(`${BASE_URL}/api/topicpage`);
+  if (!res.ok) throw new Error(`Failed to fetch topic pages: ${res.status}`);
+  const json = await res.json();
+  const data: ApiTopicPage[] = json.data ?? [];
+  return data.filter((p) => p.pageType === "Dynamic" && !p.deleted);
+}
+
+export async function getCategoryTopicPages(): Promise<ApiTopicPage[]> {
+  const res = await fetch(`${BASE_URL}/api/topicpage`);
+  if (!res.ok) throw new Error(`Failed to fetch topic pages: ${res.status}`);
+  const json = await res.json();
+  const data: ApiTopicPage[] = json.data ?? [];
+  return data.filter((p) => p.pageType === "Category" && !p.deleted);
+}
+
+export async function getCategoryTopicPageBySlug(slug: string): Promise<ApiTopicPage | undefined> {
+  const pages = await getCategoryTopicPages();
+  return pages.find((p) => p.slug === slug);
+}
+
+export async function getProductsByCategory(categoryName: string): Promise<ApiProduct[]> {
+  // Try direct API filter first
+  const res = await fetch(`${BASE_URL}/api/product?category=${encodeURIComponent(categoryName)}&limit=100`);
+  if (!res.ok) return [];
+  const json: ApiResponse = await res.json();
+  const direct = json.data ?? [];
+  if (direct.length > 0) return direct;
+
+  // Fallback: fuzzy match against all products (handles name mismatches like "Knit Fabric" vs "Knit Fabrics")
+  const all = await getAllProducts();
+  const needle = categoryName.toLowerCase().replace(/\s+/g, "");
+  return all.filter((p) => p.category?.toLowerCase().replace(/\s+/g, "").includes(needle));
+}
+
+export async function getProductsByMerchTag(tag: string, limit = 4): Promise<ApiProduct[]> {
+  const res = await fetch(`${BASE_URL}/api/product?merchtag=${encodeURIComponent(tag)}&limit=100`);
+  if (!res.ok) return [];
+  const json: ApiResponse = await res.json();
+  // API does partial match, so filter client-side for exact tag match
+  const exact = (json.data ?? []).filter((p) => p.merchTags?.includes(tag));
+  return exact.slice(0, limit);
+}

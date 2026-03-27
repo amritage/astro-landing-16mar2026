@@ -1,0 +1,31 @@
+---
+interface Props {
+  faqs: { q: string; a: string }[];
+}
+const { faqs } = Astro.props;
+---
+
+{faqs.length > 0 && (
+  <section class="py-24 bg-[#f4f3f9]">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="font-headline text-4xl text-center mb-16 text-[#1a1b20]">
+        Frequently Asked Questions
+      </h2>
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group bg-white p-6 rounded-lg transition-all" open={i === 0}>
+            <summary class="list-none flex justify-between items-center cursor-pointer font-bold text-lg text-[#385b99]">
+              {faq.q}
+              <span class="material-symbols-outlined group-open:rotate-180 transition-transform flex-shrink-0 ml-4">
+                expand_more
+              </span>
+            </summary>
+            <div class="mt-4 text-[#434750] leading-relaxed">
+              {faq.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

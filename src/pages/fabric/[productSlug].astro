@@ -12,7 +12,7 @@ export async function getStaticPaths() {
     .map((product) => {
       const collectionProducts = products.filter(
         (p) => p.collectionId === product.collectionId && p.id !== product.id && p.slug
-      ).slice(0, 4);
+      );
       return {
         params: { productSlug: product.slug },
         props: { product, collectionProducts },

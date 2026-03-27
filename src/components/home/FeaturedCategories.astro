@@ -1,54 +1,53 @@
-<section class="py-16 md:py-24 bg-[#f8f9fa]">
-  <div class="container mx-auto px-4 md:px-8">
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
-      <div class="max-w-2xl">
-        <h2 class="font-headline text-4xl md:text-5xl text-[#041632] mb-4">The Material Core</h2>
-        <p class="font-body text-base md:text-lg text-[#44474d]">Our signature fabrics are engineered for durability, hand-feel, and consistent quality.</p>
+---
+import { getCategoryTopicPages } from "../../lib/api";
+
+const categories = await getCategoryTopicPages();
+---
+
+{categories.length > 0 && (
+  <section class="py-16 md:py-24 bg-[#f8f9fa]">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
+        <div class="max-w-2xl">
+          <h2 class="font-headline text-4xl md:text-5xl text-[#041632] mb-4">The Material Core</h2>
+          <p class="font-body text-base md:text-lg text-[#44474d]">Our signature fabrics are engineered for durability, hand-feel, and consistent quality.</p>
+        </div>
+        <a
+          class="font-label text-xs md:text-sm font-bold text-[#775a19] uppercase tracking-widest flex items-center gap-2 border-b-2 border-[#775a19] pb-1"
+          href="/fabric"
+        >
+          Explore Full Library
+        </a>
       </div>
-      <a class="font-label text-xs md:text-sm font-bold text-[#775a19] uppercase tracking-widest flex items-center gap-2 border-b-2 border-[#775a19] pb-1" href="/fabric">
-        Explore Full Library
-      </a>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+        {categories.map((cat, i) => (
+          <a
+            href={`/category/${cat.slug}`}
+            class:list={[
+              "group cursor-pointer",
+              i === categories.length - 1 && categories.length % 3 === 1
+                ? "sm:col-span-2 md:col-span-1"
+                : "",
+            ]}
+          >
+            <div class="aspect-[3/4] overflow-hidden rounded-xl mb-4 md:mb-6 relative">
+              {cat.image1CloudUrlCard || cat.image1CloudUrl ? (
+                <img
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  src={cat.image1CloudUrlCard ?? cat.image1CloudUrl ?? ""}
+                  alt={cat.name}
+                />
+              ) : (
+                <div class="w-full h-full bg-[#d1d5db]" />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-[#041632]/80 to-transparent flex items-end p-6 md:p-8">
+                <h3 class="!text-white font-headline text-2xl md:text-3xl">{cat.name}</h3>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-      <div class="group cursor-pointer">
-        <div class="aspect-[3/4] overflow-hidden rounded-xl mb-4 md:mb-6 relative">
-          <img
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdyTZpFab3XpJ0l-5_5C5CExdq4UO1okvuk0vwqGFp_YGnwGK55un0cs9dWf-DPbWUN231qz9ILNAmdZCk_N0o1mwpYnjeedxMIJWa8wFFb1dC-69a3yUUTJWz5pV8jq341WOHmx1kMELSbauOjDg_SFtpnaHEwTSvTa2YSTHl76sPJmeA6UQhRNG-yrTFE8WeXNk0HGP4pB4AP0L_6xUIMQCJSiUeAwbh9vpWkNklJuLtsbxmqb9L4PZcBdPIiw7Vv-sA0YWE1uQx"
-            alt="Tightly woven professional textile pattern"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#041632]/80 to-transparent flex items-end p-6 md:p-8">
-            <h3 class="!text-white font-headline text-2xl md:text-3xl">Woven Fabrics</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="group cursor-pointer">
-        <div class="aspect-[3/4] overflow-hidden rounded-xl mb-4 md:mb-6 relative">
-          <img
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYZNhobAcw9WnfJApTZNa2Nler_1UZ6ByS80WFqwN-JyjRrGz_jf1-mc83jJ8g4MNuN9EbcccgoHymTS9TDl_vguUPyzBzGtzoC9EX48QB1BwGNUJsMHX4CenMkkuxjaOzmXoeQKnq08NxcOYHvNdAeUfnvUfxTJaiNBaKTkVvtob3yW1-rAGCLrpW4sZ6FCOw5MVfR5SzwAwfSRH1m_8Jea13mx7Fe73YkSKdQ9Wza409XPTTsSi7Hu1XZamBUVT8Dl38ADoL4MHN"
-            alt="Close up of cotton twill fabric texture"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#041632]/80 to-transparent flex items-end p-6 md:p-8">
-            <h3 class="!text-white font-headline text-2xl md:text-3xl">Cotton Twill</h3>
-          </div>
-        </div>
-      </div>
-
-      <div class="group cursor-pointer sm:col-span-2 md:col-span-1">
-        <div class="aspect-[3/4] overflow-hidden rounded-xl mb-4 md:mb-6 relative">
-          <img
-            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOa4rt5fX_A1aqc5-uEgU7Al41l9XU_24Nj2q97NH1VU5ngNRojPqfHLkit47g1ToA2YwyfeyeQ4b79KuLdd2I4eMla5VDW7c7Mw-MOdoSinXr-seXdLGIH7fVTm9PiYzB41fPayO5SUw391uhGqh21XUXa6JsW_RKb2TaS5ZBJ2cIT3EqNlUnJ2WeyW1lSmC3zWO-zhtHE0zaWS61MsHG9vyg1RN8Olzlcl2Bdndh-tED3tJQRqJOb_XsO4V1O8TZ-a4HUGO452L2"
-            alt="Indigo sustainable denim fabric rolls"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#041632]/80 to-transparent flex items-end p-6 md:p-8">
-            <h3 class="!text-white font-headline text-2xl md:text-3xl">Sustainable Denim</h3>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+)}

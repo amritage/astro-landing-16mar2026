@@ -1,0 +1,57 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import CategoryHero from "../../components/category/CategoryHero.astro";
+import CategoryIntro from "../../components/category/CategoryIntro.astro";
+import CategoryGrid from "../../components/category/CategoryGrid.astro";
+import CategoryFAQ from "../../components/category/CategoryFAQ.astro";
+import CategoryInternalLinks from "../../components/category/CategoryInternalLinks.astro";
+import {
+  getCategoryTopicPages,
+  getCategoryTopicPageBySlug,
+  getProductsByCategory,
+} from "../../lib/api";
+
+export async function getStaticPaths() {
+  const pages = await getCategoryTopicPages();
+  return pages.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const [page, allCategories] = await Promise.all([
+  getCategoryTopicPageBySlug(slug),
+  getCategoryTopicPages(),
+]);
+
+if (!page) return Astro.redirect("/404");
+
+// Fetch products matching this category name
+const products = await getProductsByCategory(page.name);
+
+// Build FAQ pairs from q/a fields
+const faqs = (["1", "2", "3", "4", "5"] as const)
+  .map((n) => ({
+    q: (page as any)[`q${n}`] as string | null,
+    a: (page as any)[`a${n}`] as string | null,
+  }))
+  .filter((f): f is { q: string; a: string } => !!f.q && !!f.a);
+---
+
+<BaseLayout
+  title={page.metaTitle ?? `${page.name} | Amrita Global Enterprises`}
+  description={page.description ?? page.excerpt ?? ""}
+>
+  <CategoryHero
+    name={page.name}
+    excerpt={page.excerpt}
+    imageUrl={page.image1CloudUrlHero ?? page.image1CloudUrl}
+    altText={page.altTextImage1}
+  />
+
+  <CategoryIntro name={page.name} p1={page.p1} p2={page.p2} />
+
+  <CategoryGrid name={page.name} products={products} />
+
+  <CategoryFAQ faqs={faqs} />
+
+  <CategoryInternalLinks currentSlug={slug} categories={allCategories} />
+</BaseLayout>

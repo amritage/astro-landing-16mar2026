@@ -35,13 +35,6 @@ const { post } = Astro.props;
       <!-- Paragraph 1 -->
       <div set:html={post.paragraph1} />
 
-      <!-- Optional image between sections -->
-      {post.blogimage2CloudURL && (
-        <div class="my-10 rounded-xl overflow-hidden shadow-md">
-          <img src={post.blogimage2CloudURL} alt={post.title} class="w-full object-cover" />
-        </div>
-      )}
-
       <!-- Paragraph 2 -->
       <div set:html={post.paragraph2} />
 
