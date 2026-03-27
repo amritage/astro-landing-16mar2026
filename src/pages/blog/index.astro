@@ -1,17 +1,20 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogHero from "../../components/blog/BlogHero.astro";
-import BlogFeatured from "../../components/blog/BlogFeatured.astro";
-import BlogGrid from "../../components/blog/BlogGrid.astro";
 import BlogNewsletter from "../../components/blog/BlogNewsletter.astro";
+import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
+import { fetchBlogPosts } from "../../lib/blog";
+
+const posts = await fetchBlogPosts();
+const featured = posts.find((p) => p.isFeatured) ?? posts[0];
+const rest = posts.filter((p) => p !== featured);
 ---
 
 <BaseLayout
   title="Insights & Textile Mastery | Amrita Global"
-  description="Industry insights, technical guides, and manufacturing breakthroughs from Amrita Global Enterprises — India's leading textile manufacturer since 1971."
+  description="Industry insights, technical guides, and manufacturing breakthroughs from Amrita Global Enterprises."
 >
   <BlogHero />
-  <BlogFeatured />
-  <BlogGrid />
+  <BlogDynamicGrid featured={featured} posts={rest} />
   <BlogNewsletter />
 </BaseLayout>

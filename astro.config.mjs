@@ -8,5 +8,10 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    define: {
+      'import.meta.env.API_BASE_URL': JSON.stringify(
+        process.env.API_BASE_URL ?? 'https://espobackend.vercel.app'
+      ),
+    },
   },
 });

@@ -3,16 +3,24 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
 import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
-import { products } from "../../data/products";
+import { fetchProducts, type Product } from "../../data/products";
 
-export function getStaticPaths() {
-  return products.map((product) => ({
-    params: { productSlug: product.slug },
-    props: { product },
-  }));
+export async function getStaticPaths() {
+  const products = await fetchProducts();
+  return products
+    .filter((p) => p.slug)
+    .map((product) => {
+      const collectionProducts = products.filter(
+        (p) => p.collectionId === product.collectionId && p.id !== product.id && p.slug
+      ).slice(0, 4);
+      return {
+        params: { productSlug: product.slug },
+        props: { product, collectionProducts },
+      };
+    });
 }
 
-const { product } = Astro.props;
+const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
 ---
 
 <style>
@@ -36,5 +44,5 @@ const { product } = Astro.props;
 
   <ProductDetailHero product={product} />
   <ProductDetailBody product={product} />
-  <ProductDetailRelated product={product} />
+  <ProductDetailRelated product={product} collectionProducts={collectionProducts} />
 </BaseLayout>

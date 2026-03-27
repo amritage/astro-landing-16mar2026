@@ -1,20 +1,26 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ProductHero from "../../../components/product/ProductHero.astro";
+import ProductIntro from "../../../components/product/ProductIntro.astro";
+import ProductSection from "../../../components/product/ProductSection.astro";
+import ProductCTA from "../../../components/product/ProductCTA.astro";
+import ProductGuide from "../../../components/product/ProductGuide.astro";
+import ProductFAQ from "../../../components/product/ProductFAQ.astro";
+import { fetchProductsPage } from "../../../data/products";
+import { getProducts, getFilterValues } from "../../../lib/api";
 
-import ProductHero from "../../components/product/ProductHero.astro";
-import ProductIntro from "../../components/product/ProductIntro.astro";
-import ProductSection from "../../components/product/ProductSection.astro";
-import ProductCTA from "../../components/product/ProductCTA.astro";
-import ProductGuide from "../../components/product/ProductGuide.astro";
-import ProductFAQ from "../../components/product/ProductFAQ.astro";
-import { fetchProductsPage } from "../../data/products";
-import { getFilterValues } from "../../lib/api";
+export async function getStaticPaths() {
+  const first = await getProducts(1, 20);
+  return Array.from({ length: first.totalPages - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
 
+const pageNum = Number(Astro.params.page);
 const [{ products: allProducts, total, totalPages }, filters] = await Promise.all([
-  fetchProductsPage(1),
+  fetchProductsPage(pageNum),
   getFilterValues(),
 ]);
-const currentPage = 1;
 
 const products = allProducts.map((p) => ({
   id: p.id,
@@ -32,7 +38,6 @@ const products = allProducts.map((p) => ({
   filterGsm: String(p.gsm),
 }));
 
-// Use actual rendered count, not API total (some products may lack a slug)
 const renderedCount = products.length;
 
 const faqItems = [
@@ -42,20 +47,18 @@ const faqItems = [
   },
   {
     question: "Do you provide Oeko-Tex certifications?",
-    answer:
-      "Yes, selected products can be supplied with relevant testing and certification documents based on buyer requirements.",
+    answer: "Yes, selected products can be supplied with relevant testing and certification documents based on buyer requirements.",
   },
 ];
 ---
 
 <BaseLayout
-  title="Shop Fabric Catalog | Amrita Global Enterprises"
+  title={`Fabric Catalog — Page ${pageNum} | Amrita Global Enterprises`}
   description="Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."
 >
   <main class="bg-white text-slate-900">
     <ProductHero />
     <ProductIntro />
-
     <ProductSection
       products={products}
       categories={filters.category}
@@ -64,12 +67,11 @@ const faqItems = [
       contents={filters.content}
       designs={filters.design}
       finishes={filters.finish}
-      currentPage={currentPage}
+      currentPage={pageNum}
       totalPages={totalPages}
       total={total}
       pageCount={renderedCount}
     />
-
     <ProductCTA />
     <ProductGuide />
     <ProductFAQ items={faqItems} />

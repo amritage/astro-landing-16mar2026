@@ -42,36 +42,36 @@ const socialLinks = [
     <div class="space-y-6">
       <div class="bg-white/5 p-6 rounded-lg border border-white/10 space-y-6">
         <div>
-          <h5 class="flex items-center text-sm font-bold uppercase tracking-wider mb-2">
+          <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> Office Address
           </h5>
-          <p class="text-xs text-slate-300 leading-relaxed">404, 4th Floor, Safal Prelude, Ahmedabad, Gujarat, India 380015</p>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">404, 4th Floor, Safal Prelude, Ahmedabad, Gujarat, India 380015</p>
         </div>
         <div class="border-t border-white/10 pt-4">
-          <h5 class="flex items-center text-sm font-bold uppercase tracking-wider mb-2">
+          <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> Factory Address
           </h5>
-          <p class="text-xs text-slate-300 leading-relaxed">1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449</p>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449</p>
         </div>
         <div class="border-t border-white/10 pt-4">
-          <h5 class="flex items-center text-sm font-bold uppercase tracking-wider mb-2">
+          <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> Warehouse Address
           </h5>
-          <p class="text-xs text-slate-300 leading-relaxed">Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405</p>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405</p>
         </div>
         <div class="border-t border-white/10 pt-4">
-          <h5 class="flex items-center text-sm font-bold uppercase tracking-wider mb-2">
+          <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> UAE Office Address
           </h5>
-          <p class="text-xs text-slate-300 leading-relaxed">GSK Worldwide FZE, Ajman Free Zone, UAE</p>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">GSK Worldwide FZE, Ajman Free Zone, UAE</p>
         </div>
       </div>
     </div>
 
     <!-- Quick Links -->
     <div class="md:pl-6 lg:pl-0">
-      <h5 class="font-serif text-2xl font-bold mb-6 md:mb-8">Quick Links</h5>
-      <ul class="grid grid-cols-2 md:grid-cols-1 gap-4 text-sm font-bold">
+      <h5 class="font-label text-sm font-semibold uppercase tracking-widest mb-6 md:mb-8 text-slate-300">Quick Links</h5>
+      <ul class="grid grid-cols-2 md:grid-cols-1 gap-4 text-sm font-body">
         {siteConfig.footerLinks.quick.map((item) => (
           <li>
             <a class="hover:text-[#775a19] transition-all duration-200 ease-in-out" href={item.href}>{item.label}</a>
@@ -82,8 +82,8 @@ const socialLinks = [
 
     <!-- Information -->
     <div>
-      <h5 class="font-serif text-2xl font-bold mb-6 md:mb-8">Information</h5>
-      <ul class="grid grid-cols-2 md:grid-cols-1 gap-4 text-sm font-bold">
+      <h5 class="font-label text-sm font-semibold uppercase tracking-widest mb-6 md:mb-8 text-slate-300">Information</h5>
+      <ul class="grid grid-cols-2 md:grid-cols-1 gap-4 text-sm font-body">
         {siteConfig.footerLinks.products.map((item) => (
           <li>
             <a class="hover:text-[#775a19] transition-all duration-200 ease-in-out" href={item.href}>{item.label}</a>
@@ -94,8 +94,8 @@ const socialLinks = [
 
     <!-- Talk To Us -->
     <div class="space-y-6">
-      <h5 class="font-serif text-2xl font-bold mb-6">Talk To Us</h5>
-      <p class="text-sm text-slate-300">Subscribe to our newsletter to get the latest news and offers.</p>
+      <h5 class="font-label text-sm font-semibold uppercase tracking-widest mb-6 italic text-slate-300">Talk To Us</h5>
+      <p class="font-body text-sm text-slate-400">Subscribe to our newsletter to get the latest news and offers.</p>
 
       <!-- Newsletter -->
       <form class="relative" onsubmit="return false;">

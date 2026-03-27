@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BlogPostHero from "../../components/blog/BlogPostHero.astro";
-import BlogPostBody from "../../components/blog/BlogPostBody.astro";
-import BlogPostFAQ from "../../components/blog/BlogPostFAQ.astro";
 import BlogPostCTA from "../../components/blog/BlogPostCTA.astro";
-import { blogPosts } from "../../data/blog";
+import BlogDynamicPostHero from "../../components/blog/BlogDynamicPostHero.astro";
+import BlogDynamicPostBody from "../../components/blog/BlogDynamicPostBody.astro";
+import { fetchBlogPosts } from "../../lib/blog";
 
-export function getStaticPaths() {
-  return blogPosts.map((post) => ({
+export async function getStaticPaths() {
+  const posts = await fetchBlogPosts();
+  return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -17,8 +17,7 @@ const { post } = Astro.props;
 ---
 
 <BaseLayout title={`${post.title} | Amrita Global`} description={post.excerpt}>
-  <BlogPostHero post={post} />
-  <BlogPostBody post={post} />
-  <BlogPostFAQ post={post} />
+  <BlogDynamicPostHero post={post} />
+  <BlogDynamicPostBody post={post} />
   <BlogPostCTA />
 </BaseLayout>

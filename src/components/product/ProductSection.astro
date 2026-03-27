@@ -14,78 +14,31 @@ interface Product {
   href: string;
 }
 
+interface ColorItem { name: string; hex: string; }
+
 interface Props {
   products: Product[];
   categories: string[];
+  colors: ColorItem[];
+  structures: string[];
+  contents: string[];
+  designs: string[];
   finishes: string[];
+  currentPage: number;
+  totalPages: number;
+  total: number;
+  pageCount: number;
 }
 
-const { products, categories, finishes } = Astro.props;
+const { products, categories, colors, structures, contents, designs, finishes, currentPage, totalPages, total, pageCount } = Astro.props;
+const showingStart = (currentPage - 1) * 20 + 1;
+const showingEnd = (currentPage - 1) * 20 + pageCount;
 ---
 
-<!-- Mobile Filter Drawer -->
-<div
-  class="fixed inset-0 z-[60] overflow-y-auto bg-white lg:hidden"
-  id="filter-drawer"
-  style="transform: translateX(-100%); transition: transform 0.3s ease-in-out;"
->
-  <div class="p-6">
-    <div class="mb-8 flex items-center justify-between">
-      <h2 class="font-headline text-2xl text-[#041632]">Filters</h2>
-      <button class="material-symbols-outlined p-2 text-[#041632]" onclick="toggleFilters()">close</button>
-    </div>
-
-    <div class="space-y-10">
-      <div>
-        <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Category</h3>
-        <ul class="space-y-3">
-          {categories.map((item) => (
-            <li>
-              <label class="flex cursor-pointer items-center text-sm font-medium text-slate-600">
-                <input type="checkbox" class="mr-3 rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
-                {item}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Weight (GSM)</h3>
-        <input type="range" min="50" max="500" class="w-full accent-[#775a19]" />
-        <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">
-          <span>50 GSM</span><span>500 GSM</span>
-        </div>
-      </div>
-
-      <div>
-        <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Core Finishes</h3>
-        <ul class="space-y-3">
-          {finishes.map((item) => (
-            <li>
-              <label class="flex cursor-pointer items-center text-sm font-medium text-slate-600">
-                <input type="checkbox" class="mr-3 rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
-                {item}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <button
-        class="w-full bg-[#041632] py-4 font-label text-sm uppercase tracking-widest text-white"
-        onclick="toggleFilters()"
-      >
-        Apply Filters
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Mobile filter toggle -->
-<div class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:hidden lg:px-8">
+<!-- Mobile filter open button -->
+<div class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:hidden">
   <button
-    onclick="toggleFilters()"
+    id="open-filters"
     class="flex items-center gap-2 bg-[#041632] px-4 py-2 text-xs font-label uppercase tracking-widest text-white"
   >
     <span class="material-symbols-outlined text-sm">filter_list</span>
@@ -96,22 +49,73 @@ const { products, categories, finishes } = Astro.props;
 <section class="pb-20 md:pb-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col gap-8 lg:flex-row">
-      <ProductFilters categories={categories} finishes={finishes} />
-      <div class="min-w-0 flex-1">
-        <ProductToolbar total={48} showingStart={1} showingEnd={12} />
-        <ProductGrid products={products} />
+
+      <!--
+        Filter panel — rendered ONCE.
+        On desktop: sticky sidebar (via lg: classes).
+        On mobile: slides in as a drawer (position fixed, toggled via JS).
+      -->
+      <div
+        id="filter-panel"
+        class="
+          fixed inset-0 z-[60] overflow-y-auto bg-white
+          translate-x-[-100%] transition-transform duration-300
+          lg:relative lg:inset-auto lg:z-auto lg:overflow-visible lg:bg-transparent
+          lg:translate-x-0 lg:transition-none
+          lg:w-72 lg:flex-shrink-0
+        "
+      >
+        <!-- Mobile header (hidden on desktop) -->
+        <div class="flex items-center justify-between p-6 pb-0 lg:hidden">
+          <h2 class="font-headline text-2xl text-[#041632]">Filters</h2>
+          <button id="close-filters" class="material-symbols-outlined p-2 text-[#041632]">close</button>
+        </div>
+
+        <!-- Filter content -->
+        <div class="p-6 lg:p-0 lg:sticky lg:top-28">
+          <ProductFilters
+            categories={categories}
+            colors={colors}
+            structures={structures}
+            contents={contents}
+            designs={designs}
+            finishes={finishes}
+          />
+        </div>
       </div>
+
+      <!-- Backdrop (mobile only) -->
+      <div id="filter-backdrop" class="fixed inset-0 z-[59] bg-black/40 hidden lg:hidden"></div>
+
+      <!-- Product grid -->
+      <div class="min-w-0 flex-1">
+        <ProductToolbar total={total} showingStart={showingStart} showingEnd={showingEnd} />
+        <ProductGrid products={products} currentPage={currentPage} totalPages={totalPages} />
+      </div>
+
     </div>
   </div>
 </section>
 
 <script>
-  declare function toggleFilters(): void;
-  (window as any).toggleFilters = function () {
-    const drawer = document.getElementById("filter-drawer") as HTMLElement;
-    if (!drawer) return;
-    const isOpen = drawer.style.transform === "translateX(0%)";
-    drawer.style.transform = isOpen ? "translateX(-100%)" : "translateX(0%)";
-    document.body.style.overflow = isOpen ? "" : "hidden";
-  };
+  const panel = document.getElementById("filter-panel") as HTMLElement;
+  const backdrop = document.getElementById("filter-backdrop") as HTMLElement;
+
+  function openFilters(): void {
+    panel.classList.remove("translate-x-[-100%]");
+    panel.classList.add("translate-x-0");
+    backdrop.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeFilters(): void {
+    panel.classList.add("translate-x-[-100%]");
+    panel.classList.remove("translate-x-0");
+    backdrop.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("open-filters")?.addEventListener("click", openFilters);
+  document.getElementById("close-filters")?.addEventListener("click", closeFilters);
+  backdrop.addEventListener("click", closeFilters);
 </script>

@@ -1,7 +1,10 @@
 ---
 import type { Product } from "../../data/products";
-interface Props { product: Product }
-const { product } = Astro.props;
+interface Props {
+  product: Product;
+  collectionProducts?: Product[];
+}
+const { product, collectionProducts = [] } = Astro.props;
 ---
 
 <!-- Related Products -->
@@ -10,15 +13,33 @@ const { product } = Astro.props;
     <h2 class="font-serif text-2xl lg:text-3xl font-bold">Related Fabric Options</h2>
     <a href="/fabric" class="text-[#775a19] font-bold text-sm lg:text-base underline">View Collection</a>
   </div>
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
-    {product.related.map((rel) => (
-      <a href={`/fabric/${rel.slug}`} class="group block">
-        <div class="aspect-[3/4] bg-[#e7e8e9] mb-4 overflow-hidden group-hover:opacity-80 transition-opacity"></div>
-        <h4 class="font-bold text-xs lg:text-sm">{rel.name}</h4>
-        <p class="text-[10px] lg:text-xs text-[#44474d] font-sans">{rel.gsm} • {rel.weave}</p>
-      </a>
-    ))}
-  </div>
+
+  {collectionProducts.length > 0 ? (
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+      {collectionProducts.map((rel) => (
+        <a href={`/fabric/${rel.slug}`} class="group block">
+          <div class="aspect-[3/4] bg-[#e7e8e9] mb-4 overflow-hidden group-hover:opacity-80 transition-opacity">
+            {rel.image1 ? (
+              <img
+                src={rel.image1}
+                alt={rel.imageAlt ?? rel.name}
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-4xl text-[#c5c6ce]">image</span>
+              </div>
+            )}
+          </div>
+          <h4 class="font-bold text-xs lg:text-sm">{rel.name}</h4>
+          <p class="text-[10px] lg:text-xs text-[#44474d] font-sans">{rel.specs.weight} • {rel.specs.weave}</p>
+        </a>
+      ))}
+    </div>
+  ) : (
+    <p class="text-[#44474d] font-sans text-sm">No related products found in this collection.</p>
+  )}
 </section>
 
 <!-- Bottom CTA -->

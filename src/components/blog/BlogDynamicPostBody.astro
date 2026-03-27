@@ -1,0 +1,90 @@
+---
+import type { ApiBlogPost } from "../../lib/blog";
+import { getPostImage } from "../../lib/blog";
+
+interface Props { post: ApiBlogPost }
+const { post } = Astro.props;
+---
+
+<style>
+  .api-prose h2 { font-family: 'Newsreader', serif; font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #041632; font-weight: 600; }
+  @media (min-width: 768px) { .api-prose h2 { font-size: 2.25rem; } }
+  .api-prose h3 { font-family: 'Newsreader', serif; font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #041632; font-style: italic; }
+  @media (min-width: 768px) { .api-prose h3 { font-size: 1.75rem; } }
+  .api-prose p { margin-bottom: 1.5rem; line-height: 1.8; color: #44474d; }
+  .api-prose ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: #44474d; }
+  .api-prose li { margin-bottom: 0.5rem; line-height: 1.7; }
+  .api-prose a { color: #775a19; text-decoration: underline; }
+  .api-prose strong { color: #041632; }
+  .api-prose hr { border-color: #c5c6ce; margin: 2rem 0; }
+  .api-prose details { background: #f3f4f5; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin-bottom: 1rem; cursor: pointer; }
+  .api-prose summary { font-weight: 700; color: #041632; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .api-prose details > div { margin-top: 1rem; color: #44474d; font-size: 0.9rem; line-height: 1.7; }
+</style>
+
+<section class="max-w-5xl mx-auto px-8 pb-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+
+    <!-- Article body -->
+    <article class="lg:col-span-8 api-prose">
+      <!-- Excerpt blockquote -->
+      <p class="text-lg md:text-xl font-sans text-[#191c1d] leading-relaxed mb-10 italic opacity-80 border-l-4 border-[#775a19]/30 pl-6">
+        {post.excerpt}
+      </p>
+
+      <!-- Paragraph 1 -->
+      <div set:html={post.paragraph1} />
+
+      <!-- Optional image between sections -->
+      {post.blogimage2CloudURL && (
+        <div class="my-10 rounded-xl overflow-hidden shadow-md">
+          <img src={post.blogimage2CloudURL} alt={post.title} class="w-full object-cover" />
+        </div>
+      )}
+
+      <!-- Paragraph 2 -->
+      <div set:html={post.paragraph2} />
+
+      <!-- Paragraph 3 -->
+      <div set:html={post.paragraph3} />
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="lg:col-span-4 space-y-8 lg:mt-0 mt-12">
+      <!-- Tags -->
+      {post.tags.length > 0 && (
+        <div class="bg-[#f3f4f5] rounded-2xl p-6">
+          <h4 class="font-serif text-lg text-[#041632] mb-4">Topics</h4>
+          <div class="flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <span class="px-3 py-1 bg-white border border-[#c5c6ce]/40 text-[#44474d] rounded-full text-xs font-bold uppercase tracking-wider">{tag}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- CTA card -->
+      <div class="bg-[#041632] text-white p-8 rounded-2xl shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-[#775a19]/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
+        <h4 class="font-serif text-2xl mb-4 italic">Need Fabric Solutions?</h4>
+        <p class="text-[#8393b5] text-sm mb-6">Talk to our team about your requirements — quality, compliance, and delivery.</p>
+        <a
+          href="/contact"
+          class="block w-full py-4 bg-[#775a19] text-white text-center rounded-lg font-sans text-sm font-bold uppercase tracking-widest hover:bg-[#ffdea5] hover:text-[#041632] transition-colors"
+        >
+          Get in Touch
+        </a>
+      </div>
+
+      <!-- Back to blog -->
+      <a
+        href="/blog"
+        class="flex items-center gap-3 text-sm font-bold text-[#041632] border border-[#c5c6ce] rounded-xl px-6 py-4 hover:border-[#775a19] hover:text-[#775a19] transition-colors"
+      >
+        <span class="material-symbols-outlined text-base">arrow_back</span>
+        Back to All Insights
+      </a>
+    </aside>
+
+  </div>
+</section>

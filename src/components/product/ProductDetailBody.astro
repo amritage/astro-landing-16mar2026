@@ -9,9 +9,10 @@ const { product } = Astro.props;
   <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 flex items-center">
     <span class="w-10 h-px bg-[#775a19] mr-4"></span>About this Fabric
   </h2>
-  <p class="text-[#44474d] font-sans leading-relaxed text-sm lg:text-base max-w-none">
-    <strong>100% Cotton Twill Fabric:</strong> {product.longDescription}
-  </p>
+  <div
+    class="text-[#44474d] font-sans leading-relaxed text-sm lg:text-base max-w-none prose prose-sm"
+    set:html={product.longDescription}
+  />
 </section>
 
 <!-- Technical Specs & Applications -->

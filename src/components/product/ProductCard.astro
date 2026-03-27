@@ -7,7 +7,12 @@ interface Product {
   width: string;
   color: string;
   image: string;
-  href: string;
+  href: string | null;
+  filterCategory?: string;
+  filterColor?: string;
+  filterStructure?: string;
+  filterContent?: string;
+  filterGsm?: string;
 }
 
 interface Props {
@@ -17,8 +22,15 @@ interface Props {
 const { product } = Astro.props;
 ---
 
-<article class="group cursor-pointer overflow-hidden rounded bg-white shadow-sm transition-all hover:shadow-xl">
-  <a href={product.href} class="block">
+<article
+  class="product-card group cursor-pointer overflow-hidden rounded bg-white shadow-sm transition-all hover:shadow-xl"
+  data-category={product.filterCategory ?? product.category}
+  data-color={product.filterColor ?? ""}
+  data-structure={product.filterStructure ?? ""}
+  data-content={product.filterContent ?? ""}
+  data-gsm={product.filterGsm ?? "0"}
+>
+  <a href={product.href ?? "#"} class="block">
     <div class="relative h-64 overflow-hidden">
       <img
         src={product.image}
@@ -33,7 +45,7 @@ const { product } = Astro.props;
 
     <div class="p-6">
       <div class="mb-2 flex items-start justify-between">
-        <h3 class="font-headline italic text-2xl text-[#041632]">{product.name}</h3>
+        <h3 class="font-headline italic text-base text-[#041632] leading-snug">{product.name}</h3>
         <span
           class="mt-1 h-4 w-4 rounded-full border border-slate-300"
           style={`background:${product.color}`}

@@ -1,4 +1,9 @@
+import { getProducts, getAllProducts, type ApiProduct } from "../lib/api";
+
+// ── Type used by all product components ───────────────────────────────────────
+
 export interface Product {
+  id: string;
   slug: string;
   seriesLabel: string;
   name: string;
@@ -22,72 +27,157 @@ export interface Product {
   longDescription: string;
   applications: { name: string; score: number; desc: string }[];
   certifications: { icon: string; title: string; desc: string }[];
-  regionalPreference: string;
   regionalCities: string[];
   industries: string[];
   faq: { q: string; a: string }[];
   related: { name: string; slug: string; gsm: string; weave: string }[];
+  // media
+  image1: string;
+  image2: string | null;
+  image3: string | null;
+  imageAlt2: string | null;
+  imageAlt3: string | null;
+  videoURL: string | null;
+  collectionImage: string | null;
+  collectionImageAlt: string | null;
+  collectionVideoURL: string | null;
+  // extras from API
+  hex: string[];
+  colorNames: string[];
+  structure: string;
+  content: string;
+  gsm: number;
+  design: string;
+  finish: string[];
+  keywords: string[];
+  merchTags: string[];
+  collectionId: string;
+  collectionName: string;
+  collectionDescription: string;
 }
 
-export const products: Product[] = [
-  {
-    slug: "majestica-767",
-    seriesLabel: "Premium Woven Series",
-    name: "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM",
-    shortDesc:
-      "Elevate your designs with Majestica-767 cocoa brown solid dyed cotton twill. Soft, mercerized finish & wide 146 cm width ideal for innovative apparel brands.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBTp8Itgyf3JY8W5wSJpfGOwTfbEFOMlRQiZsk6rv4s__U5U_2kx60UbAsTTWRGkIPSrFl5HiTSjPTJ-xZeGtXEAwrXwbtpcd5L_sGaAfh8dlwpYDRH9wHRqond6F6fBGvL3UKYn7Ov3k25dtSO0gHbMqBE5sAZkSF_Vst1p-2BjlXcoLyUCMTh384O7biOCpPaKcBV38Bc7NvXDsbFaxhymxzWN6bcN3m1FIDVDVYN0lJljGh9JtH49s3ldNe0DkJ2Uq6fCmx157_y",
-    imageAlt: "Majestica-767 Cocoa Brown Fabric",
-    rating: 4.25,
-    ratingCount: 150,
-    category: "Woven Fabrics",
-    categorySlug: "woven-fabrics",
-    supplyStatus: "Never-Out-of-Stock (NOS)",
+// ── Map API shape → Product ────────────────────────────────────────────────────
+
+function parseSuitability(raw: string[]): { name: string; score: number; desc: string }[] {
+  return raw.map((s) => {
+    // format: "Menswear | Shirt | 85%"
+    const parts = s.split("|").map((p) => p.trim());
+    const score = parseInt(parts[2] ?? "0", 10);
+    return {
+      name: `${parts[0]} ${parts[1]}`,
+      score: isNaN(score) ? 0 : score,
+      desc: `Suitable for ${parts[0]} ${parts[1]}`,
+    };
+  });
+}
+
+function buildFaq(p: ApiProduct): { q: string; a: string }[] {
+  const pairs = [
+    [p.productQ1, p.productA1],
+    [p.productQ2, p.productA2],
+    [p.productQ3, p.productA3],
+    [p.productQ4, p.productA4],
+    [p.productQ5, p.productA5],
+    [p.productQ6, p.productA6],
+  ];
+  return pairs
+    .filter(([q, a]) => q && a)
+    .map(([q, a]) => ({ q: q!, a: a! }));
+}
+
+function buildCertifications(finish: string[]) {
+  const iconMap: Record<string, string> = {
+    "Chemical - Bio Finish": "eco",
+    "Chemical - Mercerized": "workspace_premium",
+    "Chemical - Silicon": "shield_with_heart",
+  };
+  return finish.map((f) => ({
+    icon: iconMap[f] ?? "verified",
+    title: f,
+    desc: f,
+  }));
+}
+
+export function mapApiProduct(p: ApiProduct): Product {
+  return {
+    id: p.id,
+    slug: p.productslug,
+    seriesLabel: p.collectionName,
+    name: p.productTitle ?? p.name,
+    shortDesc: p.shortProductDescription ?? p.productTagline ?? "",
+    image: p.image1CloudUrl ?? p.image1CloudUrlWeb ?? "",
+    imageAlt: p.altTextImage1 ?? p.name,
+    rating: p.ratingValue,
+    ratingCount: p.ratingCount,
+    category: p.category,
+    categorySlug: p.category.toLowerCase().replace(/\s+/g, "-"),
+    supplyStatus: p.supplyModel,
     whatsapp: "https://wa.me/919925155141",
     phone: "tel:+919925155141",
     specs: {
-      material: "100% Cotton",
-      weight: "125 GSM",
-      width: "57-58 Inch",
-      weave: "Twill",
+      material: p.content.join(", "),
+      weight: `${p.gsm} GSM`,
+      width: `${p.cm} cm / ${p.inch} inch`,
+      weave: p.structure,
     },
     techSpecs: [
-      { label: "Fabric Code", value: "M-767-CB" },
-      { label: "GSM (Grams/Sq. Meter)", value: "125" },
-      { label: "Ozs (Ounces)", value: "3.69" },
-      { label: "Width (CM)", value: "147 cm" },
-      { label: "Sales MOQ", value: "110 Meters" },
-      { label: "Vendor Code", value: "AGE-TX-09" },
+      { label: "Fabric Code", value: p.fabricCode },
+      { label: "Vendor Code", value: p.vendorFabricCode },
+      { label: "GSM", value: String(p.gsm) },
+      { label: "Ozs", value: String(p.ozs) },
+      { label: "Width (CM)", value: `${p.cm} cm` },
+      { label: "Width (Inch)", value: `${p.inch}"` },
+      { label: "Sales MOQ", value: `${p.salesMOQ} ${p.uM}` },
+      { label: "Design", value: p.design },
+      { label: "Color", value: p.color.join(", ") },
     ],
-    longDescription:
-      "Crafted from premium 100% cotton twill, this fabric is dyed in vibrant, long-lasting colors — available in 72 stunning shades. It features a 40s x 40s yarn count, a soft yet durable 125 GSM weight (approx.), and a width of 56–57 inches. Perfect for apparel, uniforms, and home textiles, it offers breathability, comfort, and exceptional quality for diverse tailoring needs.",
-    applications: [
-      { name: "Menswear Shirt", score: 85, desc: "Recommended for high-end formal and semi-formal shirting." },
-      { name: "Menswear Trousers (Chinos)", score: 75, desc: "Ideal for lightweight summer trousers and chinos." },
-      { name: "Kidswear Shirt", score: 70, desc: "Suitable for durable yet soft children's apparel." },
-      { name: "Home Textiles", score: 65, desc: "Functional for premium linens and soft furnishings." },
-    ],
-    certifications: [
-      { icon: "eco", title: "Chemical - Bio Finish", desc: "Enzyme-treated for a cleaner surface and smoother hand-feel." },
-      { icon: "workspace_premium", title: "Mercerized", desc: "Enhanced dye affinity and increased fabric strength with a silky luster." },
-      { icon: "shield_with_heart", title: "Silicon Finish", desc: "Premium softness finish for superior comfort against the skin." },
-    ],
-    regionalPreference:
-      "Preferred choice for Mumbai and Surat garment hubs due to its adaptable GSM and rich cocoa tone.",
-    regionalCities: ["Mumbai", "Surat"],
-    industries: ["Corporate Uniforms", "Luxury Fashion Labels", "Premium Hospitality Apparel"],
-    faq: [
-      { q: "What is the MOQ?", a: "The standard sales MOQ for Majestica-767 is 110 Meters per color." },
-      { q: "Is Majestica-767 colorfast?", a: "Yes, it undergoes premium reactive dyeing with a minimum Grade 4 color fastness." },
-      { q: "Is this suitable for uniforms?", a: "Absolutely. Its durable twill weave and soft finish make it ideal for corporate and institutional uniforms." },
-      { q: "Can I request a sample?", a: "We provide 10x10 cm swatches for approved bulk inquiries." },
-    ],
-    related: [
-      { name: "Majestica-768 Royal Blue", slug: "majestica-768", gsm: "130 GSM", weave: "Cotton Twill" },
-      { name: "Sovereign-202 Steel Grey", slug: "sovereign-202", gsm: "115 GSM", weave: "Cotton Poplin" },
-      { name: "Heritage-550 Olive Drab", slug: "heritage-550", gsm: "180 GSM", weave: "Heavy Twill" },
-      { name: "Majestica-769 Jet Black", slug: "majestica-769", gsm: "125 GSM", weave: "Cotton Twill" },
-    ],
-  },
-];
+    longDescription: p.fullProductDescription ?? p.collection?.description ?? "",
+    applications: parseSuitability(p.suitability),
+    certifications: buildCertifications(p.finish),
+    regionalCities: [],
+    industries: [],
+    faq: buildFaq(p),
+    related: [],
+    hex: p.hex ?? [],
+    colorNames: p.color ?? [],
+    structure: p.structure,
+    content: p.content.join(", "),
+    gsm: p.gsm,
+    design: p.design,
+    finish: p.finish,
+    keywords: p.keywords,
+    merchTags: p.merchTags,
+    collectionId: p.collectionId,
+    collectionName: p.collectionName,
+    collectionDescription: p.collection?.description ?? "",
+    image1: p.image1CloudUrl ?? p.image1CloudUrlWeb ?? "",
+    image2: p.image2CloudUrl ?? null,
+    image3: p.image3CloudUrl ?? null,
+    imageAlt2: p.altTextImage2 ?? null,
+    imageAlt3: p.altTextImage3 ?? null,
+    videoURL: p.videoURL ?? null,
+    collectionImage: p.collection?.collectionImage1CloudUrlBase
+      ?? p.collection?.collectionImage1CloudUrl
+      ?? p.collection?.collectionImage1CloudUrlWeb
+      ?? null,
+    collectionImageAlt: p.collection?.altTextCollectionImage1 ?? null,
+    collectionVideoURL: p.collection?.collectionvideoURL ?? null,
+  };
+}
+
+// ── Exported data (called at build time) ──────────────────────────────────────
+
+export async function fetchProducts(): Promise<Product[]> {
+  const raw = await getAllProducts();
+  return raw.map(mapApiProduct);
+}
+
+export async function fetchProductsPage(page: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
+  const result = await getProducts(page, 20);
+  return {
+    products: result.data.map(mapApiProduct),
+    total: result.total,
+    totalPages: result.totalPages,
+    currentPage: result.page,
+  };
+}

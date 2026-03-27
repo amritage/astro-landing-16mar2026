@@ -2,44 +2,135 @@
 import type { Product } from "../../data/products";
 interface Props { product: Product }
 const { product } = Astro.props;
+
+// Extract YouTube video ID for thumbnail
+function getYouTubeId(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : null;
+}
+
+type Slot =
+  | { type: "image"; src: string; alt: string }
+  | { type: "youtube"; embedSrc: string; thumbSrc: string; alt: string }
+  | { type: "video"; src: string; alt: string }
+  | { type: "empty" };
+
+function makeVideoSlot(url: string, alt: string): Slot {
+  const videoId = getYouTubeId(url);
+  if (videoId) return {
+    type: "youtube",
+    embedSrc: `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`,
+    thumbSrc: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+    alt,
+  };
+  return { type: "video", src: url, alt };
+}
+
+const slots: Slot[] = [
+  product.image1
+    ? { type: "image", src: product.image1, alt: product.imageAlt ?? product.name }
+    : { type: "empty" },
+  product.image2
+    ? { type: "image", src: product.image2, alt: product.imageAlt2 ?? product.name }
+    : { type: "empty" },
+  product.image3
+    ? { type: "image", src: product.image3, alt: product.imageAlt3 ?? product.name }
+    : { type: "empty" },
+  product.collectionImage
+    ? { type: "image", src: product.collectionImage, alt: product.collectionImageAlt ?? product.collectionName }
+    : { type: "empty" },
+  product.collectionVideoURL
+    ? makeVideoSlot(product.collectionVideoURL, "Collection Video")
+    : { type: "empty" },
+];
+
+// Main slides = only non-empty slots
+const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type !== "empty");
 ---
 
 <section class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-4">
   <!-- Gallery -->
   <div class="lg:col-span-7">
     <div class="relative group">
-      <div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar bg-[#ffffff]">
-        <div class="snap-center shrink-0 w-full">
-          <img
-            src={product.image}
-            alt={product.imageAlt}
-            class="w-full h-[350px] lg:h-[600px] object-cover"
-          />
-        </div>
-        <div class="snap-center shrink-0 w-full bg-[#e7e8e9] flex items-center justify-center">
-          <span class="text-[#44474d] font-sans italic">Texture Detail View</span>
-        </div>
-        <div class="snap-center shrink-0 w-full bg-[#e7e8e9] flex items-center justify-center">
-          <span class="text-[#44474d] font-sans italic">Drape Visualization</span>
-        </div>
-        <div class="snap-center shrink-0 w-full bg-[#e7e8e9] flex items-center justify-center">
-          <span class="text-[#44474d] font-sans italic">Stock/Warehouse View</span>
-        </div>
+      <!-- Main slider — only non-empty slots -->
+      <div id="gallery-track" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar bg-[#f3f4f5]">
+        {slides.map((slide, i) => (
+          <div class="snap-center shrink-0 w-full" data-index={i}>
+            {slide.type === "image" ? (
+              <img
+                src={slide.src}
+                alt={slide.alt}
+                class="w-full h-[350px] lg:h-[600px] object-cover"
+                loading={i === 0 ? "eager" : "lazy"}
+              />
+            ) : slide.type === "youtube" ? (
+              <iframe
+                src={slide.embedSrc}
+                class="w-full h-[350px] lg:h-[600px]"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+                title={slide.alt}
+              />
+            ) : (
+              <video
+                src={slide.src}
+                class="w-full h-[350px] lg:h-[600px] object-cover"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+              />
+            )}
+          </div>
+        ))}
       </div>
+
       <!-- Mobile dots -->
-      <div class="flex lg:hidden justify-center space-x-2 mt-4">
-        <div class="w-2 h-2 rounded-full bg-[#041632]"></div>
-        <div class="w-2 h-2 rounded-full bg-[#e1e3e4]"></div>
-        <div class="w-2 h-2 rounded-full bg-[#e1e3e4]"></div>
-        <div class="w-2 h-2 rounded-full bg-[#e1e3e4]"></div>
-      </div>
+      {slides.length > 1 && (
+        <div id="gallery-dots" class="flex lg:hidden justify-center space-x-2 mt-4">
+          {slides.map((_, i) => (
+            <button
+              class={`w-2 h-2 rounded-full transition-colors gallery-dot ${i === 0 ? "bg-[#041632]" : "bg-[#e1e3e4]"}`}
+              data-dot={i}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
-    <!-- Thumbnails -->
-    <div class="hidden lg:grid grid-cols-4 gap-4 mt-4">
-      <div class="h-24 bg-[#e7e8e9] cursor-pointer border-2 border-[#041632]"></div>
-      <div class="h-24 bg-[#e7e8e9] cursor-pointer"></div>
-      <div class="h-24 bg-[#e7e8e9] cursor-pointer"></div>
-      <div class="h-24 bg-[#e7e8e9] cursor-pointer"></div>
+
+    <!-- Thumbnails (desktop) — always 5 slots: image1, image2, image3, collectionImage, collectionVideo -->
+    <div id="gallery-thumbs" class="hidden lg:grid grid-cols-5 gap-3 mt-4">
+      {slots.map((slot, slotIndex) => {
+        // Map slot index to slide index (skip empty slots before this one)
+        const slideIndex = slots.slice(0, slotIndex).filter(s => s.type !== "empty").length;
+        const isClickable = slot.type !== "empty";
+        return (
+          <button
+            class={`h-20 overflow-hidden border-2 transition-colors gallery-thumb ${slotIndex === 0 && isClickable ? "border-[#041632]" : "border-transparent"} ${!isClickable ? "cursor-default opacity-40" : "cursor-pointer"}`}
+            data-thumb={isClickable ? slideIndex : -1}
+            aria-label={isClickable ? `View slide ${slideIndex + 1}` : "No image"}
+          >
+            {slot.type === "image" ? (
+              <img src={slot.src} alt={slot.alt} class="w-full h-full object-cover" loading="lazy" />
+            ) : slot.type === "youtube" ? (
+              <div class="relative w-full h-full">
+                <img src={slot.thumbSrc} alt={slot.alt} class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                  <span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+                </div>
+              </div>
+            ) : slot.type === "video" ? (
+              <div class="w-full h-full bg-[#e7e8e9] flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl text-[#44474d]">play_circle</span>
+              </div>
+            ) : (
+              <div class="w-full h-full bg-[#e7e8e9]"></div>
+            )}
+          </button>
+        );
+      })}
     </div>
   </div>
 
@@ -112,3 +203,46 @@ const { product } = Astro.props;
     </div>
   </div>
 </section>
+
+<script>
+  const track = document.getElementById("gallery-track") as HTMLElement;
+  const dots = document.querySelectorAll<HTMLButtonElement>(".gallery-dot");
+  const thumbs = document.querySelectorAll<HTMLButtonElement>(".gallery-thumb");
+
+  function goTo(index: number) {
+    const slideWidth = track.offsetWidth;
+    track.scrollTo({ left: slideWidth * index, behavior: "smooth" });
+    dots.forEach((d, i) => {
+      d.classList.toggle("bg-[#041632]", i === index);
+      d.classList.toggle("bg-[#e1e3e4]", i !== index);
+    });
+    thumbs.forEach((t, i) => {
+      t.classList.toggle("border-[#041632]", i === index);
+      t.classList.toggle("border-transparent", i !== index);
+    });
+  }
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => goTo(Number(dot.dataset.dot)));
+  });
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+      const idx = Number(thumb.dataset.thumb);
+      if (idx >= 0) goTo(idx);
+    });
+  });
+
+  // Sync dots/thumbs on scroll
+  track?.addEventListener("scroll", () => {
+    const index = Math.round(track.scrollLeft / track.offsetWidth);
+    dots.forEach((d, i) => {
+      d.classList.toggle("bg-[#041632]", i === index);
+      d.classList.toggle("bg-[#e1e3e4]", i !== index);
+    });
+    thumbs.forEach((t, i) => {
+      t.classList.toggle("border-[#041632]", i === index);
+      t.classList.toggle("border-transparent", i !== index);
+    });
+  });
+</script>

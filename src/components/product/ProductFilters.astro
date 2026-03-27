@@ -1,61 +1,221 @@
 ---
+interface ColorItem { name: string; hex: string; }
+
 interface Props {
   categories: string[];
+  colors: ColorItem[];
+  structures: string[];
+  contents: string[];
+  designs: string[];
   finishes: string[];
 }
 
-const { categories, finishes } = Astro.props;
+const { categories, colors, structures, contents, designs, finishes } = Astro.props;
 ---
 
-<aside class="hidden lg:block lg:w-64 lg:flex-shrink-0">
-  <div class="sticky top-28 space-y-8">
+<div class="filter-panel space-y-6">
+
+  <!-- Clear All — hidden until a filter is active -->
+  <button
+    id="clear-filters"
+    class="hidden items-center gap-1.5 text-xs text-[#775a19] underline underline-offset-2 hover:text-[#041632] transition"
+  >
+    <span class="material-symbols-outlined text-sm">filter_alt_off</span>
+    Clear filters
+  </button>
+
+  <!-- 1. Category -->
+  {categories.length > 0 && (
     <div>
-      <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">
-        Filter By Category
-      </h3>
-      <ul class="space-y-3">
+      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Category</h3>
+      <ul class="space-y-2">
         {categories.map((item) => (
           <li>
-            <label class="flex cursor-pointer items-center text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input
-                type="checkbox"
-                class="mr-3 rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]"
-              />
+            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input type="checkbox" data-filter-field="category" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
               {item}
             </label>
           </li>
         ))}
       </ul>
     </div>
+  )}
 
+  <!-- 2. Structure / Weave -->
+  {structures.length > 0 && (
     <div>
-      <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">
-        Weight (GSM)
-      </h3>
-      <input type="range" min="50" max="500" class="w-full accent-[#775a19]" />
-      <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">
-        <span>50 GSM</span>
-        <span>500 GSM</span>
-      </div>
+      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Structure / Weave</h3>
+      <ul class="space-y-2">
+        {structures.map((item) => (
+          <li>
+            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input type="checkbox" data-filter-field="structure" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
+              {item}
+            </label>
+          </li>
+        ))}
+      </ul>
     </div>
+  )}
 
+  <!-- 4. Content -->
+  {contents.length > 0 && (
     <div>
-      <h3 class="mb-4 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">
-        Core Finishes
-      </h3>
-      <ul class="space-y-3">
+      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Content</h3>
+      <ul class="space-y-2">
+        {contents.map((item) => (
+          <li>
+            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input type="checkbox" data-filter-field="content" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
+              {item}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <!-- 5. Design -->
+  {designs.length > 0 && (
+    <div>
+      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Design</h3>
+      <ul class="space-y-2">
+        {designs.map((item) => (
+          <li>
+            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input type="checkbox" data-filter-field="design" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
+              {item}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <!-- 6. Color — one per row, swatch + name, scrollable -->
+  {colors.length > 0 && (
+    <div>
+      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Color</h3>
+      <ul class="max-h-52 overflow-y-auto space-y-2 pr-1">
+        {colors.map((c) => (
+          <li>
+            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input type="checkbox" data-filter-field="color" data-filter-value={c.name} class="filter-checkbox sr-only" />
+              <span
+                class="color-dot h-4 w-4 flex-shrink-0 rounded-full ring-1 ring-slate-300 transition"
+                style={`background-color:${c.hex};`}
+              />
+              {c.name}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <!-- 7. Core Finishes -->
+  {finishes.length > 0 && (
+    <div>
+      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Core Finishes</h3>
+      <ul class="space-y-2">
         {finishes.map((item) => (
           <li>
-            <label class="flex cursor-pointer items-center text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input
-                type="checkbox"
-                class="mr-3 rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]"
-              />
+            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+              <input type="checkbox" data-filter-field="finish" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
               {item}
             </label>
           </li>
         ))}
       </ul>
     </div>
+  )}
+
+  <!-- 7. Weight (GSM) -->
+  <div>
+    <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Weight (GSM)</h3>
+    <input id="gsm-range" type="range" min="50" max="500" value="500" class="w-full accent-[#775a19]" />
+    <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">
+      <span>50 GSM</span>
+      <span id="gsm-value">500 GSM</span>
+    </div>
   </div>
-</aside>
+
+</div>
+
+<script>
+  const active = new Map<string, Set<string>>();
+  let maxGsm = 500;
+
+  function hasActiveFilters(): boolean {
+    return [...active.values()].some((s) => s.size > 0) || maxGsm < 500;
+  }
+
+  function updateClearBtn(): void {
+    const btn = document.getElementById("clear-filters");
+    if (!btn) return;
+    btn.classList.toggle("hidden", !hasActiveFilters());
+    btn.classList.toggle("flex", hasActiveFilters());
+  }
+
+  function applyFilters(): void {
+    document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
+      const passes =
+        matchField("category", card.dataset.category ?? "") &&
+        matchField("color",    card.dataset.color ?? "") &&
+        matchField("structure",card.dataset.structure ?? "") &&
+        matchField("content",  card.dataset.content ?? "") &&
+        matchField("design",   card.dataset.design ?? "") &&
+        matchField("finish",   card.dataset.finish ?? "") &&
+        parseInt(card.dataset.gsm ?? "0", 10) <= maxGsm;
+      card.style.display = passes ? "" : "none";
+    });
+  }
+
+  function matchField(field: string, value: string): boolean {
+    const set = active.get(field);
+    if (!set || set.size === 0) return true;
+    return [...set].some((v) => value.toLowerCase().includes(v.toLowerCase()));
+  }
+
+  document.querySelectorAll<HTMLInputElement>(".filter-checkbox").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const field = cb.dataset.filterField ?? "";
+      const val   = cb.dataset.filterValue ?? "";
+      if (!active.has(field)) active.set(field, new Set());
+      const set = active.get(field)!;
+      cb.checked ? set.add(val) : set.delete(val);
+
+      const dot = cb.closest("label")?.querySelector<HTMLElement>(".color-dot");
+      if (dot) {
+        dot.style.outline = cb.checked ? "2px solid #775a19" : "";
+        dot.style.outlineOffset = cb.checked ? "2px" : "";
+      }
+      applyFilters();
+      updateClearBtn();
+    });
+  });
+
+  const gsmRange = document.getElementById("gsm-range") as HTMLInputElement | null;
+  const gsmLabel = document.getElementById("gsm-value") as HTMLElement | null;
+
+  gsmRange?.addEventListener("input", () => {
+    maxGsm = parseInt(gsmRange.value, 10);
+    if (gsmLabel) gsmLabel.textContent = `${maxGsm} GSM`;
+    applyFilters();
+    updateClearBtn();
+  });
+
+  document.getElementById("clear-filters")?.addEventListener("click", () => {
+    document.querySelectorAll<HTMLInputElement>(".filter-checkbox").forEach((cb) => {
+      cb.checked = false;
+      const dot = cb.closest("label")?.querySelector<HTMLElement>(".color-dot");
+      if (dot) { dot.style.outline = ""; dot.style.outlineOffset = ""; }
+    });
+    active.clear();
+    maxGsm = 500;
+    if (gsmRange) gsmRange.value = "500";
+    if (gsmLabel) gsmLabel.textContent = "500 GSM";
+    applyFilters();
+    updateClearBtn();
+  });
+</script>
