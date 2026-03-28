@@ -223,25 +223,207 @@ export async function getCategoryTopicPageBySlug(slug: string): Promise<ApiTopic
   return pages.find((p) => p.slug === slug);
 }
 
-export async function getProductsByCategory(categoryName: string): Promise<ApiProduct[]> {
-  // Try direct API filter first
-  const res = await fetch(`${BASE_URL}/api/product?category=${encodeURIComponent(categoryName)}&limit=100`);
-  if (!res.ok) return [];
-  const json: ApiResponse = await res.json();
-  const direct = json.data ?? [];
-  if (direct.length > 0) return direct;
+export async function getTopicPageBySlug(slug: string): Promise<ApiTopicPage | undefined> {
+  const res = await fetch(`${BASE_URL}/api/topicpage`);
+  if (!res.ok) throw new Error(`Failed to fetch topic pages: ${res.status}`);
+  const json = await res.json();
+  const data: ApiTopicPage[] = json.data ?? [];
+  return data.find((p) => p.slug === slug && !p.deleted);
+}
 
-  // Fallback: fuzzy match against all products (handles name mismatches like "Knit Fabric" vs "Knit Fabrics")
+export async function getProductsByCategory(categoryName: string): Promise<ApiProduct[]> {
+  // The backend ?category= filter is unreliable (returns all products).
+  // Always fetch all and filter client-side for exact category match.
   const all = await getAllProducts();
-  const needle = categoryName.toLowerCase().replace(/\s+/g, "");
-  return all.filter((p) => p.category?.toLowerCase().replace(/\s+/g, "").includes(needle));
+  const needle = categoryName.toLowerCase().trim();
+  return all.filter((p) => {
+    const cat = (p.category ?? "").toLowerCase().trim();
+    // Exact match first
+    if (cat === needle) return true;
+    // Fuzzy: strip spaces and check contains (handles "Denim Fabric" vs "Denim Fabrics")
+    const catStripped = cat.replace(/\s+/g, "");
+    const needleStripped = needle.replace(/\s+/g, "");
+    return catStripped.includes(needleStripped) || needleStripped.includes(catStripped);
+  });
 }
 
 export async function getProductsByMerchTag(tag: string, limit = 4): Promise<ApiProduct[]> {
   const res = await fetch(`${BASE_URL}/api/product?merchtag=${encodeURIComponent(tag)}&limit=100`);
   if (!res.ok) return [];
   const json: ApiResponse = await res.json();
-  // API does partial match, so filter client-side for exact tag match
   const exact = (json.data ?? []).filter((p) => p.merchTags?.includes(tag));
-  return exact.slice(0, limit);
+  return limit > 0 ? exact.slice(0, limit) : exact;
+}
+
+// ── Website FAQ ────────────────────────────────────────────────────────────────
+
+export interface WebsiteFaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface WebsiteFaqCategory {
+  id: string;
+  label: string;
+  icon: string;
+  faqs: WebsiteFaqItem[];
+}
+
+const FAQ_ICON_MAP: Record<string, string> = {
+  sourcing: "layers",
+  manufacturing: "precision_manufacturing",
+  logistics: "local_shipping",
+  "pricing/moq": "payments",
+  common: "help",
+};
+
+function nameToId(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+}
+
+export async function getWebsiteFAQCategories(): Promise<WebsiteFaqCategory[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/websitefaq`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    const records: Array<Record<string, string>> = json.data ?? [];
+
+    return records
+      .filter((r) => !r.deleted)
+      .map((r) => {
+        const id = nameToId(r.name);
+        const icon = FAQ_ICON_MAP[r.name.toLowerCase()] ?? "help_outline";
+        const faqs: WebsiteFaqItem[] = [];
+        for (let i = 1; i <= 4; i++) {
+          const q = r[`question${i}`];
+          const a = r[`answer${i}`];
+          if (q && a) faqs.push({ question: q, answer: a });
+        }
+        return { id, label: r.name, icon, faqs };
+      })
+      .filter((cat) => cat.faqs.length > 0);
+  } catch {
+    return [];
+  }
+}
+
+export async function getWebsiteFAQ(): Promise<WebsiteFaqItem[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/websitefaq`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    const record = json.data?.[0];
+    if (!record) return [];
+
+    const items: WebsiteFaqItem[] = [];
+    for (let i = 1; i <= 4; i++) {
+      const q = record[`question${i}`];
+      const a = record[`answer${i}`];
+      if (q && a) items.push({ question: q, answer: a });
+    }
+    return items;
+  } catch {
+    return [];
+  }
+}
+
+// ── Blog Posts ─────────────────────────────────────────────────────────────────
+
+export interface ApiBlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  category: string | null;
+  paragraph1: string | null;
+  blogimage1CloudURL: string | null;
+  altimage1: string | null;
+  publishedAt: string | null;
+  readingTimeMin: number | null;
+}
+
+export async function getBlogPosts(limit = 20): Promise<ApiBlogPost[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/blog?limit=${limit}`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    const posts: ApiBlogPost[] = json.data ?? [];
+    return posts.sort((a, b) =>
+      new Date(b.publishedAt ?? 0).getTime() - new Date(a.publishedAt ?? 0).getTime()
+    );
+  } catch {
+    return [];
+  }
+}
+
+// ── Company Information ────────────────────────────────────────────────────────
+
+export interface ApiCompanyInfo {
+  id: string;
+  name: string;
+  legalName: string;
+  description: string | null;
+  tagline: string | null;
+  foundingYear: number | null;
+  primaryEmail: string | null;
+  phone1: string | null;
+  phone2: string | null;
+  phone1Dept: string | null;
+  phone2Dept: string | null;
+  whatsappNumber: string | null;
+  salesEmail: string | null;
+  supportEmail: string | null;
+  facebookUrl: string | null;
+  instagramUrl: string | null;
+  youtubeUrl: string | null;
+  linkedinUrl: string | null;
+  xUrl: string | null;
+  pinterestUrl: string | null;
+  logoUrl: string | null;
+  faviconUrl: string | null;
+  defaultOgImage: string | null;
+  addressStreet: string | null;
+  addressCity: string | null;
+  addressState: string | null;
+  addressCountry: string | null;
+  addressPostalCode: string | null;
+  areaServed: string[];
+  recognitions: string[];
+  alternateName: string[];
+  languages: string[];
+}
+
+export async function getCompanyInfo(companyName = "AGE"): Promise<ApiCompanyInfo | null> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/companyinformation`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const data: ApiCompanyInfo[] = json.data ?? [];
+    return data.find((c) => c.name === companyName) ?? data[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export interface ApiAuthor {
+  id: string;
+  name: string;
+  description: string | null;
+  designation: string | null;
+  authorimage: string | null;
+  authorimageWeb?: string | null;
+  authorimageCard?: string | null;
+  altimage: string | null;
+  authorLinkedinURL: string | null;
+}
+
+export async function getAuthors(): Promise<ApiAuthor[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/author`);
+    if (!res.ok) return [];
+    const json = await res.json();
+    return (json.data ?? []).filter((a: ApiAuthor & { deleted?: boolean }) => !a.deleted);
+  } catch {
+    return [];
+  }
 }

@@ -3,7 +3,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import FAQHero from "../components/faq/FAQHero.astro";
 import FAQAccordion from "../components/faq/FAQAccordion.astro";
 import FAQCTA from "../components/faq/FAQCTA.astro";
+import { getWebsiteFAQCategories } from "../lib/api";
 import { faqCategories } from "../data/faqs";
+
+const apiCategories = await getWebsiteFAQCategories();
+const categories = apiCategories.length > 0 ? apiCategories : faqCategories;
 ---
 
 <BaseLayout
@@ -11,6 +15,6 @@ import { faqCategories } from "../data/faqs";
   description="Expert answers for fabric buyers — sourcing, manufacturing, logistics, pricing, and MOQ questions answered by Amrita Global Enterprises."
 >
   <FAQHero />
-  <FAQAccordion categories={faqCategories} />
+  <FAQAccordion categories={categories} />
   <FAQCTA />
 </BaseLayout>

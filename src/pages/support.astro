@@ -5,15 +5,26 @@ import SupportChannels from "../components/support/SupportChannels.astro";
 import SupportEscalation from "../components/support/SupportEscalation.astro";
 import SupportDepartments from "../components/support/SupportDepartments.astro";
 import SupportCTA from "../components/support/SupportCTA.astro";
+import SupportContactForm from "../components/support/SupportContactForm.astro";
+import { getCompanyInfo, getAuthors } from "../lib/api";
+
+const company = await getCompanyInfo("AGE");
+const authors = await getAuthors();
 ---
 
 <BaseLayout
-  title="Support | Amrita Global Enterprises"
+  title="Support & Contact | Amrita Global Enterprises"
   description="24/7 B2B support and escalation for Amrita Global Enterprises. Direct access to technical experts, logistics leads, and supply chain coordinators."
 >
   <SupportHero />
-  <SupportChannels />
+  <SupportChannels
+    whatsapp={company?.whatsappNumber ?? null}
+    supportEmail={company?.supportEmail ?? null}
+    phone2={company?.phone2 ?? null}
+    phone2Dept={company?.phone2Dept ?? null}
+  />
   <SupportEscalation />
-  <SupportDepartments />
+  <SupportDepartments authors={authors} salesEmail={company?.salesEmail ?? null} supportEmail={company?.supportEmail ?? null} />
   <SupportCTA />
+  <SupportContactForm />
 </BaseLayout>

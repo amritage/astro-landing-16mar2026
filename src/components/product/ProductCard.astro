@@ -13,6 +13,8 @@ interface Product {
   filterStructure?: string;
   filterContent?: string;
   filterGsm?: string;
+  filterDesign?: string;
+  filterFinish?: string;
 }
 
 interface Props {
@@ -28,9 +30,11 @@ const { product } = Astro.props;
   data-color={product.filterColor ?? ""}
   data-structure={product.filterStructure ?? ""}
   data-content={product.filterContent ?? ""}
+  data-design={product.filterDesign ?? ""}
+  data-finish={product.filterFinish ?? ""}
   data-gsm={product.filterGsm ?? "0"}
 >
-  <a href={product.href ?? "#"} class="block">
+  <a href={product.href ?? undefined} class={`block${!product.href ? " pointer-events-none" : ""}`}>
     <div class="relative h-64 overflow-hidden">
       <img
         src={product.image}
@@ -67,9 +71,16 @@ const { product } = Astro.props;
         </div>
       </div>
 
-      <button class="mt-6 w-full bg-[#041632] py-3 text-xs font-label uppercase tracking-widest text-white transition hover:bg-[#775a19]">
-        View Specifications
-      </button>
+      {product.href && (
+        <div class="mt-6 w-full bg-[#041632] py-3 text-center text-xs font-label uppercase tracking-widest text-white transition hover:bg-[#775a19]">
+          View Specifications
+        </div>
+      )}
+      {!product.href && (
+        <div class="mt-6 w-full bg-slate-200 py-3 text-center text-xs font-label uppercase tracking-widest text-slate-400 cursor-not-allowed">
+          Slug Pending
+        </div>
+      )}
     </div>
   </a>
 </article>

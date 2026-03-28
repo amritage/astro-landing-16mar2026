@@ -1,22 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-
-import ProductHero from "../../components/product/ProductHero.astro";
-import ProductIntro from "../../components/product/ProductIntro.astro";
-import ProductSection from "../../components/product/ProductSection.astro";
-import ProductCTA from "../../components/product/ProductCTA.astro";
-import ProductGuide from "../../components/product/ProductGuide.astro";
-import ProductFAQ from "../../components/product/ProductFAQ.astro";
+import FabricListLayout from "../../components/product/FabricListLayout.astro";
+import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProductsPage } from "../../data/products";
 import { getFilterValues } from "../../lib/api";
 
-const [{ products: allProducts, total, totalPages }, filters] = await Promise.all([
+const [{ products: rawProducts, total, totalPages }, filters] = await Promise.all([
   fetchProductsPage(1),
   getFilterValues(),
 ]);
-const currentPage = 1;
 
-const products = allProducts.map((p) => ({
+const products = rawProducts.map((p) => ({
   id: p.id,
   name: p.name,
   category: p.category,
@@ -30,12 +24,11 @@ const products = allProducts.map((p) => ({
   filterStructure: p.structure,
   filterContent: p.content,
   filterGsm: String(p.gsm),
+  filterDesign: p.design,
+  filterFinish: p.finish.join("|"),
 }));
 
-// Use actual rendered count, not API total (some products may lack a slug)
-const renderedCount = products.length;
-
-const faqItems = [
+const faqItems: FAQItem[] = [
   {
     question: "What is your Minimum Order Quantity (MOQ)?",
     answer: "Our standard MOQ for stock items is 100 meters per color.",
@@ -52,26 +45,33 @@ const faqItems = [
   title="Shop Fabric Catalog | Amrita Global Enterprises"
   description="Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."
 >
-  <main class="bg-white text-slate-900">
-    <ProductHero />
-    <ProductIntro />
-
-    <ProductSection
+  <div class="bg-white text-slate-900">
+    <FabricListLayout
+      hero={{
+        title: "Browse Our Full Fabric Catalog",
+        imageUrl: "https://lh3.googleusercontent.com/aida-public/AB6AXuDXILs7vI9jTFPWWO0ngF8Ui-YT9674spB4lXOMQdOFMu7t5X7RyxOAGKm9YKWwUa4bJjALACc-AydvYav7TOQbv5phLBVC8IRktf5451HZnhTMu9WNYMfXOqEob14cesbhrbM3KPpL4MQ8Try_UlEL_ce65vI2eOFWkh20w8aWmhys0NYqcvPCnr0huz0J7Ub7UX6hobR1a8Nnzh16FVRZvAKH5176oU6Hf2vOc1Ma2YIvbT9sKvweH0wTLaeEHj9OasHKJ9-ClxFx",
+        breadcrumbLabel: "Shop",
+        breadcrumbHref: "/fabric",
+      }}
+      intro={{
+        heading: "Explore 100% Cotton Twill, Woven Fabrics, and Performance Textiles",
+        body: "Precision-engineered for durability and aesthetic excellence. Our curated selection represents the pinnacle of industrial textile manufacturing, sourcing the finest fibers for global brands.",
+        calloutTitle: "Technical Assurance",
+        calloutBody: "All fabrics undergo 12-point quality inspection including GSM verification, color fastness, and tensile strength testing.",
+      }}
       products={products}
-      categories={filters.category}
-      colors={filters.color}
-      structures={filters.structure}
-      contents={filters.content}
-      designs={filters.design}
-      finishes={filters.finish}
-      currentPage={currentPage}
-      totalPages={totalPages}
+      filters={{
+        categories: filters.category,
+        colors: filters.color,
+        structures: filters.structure,
+        contents: filters.content,
+        designs: filters.design,
+        finishes: filters.finish,
+      }}
       total={total}
-      pageCount={renderedCount}
+      currentPage={1}
+      totalPages={totalPages}
+      faqItems={faqItems}
     />
-
-    <ProductCTA />
-    <ProductGuide />
-    <ProductFAQ items={faqItems} />
-  </main>
+  </div>
 </BaseLayout>

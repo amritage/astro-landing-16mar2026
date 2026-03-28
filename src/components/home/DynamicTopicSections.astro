@@ -16,8 +16,10 @@ const sections = await Promise.all(
 {sections.map(({ topic, products }) => (
   <section class="py-16 md:py-24 bg-[#f8f9fa]">
     <div class="container mx-auto px-4 md:px-8">
-      <div class="text-center mb-12 md:mb-16">
-        <h2 class="font-headline text-4xl md:text-5xl text-[#041632] mb-3 md:mb-4">{topic.name}</h2>
+      <div class="mb-12 md:mb-16">
+        <a href={`/collection/${topic.slug}`} class="group inline-block">
+          <h2 class="font-headline text-4xl md:text-5xl text-[#041632] mb-3 md:mb-4 group-hover:text-[#775a19] transition-colors">{topic.name}</h2>
+        </a>
         {topic.description && (
           <p class="font-label text-xs md:text-sm uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#775a19]">{topic.description}</p>
         )}
@@ -26,7 +28,7 @@ const sections = await Promise.all(
       {products.length > 0 ? (
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {products.map((product) => (
-            <a href={`/fabric/${product.slug}`} class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-[#edeeef] block">
+            <a href={`/collection/${topic.slug}/${product.slug}`} class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-[#edeeef] block">
               <div class="aspect-square bg-[#f3f4f5] overflow-hidden">
                 <img
                   class="w-full h-full object-cover"
@@ -49,6 +51,15 @@ const sections = await Promise.all(
       ) : (
         <p class="text-center text-[#44474d] font-body text-sm">No products found for this collection.</p>
       )}
+
+      <div class="flex justify-center mt-10 md:mt-14">
+        <a
+          href={`/collection/${topic.slug}`}
+          class="font-label text-xs md:text-sm font-bold text-[#775a19] uppercase tracking-widest flex items-center gap-2 border-b-2 border-[#775a19] pb-1"
+        >
+          Explore Full Library
+        </a>
+      </div>
     </div>
   </section>
 ))}

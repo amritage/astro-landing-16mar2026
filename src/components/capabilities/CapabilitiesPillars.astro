@@ -1,4 +1,15 @@
 ---
+interface Props {
+  whatsapp?: string | null;
+  phone?: string | null;
+}
+const { whatsapp, phone } = Astro.props;
+
+const whatsappHref = whatsapp
+  ? `https://wa.me/${whatsapp.replace(/\D/g, "")}`
+  : "https://wa.me/";
+const phoneHref = phone ? `tel:${phone.replace(/\s/g, "")}` : "tel:";
+
 const pillars = [
   {
     title: "Precision Weaving",
@@ -46,14 +57,14 @@ const pillars = [
       </div>
 
       <div class="flex flex-wrap gap-4">
-        <button class="inline-flex items-center gap-2 rounded-lg border border-[#c5c6ce]/10 bg-white px-4 py-2 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] shadow-sm">
+        <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg border border-[#c5c6ce]/10 bg-white px-4 py-2 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] shadow-sm">
           <span class="material-symbols-outlined text-lg">chat</span>
           WhatsApp Support
-        </button>
-        <button class="inline-flex items-center gap-2 rounded-lg border border-[#c5c6ce]/10 bg-white px-4 py-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632] shadow-sm">
+        </a>
+        <a href={phoneHref} class="inline-flex items-center gap-2 rounded-lg border border-[#c5c6ce]/10 bg-white px-4 py-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632] shadow-sm">
           <span class="material-symbols-outlined text-lg">call</span>
           Call Specialist
-        </button>
+        </a>
       </div>
     </div>
 

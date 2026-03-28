@@ -1,3 +1,9 @@
+---
+import { getWebsiteFAQ } from "../../lib/api";
+
+const faqs = await getWebsiteFAQ();
+---
+
 <section class="py-16 md:py-24 bg-[#f3f4f5]">
   <div class="container mx-auto px-4 md:px-8 max-w-4xl">
     <div class="text-center mb-12 md:mb-16">
@@ -5,36 +11,30 @@
       <p class="font-body text-sm md:text-base text-[#44474d]">Common inquiries from wholesale buyers and manufacturers.</p>
     </div>
 
-    <div class="space-y-4">
-      <details class="group bg-white rounded-xl shadow-sm overflow-hidden" open>
-        <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
-          <h3 class="font-headline text-lg md:text-xl text-[#041632]">Why choose AGE for wholesale fabrics?</h3>
-          <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
-        </summary>
-        <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed">
-          With over 50 years of manufacturing heritage, AGE offers an unparalleled combination of traditional craftsmanship and modern technical precision. Our direct-from-mill pricing, strict 7-point quality checks, and ability to handle both small batch and bulk industrial orders make us the preferred partner for global fashion houses and uniform manufacturers.
-        </div>
-      </details>
-
-      <details class="group bg-white rounded-xl shadow-sm overflow-hidden">
-        <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
-          <h3 class="font-headline text-lg md:text-xl text-[#041632]">What are the minimum order quantities (MOQ)?</h3>
-          <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
-        </summary>
-        <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed">
-          Our standard MOQ begins at 500 meters for stock items and 2,000 meters for custom dyeing or weave specifications. Contact our sales team for smaller boutique requirements.
-        </div>
-      </details>
-
-      <details class="group bg-white rounded-xl shadow-sm overflow-hidden">
-        <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
-          <h3 class="font-headline text-lg md:text-xl text-[#041632]">Do you offer custom shade matching?</h3>
-          <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
-        </summary>
-        <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed">
-          Yes, our in-house lab provides Pantone-exact shade matching for all fabric types. We provide lab dips for approval within 7-10 working days.
-        </div>
-      </details>
-    </div>
+    {faqs.length > 0 ? (
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group bg-white rounded-xl shadow-sm overflow-hidden" open={i === 0}>
+            <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
+              <h3 class="font-headline text-lg md:text-xl text-[#041632]">{faq.question}</h3>
+              <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+            </summary>
+            <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed" set:html={faq.answer} />
+          </details>
+        ))}
+      </div>
+    ) : (
+      <div class="space-y-4">
+        <details class="group bg-white rounded-xl shadow-sm overflow-hidden" open>
+          <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
+            <h3 class="font-headline text-lg md:text-xl text-[#041632]">Why choose AGE for wholesale fabrics?</h3>
+            <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed">
+            With over 50 years of manufacturing heritage, AGE offers an unparalleled combination of traditional craftsmanship and modern technical precision.
+          </div>
+        </details>
+      </div>
+    )}
   </div>
 </section>

@@ -4,6 +4,7 @@ import BlogPostCTA from "../../components/blog/BlogPostCTA.astro";
 import BlogDynamicPostHero from "../../components/blog/BlogDynamicPostHero.astro";
 import BlogDynamicPostBody from "../../components/blog/BlogDynamicPostBody.astro";
 import { fetchBlogPosts } from "../../lib/blog";
+import { getCompanyInfo } from "../../lib/api";
 
 export async function getStaticPaths() {
   const posts = await fetchBlogPosts();
@@ -14,10 +15,11 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const company = await getCompanyInfo("AGE");
 ---
 
 <BaseLayout title={`${post.title} | Amrita Global`} description={post.excerpt}>
   <BlogDynamicPostHero post={post} />
   <BlogDynamicPostBody post={post} />
-  <BlogPostCTA />
+  <BlogPostCTA whatsapp={company?.whatsappNumber} />
 </BaseLayout>

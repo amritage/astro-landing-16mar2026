@@ -1,35 +1,59 @@
 ---
 import { siteConfig } from "../data/site";
+import { getCompanyInfo } from "../lib/api";
+
+const company = await getCompanyInfo("AGE");
+
+// Build full address string + Google Maps link
+const addressParts = [
+  company?.addressStreet,
+  company?.addressCity,
+  company?.addressState,
+  company?.addressCountry,
+  company?.addressPostalCode,
+].filter(Boolean);
+const fullAddress = addressParts.join(", ");
+const mapQuery = encodeURIComponent(fullAddress);
+const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+const phone1 = company?.phone1 ?? "+91-9925155141";
+const phone1Dept = company?.phone1Dept ?? "Sales";
+const phone2 = company?.phone2 ?? "+91-9824003484";
+const phone2Dept = company?.phone2Dept ?? "Director";
+const salesEmail = company?.salesEmail ?? "sales@amrita-fashions.com";
+const supportEmail = company?.supportEmail ?? "support@amrita-fashions.com";
+const foundingYear = company?.foundingYear ?? 1971;
+const recognition = company?.recognitions?.[0] ?? "";
 
 const socialLinks = [
   {
     label: "Facebook",
-    href: "#",
+    href: company?.facebookUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>`,
   },
   {
     label: "Instagram",
-    href: "#",
+    href: company?.instagramUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
   },
   {
     label: "LinkedIn",
-    href: "#",
+    href: company?.linkedinUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>`,
   },
   {
     label: "X",
-    href: "#",
+    href: company?.xUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
   },
   {
     label: "YouTube",
-    href: "#",
+    href: company?.youtubeUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>`,
   },
   {
     label: "Pinterest",
-    href: "#",
+    href: company?.pinterestUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>`,
   },
 ];
@@ -45,25 +69,53 @@ const socialLinks = [
           <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> Office Address
           </h5>
-          <p class="font-body text-xs text-slate-400 leading-relaxed">404, 4th Floor, Safal Prelude, Ahmedabad, Gujarat, India 380015</p>
+          <a
+            href={mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-body text-xs text-slate-400 leading-relaxed hover:text-[#775a19] transition-colors"
+          >
+            {fullAddress}
+          </a>
         </div>
         <div class="border-t border-white/10 pt-4">
           <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> Factory Address
           </h5>
-          <p class="font-body text-xs text-slate-400 leading-relaxed">1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449</p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=1+Mohan+Estate+Ramol+Road+Ahmedabad+Gujarat+India+382449"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-body text-xs text-slate-400 leading-relaxed hover:text-[#775a19] transition-colors"
+          >
+            1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449
+          </a>
         </div>
         <div class="border-t border-white/10 pt-4">
           <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> Warehouse Address
           </h5>
-          <p class="font-body text-xs text-slate-400 leading-relaxed">Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405</p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Nr+Ambuja+Synthetics+Old+Narol+Court+Narol+Ahmedabad+Gujarat+India+382405"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-body text-xs text-slate-400 leading-relaxed hover:text-[#775a19] transition-colors"
+          >
+            Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405
+          </a>
         </div>
         <div class="border-t border-white/10 pt-4">
           <h5 class="font-label flex items-center text-xs font-semibold uppercase tracking-widest mb-2 text-slate-300">
             <span class="w-2 h-2 rounded-full bg-[#775a19] mr-2"></span> UAE Office Address
           </h5>
-          <p class="font-body text-xs text-slate-400 leading-relaxed">GSK Worldwide FZE, Ajman Free Zone, UAE</p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=GSK+Worldwide+FZE+Ajman+Free+Zone+UAE"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-body text-xs text-slate-400 leading-relaxed hover:text-[#775a19] transition-colors"
+          >
+            GSK Worldwide FZE, Ajman Free Zone, UAE
+          </a>
         </div>
       </div>
     </div>
@@ -98,14 +150,17 @@ const socialLinks = [
       <p class="font-body text-sm text-slate-400">Subscribe to our newsletter to get the latest news and offers.</p>
 
       <!-- Newsletter -->
-      <form class="relative" onsubmit="return false;">
+      <form id="footer-newsletter-form" class="relative">
         <input
+          id="footer-newsletter-email"
           class="w-full bg-white text-[#041632] rounded-full px-6 py-4 pr-16 focus:ring-2 focus:ring-[#775a19] border-none outline-none"
           placeholder="Subscribe with us"
           type="email"
+          required
         />
         <button
           type="submit"
+          id="footer-newsletter-btn"
           class="absolute right-2 top-2 bg-[#1B2B48] w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#775a19] transition-colors"
           aria-label="Subscribe"
         >
@@ -114,54 +169,75 @@ const socialLinks = [
           </svg>
         </button>
       </form>
+      <p id="footer-newsletter-success" class="hidden text-xs text-green-400">Thanks for subscribing!</p>
+      <p id="footer-newsletter-error" class="hidden text-xs text-red-400">Something went wrong. Please try again.</p>
 
       <!-- Contact Details -->
       <div class="space-y-4 text-sm pt-4">
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-          </svg>
-          <span>+91-9925155141 (Sales)</span>
-        </div>
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-          </svg>
-          <span>+91-9824003484 (Director)</span>
-        </div>
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
-          <div class="flex flex-col">
-            <span class="text-[10px] text-[#775a19] font-bold uppercase">Sales Email</span>
-            <a href="mailto:sales@amrita-fashions.com" class="hover:text-[#775a19] transition-colors">sales@amrita-fashions.com</a>
+        {phone1 && (
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <a href={`tel:${phone1}`} class="hover:text-[#775a19] transition-colors">{phone1} ({phone1Dept})</a>
           </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-          </svg>
-          <div class="flex flex-col">
-            <span class="text-[10px] text-[#775a19] font-bold uppercase">Support Email</span>
-            <a href="mailto:support@amrita-fashions.com" class="hover:text-[#775a19] transition-colors">support@amrita-fashions.com</a>
+        )}
+        {phone2 && (
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <a href={`tel:${phone2}`} class="hover:text-[#775a19] transition-colors">{phone2} ({phone2Dept})</a>
           </div>
-        </div>
-        <div class="flex items-start gap-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-          <span class="text-xs">404, 4th Floor, Safal Prelude, Ahmedabad, India 380015</span>
-        </div>
+        )}
+        {salesEmail && (
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-[#775a19] font-bold uppercase">Sales Email</span>
+              <a href={`mailto:${salesEmail}`} class="hover:text-[#775a19] transition-colors">{salesEmail}</a>
+            </div>
+          </div>
+        )}
+        {supportEmail && (
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-[#775a19] font-bold uppercase">Support Email</span>
+              <a href={`mailto:${supportEmail}`} class="hover:text-[#775a19] transition-colors">{supportEmail}</a>
+            </div>
+          </div>
+        )}
+        {fullAddress && (
+          <div class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#775a19] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <a
+              href={mapLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs hover:text-[#775a19] transition-colors"
+            >
+              {fullAddress}
+            </a>
+          </div>
+        )}
       </div>
 
       <!-- Social Icons -->
       <div class="flex flex-wrap gap-3 mt-8">
-        {socialLinks.map((s) => (
+        {socialLinks.filter(s => s.href && s.href !== "#").map((s) => (
           <a
             href={s.href}
             aria-label={s.label}
+            target="_blank"
+            rel="noopener noreferrer"
             class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#775a19] transition-colors text-white"
             set:html={`<span class="flex items-center justify-center">${s.svg}</span>`}
           />
@@ -172,7 +248,11 @@ const socialLinks = [
 
   <!-- Sub Footer -->
   <div class="max-w-screen-2xl mx-auto mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left text-xs font-label">
-    <p class="text-slate-400">© 1971 {siteConfig.brandName}. 404, 4th Floor, Safal Prelude, Ahmedabad. Best Textile Supplier Award 2023.</p>
+    <p class="text-slate-400">
+      © {foundingYear} {company?.legalName ?? siteConfig.brandName}.
+      {fullAddress && <span> {fullAddress}.</span>}
+      {recognition && <span> {recognition}.</span>}
+    </p>
     <div class="flex space-x-6 uppercase tracking-widest text-slate-400">
       {siteConfig.footerLinks.legal.map((item) => (
         <a class="hover:text-[#775a19] transition-colors" href={item.href}>{item.label}</a>
@@ -180,3 +260,45 @@ const socialLinks = [
     </div>
   </div>
 </footer>
+
+<script>
+  const ESPO_URL = 'https://espo.egport.com/api/v1/LeadCapture/a4624c9bb58b8b755e3d94f1a25fc9be';
+
+  const form = document.getElementById('footer-newsletter-form') as HTMLFormElement;
+  const emailInput = document.getElementById('footer-newsletter-email') as HTMLInputElement;
+  const btn = document.getElementById('footer-newsletter-btn') as HTMLButtonElement;
+  const successMsg = document.getElementById('footer-newsletter-success')!;
+  const errorMsg = document.getElementById('footer-newsletter-error')!;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    successMsg.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+
+    try {
+      const res = await fetch(ESPO_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          emailAddress: email,
+          description: 'Subscribed via Footer Newsletter',
+        }),
+      });
+
+      if (res.ok) {
+        form.reset();
+        successMsg.classList.remove('hidden');
+      } else {
+        errorMsg.classList.remove('hidden');
+      }
+    } catch {
+      errorMsg.classList.remove('hidden');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>

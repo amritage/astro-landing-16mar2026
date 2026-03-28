@@ -1,4 +1,15 @@
 ---
+interface Props {
+  whatsapp?: string | null;
+  supportEmail?: string | null;
+  phone2?: string | null;
+  phone2Dept?: string | null;
+}
+const { whatsapp, supportEmail, phone2, phone2Dept } = Astro.props;
+
+const waNumber = whatsapp?.replace(/\D/g, "") ?? "";
+const waLink = waNumber ? `https://wa.me/${waNumber}` : "#";
+const agentLabel = phone2Dept ? `${phone2Dept} Line` : "Live Agent";
 ---
 <section id="channels" class="py-20 md:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-8">
@@ -20,8 +31,8 @@
         </div>
         <h3 class="font-serif text-2xl text-[#041632] mb-2">WhatsApp Direct</h3>
         <p class="text-[#44474d] text-sm mb-6 leading-relaxed">Instant technical support for on-floor manufacturing issues. Fastest response guaranteed.</p>
-        <a href="https://wa.me/919925155141" class="inline-flex items-center gap-2 text-[#25D366] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
-          +91-9925155141
+        <a href={waLink} class="inline-flex items-center gap-2 text-[#25D366] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
+          {whatsapp ?? "Contact via WhatsApp"}
           <span class="material-symbols-outlined text-sm">arrow_outward</span>
         </a>
       </div>
@@ -33,8 +44,8 @@
         </div>
         <h3 class="font-serif text-2xl text-[#041632] mb-2">Corporate Email</h3>
         <p class="text-[#44474d] text-sm mb-6 leading-relaxed">For documentation, order changes, certification requests, and formal escalations.</p>
-        <a href="mailto:support@amrita-fashions.com" class="inline-flex items-center gap-2 text-[#1B2B48] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
-          support@amrita-fashions.com
+        <a href={`mailto:${supportEmail}`} class="inline-flex items-center gap-2 text-[#1B2B48] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
+          {supportEmail ?? "Email Us"}
           <span class="material-symbols-outlined text-sm">arrow_outward</span>
         </a>
       </div>
@@ -44,10 +55,10 @@
         <div class="w-12 h-12 bg-[#775a19]/20 rounded-lg flex items-center justify-center mb-6">
           <span class="material-symbols-outlined text-[#ffdea5]">support_agent</span>
         </div>
-        <h3 class="font-serif text-2xl mb-2 !text-white">Live Agent</h3>
+        <h3 class="font-serif text-2xl mb-2 !text-white">{agentLabel}</h3>
         <p class="text-[#8393b5] text-sm mb-6 leading-relaxed">Real-time collaboration with our supply chain logistics team for critical issues.</p>
-        <a href="tel:+919824003484" class="inline-flex items-center gap-2 text-[#ffdea5] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
-          +91-9824003484
+        <a href={`tel:${phone2}`} class="inline-flex items-center gap-2 text-[#ffdea5] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
+          {phone2 ?? "Call Us"}
           <span class="material-symbols-outlined text-sm">arrow_outward</span>
         </a>
       </div>

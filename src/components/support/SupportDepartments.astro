@@ -1,11 +1,37 @@
 ---
-const departments = [
-  { role: "Logistics Lead", name: "Rajesh Varma", email: "logistics@amrita-fashions.com" },
-  { role: "Technical QC", name: "Ananya Desai", email: "qc@amrita-fashions.com" },
-  { role: "Billing & Accounts", name: "Sameer Khan", email: "billing@amrita-fashions.com" },
-  { role: "Global Compliance", name: "Dr. Elena Smith", email: "compliance@amrita-fashions.com" },
+import type { ApiAuthor } from "../../lib/api";
+
+interface Props {
+  authors: ApiAuthor[];
+  salesEmail?: string | null;
+  supportEmail?: string | null;
+}
+const { authors, salesEmail, supportEmail } = Astro.props;
+
+const dynamicAuthor = authors[0] ?? null;
+
+const staticDepts = [
+  {
+    icon: "support_agent",
+    designation: "Support",
+    name: "Customer Support",
+    href: `mailto:${supportEmail ?? "support@amrita-fashions.com"}`,
+  },
+  {
+    icon: "local_shipping",
+    designation: "Logistics",
+    name: "Shipping & Dispatch",
+    href: `mailto:${salesEmail ?? "sales@amrita-fashions.com"}`,
+  },
+  {
+    icon: "inventory_2",
+    designation: "Sales",
+    name: "Bulk Orders & RFQ",
+    href: `mailto:${salesEmail ?? "sales@amrita-fashions.com"}`,
+  },
 ];
 ---
+
 <section class="py-20 md:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-8">
     <div class="text-center mb-16">
@@ -17,21 +43,60 @@ const departments = [
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e1e3e4] border border-[#e1e3e4] rounded-lg overflow-hidden">
-      {departments.map((dept) => (
+
+      <!-- Dynamic author card -->
+      {dynamicAuthor ? (
         <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
+          <div class="w-12 h-12 rounded-full overflow-hidden mx-auto mb-4 bg-[#041632]/5 flex items-center justify-center">
+            {dynamicAuthor.authorimageCard ? (
+              <img src={dynamicAuthor.authorimageCard} alt={dynamicAuthor.altimage ?? dynamicAuthor.name} class="w-full h-full object-cover" />
+            ) : (
+              <span class="material-symbols-outlined text-[#1B2B48]">person</span>
+            )}
+          </div>
+          {dynamicAuthor.designation && (
+            <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dynamicAuthor.designation}</p>
+          )}
+          <h5 class="font-serif text-lg text-[#041632] mb-4">{dynamicAuthor.name}</h5>
+          <a
+            href={dynamicAuthor.authorLinkedinURL ?? `mailto:${salesEmail ?? "#"}`}
+            target={dynamicAuthor.authorLinkedinURL ? "_blank" : undefined}
+            rel={dynamicAuthor.authorLinkedinURL ? "noopener noreferrer" : undefined}
+            class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"
+          >
+            Contact <span class="material-symbols-outlined text-sm">arrow_outward</span>
+          </a>
+        </div>
+      ) : (
+        <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors">
           <div class="w-12 h-12 bg-[#041632]/5 rounded-full flex items-center justify-center mx-auto mb-4">
             <span class="material-symbols-outlined text-[#1B2B48]">person</span>
           </div>
-          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dept.role}</p>
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">Director</p>
+          <h5 class="font-serif text-lg text-[#041632] mb-4">Management</h5>
+          <a href={`mailto:${salesEmail ?? "#"}`} class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors">
+            Contact <span class="material-symbols-outlined text-sm">arrow_outward</span>
+          </a>
+        </div>
+      )}
+
+      <!-- Static department cards -->
+      {staticDepts.map((dept) => (
+        <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
+          <div class="w-12 h-12 bg-[#041632]/5 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span class="material-symbols-outlined text-[#1B2B48]">{dept.icon}</span>
+          </div>
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dept.designation}</p>
           <h5 class="font-serif text-lg text-[#041632] mb-4">{dept.name}</h5>
           <a
-            href={`mailto:${dept.email}`}
+            href={dept.href}
             class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"
           >
             Contact <span class="material-symbols-outlined text-sm">arrow_outward</span>
           </a>
         </div>
       ))}
+
     </div>
   </div>
 </section>

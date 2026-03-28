@@ -1,46 +1,100 @@
 ---
-const leaders = [
-  {
-    name: "Rajesh Goyal",
-    role: "Managing Director",
-    bio: "A visionary with 30+ years of expertise in textile technology and global supply chain optimization.",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCrTmlHjJe2wrY8yMKFkakJMM1s0AxaXUiEgoECWGOx9_R8_DF-OztlAZtyxWzCTs9iyXWjRVz2b9W2HLSziocoDqOhNCXe0ReQi6CR8p-DrJ-LeekeLJjbrT_CpcZ0Dh87931crhzoK_7i21zVThKKFZgZZuyBLk9SSm8CgbkbSHh2mKDVfSDIXuRlYnJxkndoG_47xTeJU-o4q3QWea7qU8uMBFaVuY0zJKuBB9XIRUqRJ-acyiSx7kkQMwzPMdLpAoRryc97oNkP",
-    offset: false,
-  },
-  {
-    name: "Sanjay Sharma",
-    role: "Operations Lead",
-    bio: "Architect of AGE's manufacturing excellence and sustainable energy initiatives.",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDidv60qfb97FQ5pghXZNsKajqKWo2loT6poPBKlvBsmBytNnCMeU8MCDlWyYrF_BBbLWeWX-E7lS9JWngvuoiyPsfxC497p10JkrOjfL6mr61OfJE_UnIh0ZescT2n5XcQJy7pJJ4xCfvPMg5uix3Cti_HJ41mm3_JaAoNtX7mYE0_pJ4ABAFClWRYeAywI8jYGjkxqKs1A9gNzutB9-moSwIEsbYrH2BfetYvCY0vaFecVa0W76OwWCGbhHBNFhT3jFDESM2yMhn4",
-    offset: true,
-  },
-  {
-    name: "Amit Vora",
-    role: "Global Strategy",
-    bio: "Driving the digital transformation and international partnership divisions.",
-    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBMA34CeJgoec2mZBx_TsId_VayaYOuEJoFXBNfQIAAD3ahhaWYvg7Loxp3A3XbAyLLqYjbUZnx0ICHYW_XsTMY4NtYLmTYIOzVx7WuCl5TiD3CKx2f77UgZ3Z_CiGbXThMVh1FvjPsDyDoU6UcinoDUXML8HWABlx2wH4q1o-_gScVajlD6UFsc1qNHfkuqhLNR-rdWYzr6e4v0ygLiLk7mJe_yH7G1OxYgeMTdyUcbjQlmG-SfPsqRdaHUk4Gq0sVC7sC0rLx9ta4",
-    offset: false,
-  },
-];
+import type { ApiAuthor } from "../../lib/api";
+
+interface Props {
+  authors: ApiAuthor[];
+}
+const { authors } = Astro.props;
+
+// Single leader layout when 1 author, grid layout for multiple
+const single = authors.length === 1 ? authors[0] : null;
 ---
+
 <section class="py-32 bg-[#f8f9fa]">
   <div class="max-w-7xl mx-auto px-8">
     <div class="mb-20 text-center">
-      <h2 class="font-serif text-5xl text-[#041632]">The <span class="italic text-[#775a19]">Leadership</span> Team</h2>
+      <h2 class="font-serif text-5xl text-[#041632]">Our <span class="italic text-[#775a19]">Visionary</span> Founder</h2>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-      {leaders.map((l) => (
-        <div class={`bg-[#f3f4f5] group overflow-hidden${l.offset ? " md:mt-12" : ""}`}>
+
+    {single ? (
+      <!-- Single leader: image left, text right -->
+      <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="w-full md:w-2/5 bg-[#f3f4f5] overflow-hidden group">
           <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
-            <img src={l.img} alt={`Portrait of ${l.name}`} class="w-full h-full object-cover" />
-          </div>
-          <div class="p-8">
-            <h4 class="font-serif text-2xl text-[#041632]">{l.name}</h4>
-            <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mt-1">{l.role}</p>
-            <p class="text-[#44474d] text-sm mt-4 leading-relaxed">{l.bio}</p>
+            <img
+              src={single.authorimageWeb ?? single.authorimage ?? ""}
+              alt={single.altimage ?? `Portrait of ${single.name}`}
+              class="w-full h-full object-cover"
+            />
           </div>
         </div>
-      ))}
-    </div>
+        <div class="w-full md:w-3/5">
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold mb-2">Leadership</p>
+          <h3 class="font-serif text-4xl text-[#041632] mb-1">{single.name}</h3>
+          {single.designation && (
+            <p class="font-sans text-sm uppercase tracking-widest text-[#775a19] mb-6">{single.designation}</p>
+          )}
+          <div class="h-px bg-[#c5c6ce] w-16 mb-6"></div>
+          {single.description && (
+            <p class="text-[#44474d] text-lg leading-relaxed mb-8">{single.description}</p>
+          )}
+          {single.authorLinkedinURL && (
+            <a
+              href={single.authorLinkedinURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 border border-[#775a19] text-[#775a19] text-sm font-sans tracking-widest uppercase hover:bg-[#775a19] hover:text-white transition-colors duration-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              LinkedIn Profile
+            </a>
+          )}
+        </div>
+      </div>
+    ) : (
+      <!-- Multiple leaders: grid layout -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {authors.map((leader) => (
+          <div class="bg-[#f3f4f5] group overflow-hidden">
+            <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+              <img
+                src={leader.authorimageWeb ?? leader.authorimage ?? ""}
+                alt={leader.altimage ?? `Portrait of ${leader.name}`}
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="p-8">
+              <h4 class="font-serif text-2xl text-[#041632]">{leader.name}</h4>
+              {leader.designation && (
+                <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mt-1">{leader.designation}</p>
+              )}
+              {leader.description && (
+                <p class="text-[#44474d] text-sm mt-4 leading-relaxed line-clamp-4">{leader.description}</p>
+              )}
+              {leader.authorLinkedinURL && (
+                <a
+                  href={leader.authorLinkedinURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 mt-5 text-[#775a19] text-xs font-sans tracking-widest uppercase hover:underline"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  LinkedIn
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {authors.length === 0 && (
+      <p class="text-center text-[#44474d]">Leadership information coming soon.</p>
+    )}
   </div>
 </section>
+M

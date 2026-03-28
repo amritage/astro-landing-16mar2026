@@ -7,19 +7,24 @@
     <p class="text-[#44474d] text-lg mb-10 max-w-xl mx-auto">
       Receive our monthly intelligence report on textile engineering, market shifts, and manufacturing breakthroughs.
     </p>
-    <form class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
+    <form id="newsletter-form" class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto" novalidate>
       <input
+        id="newsletter-email"
         type="email"
         placeholder="Corporate Email Address"
+        required
         class="flex-1 px-6 py-4 bg-white border-none rounded-lg focus:outline-none focus:ring-2 focus:ring-[#775a19] transition-all font-sans text-sm"
       />
       <button
         type="submit"
-        class="bg-[#041632] text-white px-8 py-4 rounded-lg font-sans font-bold uppercase tracking-widest text-xs hover:bg-[#775a19] transition-colors shadow-lg"
+        id="newsletter-btn"
+        class="bg-[#041632] text-white px-8 py-4 rounded-lg font-sans font-bold uppercase tracking-widest text-xs hover:bg-[#775a19] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Subscribe
       </button>
     </form>
+    <p id="newsletter-success" class="hidden mt-4 text-sm text-green-700 font-sans">Thanks for subscribing! We'll be in touch.</p>
+    <p id="newsletter-error" class="hidden mt-4 text-sm text-red-600 font-sans">Something went wrong. Please try again.</p>
     <p class="mt-6 text-xs text-[#75777e] font-sans uppercase tracking-widest">Private &amp; Secure. Industry Only.</p>
   </div>
 
@@ -27,3 +32,47 @@
   <div class="absolute top-0 right-0 w-64 h-64 bg-[#775a19]/5 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
   <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#041632]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 </section>
+
+<script>
+  const ESPO_URL = 'https://espo.egport.com/api/v1/LeadCapture/a4624c9bb58b8b755e3d94f1a25fc9be';
+
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
+  const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
+  const btn = document.getElementById('newsletter-btn') as HTMLButtonElement;
+  const successMsg = document.getElementById('newsletter-success')!;
+  const errorMsg = document.getElementById('newsletter-error')!;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Subscribing...';
+    successMsg.classList.add('hidden');
+    errorMsg.classList.add('hidden');
+
+    try {
+      const res = await fetch(ESPO_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          emailAddress: email,
+          description: 'Subscribed via Blog Newsletter',
+        }),
+      });
+
+      if (res.ok) {
+        form.reset();
+        successMsg.classList.remove('hidden');
+      } else {
+        errorMsg.classList.remove('hidden');
+      }
+    } catch {
+      errorMsg.classList.remove('hidden');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
+    }
+  });
+</script>

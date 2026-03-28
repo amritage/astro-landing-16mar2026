@@ -4,6 +4,9 @@ import CertificationsHero from "../components/certifications/CertificationsHero.
 import CertificationsGrid from "../components/certifications/CertificationsGrid.astro";
 import CertificationsDocCTA from "../components/certifications/CertificationsDocCTA.astro";
 import CertificationsTrust from "../components/certifications/CertificationsTrust.astro";
+import { getCompanyInfo } from "../lib/api";
+
+const company = await getCompanyInfo("AGE");
 ---
 
 <BaseLayout
@@ -12,6 +15,6 @@ import CertificationsTrust from "../components/certifications/CertificationsTrus
 >
   <CertificationsHero />
   <CertificationsGrid />
-  <CertificationsDocCTA />
+  <CertificationsDocCTA whatsapp={company?.whatsappNumber} phone={company?.phone1} />
   <CertificationsTrust />
 </BaseLayout>

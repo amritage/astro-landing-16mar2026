@@ -1,4 +1,12 @@
 ---
+interface Props {
+  mission?: string | null;
+  vision?: string | null;
+}
+const { mission, vision } = Astro.props;
+
+const fallbackMission = "To engineer textiles that define the standard for quality and sustainability, ensuring every thread woven in our facility contributes to a more conscious global fashion ecosystem.";
+const fallbackVision = "To remain the preferred global manufacturing partner for world-class brands by fusing traditional Gujarati craftsmanship with AI-driven manufacturing technology.";
 ---
 <section class="py-32 bg-[#f3f4f5] overflow-hidden">
   <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-20">
@@ -21,16 +29,20 @@
       <div class="space-y-10">
         <div>
           <h3 class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold mb-3">Our Mission</h3>
-          <p class="text-[#44474d] text-lg leading-relaxed">
-            To engineer textiles that define the standard for quality and sustainability, ensuring every thread woven in our facility contributes to a more conscious global fashion ecosystem.
-          </p>
+          {mission ? (
+            <div class="text-[#44474d] text-lg leading-relaxed prose prose-sm max-w-none" set:html={mission} />
+          ) : (
+            <p class="text-[#44474d] text-lg leading-relaxed">{fallbackMission}</p>
+          )}
         </div>
         <div class="h-px bg-[#c5c6ce] w-1/4"></div>
         <div>
           <h3 class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold mb-3">Our Vision</h3>
-          <p class="text-[#44474d] text-lg leading-relaxed">
-            To remain the preferred global manufacturing partner for world-class brands by fusing traditional Gujarati craftsmanship with AI-driven manufacturing technology.
-          </p>
+          {vision ? (
+            <div class="text-[#44474d] text-lg leading-relaxed prose prose-sm max-w-none" set:html={vision} />
+          ) : (
+            <p class="text-[#44474d] text-lg leading-relaxed">{fallbackVision}</p>
+          )}
         </div>
       </div>
     </div>

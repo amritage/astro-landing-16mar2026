@@ -1,4 +1,9 @@
 ---
+interface Props {
+  image?: string | null;
+}
+const { image } = Astro.props;
+const heroImage = image ?? "https://lh3.googleusercontent.com/aida-public/AB6AXuB5rYWttbh6XITEOcBeURyt6qklLANwbPMgW8KAaSwC8g9iy78YJK_krbGLU41JN_Yu2nEohurOBCXQkaPvEDBXJG0Lw5ISGIDhR4vJhX5i6KEaRVD-sNd5KEpV5al1UXeoambztbcu5rhFcFo7R68Hcwe2vBDlFgZ9NcPpCHBxjrK2kQ6TccQLz504xGgx-f74-rmrGkNSaDamGvVIS8VVzLhT2eEwj9EVYJxLa8WK3QdrRaitaijNIHu9-rn8RD0vbfYse5ijTzlm";
 ---
 <style>
   .gold-text {
@@ -12,7 +17,7 @@
 <header class="relative h-[870px] flex items-center overflow-hidden bg-[#041632] pt-16">
   <div class="absolute inset-0 opacity-40">
     <img
-      src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5rYWttbh6XITEOcBeURyt6qklLANwbPMgW8KAaSwC8g9iy78YJK_krbGLU41JN_Yu2nEohurOBCXQkaPvEDBXJG0Lw5ISGIDhR4vJhX5i6KEaRVD-sNd5KEpV5al1UXeoambztbcu5rhFcFo7R68Hcwe2vBDlFgZ9NcPpCHBxjrK2kQ6TccQLz504xGgx-f74-rmrGkNSaDamGvVIS8VVzLhT2eEwj9EVYJxLa8WK3QdrRaitaijNIHu9-rn8RD0vbfYse5ijTzlm"
+      src={heroImage}
       alt="Industrial textile loom threads close up"
       class="w-full h-full object-cover"
     />

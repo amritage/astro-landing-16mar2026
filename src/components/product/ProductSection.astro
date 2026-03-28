@@ -12,6 +12,13 @@ interface Product {
   color: string;
   image: string;
   href: string;
+  filterCategory?: string;
+  filterColor?: string;
+  filterStructure?: string;
+  filterContent?: string;
+  filterGsm?: string;
+  filterDesign?: string;
+  filterFinish?: string;
 }
 
 interface ColorItem { name: string; hex: string; }
@@ -28,9 +35,10 @@ interface Props {
   totalPages: number;
   total: number;
   pageCount: number;
+  preSelectedCategory?: string;
 }
 
-const { products, categories, colors, structures, contents, designs, finishes, currentPage, totalPages, total, pageCount } = Astro.props;
+const { products, categories, colors, structures, contents, designs, finishes, currentPage, totalPages, total, pageCount, preSelectedCategory } = Astro.props;
 const showingStart = (currentPage - 1) * 20 + 1;
 const showingEnd = (currentPage - 1) * 20 + pageCount;
 ---
@@ -80,6 +88,7 @@ const showingEnd = (currentPage - 1) * 20 + pageCount;
             contents={contents}
             designs={designs}
             finishes={finishes}
+            preSelectedCategory={preSelectedCategory}
           />
         </div>
       </div>
@@ -90,7 +99,18 @@ const showingEnd = (currentPage - 1) * 20 + pageCount;
       <!-- Product grid -->
       <div class="min-w-0 flex-1">
         <ProductToolbar total={total} showingStart={showingStart} showingEnd={showingEnd} />
-        <ProductGrid products={products} currentPage={currentPage} totalPages={totalPages} />
+        {products.length > 0 ? (
+          <ProductGrid products={products} currentPage={currentPage} totalPages={totalPages} />
+        ) : (
+          <div class="flex flex-col items-center justify-center py-24 text-center">
+            <span class="material-symbols-outlined text-5xl text-slate-300 mb-4">inventory_2</span>
+            <p class="font-headline text-xl text-slate-400">No products available yet</p>
+            <p class="mt-2 text-sm text-slate-400">Content is being updated. Check back soon.</p>
+            <a href="/fabric" class="mt-6 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] underline underline-offset-4">
+              Browse all fabrics
+            </a>
+          </div>
+        )}
       </div>
 
     </div>

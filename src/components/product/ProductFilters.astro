@@ -8,9 +8,18 @@ interface Props {
   contents: string[];
   designs: string[];
   finishes: string[];
+  preSelectedCategory?: string;
 }
 
-const { categories, colors, structures, contents, designs, finishes } = Astro.props;
+const { categories, colors, structures, contents, designs, finishes, preSelectedCategory } = Astro.props;
+
+// Normalize for comparison (case-insensitive, handles "Denim Fabric" vs "Denim Fabrics")
+function isPreSelected(value: string): boolean {
+  if (!preSelectedCategory) return false;
+  const a = value.toLowerCase().trim();
+  const b = preSelectedCategory.toLowerCase().trim();
+  return a === b || a.includes(b) || b.includes(a);
+}
 ---
 
 <div class="filter-panel space-y-6">
@@ -32,7 +41,7 @@ const { categories, colors, structures, contents, designs, finishes } = Astro.pr
         {categories.map((item) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="category" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
+              <input type="checkbox" data-filter-field="category" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" checked={isPreSelected(item)} />
               {item}
             </label>
           </li>
@@ -175,6 +184,45 @@ const { categories, colors, structures, contents, designs, finishes } = Astro.pr
     const set = active.get(field);
     if (!set || set.size === 0) return true;
     return [...set].some((v) => value.toLowerCase().includes(v.toLowerCase()));
+  }
+
+  // Initialize active map from any server-rendered checked checkboxes (preSelectedCategory)
+  // AND from URL query param as fallback
+  function initFromUrl(): void {
+    // First: pick up any checkboxes already checked server-side
+    document.querySelectorAll<HTMLInputElement>(".filter-checkbox:checked").forEach((cb) => {
+      const field = cb.dataset.filterField ?? "";
+      const val = cb.dataset.filterValue ?? "";
+      if (!active.has(field)) active.set(field, new Set());
+      active.get(field)!.add(val);
+    });
+
+    // Second: also check URL param (for /fabric?category= links)
+    const urlParams = new URLSearchParams(window.location.search);
+    const preCategory = urlParams.get("category");
+    if (preCategory) {
+      document.querySelectorAll<HTMLInputElement>('.filter-checkbox[data-filter-field="category"]').forEach((cb) => {
+        const cbVal = (cb.dataset.filterValue ?? "").toLowerCase();
+        const urlVal = preCategory.toLowerCase();
+        if (cbVal.includes(urlVal) || urlVal.includes(cbVal)) {
+          cb.checked = true;
+          if (!active.has("category")) active.set("category", new Set());
+          active.get("category")!.add(cb.dataset.filterValue ?? "");
+        }
+      });
+    }
+
+    if (hasActiveFilters()) {
+      applyFilters();
+      updateClearBtn();
+    }
+  }
+
+  // Run after DOM is fully parsed — setTimeout(0) pushes to next tick as safety net
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFromUrl);
+  } else {
+    setTimeout(initFromUrl, 0);
   }
 
   document.querySelectorAll<HTMLInputElement>(".filter-checkbox").forEach((cb) => {

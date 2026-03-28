@@ -1,28 +1,46 @@
-<section class="py-16 md:py-24 bg-[#f8f9fa]">
-  <div class="container mx-auto px-4 md:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
+---
+import { getBlogPosts } from "../../lib/api";
 
-      <div class="text-center lg:text-left">
-        <span class="font-label text-[10px] md:text-xs font-bold text-[#775a19] uppercase tracking-[0.3em] mb-4 block">Fabric Insights</span>
-        <h2 class="font-headline text-3xl md:text-5xl text-[#041632] mb-6 md:mb-8 leading-tight">
-          Is Modern Fabric Technology Improving Clothing Quality?
-        </h2>
-        <p class="font-body text-[#44474d] text-base md:text-lg leading-relaxed mb-8 italic">
-          "The intersection of nano-finishes and traditional weaving is creating a new era of performance textiles that remain remarkably breathable..."
-        </p>
-        <a href="/blog" class="font-label text-[#041632] text-[10px] md:text-xs font-bold uppercase tracking-widest border-b-2 border-[#041632] pb-2 inline-block">
-          Read the Full Article
-        </a>
+const posts = await getBlogPosts(20);
+const post = posts[0];
+---
+
+{post && (
+  <section class="py-16 md:py-24 bg-[#f8f9fa]">
+    <div class="container mx-auto px-4 md:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
+
+        <div class="text-center lg:text-left">
+          {post.category && (
+            <span class="font-label text-[10px] md:text-xs font-bold text-[#775a19] uppercase tracking-[0.3em] mb-4 block">
+              {post.category}
+            </span>
+          )}
+          <h2 class="font-headline text-3xl md:text-5xl text-[#041632] mb-6 md:mb-8 leading-tight">
+            {post.title}
+          </h2>
+          {post.excerpt && (
+            <p class="font-body text-[#44474d] text-base md:text-lg leading-relaxed mb-8 italic">
+              "{post.excerpt}"
+            </p>
+          )}
+          <a
+            href={`/blog/${post.slug}`}
+            class="font-label text-[#041632] text-[10px] md:text-xs font-bold uppercase tracking-widest border-b-2 border-[#041632] pb-2 inline-block"
+          >
+            Read the Full Article
+          </a>
+        </div>
+
+        <div class="bg-[#edeeef] h-[250px] sm:h-[400px] rounded-2xl overflow-hidden relative shadow-inner">
+          <img
+            class="w-full h-full object-cover brightness-90"
+            src={post.blogimage1CloudURL ?? ""}
+            alt={post.altimage1 ?? post.title}
+          />
+        </div>
+
       </div>
-
-      <div class="bg-[#edeeef] h-[250px] sm:h-[400px] rounded-2xl overflow-hidden relative shadow-inner">
-        <img
-          class="w-full h-full object-cover brightness-90"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxD_uptNZTEZMcSSi0-xDnn799pQxGlT67jGyp9rwdjPp6NbGWvo7QRK5XJEfdW4du2Kb3edVrsZJ-3F2nal2CSh6nujtzLUpSMNt66E4wVu6H7gWIzMKEWSZNsONaro1B_VjPMXAY6S3S0u53GjZuJnzDRsNUX-psBMVXULPQQtnfv0l_APRPQxNTzSARu0lLqSfmtvVIKC99FyxGAmb9qEJSdkgayCqhcv7tPs_PIv9i6dL0mIe_cXICa7DIONkBK0VIyGzfL79b"
-          alt="Microscopic view of modern textile weave technology"
-        />
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
+)}

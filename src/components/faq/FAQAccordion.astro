@@ -1,5 +1,15 @@
 ---
-import type { FAQCategory } from "../../data/faqs";
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface FAQCategory {
+  id: string;
+  label: string;
+  icon: string;
+  faqs: FAQItem[];
+}
 
 interface Props {
   categories: FAQCategory[];
@@ -53,9 +63,7 @@ const { categories } = Astro.props;
                     expand_more
                   </span>
                 </summary>
-                <div class="px-5 md:px-6 pb-5 md:pb-6 text-[#44474d] leading-relaxed text-sm md:text-base border-t border-[#c5c6ce]/20 pt-4">
-                  {faq.answer}
-                </div>
+                <div class="px-5 md:px-6 pb-5 md:pb-6 text-[#44474d] leading-relaxed text-sm md:text-base border-t border-[#c5c6ce]/20 pt-4" set:html={faq.answer} />
               </details>
             ))}
           </div>

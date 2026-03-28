@@ -4,6 +4,7 @@ import ProductDetailHero from "../../components/product/ProductDetailHero.astro"
 import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../data/products";
+import { getCompanyInfo } from "../../lib/api";
 
 export async function getStaticPaths() {
   const products = await fetchProducts();
@@ -21,6 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
+const company = await getCompanyInfo("AGE");
 ---
 
 <style>
@@ -44,5 +46,5 @@ const { product, collectionProducts } = Astro.props as { product: Product; colle
 
   <ProductDetailHero product={product} />
   <ProductDetailBody product={product} />
-  <ProductDetailRelated product={product} collectionProducts={collectionProducts} />
+  <ProductDetailRelated product={product} collectionProducts={collectionProducts} whatsapp={company?.whatsappNumber} phone={company?.phone1} />
 </BaseLayout>

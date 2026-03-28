@@ -1,5 +1,15 @@
 ---
+interface Props {
+  whatsapp?: string | null;
+}
+
+const { whatsapp } = Astro.props;
+
+const whatsappHref = whatsapp
+  ? `https://wa.me/${whatsapp.replace(/\D/g, "")}`
+  : "https://wa.me/";
 ---
+
 <section class="max-w-5xl mx-auto px-8 pb-24">
   <div class="bg-[#1b2b48] rounded-3xl p-8 md:p-16 text-center relative overflow-hidden shadow-2xl">
     <div class="relative z-10">
@@ -9,7 +19,9 @@
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a
-          href="/contact"
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
           class="bg-[#775a19] text-white px-10 py-4 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-[#ffdea5] hover:text-[#041632] transition-all shadow-lg"
         >
           Consult an Expert

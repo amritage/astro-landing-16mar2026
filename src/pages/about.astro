@@ -7,17 +7,22 @@ import AboutTimeline from "../components/about/AboutTimeline.astro";
 import AboutManufacturing from "../components/about/AboutManufacturing.astro";
 import AboutLeadership from "../components/about/AboutLeadership.astro";
 import AboutCTA from "../components/about/AboutCTA.astro";
+import { getTopicPageBySlug, getAuthors, getCompanyInfo } from "../lib/api";
+
+const aboutData = await getTopicPageBySlug("about");
+const authors = await getAuthors();
+const company = await getCompanyInfo("AGE");
 ---
 
 <BaseLayout
   title="About Us | Amrita Global Enterprises"
   description="For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry."
 >
-  <AboutHero />
+  <AboutHero image={aboutData?.image1CloudUrlHero ?? aboutData?.image1CloudUrl ?? null} />
   <AboutTrustNumbers />
-  <AboutMissionVision />
+  <AboutMissionVision mission={aboutData?.p1 ?? null} vision={aboutData?.p2 ?? null} />
   <AboutTimeline />
   <AboutManufacturing />
-  <AboutLeadership />
-  <AboutCTA />
+  <AboutLeadership authors={authors} />
+  <AboutCTA phone={company?.phone1} />
 </BaseLayout>

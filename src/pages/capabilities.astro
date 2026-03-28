@@ -8,6 +8,9 @@ import CapabilitiesQualityHub from "../components/capabilities/CapabilitiesQuali
 import CapabilitiesExportReadiness from "../components/capabilities/CapabilitiesExportReadiness.astro";
 import CapabilitiesCertifications from "../components/capabilities/CapabilitiesCertifications.astro";
 import CapabilitiesBottomCTA from "../components/capabilities/CapabilitiesBottomCTA.astro";
+import { getCompanyInfo } from "../lib/api";
+
+const company = await getCompanyInfo("AGE");
 ---
 
 <BaseLayout
@@ -16,11 +19,11 @@ import CapabilitiesBottomCTA from "../components/capabilities/CapabilitiesBottom
 >
   <main class="bg-[#f8f9fa] text-[#191c1d]">
     <CapabilitiesHero />
-    <CapabilitiesPillars />
+    <CapabilitiesPillars whatsapp={company?.whatsappNumber} phone={company?.phone1} />
     <CapabilitiesProcess />
     <CapabilitiesQualityHub />
     <CapabilitiesExportReadiness />
     <CapabilitiesCertifications />
-    <CapabilitiesBottomCTA />
+    <CapabilitiesBottomCTA whatsapp={company?.whatsappNumber} phone={company?.phone1} />
   </main>
 </BaseLayout>

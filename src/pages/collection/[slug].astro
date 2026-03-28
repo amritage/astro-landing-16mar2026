@@ -4,30 +4,31 @@ import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem, FabricProduct } from "../../components/product/FabricListLayout.astro";
 import { mapApiProduct } from "../../data/products";
 import {
-  getCategoryTopicPages,
-  getCategoryTopicPageBySlug,
-  getProductsByCategory,
+  getDynamicTopicPages,
+  getProductsByMerchTag,
   getFilterValues,
 } from "../../lib/api";
+import type { ApiTopicPage } from "../../lib/api";
 
 export async function getStaticPaths() {
-  const pages = await getCategoryTopicPages();
+  const pages = await getDynamicTopicPages();
   return pages.map((p) => ({ params: { slug: p.slug } }));
 }
 
 const { slug } = Astro.params;
 
-// Fetch page data first (need its name to filter products)
-const page = await getCategoryTopicPageBySlug(slug);
+// Fetch the topic page data
+const allTopics = await getDynamicTopicPages();
+const page: ApiTopicPage | undefined = allTopics.find((p) => p.slug === slug);
 if (!page) return Astro.redirect("/404");
 
-// Now fetch products + filters in parallel using the resolved category name
+// Fetch all products for this merchtag (slug1 is the merchtag value) + filters in parallel
 const [rawProducts, filters] = await Promise.all([
-  getProductsByCategory(page.name),
+  getProductsByMerchTag(page.slug1, 0), // 0 = no limit, return all
   getFilterValues(),
 ]);
 
-// Map raw API products → typed FabricProduct shape
+// Map to FabricProduct shape
 const products: FabricProduct[] = rawProducts.map((raw) => {
   const p = mapApiProduct(raw);
   return {
@@ -38,7 +39,7 @@ const products: FabricProduct[] = rawProducts.map((raw) => {
     width: p.specs.width,
     color: p.hex?.[0] ?? "#041632",
     image: p.image,
-    href: p.slug ? `/category/${slug}/${p.slug}` : null,
+    href: p.slug ? `/collection/${slug}/${p.slug}` : null,
     filterCategory: p.category,
     filterColor: p.colorNames.join("|"),
     filterStructure: p.structure,
@@ -49,8 +50,7 @@ const products: FabricProduct[] = rawProducts.map((raw) => {
   };
 });
 
-// Build FAQ items from the topic page q/a fields
-// If all are null, use fallback placeholder items so the section always renders
+// Build FAQ from API q/a fields, fallback to generic if null
 const apiFaqs: FAQItem[] = (["1", "2", "3", "4", "5"] as const)
   .map((n) => ({
     question: (page as Record<string, unknown>)[`q${n}`] as string | null,
@@ -60,8 +60,8 @@ const apiFaqs: FAQItem[] = (["1", "2", "3", "4", "5"] as const)
 
 const faqItems: FAQItem[] = apiFaqs.length > 0 ? apiFaqs : [
   {
-    question: `What types of ${page.name} do you supply?`,
-    answer: "We supply a wide range of fabrics in bulk for B2B buyers. Contact us for the full catalogue and specifications.",
+    question: `What fabrics are included in the ${page.name}?`,
+    answer: "This collection features a curated selection of fabrics available for bulk B2B orders. Contact us for the full catalogue.",
   },
   {
     question: "What is your Minimum Order Quantity (MOQ)?",
@@ -73,25 +73,11 @@ const faqItems: FAQItem[] = apiFaqs.length > 0 ? apiFaqs : [
   },
 ];
 
-// Hero image: prefer hero variant, fall back to base
-const heroImageUrl: string | null =
-  page.image1CloudUrlHero ?? page.image1CloudUrl ?? null;
-
-// Intro body: combine p1 + p2 from the topic page, strip HTML tags for plain text
-function stripHtml(html: string | null): string {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-const introBody: string =
-  [stripHtml(page.p1), stripHtml(page.p2)].filter(Boolean).join(" ") ||
-  page.description ||
-  page.excerpt ||
-  "";
+const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudUrl ?? null;
 ---
 
 <BaseLayout
-  title={page.metaTitle ?? `${page.name} Fabrics | Amrita Global Enterprises`}
+  title={page.metaTitle ?? `${page.name} | Amrita Global Enterprises`}
   description={page.description ?? page.excerpt ?? ""}
 >
   <div class="bg-white text-slate-900">
@@ -100,10 +86,10 @@ const introBody: string =
         title: page.name,
         imageUrl: heroImageUrl,
         breadcrumbLabel: page.name,
-        breadcrumbHref: `/category/${slug}`,
+        breadcrumbHref: `/collection/${slug}`,
       }}
       intro={{
-        heading: page.metaTitle ?? `${page.name} Fabrics`,
+        heading: page.metaTitle ?? page.name,
         body: page.description ?? page.excerpt ?? "Awaiting content from API.",
         calloutTitle: "B2B Supply Ready",
         calloutBody: "All fabrics available in bulk with consistent quality, GSM verification, and export documentation.",
@@ -121,7 +107,6 @@ const introBody: string =
       currentPage={1}
       totalPages={1}
       faqItems={faqItems}
-      preSelectedCategory={page.name}
       showGuide={true}
     />
   </div>

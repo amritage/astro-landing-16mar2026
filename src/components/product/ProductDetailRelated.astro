@@ -3,8 +3,15 @@ import type { Product } from "../../data/products";
 interface Props {
   product: Product;
   collectionProducts?: Product[];
+  whatsapp?: string | null;
+  phone?: string | null;
 }
-const { product, collectionProducts = [] } = Astro.props;
+const { product, collectionProducts = [], whatsapp, phone } = Astro.props;
+
+const whatsappHref = whatsapp
+  ? `https://wa.me/${whatsapp.replace(/\D/g, "")}`
+  : "https://wa.me/";
+const phoneHref = phone ? `tel:${phone.replace(/\s/g, "")}` : "tel:";
 const hasMore = collectionProducts.length > 4;
 ---
 
@@ -68,12 +75,12 @@ const hasMore = collectionProducts.length > 4;
       Experience the premium feel and technical excellence of {product.name.split(" ").slice(0, 2).join(" ")} in your next collection.
     </p>
     <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
-      <a href="/contact" class="bg-[#041632] px-10 py-4 font-bold hover:bg-[#374765] transition-colors w-full md:w-auto text-center">
+      <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="bg-[#041632] px-10 py-4 font-bold hover:bg-[#374765] transition-colors w-full md:w-auto text-center">
         Start Bulk Inquiry
       </a>
-      <button class="bg-white text-[#775a19] px-10 py-4 font-bold hover:bg-[#f3f4f5] transition-colors w-full md:w-auto">
+      <a href={phoneHref} class="bg-white text-[#775a19] px-10 py-4 font-bold hover:bg-[#f3f4f5] transition-colors w-full md:w-auto text-center">
         Download Data Sheet
-      </button>
+      </a>
     </div>
   </div>
 </section>
