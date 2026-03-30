@@ -39,6 +39,9 @@ const { product } = Astro.props;
       <img
         src={product.image}
         alt={product.name}
+        title={product.name}
+        width="400"
+        height="256"
         class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
         loading="lazy"
       />

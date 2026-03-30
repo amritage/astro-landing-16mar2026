@@ -113,7 +113,7 @@ export function mapApiProduct(p: ApiProduct): Product {
     seriesLabel: p.collectionName,
     name: p.productTitle ?? p.name,
     shortDesc: stripHtml(p.shortProductDescription) || p.productTagline || "",
-    image: p.image1CloudUrl ?? p.image1CloudUrlWeb ?? "",
+    image: p.image1CloudUrlCard ?? p.image1CloudUrl ?? p.image1CloudUrlWeb ?? "",
     imageLarge: p.image1CloudUrlHero ?? p.image1CloudUrl ?? p.image1CloudUrlWeb ?? "",
     imageAlt: p.altTextImage1 ?? p.name,
     rating: p.ratingValue,
