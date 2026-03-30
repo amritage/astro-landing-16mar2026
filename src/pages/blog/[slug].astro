@@ -24,22 +24,37 @@ const heroImage = getPostImage(post);
 // JSON-LD: Article schema
 const articleSchema = {
   "@context": "https://schema.org",
-  "@type": "Article",
+  "@type": "BlogPosting",
+  "@id": canonicalUrl,
+  url: canonicalUrl,
   headline: post.title,
+  name: post.title,
   description: post.excerpt ?? undefined,
-  image: heroImage,
+  image: {
+    "@type": "ImageObject",
+    url: heroImage,
+  },
   datePublished: post.publishedAt,
+  dateModified: post.publishedAt,
+  ...(post.category ? { articleSection: post.category } : {}),
+  ...(post.tags?.length ? { keywords: post.tags.join(", ") } : {}),
+  ...(post.readingTimeMin ? { timeRequired: `PT${post.readingTimeMin}M` } : {}),
   author: {
     "@type": "Organization",
-    name: "Amrita Global Enterprises",
+    name: company?.legalName ?? "Amrita Global Enterprises",
+    url: siteBase,
   },
   publisher: {
     "@type": "Organization",
-    name: "Amrita Global Enterprises",
+    name: company?.legalName ?? "Amrita Global Enterprises",
     logo: {
       "@type": "ImageObject",
-      url: `${siteBase}/favicon.svg`,
+      url: company?.logoUrl ?? `${siteBase}/favicon.svg`,
     },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalUrl,
   },
 };
 

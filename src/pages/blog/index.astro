@@ -13,6 +13,23 @@ const [posts, seo] = await Promise.all([
 const featured = posts.find((p) => p.isFeatured) ?? posts[0];
 const rest = posts.filter((p) => p !== featured);
 const BLOG_OG_IMAGE = seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? (featured ? getPostImage(featured) : undefined);
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+
+const blogListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Blog Articles – Amrita Global Enterprises",
+  url: `${siteBase}/blog`,
+  itemListElement: posts.map((post, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: `${siteBase}/blog/${post.slug}`,
+    name: post.title,
+    image: getPostImage(post),
+    description: post.excerpt ?? undefined,
+  })),
+};
 ---
 
 <BaseLayout
@@ -22,6 +39,7 @@ const BLOG_OG_IMAGE = seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? (feature
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "blog"}
   ogImage={BLOG_OG_IMAGE}
+  schemaMarkup={[blogListSchema]}
   breadcrumbs={[
     { name: "Home", url: "/" },
     { name: "Blog" },
