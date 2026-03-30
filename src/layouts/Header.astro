@@ -1,6 +1,7 @@
 ---
 import { navItems, mobileQuickLinks } from "../data/navigation";
 import { siteConfig } from "../data/site";
+import { getCompanyInfo } from "../lib/api";
 
 const pathname = Astro.url.pathname;
 
@@ -8,6 +9,14 @@ const isActivePath = (href: string) => {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/") || pathname.startsWith(href);
 };
+
+const company = await getCompanyInfo();
+const phoneNumber = company?.phone1?.replace(/\D/g, "") ?? "";
+const whatsappNumber = company?.whatsappNumber?.replace(/\D/g, "") ?? phoneNumber;
+const phoneHref = phoneNumber ? `tel:+${phoneNumber}` : siteConfig.phoneHref;
+const whatsappHref = whatsappNumber
+  ? `https://wa.me/${whatsappNumber}?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote`
+  : siteConfig.whatsappHref;
 ---
 
 <!-- Trust Strip -->
@@ -51,8 +60,8 @@ const isActivePath = (href: string) => {
 
     <!-- Desktop CTA -->
     <div class="header-cta">
-      <a href={siteConfig.phoneHref} class="btn-outline">Call Now</a>
-      <a href="/contact" class="btn-primary">Get Quote</a>
+      <a href={phoneHref} class="btn-outline">Call Now</a>
+      <a href={whatsappHref} class="btn-primary" target="_blank" rel="noopener noreferrer">Get Quote</a>
     </div>
 
     <!-- Mobile Hamburger -->
@@ -104,13 +113,13 @@ const isActivePath = (href: string) => {
 
   <div class="drawer-contact">
     <p class="drawer-contact__label">Quick Contact</p>
-    <a href={siteConfig.phoneHref} class="drawer-contact__phone">{siteConfig.phone}</a>
+    <a href={phoneHref} class="drawer-contact__phone">{company?.phone1 ?? siteConfig.phone}</a>
     <a href={siteConfig.emailHref} class="drawer-contact__email">{siteConfig.email}</a>
   </div>
 
   <div class="drawer-footer">
-    <a href="/contact" class="drawer-cta">Get a Quote</a>
-    <a href={siteConfig.phoneHref} class="drawer-call">Call Now</a>
+    <a href={whatsappHref} class="drawer-cta" target="_blank" rel="noopener noreferrer">Get a Quote</a>
+    <a href={phoneHref} class="drawer-call">Call Now</a>
   </div>
 </aside>
 

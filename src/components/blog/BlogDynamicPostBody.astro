@@ -4,6 +4,13 @@ import { getPostImage } from "../../lib/blog";
 
 interface Props { post: ApiBlogPost }
 const { post } = Astro.props;
+
+// Build FAQ from q1/q2/q3 + a1/a2/a3
+const faqs = [
+  { q: post.q1, a: post.a1 },
+  { q: post.q2, a: post.a2 },
+  { q: post.q3, a: post.a3 },
+].filter((item) => item.q && item.a) as { q: string; a: string }[];
 ---
 
 <style>
@@ -17,9 +24,6 @@ const { post } = Astro.props;
   .api-prose a { color: #775a19; text-decoration: underline; }
   .api-prose strong { color: #041632; }
   .api-prose hr { border-color: #c5c6ce; margin: 2rem 0; }
-  .api-prose details { background: #f3f4f5; border-radius: 0.75rem; padding: 1.25rem 1.5rem; margin-bottom: 1rem; cursor: pointer; }
-  .api-prose summary { font-weight: 700; color: #041632; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-  .api-prose details > div { margin-top: 1rem; color: #44474d; font-size: 0.9rem; line-height: 1.7; }
 </style>
 
 <section class="max-w-5xl mx-auto px-8 pb-24">
@@ -28,24 +32,66 @@ const { post } = Astro.props;
     <!-- Article body -->
     <article class="lg:col-span-8 api-prose">
       <!-- Excerpt blockquote -->
-      <p class="text-lg md:text-xl font-sans text-[#191c1d] leading-relaxed mb-10 italic opacity-80 border-l-4 border-[#775a19]/30 pl-6">
-        {post.excerpt}
-      </p>
+      {post.excerpt && (
+        <p class="text-lg md:text-xl font-sans text-[#191c1d] leading-relaxed mb-10 italic opacity-80 border-l-4 border-[#775a19]/30 pl-6">
+          {post.excerpt}
+        </p>
+      )}
 
       <!-- Paragraph 1 -->
-      <div set:html={post.paragraph1} />
+      {post.paragraph1 && <div set:html={post.paragraph1} />}
+
+      <!-- Blog image 1 (inline) -->
+      {post.blogimage1CloudURL && (
+        <div class="my-8 rounded-xl overflow-hidden shadow-md">
+          <img
+            src={post.blogimage1CloudURL}
+            alt={post.altimage1 ?? post.title}
+            class="w-full object-cover max-h-[420px]"
+          />
+        </div>
+      )}
 
       <!-- Paragraph 2 -->
-      <div set:html={post.paragraph2} />
+      {post.paragraph2 && <div set:html={post.paragraph2} />}
+
+      <!-- Blog image 2 (inline) -->
+      {post.blogimage2CloudURL && (
+        <div class="my-8 rounded-xl overflow-hidden shadow-md">
+          <img
+            src={post.blogimage2CloudURL}
+            alt={post.altimage2 ?? post.title}
+            class="w-full object-cover max-h-[420px]"
+          />
+        </div>
+      )}
 
       <!-- Paragraph 3 -->
-      <div set:html={post.paragraph3} />
+      {post.paragraph3 && <div set:html={post.paragraph3} />}
+
+      <!-- FAQ section -->
+      {faqs.length > 0 && (
+        <div class="mt-12">
+          <h2 class="font-serif text-2xl md:text-3xl text-[#041632] mb-6">Frequently Asked Questions</h2>
+          <div class="space-y-3">
+            {faqs.map((item) => (
+              <details class="bg-[#f3f4f5] rounded-xl border border-[#c5c6ce]/20 group">
+                <summary class="flex justify-between items-center px-6 py-4 cursor-pointer font-bold text-[#041632] list-none">
+                  {item.q}
+                  <span class="material-symbols-outlined text-[#775a19] transition-transform group-open:rotate-180">expand_more</span>
+                </summary>
+                <div class="px-6 pb-4 text-sm text-[#44474d] leading-relaxed">{item.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
     </article>
 
     <!-- Sidebar -->
     <aside class="lg:col-span-4 space-y-8 lg:mt-0 mt-12">
       <!-- Tags -->
-      {post.tags.length > 0 && (
+      {post.tags && post.tags.length > 0 && (
         <div class="bg-[#f3f4f5] rounded-2xl p-6">
           <h4 class="font-serif text-lg text-[#041632] mb-4">Topics</h4>
           <div class="flex flex-wrap gap-2">

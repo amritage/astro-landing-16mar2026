@@ -4,14 +4,21 @@ import CertificationsHero from "../components/certifications/CertificationsHero.
 import CertificationsGrid from "../components/certifications/CertificationsGrid.astro";
 import CertificationsDocCTA from "../components/certifications/CertificationsDocCTA.astro";
 import CertificationsTrust from "../components/certifications/CertificationsTrust.astro";
-import { getCompanyInfo } from "../lib/api";
+import { getCompanyInfo, getTopicPageBySlug } from "../lib/api";
 
-const company = await getCompanyInfo("AGE");
+const [company, seo] = await Promise.all([
+  getCompanyInfo("AGE"),
+  getTopicPageBySlug("certifications"),
+]);
 ---
 
 <BaseLayout
-  title="Certifications | Amrita Global Enterprises"
-  description="ISO 9001, OEKO-TEX, GOTS, and SA 8000 certified. Amrita Global Enterprises upholds the highest international standards for quality, safety, and ethical manufacturing."
+  title={seo?.metaTitle ?? "Certifications | Amrita Global Enterprises"}
+  description={seo?.description ?? "ISO 9001, OEKO-TEX, GOTS, and SA 8000 certified. Amrita Global Enterprises upholds the highest international standards for quality, safety, and ethical manufacturing."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "website"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
 >
   <CertificationsHero />
   <CertificationsGrid />

@@ -3,11 +3,12 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProductsPage } from "../../data/products";
-import { getFilterValues } from "../../lib/api";
+import { getFilterValues, getTopicPageBySlug } from "../../lib/api";
 
-const [{ products: rawProducts, total, totalPages }, filters] = await Promise.all([
+const [{ products: rawProducts, total, totalPages }, filters, seo] = await Promise.all([
   fetchProductsPage(1),
   getFilterValues(),
+  getTopicPageBySlug("fabric"),
 ]);
 
 const products = rawProducts.map((p) => ({
@@ -42,8 +43,12 @@ const faqItems: FAQItem[] = [
 ---
 
 <BaseLayout
-  title="Shop Fabric Catalog | Amrita Global Enterprises"
-  description="Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."
+  title={seo?.metaTitle ?? "Shop Fabric Catalog | Amrita Global Enterprises"}
+  description={seo?.description ?? "Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "product"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout

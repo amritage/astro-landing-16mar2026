@@ -11,11 +11,18 @@ import CertificationsPreview from "../components/home/CertificationsPreview.astr
 import KnowledgePreview from "../components/home/KnowledgePreview.astro";
 import HomepageFAQ from "../components/home/HomepageFAQ.astro";
 import LocationsSection from "../components/home/LocationsSection.astro";
+import { getTopicPageBySlug } from "../lib/api";
+
+const seo = await getTopicPageBySlug("home");
 ---
 
 <BaseLayout
-  title="Amrita Fashions | B2B Fabric Manufacturer & Exporter"
-  description="Explore premium cotton, denim, knit, and woven fabrics for brands, wholesalers, and sourcing teams."
+  title={seo?.metaTitle ?? "Amrita Fashions | B2B Fabric Manufacturer & Exporter"}
+  description={seo?.description ?? "Explore premium cotton, denim, knit, and woven fabrics for brands, wholesalers, and sourcing teams."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "website"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
 >
   <main>
     <HeroSection />

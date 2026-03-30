@@ -7,21 +7,27 @@ export interface ApiBlogPost {
   slug: string;
   status: string;
   publishedAt: string;
-  excerpt: string;
-  category: string;
+  excerpt: string | null;
+  category: string | null;
   tags: string[];
-  readingTimeMin: number;
-  paragraph1: string;
-  paragraph2: string;
-  paragraph3: string;
+  readingTimeMin: number | null;
+  paragraph1: string | null;
+  paragraph2: string | null;
+  paragraph3: string | null;
   blogimage1CloudURL: string | null;
   blogimage2CloudURL: string | null;
   altimage1: string | null;
   altimage2: string | null;
   featuredImageUrl: string | null;
   featuredImageAlt: string | null;
-  robots: string;
+  robots: string | null;
   isFeatured: boolean;
+  q1: string | null;
+  q2: string | null;
+  q3: string | null;
+  a1: string | null;
+  a2: string | null;
+  a3: string | null;
 }
 
 export async function fetchBlogPosts(): Promise<ApiBlogPost[]> {

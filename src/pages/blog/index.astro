@@ -4,15 +4,23 @@ import BlogHero from "../../components/blog/BlogHero.astro";
 import BlogNewsletter from "../../components/blog/BlogNewsletter.astro";
 import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
 import { fetchBlogPosts } from "../../lib/blog";
+import { getTopicPageBySlug } from "../../lib/api";
 
-const posts = await fetchBlogPosts();
+const [posts, seo] = await Promise.all([
+  fetchBlogPosts(),
+  getTopicPageBySlug("blog"),
+]);
 const featured = posts.find((p) => p.isFeatured) ?? posts[0];
 const rest = posts.filter((p) => p !== featured);
 ---
 
 <BaseLayout
-  title="Insights & Textile Mastery | Amrita Global"
-  description="Industry insights, technical guides, and manufacturing breakthroughs from Amrita Global Enterprises."
+  title={seo?.metaTitle ?? "Insights & Textile Mastery | Amrita Global"}
+  description={seo?.description ?? "Industry insights, technical guides, and manufacturing breakthroughs from Amrita Global Enterprises."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "blog"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
 >
   <BlogHero />
   <BlogDynamicGrid featured={featured} posts={rest} />

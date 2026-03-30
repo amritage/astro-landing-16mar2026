@@ -1,0 +1,233 @@
+---
+import type { Product } from "../../data/products";
+interface Props { product: Product }
+const { product } = Astro.props;
+
+// Round GSM to avoid floating point noise like 125.000000001
+const gsmRounded = Math.round(product.gsm);
+const shareText = `${product.name}\nGSM: ${gsmRounded} | Material: ${product.specs.material} | Width: ${product.specs.width} | Weave: ${product.specs.weave}\nEnquire at Amrita Fashions:`;
+---
+
+<!-- Share Button -->
+<button
+  id="share-btn"
+  class="flex items-center justify-center space-x-2 border border-[#c5c6ce] py-3 px-4 hover:bg-[#e7e8e9] transition-colors w-full"
+  aria-label="Share this product"
+>
+  <span class="material-symbols-outlined text-[#041632]">share</span>
+  <span class="text-sm font-bold">Share</span>
+</button>
+
+<!-- Modal Overlay -->
+<div
+  id="share-modal"
+  class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="share-modal-title"
+>
+  <!-- Card wrapper — max width so it looks like a share card -->
+  <div class="relative w-full max-w-sm bg-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+
+    <!-- Close button -->
+    <button
+      id="share-modal-close"
+      class="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-white/80 hover:bg-white rounded-full shadow transition-colors"
+      aria-label="Close share modal"
+    >
+      <span class="material-symbols-outlined text-[#041632] text-lg">close</span>
+    </button>
+
+    <!-- ── SHARE CARD (screenshot-worthy) ── -->
+    <div id="share-card" class="overflow-y-auto flex-1">
+
+      <!-- Header band -->
+      <div class="bg-[#041632] px-5 py-3 flex items-center justify-between">
+        <span class="text-[#c9a84c] font-serif text-xs tracking-widest uppercase font-bold">Amrita Fashions</span>
+        <span class="text-white/40 text-[10px] font-sans tracking-wider uppercase">Premium Fabric</span>
+      </div>
+
+      <!-- Product image with zigzag clip -->
+      <div class="zigzag-share-frame bg-[#f3f4f5]">
+        <img
+          src={product.image1}
+          alt={product.imageAlt ?? product.name}
+          class="w-full h-52 object-cover"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Gold accent bar -->
+      <div class="h-1 bg-gradient-to-r from-[#775a19] via-[#c9a84c] to-[#775a19]"></div>
+
+      <!-- Product name + series -->
+      <div class="px-5 pt-4 pb-2">
+        <p class="text-[10px] uppercase tracking-widest text-[#775a19] font-bold font-sans mb-1">{product.seriesLabel}</p>
+        <h2 id="share-modal-title" class="font-serif text-xl font-extrabold text-[#041632] leading-tight">{product.name}</h2>
+        <p class="text-xs text-[#44474d] mt-1 leading-relaxed line-clamp-2">{product.shortDesc}</p>
+      </div>
+
+      <!-- Technical Specifications Table -->
+      <div class="px-5 pb-4">
+        <p class="text-[9px] uppercase tracking-widest text-[#775a19] font-bold font-sans mt-3 mb-2">Technical Specifications</p>
+        <div class="border border-[#e7e8e9] overflow-hidden">
+          {product.techSpecs.map((row, i) => (
+            <div class={`flex items-stretch ${i % 2 === 0 ? "bg-white" : "bg-[#f8f8f9]"}`}>
+              <div class="w-2/5 px-3 py-2 border-r border-[#e7e8e9]">
+                <p class="text-[9px] uppercase tracking-wider text-[#44474d] font-sans font-semibold leading-tight">{row.label}</p>
+              </div>
+              <div class="w-3/5 px-3 py-2">
+                <p class="font-bold text-[10px] text-[#041632] leading-tight">{row.value}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Footer band -->
+      <div class="bg-[#041632] px-5 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-1.5">
+          <span class="material-symbols-outlined text-[#c9a84c] text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+          <span class="text-white text-[10px] font-sans">amritafashions.com</span>
+        </div>
+        <span class="text-white/40 text-[10px] font-sans">Surat, India</span>
+      </div>
+
+    </div>
+    <!-- /share-card -->
+
+    <!-- Social share actions -->
+    <div class="p-4 bg-[#f3f4f5] flex-shrink-0 space-y-3">
+      <!-- Row 1: WhatsApp + Telegram -->
+      <div class="grid grid-cols-2 gap-3">
+        <a
+          id="share-whatsapp"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center space-x-2 bg-[#25D366] text-white py-3 px-4 font-bold text-sm hover:bg-[#1ebe5d] transition-colors"
+        >
+          <!-- WhatsApp SVG icon -->
+          <svg class="w-4 h-4 fill-white flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          <span>WhatsApp</span>
+        </a>
+        <a
+          id="share-telegram"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center space-x-2 bg-[#229ED9] text-white py-3 px-4 font-bold text-sm hover:bg-[#1a8fc4] transition-colors"
+        >
+          <!-- Telegram SVG icon -->
+          <svg class="w-4 h-4 fill-white flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+          <span>Telegram</span>
+        </a>
+      </div>
+      <!-- Row 2: Twitter/X + Copy Link -->
+      <div class="grid grid-cols-2 gap-3">
+        <a
+          id="share-twitter"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center space-x-2 bg-black text-white py-3 px-4 font-bold text-sm hover:bg-[#333] transition-colors"
+        >
+          <!-- X/Twitter SVG icon -->
+          <svg class="w-4 h-4 fill-white flex-shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>X / Twitter</span>
+        </a>
+        <button
+          id="share-copy-btn"
+          class="flex items-center justify-center space-x-2 border border-[#041632] text-[#041632] py-3 px-4 font-bold text-sm hover:bg-[#e7e8e9] transition-colors"
+        >
+          <span class="material-symbols-outlined text-base">content_copy</span>
+          <span id="copy-label">Copy Link</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script define:vars={{ shareText }}>
+  const btn = document.getElementById("share-btn");
+  const modal = document.getElementById("share-modal");
+  const closeBtn = document.getElementById("share-modal-close");
+  const copyBtn = document.getElementById("share-copy-btn");
+  const copyLabel = document.getElementById("copy-label");
+
+  const waLink = document.getElementById("share-whatsapp");
+  const tgLink = document.getElementById("share-telegram");
+  const twLink = document.getElementById("share-twitter");
+
+  function openModal() {
+    const url = window.location.href;
+    const fullMessage = `${shareText} ${url}`;
+    const encodedText = encodeURIComponent(fullMessage);
+    const encodedUrl = encodeURIComponent(url);
+
+    if (waLink) waLink.href = `https://wa.me/?text=${encodedText}`;
+    if (tgLink) tgLink.href = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(shareText)}`;
+    if (twLink) twLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodedUrl}`;
+
+    modal?.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal?.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  btn?.addEventListener("click", openModal);
+  closeBtn?.addEventListener("click", closeModal);
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+
+  copyBtn?.addEventListener("click", async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      if (copyLabel) copyLabel.textContent = "Copied!";
+      setTimeout(() => { if (copyLabel) copyLabel.textContent = "Copy Link"; }, 2000);
+    } catch {
+      const inp = document.createElement("input");
+      inp.value = url;
+      document.body.appendChild(inp);
+      inp.select();
+      document.execCommand("copy");
+      document.body.removeChild(inp);
+      if (copyLabel) copyLabel.textContent = "Copied!";
+      setTimeout(() => { if (copyLabel) copyLabel.textContent = "Copy Link"; }, 2000);
+    }
+  });
+</script>
+
+<style>
+  .zigzag-share-frame {
+    clip-path: polygon(
+      0% 0%, 2% 6px, 4% 0%, 6% 6px, 8% 0%, 10% 6px,
+      12% 0%, 14% 6px, 16% 0%, 18% 6px, 20% 0%, 22% 6px,
+      24% 0%, 26% 6px, 28% 0%, 30% 6px, 32% 0%, 34% 6px,
+      36% 0%, 38% 6px, 40% 0%, 42% 6px, 44% 0%, 46% 6px,
+      48% 0%, 50% 6px, 52% 0%, 54% 6px, 56% 0%, 58% 6px,
+      60% 0%, 62% 6px, 64% 0%, 66% 6px, 68% 0%, 70% 6px,
+      72% 0%, 74% 6px, 76% 0%, 78% 6px, 80% 0%, 82% 6px,
+      84% 0%, 86% 6px, 88% 0%, 90% 6px, 92% 0%, 94% 6px,
+      96% 0%, 98% 6px, 100% 0%,
+      100% 100%, 0% 100%
+    );
+  }
+</style>

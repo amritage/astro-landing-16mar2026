@@ -1,5 +1,6 @@
 ---
 import type { Product } from "../../data/products";
+import ProductShareButton from "./ProductShareButton.astro";
 interface Props { product: Product }
 const { product } = Astro.props;
 
@@ -53,6 +54,7 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
   <div class="lg:col-span-7">
     <div class="relative group">
       <!-- Main slider — only non-empty slots -->
+      <div class="zigzag-frame">
       <div id="gallery-track" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar bg-[#f3f4f5]">
         {slides.map((slide, i) => (
           <div class="snap-center shrink-0 w-full" data-index={i}>
@@ -85,6 +87,7 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
           </div>
         ))}
       </div>
+      </div><!-- /zigzag-frame -->
 
       <!-- Mobile dots -->
       {slides.length > 1 && (
@@ -169,7 +172,7 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
           <span class="material-symbols-outlined">mail</span>
           <span>INQUIRE FOR BULK QUOTE</span>
         </button>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-3 gap-4">
           <a href={product.whatsapp} class="flex items-center justify-center space-x-2 border border-[#c5c6ce] py-3 hover:bg-[#e7e8e9] transition-colors">
             <span class="material-symbols-outlined text-green-600" style="font-variation-settings: 'FILL' 1;">chat</span>
             <span class="text-sm font-bold">WhatsApp</span>
@@ -178,6 +181,7 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
             <span class="material-symbols-outlined">call</span>
             <span class="text-sm font-bold">Call Us</span>
           </a>
+          <ProductShareButton product={product} />
         </div>
       </div>
     </div>
@@ -246,3 +250,123 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
     });
   });
 </script>
+
+<style>
+  /* Zigzag / pinking-shears border on all 4 sides */
+  .zigzag-frame {
+    position: relative;
+    clip-path: polygon(
+      /* TOP edge — left to right */
+      0% 0%,        2% 12px,
+      4% 0%,        6% 12px,
+      8% 0%,        10% 12px,
+      12% 0%,       14% 12px,
+      16% 0%,       18% 12px,
+      20% 0%,       22% 12px,
+      24% 0%,       26% 12px,
+      28% 0%,       30% 12px,
+      32% 0%,       34% 12px,
+      36% 0%,       38% 12px,
+      40% 0%,       42% 12px,
+      44% 0%,       46% 12px,
+      48% 0%,       50% 12px,
+      52% 0%,       54% 12px,
+      56% 0%,       58% 12px,
+      60% 0%,       62% 12px,
+      64% 0%,       66% 12px,
+      68% 0%,       70% 12px,
+      72% 0%,       74% 12px,
+      76% 0%,       78% 12px,
+      80% 0%,       82% 12px,
+      84% 0%,       86% 12px,
+      88% 0%,       90% 12px,
+      92% 0%,       94% 12px,
+      96% 0%,       98% 12px,
+      100% 0%,
+
+      /* RIGHT edge — top to bottom */
+      calc(100% - 12px) 2%,
+      100% 4%,      calc(100% - 12px) 6%,
+      100% 8%,      calc(100% - 12px) 10%,
+      100% 12%,     calc(100% - 12px) 14%,
+      100% 16%,     calc(100% - 12px) 18%,
+      100% 20%,     calc(100% - 12px) 22%,
+      100% 24%,     calc(100% - 12px) 26%,
+      100% 28%,     calc(100% - 12px) 30%,
+      100% 32%,     calc(100% - 12px) 34%,
+      100% 36%,     calc(100% - 12px) 38%,
+      100% 40%,     calc(100% - 12px) 42%,
+      100% 44%,     calc(100% - 12px) 46%,
+      100% 48%,     calc(100% - 12px) 50%,
+      100% 52%,     calc(100% - 12px) 54%,
+      100% 56%,     calc(100% - 12px) 58%,
+      100% 60%,     calc(100% - 12px) 62%,
+      100% 64%,     calc(100% - 12px) 66%,
+      100% 68%,     calc(100% - 12px) 70%,
+      100% 72%,     calc(100% - 12px) 74%,
+      100% 76%,     calc(100% - 12px) 78%,
+      100% 80%,     calc(100% - 12px) 82%,
+      100% 84%,     calc(100% - 12px) 86%,
+      100% 88%,     calc(100% - 12px) 90%,
+      100% 92%,     calc(100% - 12px) 94%,
+      100% 96%,     calc(100% - 12px) 98%,
+      100% 100%,
+
+      /* BOTTOM edge — right to left */
+      98% calc(100% - 12px),
+      96% 100%,     94% calc(100% - 12px),
+      92% 100%,     90% calc(100% - 12px),
+      88% 100%,     86% calc(100% - 12px),
+      84% 100%,     82% calc(100% - 12px),
+      80% 100%,     78% calc(100% - 12px),
+      76% 100%,     74% calc(100% - 12px),
+      72% 100%,     70% calc(100% - 12px),
+      68% 100%,     66% calc(100% - 12px),
+      64% 100%,     62% calc(100% - 12px),
+      60% 100%,     58% calc(100% - 12px),
+      56% 100%,     54% calc(100% - 12px),
+      52% 100%,     50% calc(100% - 12px),
+      48% 100%,     46% calc(100% - 12px),
+      44% 100%,     42% calc(100% - 12px),
+      40% 100%,     38% calc(100% - 12px),
+      36% 100%,     34% calc(100% - 12px),
+      32% 100%,     30% calc(100% - 12px),
+      28% 100%,     26% calc(100% - 12px),
+      24% 100%,     22% calc(100% - 12px),
+      20% 100%,     18% calc(100% - 12px),
+      16% 100%,     14% calc(100% - 12px),
+      12% 100%,     10% calc(100% - 12px),
+      8% 100%,      6% calc(100% - 12px),
+      4% 100%,      2% calc(100% - 12px),
+      0% 100%,
+
+      /* LEFT edge — bottom to top */
+      12px 98%,
+      0% 96%,       12px 94%,
+      0% 92%,       12px 90%,
+      0% 88%,       12px 86%,
+      0% 84%,       12px 82%,
+      0% 80%,       12px 78%,
+      0% 76%,       12px 74%,
+      0% 72%,       12px 70%,
+      0% 68%,       12px 66%,
+      0% 64%,       12px 62%,
+      0% 60%,       12px 58%,
+      0% 56%,       12px 54%,
+      0% 52%,       12px 50%,
+      0% 48%,       12px 46%,
+      0% 44%,       12px 42%,
+      0% 40%,       12px 38%,
+      0% 36%,       12px 34%,
+      0% 32%,       12px 30%,
+      0% 28%,       12px 26%,
+      0% 24%,       12px 22%,
+      0% 20%,       12px 18%,
+      0% 16%,       12px 14%,
+      0% 12%,       12px 10%,
+      0% 8%,        12px 6%,
+      0% 4%,        12px 2%,
+      0% 0%
+    );
+  }
+</style>

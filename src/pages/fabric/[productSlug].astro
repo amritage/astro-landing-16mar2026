@@ -23,6 +23,59 @@ export async function getStaticPaths() {
 
 const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
 const company = await getCompanyInfo("AGE");
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const canonicalUrl = `${siteBase}/fabric/${product.slug}`;
+
+// ── JSON-LD: Product schema ────────────────────────────────────────────────────
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: product.name,
+  description: product.shortDesc,
+  image: [product.image1, product.image2, product.image3].filter(Boolean),
+  sku: product.slug,
+  brand: {
+    "@type": "Brand",
+    name: "Amrita Global Enterprises",
+  },
+  aggregateRating: product.ratingCount > 0
+    ? {
+        "@type": "AggregateRating",
+        ratingValue: product.rating,
+        reviewCount: product.ratingCount,
+        bestRating: 5,
+        worstRating: 1,
+      }
+    : undefined,
+  offers: {
+    "@type": "Offer",
+    availability: "https://schema.org/InStock",
+    priceCurrency: "INR",
+    seller: {
+      "@type": "Organization",
+      name: "Amrita Global Enterprises",
+    },
+  },
+};
+
+// ── JSON-LD: FAQPage schema ────────────────────────────────────────────────────
+const faqSchema = product.faq.length > 0
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: product.faq.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: a,
+        },
+      })),
+    }
+  : null;
+
+const schemas = [productSchema, faqSchema].filter(Boolean);
 ---
 
 <style>
@@ -30,7 +83,20 @@ const company = await getCompanyInfo("AGE");
   .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-<BaseLayout title={`${product.name} | Amrita Global Enterprises`} description={product.shortDesc}>
+<BaseLayout
+  title={product.name}
+  description={product.shortDesc}
+  canonical={canonicalUrl}
+  keywords={product.keywords}
+  ogTitle={product.name}
+  ogDescription={product.shortDesc}
+  ogImage={product.image1 ?? undefined}
+  ogType="product"
+  twitterTitle={product.name}
+  twitterDescription={product.shortDesc}
+  twitterImage={product.image1 ?? undefined}
+  schemaMarkup={schemas}
+>
   <!-- Breadcrumb -->
   <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
     <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">

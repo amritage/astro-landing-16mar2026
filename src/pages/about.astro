@@ -9,14 +9,20 @@ import AboutLeadership from "../components/about/AboutLeadership.astro";
 import AboutCTA from "../components/about/AboutCTA.astro";
 import { getTopicPageBySlug, getAuthors, getCompanyInfo } from "../lib/api";
 
-const aboutData = await getTopicPageBySlug("about");
-const authors = await getAuthors();
-const company = await getCompanyInfo("AGE");
+const [aboutData, authors, company] = await Promise.all([
+  getTopicPageBySlug("about"),
+  getAuthors(),
+  getCompanyInfo("AGE"),
+]);
 ---
 
 <BaseLayout
-  title="About Us | Amrita Global Enterprises"
-  description="For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry."
+  title={aboutData?.metaTitle ?? "About Us | Amrita Global Enterprises"}
+  description={aboutData?.description ?? "For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry."}
+  keywords={aboutData?.keywords ?? undefined}
+  canonical={aboutData?.canonicalUrl ? `https://${aboutData.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={aboutData?.ogType ?? "website"}
+  ogImage={aboutData?.image1CloudUrlHero ?? aboutData?.image1CloudUrl ?? undefined}
 >
   <AboutHero image={aboutData?.image1CloudUrlHero ?? aboutData?.image1CloudUrl ?? null} />
   <AboutTrustNumbers />

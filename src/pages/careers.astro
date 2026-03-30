@@ -4,11 +4,17 @@ import CareersHero from "../components/careers/CareersHero.astro";
 import CareersPositions from "../components/careers/CareersPositions.astro";
 import CareersProcess from "../components/careers/CareersProcess.astro";
 import CareersForm from "../components/careers/CareersForm.astro";
+import { getTopicPageBySlug } from "../lib/api";
+
+const seo = await getTopicPageBySlug("careers");
 ---
 
 <BaseLayout
-  title="Careers | Amrita Global Enterprises"
-  description="Join the Best Textile Supplier Award 2023 winner. Explore open roles in operations, global sales, and supply chain at Amrita Global Enterprises."
+  title={seo?.metaTitle ?? "Careers | Amrita Global Enterprises"}
+  description={seo?.description ?? "Join the Best Textile Supplier Award 2023 winner. Explore open roles in operations, global sales, and supply chain at Amrita Global Enterprises."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "website"}
 >
   <CareersHero />
   <CareersPositions />

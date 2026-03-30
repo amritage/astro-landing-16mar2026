@@ -85,6 +85,13 @@ function buildFaq(p: ApiProduct): { q: string; a: string }[] {
     .map(([q, a]) => ({ q: q!, a: a! }));
 }
 
+/** Strip HTML tags and return plain text, or null if nothing meaningful remains */
+function stripHtml(html: string | null | undefined): string {
+  if (!html) return "";
+  const plain = html.replace(/<[^>]*>/g, "").trim();
+  return plain;
+}
+
 function buildCertifications(finish: string[]) {
   const iconMap: Record<string, string> = {
     "Chemical - Bio Finish": "eco",
@@ -104,7 +111,7 @@ export function mapApiProduct(p: ApiProduct): Product {
     slug: p.productslug,
     seriesLabel: p.collectionName,
     name: p.productTitle ?? p.name,
-    shortDesc: p.shortProductDescription ?? p.productTagline ?? "",
+    shortDesc: stripHtml(p.shortProductDescription) || p.productTagline || "",
     image: p.image1CloudUrl ?? p.image1CloudUrlWeb ?? "",
     imageAlt: p.altTextImage1 ?? p.name,
     rating: p.ratingValue,
@@ -116,15 +123,15 @@ export function mapApiProduct(p: ApiProduct): Product {
     phone: "tel:+919925155141",
     specs: {
       material: p.content.join(", "),
-      weight: `${p.gsm} GSM`,
+      weight: `${Math.round(p.gsm)} GSM`,
       width: `${p.cm} cm / ${p.inch} inch`,
       weave: p.structure,
     },
     techSpecs: [
       { label: "Fabric Code", value: p.fabricCode },
       { label: "Vendor Code", value: p.vendorFabricCode },
-      { label: "GSM", value: String(p.gsm) },
-      { label: "Ozs", value: String(p.ozs) },
+      { label: "GSM", value: String(Math.round(p.gsm)) },
+      { label: "Ozs", value: String(Math.round(p.ozs * 100) / 100) },
       { label: "Width (CM)", value: `${p.cm} cm` },
       { label: "Width (Inch)", value: `${p.inch}"` },
       { label: "Sales MOQ", value: `${p.salesMOQ} ${p.uM}` },

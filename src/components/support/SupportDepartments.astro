@@ -5,8 +5,12 @@ interface Props {
   authors: ApiAuthor[];
   salesEmail?: string | null;
   supportEmail?: string | null;
+  phone1?: string | null;
+  phone1Dept?: string | null;
+  phone2?: string | null;
+  phone2Dept?: string | null;
 }
-const { authors, salesEmail, supportEmail } = Astro.props;
+const { authors, salesEmail, supportEmail, phone1, phone1Dept, phone2, phone2Dept } = Astro.props;
 
 const dynamicAuthor = authors[0] ?? null;
 
@@ -15,19 +19,25 @@ const staticDepts = [
     icon: "support_agent",
     designation: "Support",
     name: "Customer Support",
+    contactLabel: supportEmail ?? "support@amrita-fashions.com",
     href: `mailto:${supportEmail ?? "support@amrita-fashions.com"}`,
+    contactIcon: "mail",
   },
   {
     icon: "local_shipping",
     designation: "Logistics",
     name: "Shipping & Dispatch",
+    contactLabel: salesEmail ?? "sales@amrita-fashions.com",
     href: `mailto:${salesEmail ?? "sales@amrita-fashions.com"}`,
+    contactIcon: "mail",
   },
   {
     icon: "inventory_2",
     designation: "Sales",
     name: "Bulk Orders & RFQ",
-    href: `mailto:${salesEmail ?? "sales@amrita-fashions.com"}`,
+    contactLabel: phone1 ?? "+91-9925155141",
+    href: `tel:${phone1 ?? "+91-9925155141"}`,
+    contactIcon: "call",
   },
 ];
 ---
@@ -44,7 +54,7 @@ const staticDepts = [
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e1e3e4] border border-[#e1e3e4] rounded-lg overflow-hidden">
 
-      <!-- Dynamic author card -->
+      <!-- Dynamic author card (Director) -->
       {dynamicAuthor ? (
         <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
           <div class="w-12 h-12 rounded-full overflow-hidden mx-auto mb-4 bg-[#041632]/5 flex items-center justify-center">
@@ -87,7 +97,15 @@ const staticDepts = [
             <span class="material-symbols-outlined text-[#1B2B48]">{dept.icon}</span>
           </div>
           <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dept.designation}</p>
-          <h5 class="font-serif text-lg text-[#041632] mb-4">{dept.name}</h5>
+          <h5 class="font-serif text-lg text-[#041632] mb-3">{dept.name}</h5>
+          <a
+            href={dept.href}
+            class="inline-flex items-center justify-center gap-1.5 text-[#1B2B48] text-xs font-sans hover:text-[#775a19] transition-colors mb-4 break-all"
+          >
+            <span class="material-symbols-outlined text-sm shrink-0">{dept.contactIcon}</span>
+            <span>{dept.contactLabel}</span>
+          </a>
+          <br />
           <a
             href={dept.href}
             class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"

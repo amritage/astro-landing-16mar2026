@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogPostCTA from "../../components/blog/BlogPostCTA.astro";
 import BlogDynamicPostHero from "../../components/blog/BlogDynamicPostHero.astro";
 import BlogDynamicPostBody from "../../components/blog/BlogDynamicPostBody.astro";
-import { fetchBlogPosts } from "../../lib/blog";
+import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getCompanyInfo } from "../../lib/api";
 
 export async function getStaticPaths() {
@@ -16,9 +16,69 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const company = await getCompanyInfo("AGE");
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const canonicalUrl = `${siteBase}/blog/${post.slug}`;
+const heroImage = getPostImage(post);
+
+// JSON-LD: Article schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.title,
+  description: post.excerpt ?? undefined,
+  image: heroImage,
+  datePublished: post.publishedAt,
+  author: {
+    "@type": "Organization",
+    name: "Amrita Global Enterprises",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Amrita Global Enterprises",
+    logo: {
+      "@type": "ImageObject",
+      url: `${siteBase}/favicon.svg`,
+    },
+  },
+};
+
+// JSON-LD: FAQPage schema (from q1/q2/q3 + a1/a2/a3)
+const faqPairs = [
+  { q: post.q1, a: post.a1 },
+  { q: post.q2, a: post.a2 },
+  { q: post.q3, a: post.a3 },
+].filter((item) => item.q && item.a);
+
+const faqSchema = faqPairs.length > 0
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqPairs.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+      })),
+    }
+  : null;
+
+const schemas = [articleSchema, faqSchema].filter(Boolean);
 ---
 
-<BaseLayout title={`${post.title} | Amrita Global`} description={post.excerpt}>
+<BaseLayout
+  title={`${post.title} | Amrita Global`}
+  description={post.excerpt ?? undefined}
+  canonical={canonicalUrl}
+  robots={post.robots ?? "index,follow"}
+  ogTitle={post.title}
+  ogDescription={post.excerpt ?? undefined}
+  ogImage={heroImage}
+  ogType="article"
+  twitterTitle={post.title}
+  twitterDescription={post.excerpt ?? undefined}
+  twitterImage={heroImage}
+  schemaMarkup={schemas}
+>
   <BlogDynamicPostHero post={post} />
   <BlogDynamicPostBody post={post} />
   <BlogPostCTA whatsapp={company?.whatsappNumber} />

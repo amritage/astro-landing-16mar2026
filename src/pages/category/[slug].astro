@@ -93,6 +93,10 @@ const introBody: string =
 <BaseLayout
   title={page.metaTitle ?? `${page.name} Fabrics | Amrita Global Enterprises`}
   description={page.description ?? page.excerpt ?? ""}
+  keywords={page.keywords ?? undefined}
+  canonical={page.canonicalUrl ? `https://${page.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={page.ogType ?? "website"}
+  ogImage={heroImageUrl ?? undefined}
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout

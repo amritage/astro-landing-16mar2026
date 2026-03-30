@@ -180,14 +180,44 @@ export interface ApiTopicPage {
   slug1: string;
   description: string | null;
   metaTitle: string | null;
+  keywords: string[] | null;
+  canonicalUrl: string | null;
   excerpt: string | null;
+  ogType: string | null;
   pageType: string;
   deleted: boolean;
+  // Image 1
   image1CloudUrl: string | null;
+  image1CloudUrlBase?: string | null;
   image1CloudUrlWeb?: string | null;
   image1CloudUrlCard?: string | null;
   image1CloudUrlHero?: string | null;
+  image1CloudUrlLarge?: string | null;
   altTextImage1?: string | null;
+  // Image 2
+  image2CloudUrl: string | null;
+  image2CloudUrlBase?: string | null;
+  image2CloudUrlWeb?: string | null;
+  image2CloudUrlCard?: string | null;
+  image2CloudUrlHero?: string | null;
+  image2CloudUrlLarge?: string | null;
+  altTextImage2?: string | null;
+  // Image 3
+  image3CloudUrl: string | null;
+  image3CloudUrlBase?: string | null;
+  image3CloudUrlWeb?: string | null;
+  image3CloudUrlCard?: string | null;
+  image3CloudUrlHero?: string | null;
+  image3CloudUrlLarge?: string | null;
+  altTextImage3?: string | null;
+  // Image 4
+  image4CloudUrl: string | null;
+  image4CloudUrlBase?: string | null;
+  image4CloudUrlWeb?: string | null;
+  image4CloudUrlCard?: string | null;
+  image4CloudUrlHero?: string | null;
+  image4CloudUrlLarge?: string | null;
+  altTextImage4?: string | null;
   p1: string | null;
   p2: string | null;
   q1: string | null;
@@ -353,6 +383,36 @@ export async function getBlogPosts(limit = 20): Promise<ApiBlogPost[]> {
     );
   } catch {
     return [];
+  }
+}
+
+// ── Site Settings ─────────────────────────────────────────────────────────────
+
+export interface ApiSiteSettings {
+  id: string;
+  name: string;
+  siteKey: string;
+  baseUrl: string | null;
+  gaMeasurementId: string | null;
+  gtmId: string | null;
+  clarityId: string | null;
+  googleVerification: string | null;
+  bingVerification: string | null;
+  twitterHandle: string | null;
+  robotsPolicy: string | null;
+  siteStatus: string | null;
+  knowsAbout: string[];
+}
+
+export async function getSiteSettings(name = "eCatalogue"): Promise<ApiSiteSettings | null> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/sitesettings`);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const data: ApiSiteSettings[] = json.data ?? [];
+    return data.find((s) => s.name === name) ?? null;
+  } catch {
+    return null;
   }
 }
 
