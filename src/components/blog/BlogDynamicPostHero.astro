@@ -44,7 +44,11 @@ const { post } = Astro.props;
     <img
       src={getPostImage(post)}
       alt={post.featuredImageAlt ?? post.title}
+      title={post.featuredImageAlt ?? post.title}
+      width="960"
+      height="500"
       class="w-full h-full object-cover"
+      loading="eager"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-[#041632]/40 to-transparent"></div>
   </div>

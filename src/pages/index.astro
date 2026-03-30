@@ -22,7 +22,7 @@ const seo = await getTopicPageBySlug("home");
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "website"}
-  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? "https://lh3.googleusercontent.com/aida-public/AB6AXuCtLZxQcVC24vhI7VAKG_St2bzqVYJrJIbQynxSzp5o3QTomxwyx-9lgk5gFgBmKQigXRhJMEF_lx2wqCtj80V3x10Xf4wRqFw5TaF99EV0j11IKPQklj7zlNMv0sCx3uTtNQUzSiLvm2VGba-H0nyrRKNLNZcmRmIcM3pWJ3JFns4uAgYqRd0dV7pugVm_g6ckPDq1d39OmreZKThY9gFwgyGym4cr-ccAh58XX4JDPTdd2t8Ptj7ODlUV-DiRplLWb-MQdG5yG82d"}
 >
   <main>
     <HeroSection />

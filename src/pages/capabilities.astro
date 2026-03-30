@@ -10,6 +10,8 @@ import CapabilitiesCertifications from "../components/capabilities/CapabilitiesC
 import CapabilitiesBottomCTA from "../components/capabilities/CapabilitiesBottomCTA.astro";
 import { getCompanyInfo, getTopicPageBySlug } from "../lib/api";
 
+const CAPABILITIES_OG_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuDiUo6KfVsc6OW9-lgdOCBOESkxRHzy6W-mNiR9bY8Xkeq401k1p5oCVhNwgXBz80B_efZmjXD7fuc0Us0nrYJpLNmN1_Na7RFWQ2MhDYpqS3q1uzluVOmnsMh8m1hwzan3n2j3GYegAas8ABp8dO2oBwSbXlKv4Pw5n1kN1j1kN9BoruPe0lzAK35zDaMjYatvZSK7-eh7Ju5dpOOWY0LpoVjj_nCft8SVSE7asiEsabfUpLjwMNErUX8X9jsB5s766ztd7tWfZZn1";
+
 const [company, seo] = await Promise.all([
   getCompanyInfo("AGE"),
   getTopicPageBySlug("capabilities"),
@@ -22,7 +24,7 @@ const [company, seo] = await Promise.all([
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "website"}
-  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? CAPABILITIES_OG_IMAGE}
 >
   <main class="bg-[#f8f9fa] text-[#191c1d]">
     <CapabilitiesHero />

@@ -59,7 +59,7 @@ const staticDepts = [
         <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
           <div class="w-12 h-12 rounded-full overflow-hidden mx-auto mb-4 bg-[#041632]/5 flex items-center justify-center">
             {dynamicAuthor.authorimageCard ? (
-              <img src={dynamicAuthor.authorimageCard} alt={dynamicAuthor.altimage ?? dynamicAuthor.name} class="w-full h-full object-cover" />
+              <img src={dynamicAuthor.authorimageCard} alt={dynamicAuthor.altimage ?? dynamicAuthor.name} title={dynamicAuthor.altimage ?? dynamicAuthor.name} width="48" height="48" class="w-full h-full object-cover" loading="lazy" />
             ) : (
               <span class="material-symbols-outlined text-[#1B2B48]">person</span>
             )}

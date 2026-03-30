@@ -35,7 +35,11 @@ const smallCards = [
         <img
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuByU9N-TLCkNz1HquVslgzw__Rgm85WQjYY7jzgYgsT73fH6J7xpjr-w3IGcDcPq0HnA1wptMA5FQtWdDOYuZqDGWL9uiU56qlFRGPtT0dpZGbcCv_SRPm7X8FhITD1pRQlfpgi9Iv5i6axBROToFMVntlIdWsC-0q4yqsiVFYH98_P3OmufASZaNEZ03MH5e23cAr_l7iw00PrtKB4v0VK_EMyAnyg72su2QjkFCgkI4Jzb4CiOua7m5omMa1n6p_kruxri1IKgjs8"
           alt="Technician examining high quality textile rolls"
+          title="Technician examining high quality textile rolls"
+          width="700"
+          height="256"
           class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          loading="lazy"
         />
       </div>
       <div class="p-8">
@@ -86,7 +90,11 @@ const smallCards = [
           <img
             src={card.img}
             alt={card.alt}
+            title={card.alt}
+            width="400"
+            height="225"
             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
           />
         </div>
         <h4 class="font-serif text-lg text-[#041632] font-bold mb-2">{card.title}</h4>

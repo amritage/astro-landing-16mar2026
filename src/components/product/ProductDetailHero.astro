@@ -62,6 +62,9 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
               <img
                 src={slide.src}
                 alt={slide.alt}
+                title={slide.alt}
+                width="800"
+                height="600"
                 class="w-full h-[350px] lg:h-[600px] object-cover"
                 loading={i === 0 ? "eager" : "lazy"}
               />
@@ -113,10 +116,10 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
             aria-label={`View slide ${slideIndex + 1}`}
           >
             {slide.type === "image" ? (
-              <img src={slide.src} alt={slide.alt} class="w-full h-full object-cover" loading="lazy" />
+              <img src={slide.src} alt={slide.alt} title={slide.alt} width="80" height="80" class="w-full h-full object-cover" loading="lazy" />
             ) : slide.type === "youtube" ? (
               <div class="relative w-full h-full">
-                <img src={slide.thumbSrc} alt={slide.alt} class="w-full h-full object-cover" loading="lazy" />
+                <img src={slide.thumbSrc} alt={slide.alt} title={slide.alt} width="80" height="80" class="w-full h-full object-cover" loading="lazy" />
                 <div class="absolute inset-0 flex items-center justify-center bg-black/20">
                   <span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1;">play_circle</span>
                 </div>

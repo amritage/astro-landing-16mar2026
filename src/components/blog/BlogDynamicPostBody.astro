@@ -47,7 +47,11 @@ const faqs = [
           <img
             src={post.blogimage1CloudURL}
             alt={post.altimage1 ?? post.title}
+            title={post.altimage1 ?? post.title}
+            width="800"
+            height="420"
             class="w-full object-cover max-h-[420px]"
+            loading="lazy"
           />
         </div>
       )}
@@ -61,7 +65,11 @@ const faqs = [
           <img
             src={post.blogimage2CloudURL}
             alt={post.altimage2 ?? post.title}
+            title={post.altimage2 ?? post.title}
+            width="800"
+            height="420"
             class="w-full object-cover max-h-[420px]"
+            loading="lazy"
           />
         </div>
       )}

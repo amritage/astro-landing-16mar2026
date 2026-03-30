@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogHero from "../../components/blog/BlogHero.astro";
 import BlogNewsletter from "../../components/blog/BlogNewsletter.astro";
 import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
-import { fetchBlogPosts } from "../../lib/blog";
+import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getTopicPageBySlug } from "../../lib/api";
 
 const [posts, seo] = await Promise.all([
@@ -12,6 +12,7 @@ const [posts, seo] = await Promise.all([
 ]);
 const featured = posts.find((p) => p.isFeatured) ?? posts[0];
 const rest = posts.filter((p) => p !== featured);
+const BLOG_OG_IMAGE = seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? (featured ? getPostImage(featured) : undefined);
 ---
 
 <BaseLayout
@@ -20,7 +21,7 @@ const rest = posts.filter((p) => p !== featured);
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "blog"}
-  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
+  ogImage={BLOG_OG_IMAGE}
 >
   <BlogHero />
   <BlogDynamicGrid featured={featured} posts={rest} />

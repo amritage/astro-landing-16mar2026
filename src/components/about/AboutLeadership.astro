@@ -24,7 +24,11 @@ const single = authors.length === 1 ? authors[0] : null;
             <img
               src={single.authorimageWeb ?? single.authorimage ?? ""}
               alt={single.altimage ?? `Portrait of ${single.name}`}
+              title={single.altimage ?? `Portrait of ${single.name}`}
+              width="480"
+              height="640"
               class="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
         </div>
@@ -62,7 +66,11 @@ const single = authors.length === 1 ? authors[0] : null;
               <img
                 src={leader.authorimageWeb ?? leader.authorimage ?? ""}
                 alt={leader.altimage ?? `Portrait of ${leader.name}`}
+                title={leader.altimage ?? `Portrait of ${leader.name}`}
+                width="400"
+                height="533"
                 class="w-full h-full object-cover"
+                loading="lazy"
               />
             </div>
             <div class="p-8">

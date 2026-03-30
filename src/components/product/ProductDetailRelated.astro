@@ -35,7 +35,7 @@ const hasMore = collectionProducts.length > 4;
           >
             <div class="aspect-[3/4] bg-[#e7e8e9] mb-3 overflow-hidden group-hover:opacity-80 transition-opacity">
               {rel.image1 ? (
-                <img src={rel.image1} alt={rel.imageAlt ?? rel.name} class="w-full h-full object-cover" loading="lazy" />
+                <img src={rel.image1} alt={rel.imageAlt ?? rel.name} title={rel.imageAlt ?? rel.name} width="200" height="267" class="w-full h-full object-cover" loading="lazy" />
               ) : (
                 <div class="w-full h-full flex items-center justify-center">
                   <span class="material-symbols-outlined text-4xl text-[#c5c6ce]">image</span>

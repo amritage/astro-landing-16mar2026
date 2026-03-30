@@ -35,6 +35,9 @@ const sections = await Promise.all(
                   class="w-full h-full object-cover"
                   src={product.image || "/images/placeholders/fabric.jpg"}
                   alt={product.imageAlt || product.name}
+                  title={product.imageAlt || product.name}
+                  width="300"
+                  height="300"
                   loading="lazy"
                 />
               </div>
