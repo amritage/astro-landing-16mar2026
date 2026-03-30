@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
-import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProductsPage } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
@@ -83,7 +82,7 @@ const itemListSchema = {
 };
 
 const breadcrumbItems = [
-  { name: "Home", url: `${siteBase}/` },
+  { name: "Home", url: "/" },
   { name: "Fabric" },
 ];
 
@@ -101,8 +100,8 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
   ogType={seo?.ogType ?? "product"}
   ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? FABRIC_HERO_IMAGE}
   schemaMarkup={[itemListSchema]}
+  breadcrumbs={breadcrumbItems}
 >
-  <BreadcrumbSchema items={breadcrumbItems} />
   <div class="bg-white text-slate-900">
     <FabricListLayout
       hero={{

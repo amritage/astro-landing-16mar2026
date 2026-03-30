@@ -48,7 +48,11 @@ export interface Product {
   structure: string;
   content: string;
   gsm: number;
+  ozs: number;
+  cm: number;
+  inch: number;
   design: string;
+  motif: string | null;
   finish: string[];
   keywords: string[];
   merchTags: string[];
@@ -164,7 +168,11 @@ export function mapApiProduct(p: ApiProduct): Product {
     structure: p.structure,
     content: p.content.join(", "),
     gsm: p.gsm,
+    ozs: p.ozs,
+    cm: p.cm,
+    inch: p.inch,
     design: p.design,
+    motif: p.motif ?? null,
     finish: p.finish,
     keywords: p.keywords,
     merchTags: p.merchTags,

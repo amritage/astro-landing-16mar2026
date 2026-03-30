@@ -3,7 +3,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
 import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
-import BreadcrumbSchema from "../../components/schema/BreadcrumbSchema.astro";
 import { fetchProducts, type Product } from "../../data/products";
 import { getCompanyInfo } from "../../lib/api";
 
@@ -29,6 +28,26 @@ const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions
 const canonicalUrl = `${siteBase}/fabric/${product.slug}`;
 
 // ── JSON-LD: Product schema ────────────────────────────────────────────────────
+
+// Build additionalProperty array for all fabric-specific specs
+const additionalProperties = [
+  { name: "Category",   value: product.category },
+  { name: "Structure",  value: product.structure },
+  { name: "Design",     value: product.design },
+  { name: "GSM",        value: `${product.gsm} GSM` },
+  { name: "Weight (oz)", value: `${product.ozs} oz` },
+  { name: "Width (cm)", value: `${product.cm} cm` },
+  { name: "Width (inch)", value: `${product.inch} inch` },
+  ...(product.motif && product.motif !== "N/A" ? [{ name: "Motif", value: product.motif }] : []),
+  ...product.finish.map((f) => ({ name: "Finish", value: f })),
+  ...product.keywords.map((k) => ({ name: "Keyword", value: k })),
+  ...product.applications.map((a) => ({ name: "Suitability", value: `${a.name} ${a.score}%` })),
+].map(({ name, value }) => ({
+  "@type": "PropertyValue",
+  name,
+  value,
+}));
+
 const productSchema = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -44,6 +63,8 @@ const productSchema = {
   },
   material: product.content,
   color: product.colorNames.join(", "),
+  category: product.category,
+  additionalProperty: additionalProperties,
   ...(product.ratingCount > 0 ? {
     aggregateRating: {
       "@type": "AggregateRating",
@@ -69,9 +90,9 @@ const productSchema = {
 
 // ── JSON-LD: BreadcrumbList schema ─────────────────────────────────────────────
 const breadcrumbItems = [
-  { name: "Home", url: `${siteBase}/` },
-  { name: "Fabric", url: `${siteBase}/fabric` },
-  { name: product.category, url: `${siteBase}/category/${product.categorySlug}` },
+  { name: "Home", url: "/" },
+  { name: "Fabric", url: "/fabric" },
+  { name: product.category, url: `/category/${product.categorySlug}` },
   { name: product.name },
 ];
 
@@ -112,8 +133,8 @@ const schemas = [productSchema, faqSchema].filter(Boolean);
   twitterDescription={product.shortDesc}
   twitterImage={product.imageLarge || product.image1 || undefined}
   schemaMarkup={schemas}
+  breadcrumbs={breadcrumbItems}
 >
-  <BreadcrumbSchema items={breadcrumbItems} />
   <!-- Breadcrumb UI -->
   <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
     <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">

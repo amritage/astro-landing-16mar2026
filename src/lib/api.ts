@@ -17,6 +17,7 @@ export interface ApiProduct {
   structure: string;
   content: string[];
   design: string;
+  motif: string | null;
   finish: string[];
   color: string[];
   hex: string[];

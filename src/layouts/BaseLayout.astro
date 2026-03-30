@@ -4,6 +4,7 @@ import Header from "/src/layouts/Header.astro";
 import Footer from "/src/layouts/Footer.astro";
 import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
+import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import { getSiteSettings } from "../lib/api";
 
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
   twitterImage?: string;
   schemaMarkup?: object | object[];
   noindex?: boolean;
+  breadcrumbs?: { name: string; url?: string }[];
 }
 
 const {
@@ -37,6 +39,7 @@ const {
   twitterImage,
   schemaMarkup,
   noindex = false,
+  breadcrumbs,
 } = Astro.props;
 
 // Site-wide settings from API (eCatalogue)
@@ -108,6 +111,11 @@ const schemaArray = schemaMarkup
 
     <!-- Local Business / Organization Schema -->
     <LocalBusinessSchema />
+
+    <!-- Breadcrumb Schema (skip on homepage) -->
+    {breadcrumbs && breadcrumbs.length > 0 && (
+      <BreadcrumbSchema items={breadcrumbs} />
+    )}
 
     <!-- Google Analytics -->
     {site?.gaMeasurementId && (
