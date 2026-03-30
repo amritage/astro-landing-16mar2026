@@ -5,6 +5,8 @@ import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProductsPage } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
 
+const FABRIC_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuDXILs7vI9jTFPWWO0ngF8Ui-YT9674spB4lXOMQdOFMu7t5X7RyxOAGKm9YKWwUa4bJjALACc-AydvYav7TOQbv5phLBVC8IRktf5451HZnhTMu9WNYMfXOqEob14cesbhrbM3KPpL4MQ8Try_UlEL_ce65vI2eOFWkh20w8aWmhys0NYqcvPCnr0huz0J7Ub7UX6hobR1a8Nnzh16FVRZvAKH5176oU6Hf2vOc1Ma2YIvbT9sKvweH0wTLaeEHj9OasHKJ9-ClxFx";
+
 const [{ products: rawProducts, total, totalPages }, filters, seo, faqData] = await Promise.all([
   fetchProductsPage(1),
   getFilterValues(),
@@ -42,7 +44,7 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "product"}
-  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? FABRIC_HERO_IMAGE}
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout
