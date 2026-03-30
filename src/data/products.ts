@@ -196,15 +196,21 @@ export function mapApiProduct(p: ApiProduct): Product {
 
 // ── Exported data (called at build time) ──────────────────────────────────────
 
+/** Returns true if the product has a valid, published slug */
+function hasValidSlug(p: ApiProduct): boolean {
+  const slug = (p.productslug ?? "").trim().toLowerCase();
+  return slug.length > 0 && slug !== "pending";
+}
+
 export async function fetchProducts(): Promise<Product[]> {
   const raw = await getAllProducts();
-  return raw.map(mapApiProduct);
+  return raw.filter(hasValidSlug).map(mapApiProduct);
 }
 
 export async function fetchProductsPage(page: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
   const result = await getProducts(page, 20);
   return {
-    products: result.data.map(mapApiProduct),
+    products: result.data.filter(hasValidSlug).map(mapApiProduct),
     total: result.total,
     totalPages: result.totalPages,
     currentPage: result.page,

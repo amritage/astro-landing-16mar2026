@@ -7,7 +7,9 @@ const topics = await getDynamicTopicPages();
 const sections = await Promise.all(
   topics.map(async (topic) => {
     const raw = await getProductsByMerchTag(topic.slug1, 4);
-    const products = raw.map(mapApiProduct);
+    const products = raw
+      .filter((p) => (p.productslug ?? "").trim().toLowerCase() !== "pending")
+      .map(mapApiProduct);
     return { topic, products };
   })
 );
