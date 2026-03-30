@@ -78,6 +78,11 @@ const schemas = [articleSchema, faqSchema].filter(Boolean);
   twitterDescription={post.excerpt ?? undefined}
   twitterImage={heroImage}
   schemaMarkup={schemas}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Blog", url: "/blog" },
+    { name: post.title },
+  ]}
 >
   <BlogDynamicPostHero post={post} />
   <BlogDynamicPostBody post={post} />

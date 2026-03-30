@@ -22,6 +22,10 @@ const BLOG_OG_IMAGE = seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? (feature
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "blog"}
   ogImage={BLOG_OG_IMAGE}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Blog" },
+  ]}
 >
   <BlogHero />
   <BlogDynamicGrid featured={featured} posts={rest} />
