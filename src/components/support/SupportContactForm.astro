@@ -219,32 +219,99 @@
 </style>
 
 <script>
-  const ESPO_URL = 'https://espo.egport.com/api/v1/LeadCapture/a4624c9bb58b8b755e3d94f1a25fc9be';
+  const LEAD_CAPTURE_URL = 'https://espo.egport.com/api/v1/LeadCapture/a4624c9bb58b8b755e3d94f1a25fc9be';
+  const ESPO_API_BASE    = 'https://espo.egport.com/api/v1';
+  const ESPO_API_KEY     = 'a4624c9bb58b8b755e3d94f1a25fc9be';
 
-  const form = document.getElementById('msf') as HTMLFormElement;
-  const steps = [
-    document.getElementById('step-1')!,
-    document.getElementById('step-2')!,
-    document.getElementById('step-3')!,
-  ];
-  const dots = [
-    document.getElementById('step-dot-1')!,
-    document.getElementById('step-dot-2')!,
-    document.getElementById('step-dot-3')!,
-  ];
-  const lines = [
-    document.getElementById('step-line-1')!,
-    document.getElementById('step-line-2')!,
-  ];
+  const form      = document.getElementById('msf') as HTMLFormElement;
+  const stepEls   = [document.getElementById('step-1')!, document.getElementById('step-2')!, document.getElementById('step-3')!];
+  const dots      = [document.getElementById('step-dot-1')!, document.getElementById('step-dot-2')!, document.getElementById('step-dot-3')!];
+  const lines     = [document.getElementById('step-line-1')!, document.getElementById('step-line-2')!];
   const stepLabel = document.getElementById('step-label')!;
+
   let current = 0;
+  let leadId: string | null = null;
+  let isSaving = false;
+
+  // ── helpers ───────────────────────────────────────────────────────────────────
+
+  const g = (name: string): string =>
+    (form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value?.trim() ?? '';
+
+  function collectAllFilledFields(): Record<string, unknown> {
+    const payload: Record<string, unknown> = {};
+    const textFields = [
+      'salutationName','firstName','lastName','middleName',
+      'emailAddress','phoneNumber','accountName',
+      'addressStreet','addressCity','addressState','addressCountry','addressPostalCode',
+      'description',
+    ];
+    for (const f of textFields) {
+      const v = g(f);
+      if (v) payload[f] = v;
+    }
+    const businessType   = g('cBusinessType');
+    const fabricCategory = g('cFabricCategory');
+    const amount         = g('opportunityAmount');
+    if (businessType)   payload.cBusinessType   = [businessType];
+    if (fabricCategory) payload.cFabricCategory = [fabricCategory];
+    if (amount)         payload.opportunityAmount = parseFloat(amount);
+    const currency = g('opportunityAmountCurrency');
+    if (currency)       payload.opportunityAmountCurrency = currency;
+    return payload;
+  }
+
+  // ── upsert to EspoCRM ─────────────────────────────────────────────────────────
+  // First blur with any data → POST LeadCapture (creates record, stores id)
+  // Every subsequent blur   → PATCH /Lead/{id} (updates same record, no duplicate)
+
+  async function syncToEspo() {
+    if (isSaving) return;
+    const payload = collectAllFilledFields();
+    // Need at least one meaningful field before creating a record
+    if (!payload.firstName && !payload.emailAddress && !payload.phoneNumber) return;
+
+    isSaving = true;
+    try {
+      if (!leadId) {
+        const res = await fetch(LEAD_CAPTURE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          const json = await res.json().catch(() => ({}));
+          if (json?.id) leadId = json.id;
+        }
+      } else {
+        await fetch(`${ESPO_API_BASE}/Lead/${leadId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'X-Api-Key': ESPO_API_KEY },
+          body: JSON.stringify(payload),
+        });
+      }
+    } catch {
+      // Silent — never interrupt the user
+    } finally {
+      isSaving = false;
+    }
+  }
+
+  // Attach blur listener to every field in the form
+  form.querySelectorAll<HTMLElement>('input, select, textarea').forEach((el) => {
+    el.addEventListener('blur', () => {
+      if ((el as HTMLInputElement).name === '_hp') return; // skip honeypot
+      syncToEspo();
+    });
+  });
+
+  // ── stepper UI ────────────────────────────────────────────────────────────────
 
   function goTo(n: number) {
-    steps[current].classList.add('hidden');
+    stepEls[current].classList.add('hidden');
     current = n;
-    steps[current].classList.remove('hidden');
+    stepEls[current].classList.remove('hidden');
     stepLabel.textContent = `Step ${current + 1} of 3`;
-
     dots.forEach((dot, i) => {
       if (i <= current) {
         dot.classList.remove('border-2', 'border-[#d1d5db]', 'text-[#9ca3af]');
@@ -261,12 +328,8 @@
   }
 
   function validateStep1(): boolean {
-    const firstName = (form.querySelector('[name="firstName"]') as HTMLInputElement).value.trim();
-    const lastName = (form.querySelector('[name="lastName"]') as HTMLInputElement).value.trim();
-    const email = (form.querySelector('[name="emailAddress"]') as HTMLInputElement).value.trim();
-    const phone = (form.querySelector('[name="phoneNumber"]') as HTMLInputElement).value.trim();
-    if (!firstName || !lastName) { alert('Please enter your first and last name.'); return false; }
-    if (!email && !phone) { alert('Please provide at least an email or phone number.'); return false; }
+    if (!g('firstName') || !g('lastName')) { alert('Please enter your first and last name.'); return false; }
+    if (!g('emailAddress') && !g('phoneNumber')) { alert('Please provide at least an email or phone number.'); return false; }
     return true;
   }
 
@@ -275,59 +338,46 @@
   document.getElementById('next-2')!.addEventListener('click', () => goTo(2));
   document.getElementById('prev-3')!.addEventListener('click', () => goTo(1));
 
+  // ── final submit ──────────────────────────────────────────────────────────────
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const hp = (form.querySelector('[name="_hp"]') as HTMLInputElement).value;
-    if (hp) return;
+    if ((form.querySelector('[name="_hp"]') as HTMLInputElement).value) return;
 
-    const submitBtn = document.getElementById('form-submit') as HTMLButtonElement;
+    const submitBtn  = document.getElementById('form-submit') as HTMLButtonElement;
     const successMsg = document.getElementById('form-success')!;
-    const errorMsg = document.getElementById('form-error')!;
+    const errorMsg   = document.getElementById('form-error')!;
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
     successMsg.classList.add('hidden');
     errorMsg.classList.add('hidden');
 
-    const g = (name: string) => (form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value ?? '';
-
-    const businessType = g('cBusinessType');
-    const fabricCategory = g('cFabricCategory');
-    const amount = g('opportunityAmount');
-
-    const payload: Record<string, unknown> = {
-      salutationName: g('salutationName'),
-      firstName: g('firstName'),
-      lastName: g('lastName'),
-      middleName: g('middleName'),
-      emailAddress: g('emailAddress'),
-      phoneNumber: g('phoneNumber'),
-      accountName: g('accountName'),
-      addressStreet: g('addressStreet'),
-      addressCity: g('addressCity'),
-      addressState: g('addressState'),
-      addressCountry: g('addressCountry'),
-      addressPostalCode: g('addressPostalCode'),
-      cBusinessType: businessType ? [businessType] : [],
-      cFabricCategory: fabricCategory ? [fabricCategory] : [],
-      opportunityAmount: amount ? parseFloat(amount) : null,
-      opportunityAmountCurrency: g('opportunityAmountCurrency') || 'USD',
-      description: g('description'),
-    };
+    const payload = collectAllFilledFields();
 
     try {
-      const res = await fetch(ESPO_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (res.ok) {
-        form.reset();
-        goTo(0);
-        successMsg.classList.remove('hidden');
+      if (leadId) {
+        // Record already exists — just update it with final data
+        const res = await fetch(`${ESPO_API_BASE}/Lead/${leadId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'X-Api-Key': ESPO_API_KEY },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
       } else {
-        errorMsg.classList.remove('hidden');
+        // No partial save happened yet — create fresh
+        const res = await fetch(LEAD_CAPTURE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error(`${res.status}`);
       }
+
+      form.reset();
+      leadId = null;
+      goTo(0);
+      successMsg.classList.remove('hidden');
     } catch {
       errorMsg.classList.remove('hidden');
     } finally {

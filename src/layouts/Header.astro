@@ -20,88 +20,99 @@ const whatsappHref = whatsappNumber
 ---
 
 <!-- Trust Strip -->
-<div class="trust-strip" id="trust-strip">
+<div class="fixed top-0 left-0 right-0 z-[60] bg-[#041632] flex items-center justify-center gap-[10px] px-4 h-[30px] overflow-hidden" id="trust-strip">
   {siteConfig.topbarItems.map((item, index) => (
-    <span class:list={["trust-item", { "trust-item--hidden": index !== 0 }]} data-trust-item>{item}</span>
+    <span
+      class:list={["text-white/90 text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap transition-opacity duration-400", { "hidden sm:inline": index !== 0 }]}
+      data-trust-item
+    >{item}</span>
   ))}
-  <span class="trust-dividers" aria-hidden="true">
+  <span class="hidden sm:contents" aria-hidden="true">
     {siteConfig.topbarItems.map((_, index) => (
-      index < siteConfig.topbarItems.length - 1 && <span class="trust-divider">|</span>
+      index < siteConfig.topbarItems.length - 1 && <span class="text-white/25 text-[10px]">|</span>
     ))}
   </span>
 </div>
 
 <!-- Main Header -->
-<header class="site-header" id="site-header">
-  <div class="header-inner">
+<header class="site-header fixed top-[30px] left-0 right-0 z-50 bg-white/92 backdrop-blur-md border-b border-slate-200/50 shadow-[0_2px_16px_rgba(4,22,50,0.06)] transition-shadow duration-300" id="site-header">
+  <div class="max-w-[1400px] mx-auto px-4 md:px-8 h-16 md:h-[72px] flex items-center justify-between gap-3">
 
     <!-- Logo -->
-    <a href="/" class="brand-logo" aria-label={siteConfig.brandName}>
-      <div class="brand-icon">{siteConfig.brandShort}</div>
-      <div class="brand-text">
-        <span class="brand-name">{siteConfig.brandName}</span>
-        <span class="brand-tagline">{siteConfig.tagline}</span>
+    <a href="/" class="flex items-center gap-3 no-underline flex-shrink-0" aria-label={siteConfig.brandName}>
+      <div class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center flex-shrink-0">
+        <img src="/images/icons/my_logo.png" alt={siteConfig.brandName} width="80" height="80" class="w-full h-full object-contain" />
+      </div>
+      <div class="flex flex-col gap-0 min-w-0">
+        <span class="text-[15px] sm:text-base md:text-lg font-extrabold leading-tight whitespace-nowrap overflow-hidden text-ellipsis text-[#041632]">{siteConfig.brandName}</span>
+        <span class="hidden sm:block text-[9px] md:text-[10px] font-semibold text-slate-500 tracking-[0.18em] uppercase whitespace-nowrap">{siteConfig.tagline}</span>
       </div>
     </a>
 
     <!-- Desktop Nav -->
-    <nav class="desktop-nav" aria-label="Main navigation">
+    <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
       {navItems.map((item) => (
         <a
           href={item.href}
-          class:list={["nav-link", { "nav-link--active": isActivePath(item.href) }]}
+          class:list={[
+            "relative px-[10px] xl:px-3 py-[6px] text-[13px] xl:text-sm font-semibold text-slate-800 no-underline tracking-[0.01em] rounded-lg transition-colors duration-200 whitespace-nowrap hover:text-[#041632] hover:bg-[#041632]/5 nav-link",
+            { "text-[#041632] font-bold nav-link--active": isActivePath(item.href) }
+          ]}
           aria-current={isActivePath(item.href) ? "page" : undefined}
         >
           {item.label}
-          <span class="nav-link__underline" aria-hidden="true"></span>
+          <span class="nav-underline absolute bottom-[2px] left-[10px] right-[10px] h-[2px] rounded-sm bg-[#775a19]" aria-hidden="true"></span>
         </a>
       ))}
     </nav>
 
     <!-- Desktop CTA -->
-    <div class="header-cta">
-      <a href={phoneHref} class="btn-outline">Call Now</a>
-      <a href={whatsappHref} class="btn-primary" target="_blank" rel="noopener noreferrer">Get Quote</a>
+    <div class="hidden md:flex items-center gap-2 flex-shrink-0">
+      <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>
+      <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>
     </div>
 
     <!-- Mobile Hamburger -->
     <button
-      class="hamburger"
+      class="hamburger lg:hidden flex flex-col justify-center items-center gap-[5px] w-11 h-11 rounded-xl border-[1.5px] border-slate-200 bg-white cursor-pointer p-0 flex-shrink-0 transition-colors duration-200 hover:border-[#041632]"
       id="hamburger"
       aria-label="Open navigation menu"
       aria-expanded="false"
       aria-controls="mobile-drawer"
     >
-      <span class="hamburger__bar"></span>
-      <span class="hamburger__bar"></span>
-      <span class="hamburger__bar"></span>
+      <span class="hamburger__bar block w-[18px] h-[2px] rounded-sm bg-[#041632]"></span>
+      <span class="hamburger__bar block w-[18px] h-[2px] rounded-sm bg-[#041632]"></span>
+      <span class="hamburger__bar block w-[18px] h-[2px] rounded-sm bg-[#041632]"></span>
     </button>
 
   </div>
 </header>
 
 <!-- Mobile Drawer Overlay -->
-<div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+<div class="drawer-overlay fixed inset-0 z-[70] bg-[#041632]/45 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" aria-hidden="true"></div>
 
 <!-- Mobile Drawer -->
-<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
-  <div class="drawer-header">
-    <div class="drawer-brand">
-      <span class="brand-name">{siteConfig.brandName}</span>
-      <span class="brand-tagline">{siteConfig.tagline}</span>
+<aside class="mobile-drawer fixed top-0 right-0 bottom-0 z-[80] w-screen sm:w-[min(85vw,380px)] bg-white flex flex-col overflow-y-auto shadow-[-8px_0_40px_rgba(4,22,50,0.15)] lg:hidden" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="flex items-center justify-between px-5 pt-5 pb-4 bg-[#041632] flex-shrink-0">
+    <div class="flex flex-col gap-[2px]">
+      <span class="text-white text-[17px] font-extrabold">{siteConfig.brandName}</span>
+      <span class="text-white/60 text-[9px] tracking-[0.2em] uppercase">{siteConfig.tagline}</span>
     </div>
-    <button class="drawer-close" id="drawer-close" aria-label="Close navigation menu">
+    <button class="drawer-close w-9 h-9 rounded-[10px] border-[1.5px] border-white/20 bg-white/10 text-white flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors duration-200 hover:bg-white/20" id="drawer-close" aria-label="Close navigation menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 6L6 18M6 6l12 12"/>
       </svg>
     </button>
   </div>
 
-  <nav class="drawer-nav" aria-label="Mobile navigation">
+  <nav class="flex flex-col p-3 pb-0" aria-label="Mobile navigation">
     {navItems.map((item) => (
       <a
         href={item.href}
-        class:list={["drawer-link", { "drawer-link--active": isActivePath(item.href) }]}
+        class:list={[
+          "px-[14px] py-3 rounded-xl text-[15px] font-semibold text-slate-800 no-underline transition-colors duration-200 hover:bg-slate-100 hover:text-[#041632]",
+          { "bg-slate-100 text-[#041632] font-bold": isActivePath(item.href) }
+        ]}
         aria-current={isActivePath(item.href) ? "page" : undefined}
       >
         {item.label}
@@ -109,532 +120,42 @@ const whatsappHref = whatsappNumber
     ))}
   </nav>
 
-  <div class="drawer-divider"></div>
+  <div class="h-px bg-slate-200 mx-5 my-3"></div>
 
-  <div class="drawer-contact">
-    <p class="drawer-contact__label">Quick Contact</p>
-    <a href={phoneHref} class="drawer-contact__phone">{company?.phone1 ?? siteConfig.phone}</a>
-    <a href={siteConfig.emailHref} class="drawer-contact__email">{siteConfig.email}</a>
+  <div class="mx-3 mt-4 p-4 rounded-2xl bg-slate-50 flex flex-col gap-[6px]">
+    <p class="text-[10px] font-bold tracking-[0.16em] uppercase text-slate-400 mb-1">Quick Contact</p>
+    <a href={phoneHref} class="text-sm font-bold text-[#041632] no-underline hover:underline">{company?.phone1 ?? siteConfig.phone}</a>
+    <a href={siteConfig.emailHref} class="text-[13px] text-slate-500 no-underline break-all hover:text-[#041632]">{siteConfig.email}</a>
   </div>
 
-  <div class="drawer-footer">
-    <a href={whatsappHref} class="drawer-cta" target="_blank" rel="noopener noreferrer">Get a Quote</a>
-    <a href={phoneHref} class="drawer-call">Call Now</a>
+  <div class="flex gap-[10px] px-3 pt-4 pb-6 mt-auto flex-shrink-0">
+    <a href={whatsappHref} class="flex-1 flex items-center justify-center py-[14px] rounded-2xl bg-[#041632] text-white text-[13px] font-bold tracking-[0.06em] uppercase no-underline transition-colors duration-200 hover:bg-[#775a19]" target="_blank" rel="noopener noreferrer">Get a Quote</a>
+    <a href={phoneHref} class="flex items-center justify-center px-[18px] py-[14px] rounded-2xl border-[1.5px] border-slate-200 bg-white text-[#041632] text-[13px] font-bold no-underline transition-colors duration-200 hover:border-[#041632]">Call Now</a>
   </div>
 </aside>
 
 <style>
-  /* ── Trust Strip ─────────────────────────────────────── */
-  .trust-strip {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 60;
-    background: var(--color-primary, #041632);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 0 16px;
-    height: 30px;
-    overflow: hidden;
-  }
+  /* Hamburger open animation */
+  .hamburger.is-open .hamburger__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-open .hamburger__bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.is-open .hamburger__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .hamburger__bar { transition: transform 0.3s ease, opacity 0.3s ease; }
 
-  /* On mobile: only show one item at a time (JS cycles them) */
-  .trust-item {
-    color: rgba(255,255,255,0.88);
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    transition: opacity 0.4s ease;
-  }
+  /* Nav underline animation */
+  .nav-underline { transform: scaleX(0); transition: transform 0.25s ease; transform-origin: left; }
+  .nav-link--active .nav-underline,
+  .nav-link:hover .nav-underline { transform: scaleX(1); }
 
-  .trust-item--hidden {
-    display: none;
-  }
-
-  /* Dividers only on sm+ where all items show */
-  .trust-dividers { display: none; }
-  .trust-divider {
-    color: rgba(255,255,255,0.25);
-    font-size: 10px;
-  }
-
-  @media (min-width: 640px) {
-    .trust-item { font-size: 10px; }
-    .trust-item--hidden { display: inline; }
-    .trust-dividers { display: contents; }
-  }
-
-  /* ── Site Header ─────────────────────────────────────── */
-  .site-header {
-    position: fixed;
-    top: 30px;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(203,213,225,0.5);
-    box-shadow: 0 2px 16px rgba(4,22,50,0.06);
-    transition: box-shadow 0.3s ease;
-  }
-
-  .site-header.scrolled {
-    box-shadow: 0 4px 24px rgba(4,22,50,0.12);
-  }
-
-  .header-inner {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 16px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  @media (min-width: 768px) {
-    .header-inner { height: 72px; padding: 0 32px; }
-  }
-
-  /* ── Brand Logo ──────────────────────────────────────── */
-  .brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-
-  .brand-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--color-primary, #041632);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 900;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    letter-spacing: 0.05em;
-    flex-shrink: 0;
-  }
-
-  .brand-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    min-width: 0;
-  }
-
-  .brand-name {
-    font-size: 15px;
-    font-weight: 800;
-    color: var(--color-primary, #041632);
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .brand-tagline {
-    font-size: 9px;
-    font-weight: 600;
-    color: #64748b;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    display: none;
-  }
-
-  @media (min-width: 480px) {
-    .brand-tagline { display: block; }
-    .brand-name { font-size: 16px; }
-  }
-
-  @media (min-width: 768px) {
-    .brand-icon { width: 44px; height: 44px; font-size: 14px; border-radius: 14px; }
-    .brand-name { font-size: 18px; }
-    .brand-tagline { font-size: 10px; }
-  }
-
-  /* ── Desktop Nav ─────────────────────────────────────── */
-  .desktop-nav {
-    display: none;
-    align-items: center;
-    gap: 4px;
-  }
-
-  @media (min-width: 1024px) {
-    .desktop-nav { display: flex; }
-  }
-
-  .nav-link {
-    position: relative;
-    padding: 6px 10px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text, #1e293b);
-    text-decoration: none;
-    letter-spacing: 0.01em;
-    border-radius: 8px;
-    transition: color 0.2s, background 0.2s;
-    white-space: nowrap;
-  }
-
-  .nav-link:hover {
-    color: var(--color-primary, #041632);
-    background: rgba(4,22,50,0.05);
-  }
-
-  .nav-link--active {
-    color: var(--color-primary, #041632);
-    font-weight: 700;
-  }
-
-  .nav-link__underline {
-    position: absolute;
-    bottom: 2px;
-    left: 10px;
-    right: 10px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--color-secondary, #775a19);
-    transform: scaleX(0);
-    transition: transform 0.25s ease;
-    transform-origin: left;
-  }
-
-  .nav-link--active .nav-link__underline,
-  .nav-link:hover .nav-link__underline {
-    transform: scaleX(1);
-  }
-
-  @media (min-width: 1280px) {
-    .nav-link { font-size: 14px; padding: 6px 12px; }
-  }
-
-  /* ── Header CTA ──────────────────────────────────────── */
-  .header-cta {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
-  @media (min-width: 768px) {
-    .header-cta { display: flex; }
-  }
-
-  .btn-outline {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 16px;
-    border-radius: 999px;
-    border: 1.5px solid #cbd5e1;
-    background: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--color-text, #1e293b);
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: border-color 0.2s, color 0.2s;
-    white-space: nowrap;
-  }
-
-  .btn-outline:hover {
-    border-color: var(--color-primary, #041632);
-    color: var(--color-primary, #041632);
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 20px;
-    border-radius: 999px;
-    background: var(--color-primary, #041632);
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    text-decoration: none;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    transition: background 0.2s, transform 0.15s;
-    white-space: nowrap;
-    box-shadow: 0 2px 12px rgba(4,22,50,0.18);
-  }
-
-  .btn-primary:hover {
-    background: var(--color-secondary, #775a19);
-    transform: translateY(-1px);
-  }
-
-  /* ── Hamburger ───────────────────────────────────────── */
-  .hamburger {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: 1.5px solid #e2e8f0;
-    background: #fff;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-    transition: border-color 0.2s;
-  }
-
-  .hamburger:hover {
-    border-color: var(--color-primary, #041632);
-  }
-
-  .hamburger__bar {
-    display: block;
-    width: 18px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--color-primary, #041632);
-    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
-  }
-
-  .hamburger.is-open .hamburger__bar:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .hamburger.is-open .hamburger__bar:nth-child(2) {
-    opacity: 0;
-    transform: scaleX(0);
-  }
-  .hamburger.is-open .hamburger__bar:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  @media (min-width: 1024px) {
-    .hamburger { display: none; }
-  }
-
-  /* ── Drawer Overlay ──────────────────────────────────── */
-  .drawer-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 70;
-    background: rgba(4,22,50,0.45);
-    backdrop-filter: blur(2px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .drawer-overlay.is-open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* ── Mobile Drawer ───────────────────────────────────── */
+  /* Drawer open states */
+  .drawer-overlay.is-open { opacity: 1; pointer-events: auto; }
   .mobile-drawer {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 80;
-    /* Full screen on mobile, partial on larger phones */
-    width: 100vw;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
     transform: translateX(100%);
     transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -8px 0 40px rgba(4,22,50,0.15);
   }
+  .mobile-drawer.is-open { transform: translateX(0); }
 
-  @media (min-width: 480px) {
-    .mobile-drawer { width: min(85vw, 380px); }
-  }
-
-  .mobile-drawer.is-open {
-    transform: translateX(0);
-  }
-
-  @media (min-width: 1024px) {
-    .mobile-drawer { display: none; }
-  }
-
-  /* Drawer Header */
-  .drawer-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 20px 16px;
-    background: var(--color-primary, #041632);
-    flex-shrink: 0;
-  }
-
-  .drawer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .drawer-brand .brand-name {
-    color: #fff;
-    font-size: 17px;
-    font-weight: 800;
-  }
-
-  .drawer-brand .brand-tagline {
-    display: block;
-    color: rgba(255,255,255,0.6);
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  .drawer-close {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: background 0.2s;
-  }
-
-  .drawer-close:hover {
-    background: rgba(255,255,255,0.2);
-  }
-
-  /* Drawer Nav */
-  .drawer-nav {
-    display: flex;
-    flex-direction: column;
-    padding: 12px 12px 0;
-  }
-
-  .drawer-link {
-    padding: 12px 14px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--color-text, #1e293b);
-    text-decoration: none;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .drawer-link:hover {
-    background: #f1f5f9;
-    color: var(--color-primary, #041632);
-  }
-
-  .drawer-link--active {
-    background: #f1f5f9;
-    color: var(--color-primary, #041632);
-    font-weight: 700;
-  }
-
-  /* Drawer Divider */
-  .drawer-divider {
-    height: 1px;
-    background: #e2e8f0;
-    margin: 12px 20px;
-  }
-
-  /* Drawer Contact */
-  .drawer-contact {
-    margin: 12px;
-    margin-top: 16px;
-    padding: 16px;
-    border-radius: 16px;
-    background: #f8fafc;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .drawer-contact__label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #94a3b8;
-    margin-bottom: 4px;
-  }
-
-  .drawer-contact__phone {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--color-primary, #041632);
-    text-decoration: none;
-  }
-
-  .drawer-contact__email {
-    font-size: 13px;
-    color: #64748b;
-    text-decoration: none;
-    word-break: break-all;
-  }
-
-  .drawer-contact__phone:hover { text-decoration: underline; }
-  .drawer-contact__email:hover { color: var(--color-primary, #041632); }
-
-  /* Drawer Footer CTA */
-  .drawer-footer {
-    display: flex;
-    gap: 10px;
-    padding: 16px 12px 24px;
-    margin-top: auto;
-    flex-shrink: 0;
-  }
-
-  .drawer-cta {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px;
-    border-radius: 14px;
-    background: var(--color-primary, #041632);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-
-  .drawer-cta:hover { background: var(--color-secondary, #775a19); }
-
-  .drawer-call {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px 18px;
-    border-radius: 14px;
-    border: 1.5px solid #e2e8f0;
-    background: #fff;
-    color: var(--color-primary, #041632);
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: border-color 0.2s;
-  }
-
-  .drawer-call:hover { border-color: var(--color-primary, #041632); }
+  /* Scrolled shadow */
+  .site-header.scrolled { box-shadow: 0 4px 24px rgba(4,22,50,0.12); }
 </style>
 
 <script>
@@ -675,20 +196,19 @@ const whatsappHref = whatsappNumber
     if (e.key === "Escape") closeDrawer();
   });
 
-  // Scroll shadow
   window.addEventListener("scroll", () => {
     header.classList.toggle("scrolled", window.scrollY > 10);
   }, { passive: true });
 
-  // Trust strip ticker — cycles items on mobile only
+  // Trust strip ticker on mobile
   const trustItems = document.querySelectorAll<HTMLElement>("[data-trust-item]");
   if (trustItems.length > 1) {
     let current = 0;
     function cycleTrust() {
-      if (window.innerWidth >= 640) return; // sm+ shows all items via CSS
-      trustItems[current].classList.add("trust-item--hidden");
+      if (window.innerWidth >= 640) return;
+      trustItems[current].classList.add("hidden");
       current = (current + 1) % trustItems.length;
-      trustItems[current].classList.remove("trust-item--hidden");
+      trustItems[current].classList.remove("hidden");
     }
     setInterval(cycleTrust, 3000);
   }

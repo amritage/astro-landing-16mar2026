@@ -1,6 +1,6 @@
 export const siteConfig = {
-  brandName: "Amrita Fashions",
-  brandShort: "AF",
+  brandName: "Amrita Global Enterprises",
+  brandShort: "AGE",
   tagline: "Fabrics & Export Solutions",
   shortDescription:
     "B2B manufacturer, exporter, and supplier of cotton, denim, knit, and woven fabrics for brands, wholesalers, and sourcing teams.",
