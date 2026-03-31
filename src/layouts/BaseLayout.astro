@@ -68,6 +68,11 @@ const schemaArray = schemaMarkup
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preconnects first (priority 90) — must be before any scripts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="robots" content={robotsContent} />
@@ -117,7 +122,15 @@ const schemaArray = schemaMarkup
       <BreadcrumbSchema items={breadcrumbs} />
     )}
 
-    <!-- Google Analytics -->
+    <!-- Font stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+
+    <!-- Google Analytics (async, after critical resources) -->
     {site?.gaMeasurementId && (
       <>
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaMeasurementId}`}></script>
@@ -140,15 +153,6 @@ const schemaArray = schemaMarkup
         })(window,document,"clarity","script",clarityId);
       </script>
     )}
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet" />
-    <style>
-      .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-      }
-    </style>
   </head>
   <body class="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
     <Header />
