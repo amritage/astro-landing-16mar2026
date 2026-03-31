@@ -121,9 +121,9 @@ const pageCount = products.length;
     <div class="absolute inset-0 bg-[#041632]"></div>
   )}
   <div class="relative z-20 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-    <h2 class="font-headline italic text-3xl text-white tracking-tight md:text-5xl">
+    <h1 class="font-headline italic text-3xl text-white tracking-tight md:text-5xl">
       {hero.title}
-    </h2>
+    </h1>
     <nav class="mt-4 flex items-center gap-2 text-[10px] font-label font-medium uppercase tracking-widest text-white/80 md:text-sm">
       <a href="/" class="transition hover:text-white">Home</a>
       <span>/</span>
@@ -136,7 +136,7 @@ const pageCount = products.length;
 <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 md:py-16 lg:px-8">
   <div class="grid grid-cols-1 gap-8 items-start md:gap-12 lg:grid-cols-3">
     <div class="lg:col-span-2">
-      <h1 class="font-headline text-3xl leading-tight text-[#041632] md:text-5xl">
+      <h2 class="font-headline text-3xl leading-tight text-[#041632] md:text-5xl">
         {intro.heading || <span class="text-slate-300 italic">Content coming soon</span>}
       </h1>
       <p class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
@@ -146,7 +146,7 @@ const pageCount = products.length;
     {(intro.calloutTitle || intro.calloutBody) && (
       <div class="rounded-lg border-l-4 border-[#775a19] bg-slate-50 p-6 md:p-8">
         {intro.calloutTitle && (
-          <h4 class="font-headline italic text-xl text-[#041632] mb-2">{intro.calloutTitle}</h4>
+          <h3 class="font-headline italic text-xl text-[#041632] mb-2">{intro.calloutTitle}</h3>
         )}
         {intro.calloutBody && (
           <p class="text-sm font-label text-slate-600">{intro.calloutBody}</p>
