@@ -84,6 +84,7 @@ const schemas = [articleSchema, faqSchema].filter(Boolean);
   title={`${post.title} | Amrita Global`}
   description={post.excerpt ?? undefined}
   canonical={canonicalUrl}
+  keywords={post.tags?.length ? post.tags : undefined}
   robots={post.robots ?? "index,follow"}
   ogTitle={post.title}
   ogDescription={post.excerpt ?? undefined}
