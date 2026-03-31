@@ -4,10 +4,10 @@ import { getCompanyInfo } from "../../lib/api";
 const company = await getCompanyInfo();
 const whatsappLink = company?.whatsappNumber
   ? `https://wa.me/${company.whatsappNumber.replace(/\D/g, "")}`
-  : "/contact";
+  : "/support";
 const phoneLink = company?.phone1
   ? `tel:${company.phone1.replace(/\s/g, "")}`
-  : "/contact";
+  : "/support";
 ---
 
 <section class="relative py-20 md:py-32 bg-[#041632] overflow-hidden">

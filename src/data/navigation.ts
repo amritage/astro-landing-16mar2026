@@ -10,7 +10,7 @@ export const navItems = [
 ];
 
 export const mobileQuickLinks = [
-  { label: "Request Quote", href: "/contact" },
+  { label: "Request Quote", href: "/support" },
   { label: "Explore Fabrics", href: "/fabric" },
   { label: "Support", href: "/support" },
 ];

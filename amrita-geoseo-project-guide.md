@@ -508,7 +508,7 @@ Every file here becomes a route.
 - `faq.astro` → `/faq`
 - `shipping.astro` → `/shipping`
 - `support.astro` → `/support`
-- `contact.astro` → `/contact`
+- `contact.astro` → `/support`
 - `careers.astro` → `/careers`
 - `search.astro` → `/search`
 - `thank-you.astro` → `/thank-you`
@@ -540,7 +540,7 @@ because Astro parameter names cannot contain `-`.
 
 ### API endpoints
 - `api/inquiry.ts`
-- `api/contact.ts`
+- `api/support.ts`
 - `api/search.ts`
 
 These can handle:
@@ -602,7 +602,7 @@ Files:
 - `tokens.css` = colors, radius, spacing, design tokens
 - `typography.css` = headings, body text, lists
 - `utilities.css` = custom utility classes if needed
-- `forms.css` = inquiry/contact/search form styles
+- `forms.css` = inquiry/support/search form styles
 - `prose.css` = blog/article/legal content styling
 
 ### Best rule
@@ -776,7 +776,7 @@ Your documentation says the main indexed routes should be:
 - `/shipping`
 - `/support`
 - `/faq`
-- `/contact`
+- `/support`
 
 This route family supports strong internal linking between product, category, location, industry, guide, and trust pages. fileciteturn3file4turn3file5
 

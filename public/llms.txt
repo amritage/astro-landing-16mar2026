@@ -60,7 +60,7 @@ Menswear, Womenswear, Workwear, Uniforms, Sportswear, Industrial Textiles, and m
 - /guides — Fabric buying and technical guides
 - /guides/[slug] — Individual guide pages
 - /faq — Frequently asked questions
-- /contact — Contact and inquiry form
+- /support — Contact and inquiry form
 - /careers — Open positions and application form
 - /shipping — Shipping and logistics information
 - /support — Customer support channels
@@ -82,4 +82,4 @@ Menswear, Womenswear, Workwear, Uniforms, Sportswear, Industrial Textiles, and m
 
 - Phone / WhatsApp: +91 99251 55141
 - WhatsApp link: https://wa.me/919925155141
-- Inquiry form: https://www.amrita-fashions.com/contact
+- Inquiry form: https://www.amrita-fashions.com/support
