@@ -40,7 +40,7 @@ const products: FabricProduct[] = rawProducts
     weight: p.specs.weight,
     width: p.specs.width,
     color: p.hex?.[0] ?? "#041632",
-    image: p.image1Card ?? getCloudinaryUrl(p.image, "f_auto,q_auto,w_400,c_fill,g_auto"),
+    image: p.image,
     imageSrcset: p.image1Srcset || undefined,
     href: p.slug ? `/collection/${slug}/${p.slug}` : null,
     filterCategory: p.category,
@@ -76,10 +76,7 @@ const faqItems: FAQItem[] = apiFaqs.length > 0 ? apiFaqs : [
   },
 ];
 
-const heroImageUrl: string | null = getCloudinaryUrl(
-  page.image1CloudUrlHero ?? page.image1CloudUrl ?? null,
-  "f_auto,q_auto,w_1200,c_fill,g_auto"
-) || null;
+const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudUrl ?? null;
 ---
 
 <BaseLayout

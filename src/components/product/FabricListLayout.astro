@@ -12,6 +12,7 @@ import ProductSection from "./ProductSection.astro";
 import ProductCTA from "./ProductCTA.astro";
 import ProductGuide from "./ProductGuide.astro";
 import ProductFAQ from "./ProductFAQ.astro";
+import { getCloudinaryUrl } from "../../data/products";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -109,17 +110,31 @@ const {
 } = Astro.props;
 
 const pageCount = products.length;
+
+// Build responsive hero srcset from the raw Cloudinary URL
+const heroSrc = hero.imageUrl
+  ? getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_800,c_fill,g_auto")
+  : null;
+const heroSrcset = hero.imageUrl
+  ? [
+      `${getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_640,c_fill,g_auto")} 640w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_960,c_fill,g_auto")} 960w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_1280,c_fill,g_auto")} 1280w`,
+    ].join(", ")
+  : undefined;
 ---
 
 <!-- Hero Banner -->
 <header class="relative flex h-[250px] items-center overflow-hidden md:h-[300px]">
   <div class="absolute inset-0 bg-[#041632]/40 z-10"></div>
-  {hero.imageUrl ? (
+  {heroSrc ? (
     <img
-      src={hero.imageUrl}
+      src={heroSrc}
+      srcset={heroSrcset}
+      sizes="100vw"
       alt={hero.title}
       title={hero.title}
-      width="1200"
+      width="960"
       height="300"
       class="absolute inset-0 h-full w-full object-cover"
       loading="eager"

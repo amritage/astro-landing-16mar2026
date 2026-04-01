@@ -95,13 +95,24 @@ function buildFaq(p: ApiProduct): { q: string; a: string }[] {
 }
 
 /**
- * Inject Cloudinary transforms into any Cloudinary URL.
+ * Inject Cloudinary transforms into any Cloudinary URL, stripping any existing transforms first.
  * Safe to call on non-Cloudinary URLs — returns them unchanged.
- * Example: getCloudinaryUrl(url, "f_auto,q_auto,w_1200,c_fill,g_auto")
+ * Example: getCloudinaryUrl(url, "f_auto,q_auto,w_400,c_fill,g_auto")
  */
 export function getCloudinaryUrl(url: string | null | undefined, transforms: string): string {
   if (!url || !url.includes("/upload/")) return url ?? "";
-  return url.replace("/upload/", `/upload/${transforms}/`);
+  const uploadIdx = url.indexOf("/upload/");
+  const base = url.slice(0, uploadIdx + "/upload/".length);
+  const segments = url.slice(base.length).split("/");
+  // Skip existing transform segments
+  let i = 0;
+  while (i < segments.length) {
+    const seg = segments[i];
+    if (/^v\d+$/.test(seg)) break;
+    if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; } else { break; }
+  }
+  const publicPart = segments.slice(i).join("/");
+  return `${base}${transforms}/${publicPart}`;
 }
 
 /** Strip HTML tags and return plain text, or null if nothing meaningful remains */
@@ -201,7 +212,7 @@ export function mapApiProduct(p: ApiProduct): Product {
     seriesLabel: p.collectionName,
     name: p.productTitle ?? p.name,
     shortDesc: stripHtml(p.shortProductDescription) || p.productTagline || "",
-    image: nullIfEmpty(p.image1CloudUrl) ?? "",
+    image: nullIfEmpty(p.image1CloudUrlCard) ?? getCloudinaryUrl(nullIfEmpty(p.image1CloudUrl), "f_auto,q_auto,w_400,c_fill,g_auto"),
     imageLarge: nullIfEmpty(p.image1CloudUrlHero) ?? nullIfEmpty(p.image1CloudUrl) ?? "",
     imageAlt: p.altTextImage1 ?? p.name,
     rating: p.ratingValue,

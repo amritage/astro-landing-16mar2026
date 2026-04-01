@@ -21,7 +21,7 @@ const products = rawProducts.map((p) => ({
   weight: p.specs.weight,
   width: p.specs.width,
   color: p.hex?.[0] ?? "#041632",
-  image: p.image1Card ?? getCloudinaryUrl(p.image, "f_auto,q_auto,w_400,c_fill,g_auto"),
+  image: p.image,
   imageSrcset: p.image1Srcset || undefined,
   href: p.slug ? `/fabric/${p.slug}` : null,
   filterCategory: p.category,
@@ -33,10 +33,7 @@ const products = rawProducts.map((p) => ({
   filterFinish: p.finish.join("|"),
 }));
 
-const heroImageUrl = getCloudinaryUrl(
-  seo?.image1CloudUrl ?? null,
-  "f_auto,q_auto,w_1200,c_fill,g_auto"
-) || "https://lh3.googleusercontent.com/aida-public/AB6AXuDXILs7vI9jTFPWWO0ngF8Ui-YT9674spB4lXOMQdOFMu7t5X7RyxOAGKm9YKWwUa4bJjALACc-AydvYav7TOQbv5phLBVC8IRktf5451HZnhTMu9WNYMfXOqEob14cesbhrbM3KPpL4MQ8Try_UlEL_ce65vI2eOFWkh20w8aWmhys0NYqcvPCnr0huz0J7Ub7UX6hobR1a8Nnzh16FVRZvAKH5176oU6Hf2vOc1Ma2YIvbT9sKvweH0wTLaeEHj9OasHKJ9-ClxFx";
+const heroImageUrl = seo?.image1CloudUrl ?? null;
 
 const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
@@ -112,7 +109,7 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
     <FabricListLayout
       hero={{
         title: "Browse Our Full Fabric Catalog",
-        imageUrl: heroImageUrl,
+        imageUrl: heroImageUrl ?? "https://lh3.googleusercontent.com/aida-public/AB6AXuDXILs7vI9jTFPWWO0ngF8Ui-YT9674spB4lXOMQdOFMu7t5X7RyxOAGKm9YKWwUa4bJjALACc-AydvYav7TOQbv5phLBVC8IRktf5451HZnhTMu9WNYMfXOqEob14cesbhrbM3KPpL4MQ8Try_UlEL_ce65vI2eOFWkh20w8aWmhys0NYqcvPCnr0huz0J7Ub7UX6hobR1a8Nnzh16FVRZvAKH5176oU6Hf2vOc1Ma2YIvbT9sKvweH0wTLaeEHj9OasHKJ9-ClxFx",
         breadcrumbLabel: "Fabric",
         breadcrumbHref: "/fabric",
       }}
