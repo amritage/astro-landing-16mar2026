@@ -41,7 +41,10 @@ const whatsappHref = whatsappNumber
     <!-- Logo -->
     <a href="/" class="flex items-center gap-3 no-underline flex-shrink-0" aria-label={siteConfig.brandName}>
       <div class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center flex-shrink-0">
-        <img src="/images/icons/my_logo.png" alt={siteConfig.brandName} title={siteConfig.brandName} width="80" height="80" class="w-full h-full object-contain" loading="eager" />
+        <picture>
+          <source srcset="/images/icons/my_logo.webp 1x, /images/icons/my_logo@2x.webp 2x" type="image/webp" />
+          <img src="/images/icons/my_logo.png" alt={siteConfig.brandName} title={siteConfig.brandName} width="80" height="80" class="w-full h-full object-contain" loading="eager" fetchpriority="high" />
+        </picture>
       </div>
       <div class="flex flex-col gap-0 min-w-0">
         <span class="text-[15px] sm:text-base md:text-lg font-extrabold leading-tight whitespace-nowrap overflow-hidden text-ellipsis text-[#041632]">{siteConfig.brandName}</span>
