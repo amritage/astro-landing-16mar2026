@@ -14,7 +14,7 @@ export const faqCategories: FAQCategory[] = [
   {
     id: "sourcing",
     label: "Sourcing",
-    icon: "layers",
+    icon: "category",
     faqs: [
       {
         question: "What types of fibers do you specialize in?",

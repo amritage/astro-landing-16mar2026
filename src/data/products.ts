@@ -94,6 +94,16 @@ function buildFaq(p: ApiProduct): { q: string; a: string }[] {
     .map(([q, a]) => ({ q: q!, a: a! }));
 }
 
+/**
+ * Inject Cloudinary transforms into any Cloudinary URL.
+ * Safe to call on non-Cloudinary URLs — returns them unchanged.
+ * Example: getCloudinaryUrl(url, "f_auto,q_auto,w_1200,c_fill,g_auto")
+ */
+export function getCloudinaryUrl(url: string | null | undefined, transforms: string): string {
+  if (!url || !url.includes("/upload/")) return url ?? "";
+  return url.replace("/upload/", `/upload/${transforms}/`);
+}
+
 /** Strip HTML tags and return plain text, or null if nothing meaningful remains */
 function stripHtml(html: string | null | undefined): string {
   if (!html) return "";

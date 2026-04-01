@@ -301,11 +301,11 @@ export interface WebsiteFaqCategory {
 }
 
 const FAQ_ICON_MAP: Record<string, string> = {
-  sourcing: "layers",
+  sourcing: "category",
   manufacturing: "precision_manufacturing",
   logistics: "local_shipping",
   "pricing/moq": "payments",
-  common: "help",
+  common: "help_center",
 };
 
 function nameToId(name: string): string {

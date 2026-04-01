@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem, FabricProduct } from "../../components/product/FabricListLayout.astro";
-import { mapApiProduct } from "../../data/products";
+import { mapApiProduct, getCloudinaryUrl } from "../../data/products";
 import {
   getCategoryTopicPages,
   getCategoryTopicPageBySlug,
@@ -39,7 +39,7 @@ const products: FabricProduct[] = rawProducts
     weight: p.specs.weight,
     width: p.specs.width,
     color: p.hex?.[0] ?? "#041632",
-    image: p.image,
+    image: p.image1Card ?? getCloudinaryUrl(p.image, "f_auto,q_auto,w_400,c_fill,g_auto"),
     imageSrcset: p.image1Srcset || undefined,
     href: p.slug ? `/category/${slug}/${p.slug}` : null,
     filterCategory: p.category,
@@ -77,8 +77,10 @@ const faqItems: FAQItem[] = apiFaqs.length > 0 ? apiFaqs : [
 ];
 
 // Hero image: prefer hero variant, fall back to base
-const heroImageUrl: string | null =
-  page.image1CloudUrlHero ?? page.image1CloudUrl ?? null;
+const heroImageUrl: string | null = getCloudinaryUrl(
+  page.image1CloudUrlHero ?? page.image1CloudUrl ?? null,
+  "f_auto,q_auto,w_1200,c_fill,g_auto"
+) || null;
 
 // Intro body: combine p1 + p2 from the topic page, strip HTML tags for plain text
 function stripHtml(html: string | null): string {
