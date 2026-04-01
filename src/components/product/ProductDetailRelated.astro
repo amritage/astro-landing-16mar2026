@@ -31,7 +31,7 @@ const hasMore = collectionProducts.length > 4;
           <a
             href={`/fabric/${rel.slug}`}
             class="group block flex-none snap-start"
-            style="width: calc(25% - 12px); min-width: 180px;"
+            style="width: calc(50% - 8px); min-width: 150px; max-width: 260px;"
           >
             <div class="aspect-[3/2] bg-[#e7e8e9] mb-3 overflow-hidden group-hover:opacity-80 transition-opacity">
               {rel.image1 ? (
@@ -60,13 +60,13 @@ const hasMore = collectionProducts.length > 4;
       </div>
 
       {hasMore && (
-        <div class="absolute right-0 top-0 bottom-4 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none flex items-center justify-end pr-1">
+        <div class="absolute right-0 top-0 w-10 lg:w-14 pointer-events-none" style="height: calc((100% - 1rem) * 3/5);">
           <button
             id="scroll-right-btn"
-            class="pointer-events-auto w-10 h-10 bg-[#041632] text-white flex items-center justify-center hover:bg-[#374765] transition-colors"
+            class="pointer-events-auto absolute right-0 top-1/2 -translate-y-1/2 w-7 h-7 lg:w-11 lg:h-11 bg-[#041632] text-white flex items-center justify-center hover:bg-[#374765] transition-colors"
             aria-label="Scroll right"
           >
-            <span class="material-symbols-outlined text-base">chevron_right</span>
+            <span class="material-symbols-outlined text-sm lg:text-xl">chevron_right</span>
           </button>
         </div>
       )}

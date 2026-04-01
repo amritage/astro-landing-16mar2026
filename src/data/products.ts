@@ -105,7 +105,7 @@ function buildCertifications(finish: string[]) {
   const iconMap: Record<string, string> = {
     "Chemical - Bio Finish": "eco",
     "Chemical - Mercerized": "workspace_premium",
-    "Chemical - Silicon": "shield_with_heart",
+    "Chemical - Silicon": "verified_user",
   };
   return finish.map((f) => ({
     icon: iconMap[f] ?? "verified",

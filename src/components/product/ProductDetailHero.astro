@@ -173,16 +173,18 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
           <span class="material-symbols-outlined">mail</span>
           <span>INQUIRE FOR BULK QUOTE</span>
         </button>
-        <div class="grid grid-cols-3 gap-4">
-          <a href={product.whatsapp} class="flex items-center justify-center space-x-2 border border-[#c5c6ce] py-3 hover:bg-[#e7e8e9] transition-colors">
-            <span class="material-symbols-outlined text-green-600" style="font-variation-settings: 'FILL' 1;">chat</span>
-            <span class="text-sm font-bold">WhatsApp</span>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <a href={product.whatsapp} class="flex items-center justify-center gap-2 border border-[#c5c6ce] py-3 px-2 hover:bg-[#e7e8e9] transition-colors min-w-0">
+            <span class="material-symbols-outlined text-green-600 shrink-0" style="font-variation-settings: 'FILL' 1;">chat</span>
+            <span class="text-sm font-bold truncate">WhatsApp</span>
           </a>
-          <a href={product.phone} class="flex items-center justify-center space-x-2 border border-[#c5c6ce] py-3 hover:bg-[#e7e8e9] transition-colors">
-            <span class="material-symbols-outlined">call</span>
-            <span class="text-sm font-bold">Call Us</span>
+          <a href={product.phone} class="flex items-center justify-center gap-2 border border-[#c5c6ce] py-3 px-2 hover:bg-[#e7e8e9] transition-colors min-w-0">
+            <span class="material-symbols-outlined shrink-0">call</span>
+            <span class="text-sm font-bold truncate">Call Us</span>
           </a>
-          <ProductShareButton product={product} />
+          <div class="col-span-2 sm:col-span-1">
+            <ProductShareButton product={product} />
+          </div>
         </div>
       </div>
     </div>

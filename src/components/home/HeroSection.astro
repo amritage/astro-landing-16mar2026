@@ -1,7 +1,11 @@
 ---
-import { getCompanyInfo } from "../../lib/api";
+import { getCompanyInfo, getTopicPageBySlug } from "../../lib/api";
 
-const company = await getCompanyInfo();
+const [company, homePage] = await Promise.all([
+  getCompanyInfo(),
+  getTopicPageBySlug("home"),
+]);
+const heroImage = homePage?.image1CloudUrl ?? null;
 const whatsappLink = company?.whatsappNumber
   ? `https://wa.me/${company.whatsappNumber.replace(/\D/g, "")}`
   : "/support";
@@ -40,9 +44,9 @@ const whatsappLink = company?.whatsappNumber
       <div class="aspect-[4/5] bg-[#e1e3e4] rounded-xl overflow-hidden shadow-2xl lg:rotate-2">
         <img
           class="w-full h-full object-cover"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtLZxQcVC24vhI7VAKG_St2bzqVYJrJIbQynxSzp5o3QTomxwyx-9lgk5gFgBmKQigXRhJMEF_lx2wqCtj80V3x10Xf4wRqFw5TaF99EV0j11IKPQklj7zlNMv0sCx3uTtNQUzSiLvm2VGba-H0nyrRKNLNZcmRmIcM3pWJ3JFns4uAgYqRd0dV7pugVm_g6ckPDq1d39OmreZKThY9gFwgyGym4cr-ccAh58XX4JDPTdd2t8Ptj7ODlUV-DiRplLWb-MQdG5yG82d=w800-h1000-rw"
-          alt="Close up of high quality white textile fabric texture"
-          title="Close up of high quality white textile fabric texture"
+          src={heroImage ?? ""}
+          alt={homePage?.altTextImage1 ?? "Premium textile fabric"}
+          title={homePage?.altTextImage1 ?? "Premium textile fabric"}
           width="512"
           height="640"
           loading="eager"

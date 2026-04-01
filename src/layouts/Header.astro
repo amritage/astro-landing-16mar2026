@@ -95,7 +95,7 @@ const whatsappHref = whatsappNumber
 <div class="drawer-overlay fixed inset-0 z-[70] bg-[#041632]/45 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" aria-hidden="true"></div>
 
 <!-- Mobile Drawer -->
-<aside class="mobile-drawer fixed top-0 right-0 bottom-0 z-[80] w-screen sm:w-[min(85vw,380px)] bg-white flex flex-col overflow-y-auto shadow-[-8px_0_40px_rgba(4,22,50,0.15)] lg:hidden" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+<aside class="mobile-drawer fixed top-0 right-0 bottom-0 z-[80] w-screen sm:w-[min(85vw,380px)] bg-white flex flex-col overflow-y-auto shadow-[-8px_0_40px_rgba(4,22,50,0.15)] lg:hidden" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true" inert>
   <div class="flex items-center justify-between px-5 pt-5 pb-4 bg-[#041632] flex-shrink-0">
     <div class="flex flex-col gap-[2px]">
       <span class="text-white text-[17px] font-extrabold">{siteConfig.brandName}</span>
@@ -126,7 +126,7 @@ const whatsappHref = whatsappNumber
   <div class="h-px bg-slate-200 mx-5 my-3"></div>
 
   <div class="mx-3 mt-4 p-4 rounded-2xl bg-slate-50 flex flex-col gap-[6px]">
-    <p class="text-[10px] font-bold tracking-[0.16em] uppercase text-slate-400 mb-1">Quick Contact</p>
+    <p class="text-[10px] font-bold tracking-[0.16em] uppercase text-slate-500 mb-1">Quick Contact</p>
     <a href={phoneHref} class="text-sm font-bold text-[#041632] no-underline hover:underline">{company?.phone1 ?? siteConfig.phone}</a>
     <a href={siteConfig.emailHref} class="text-[13px] text-slate-500 no-underline break-all hover:text-[#041632]">{siteConfig.email}</a>
   </div>
@@ -174,8 +174,10 @@ const whatsappHref = whatsappNumber
     hamburger.classList.add("is-open");
     hamburger.setAttribute("aria-expanded", "true");
     drawer.setAttribute("aria-hidden", "false");
+    drawer.removeAttribute("inert");
     overlay.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    closeBtn.focus();
   }
 
   function closeDrawer() {
@@ -184,8 +186,10 @@ const whatsappHref = whatsappNumber
     hamburger.classList.remove("is-open");
     hamburger.setAttribute("aria-expanded", "false");
     drawer.setAttribute("aria-hidden", "true");
+    drawer.setAttribute("inert", "");
     overlay.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+    hamburger.focus();
   }
 
   hamburger.addEventListener("click", () => {

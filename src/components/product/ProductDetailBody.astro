@@ -44,20 +44,52 @@ const { product } = Astro.props;
         <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 lg:mb-8 flex items-center">
           <span class="w-10 h-px bg-[#775a19] mr-4"></span>Application Suitability (AI Analysis)
         </h2>
-        <div class="space-y-4 lg:space-y-6">
-          {[...product.applications].sort((a, b) => b.score - a.score).map((app, i, arr) => (
-            <div class={`bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]${i === arr.length - 1 ? " opacity-60" : ""}`}>
-              <div class="flex justify-between mb-2">
-                <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
-
+        {(() => {
+          const sorted = [...product.applications].sort((a, b) => b.score - a.score);
+          const visible = sorted.slice(0, 4);
+          const hidden = sorted.slice(4);
+          return (
+            <div>
+              <div class="space-y-4 lg:space-y-6">
+                {visible.map((app) => (
+                  <div class="bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+                    </div>
+                    <div class="w-full bg-[#e7e8e9] h-2">
+                      <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
+                    </div>
+                    <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+                  </div>
+                ))}
               </div>
-              <div class="w-full bg-[#e7e8e9] h-2">
-                <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
-              </div>
-              <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+              {hidden.length > 0 && (
+                <div>
+                  <div id="extra-apps" class="space-y-4 lg:space-y-6 mt-4 lg:mt-6 hidden">
+                    {hidden.map((app) => (
+                      <div class="bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]">
+                        <div class="flex justify-between mb-2">
+                          <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+                        </div>
+                        <div class="w-full bg-[#e7e8e9] h-2">
+                          <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
+                        </div>
+                        <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    id="toggle-apps-btn"
+                    class="mt-5 flex items-center gap-2 text-sm font-semibold text-[#041632] hover:text-[#775a19] transition-colors"
+                  >
+                    <span id="toggle-apps-label">View more ({hidden.length})</span>
+                    <span id="toggle-apps-icon" class="material-symbols-outlined text-base transition-transform">expand_more</span>
+                  </button>
+                </div>
+              )}
             </div>
-          ))}
-        </div>
+          );
+        })()}
       </div>
 
     </div>
@@ -134,3 +166,19 @@ const { product } = Astro.props;
 
   </div>
 </section>
+
+<script>
+  const btn = document.getElementById("toggle-apps-btn");
+  const extra = document.getElementById("extra-apps");
+  const label = document.getElementById("toggle-apps-label");
+  const icon = document.getElementById("toggle-apps-icon");
+  if (btn && extra && label && icon) {
+    const count = extra.children.length;
+    btn.addEventListener("click", () => {
+      const isHidden = extra.classList.contains("hidden");
+      extra.classList.toggle("hidden", !isHidden);
+      label.textContent = isHidden ? "View less" : `View more (${count})`;
+      icon.style.transform = isHidden ? "rotate(180deg)" : "";
+    });
+  }
+</script>
