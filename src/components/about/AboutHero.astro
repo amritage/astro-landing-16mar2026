@@ -3,12 +3,27 @@ interface Props {
   image?: string | null;
 }
 const { image } = Astro.props;
-const FALLBACK_HERO = "https://res.cloudinary.com/age-fabric/image/upload/f_auto,q_auto,w_1200,c_limit/About1_j3mzld.jpg";
-const heroImage = image
-  ? image.includes("res.cloudinary.com") && !image.includes("f_auto")
-    ? image.replace("/upload/", "/upload/f_auto,q_auto,w_1200,c_limit/")
-    : image
-  : FALLBACK_HERO;
+
+function buildHeroUrl(url: string, width: number): string {
+  if (!url.includes("res.cloudinary.com")) return url;
+  const uploadIdx = url.indexOf("/upload/");
+  if (uploadIdx === -1) return url;
+  const base = url.slice(0, uploadIdx + "/upload/".length);
+  const segments = url.slice(base.length).split("/");
+  let i = 0;
+  while (i < segments.length) {
+    const seg = segments[i];
+    if (/^v\d+$/.test(seg)) break;
+    if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; } else break;
+  }
+  const publicPart = segments.slice(i).join("/");
+  return `${base}f_auto,q_60,w_${width},c_limit/${publicPart}`;
+}
+
+const FALLBACK_HERO = "https://res.cloudinary.com/age-fabric/image/upload/f_auto,q_60,w_1600,c_limit/About1_j3mzld.jpg";
+const rawImage = image ?? FALLBACK_HERO;
+const heroImage = buildHeroUrl(rawImage, 1600);
+const heroSrcset = [800, 1200, 1600].map((w) => `${buildHeroUrl(rawImage, w)} ${w}w`).join(", ");
 ---
 <style>
   .gold-text {
@@ -23,9 +38,11 @@ const heroImage = image
   <div class="absolute inset-0 opacity-70">
     <img
       src={heroImage}
+      srcset={heroSrcset}
+      sizes="100vw"
       alt="Industrial textile loom threads close up"
       title="Industrial textile loom threads close up"
-      width="1200"
+      width="1600"
       height="870"
       class="w-full h-full object-cover"
       loading="eager"
