@@ -4,7 +4,7 @@ interface Props {
 }
 const { image } = Astro.props;
 
-function buildHeroUrl(url: string, width: number): string {
+function buildHeroUrl(url: string, width: number, format: "f_auto" | "f_avif" | "f_webp" = "f_auto"): string {
   if (!url.includes("res.cloudinary.com")) return url;
   const uploadIdx = url.indexOf("/upload/");
   if (uploadIdx === -1) return url;
@@ -17,13 +17,19 @@ function buildHeroUrl(url: string, width: number): string {
     if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; } else break;
   }
   const publicPart = segments.slice(i).join("/");
-  return `${base}f_auto,q_auto:low,w_${width},c_limit/${publicPart}`;
+  return `${base}${format},q_auto:low,w_${width},c_limit/${publicPart}`;
 }
 
-const FALLBACK_HERO = "https://res.cloudinary.com/age-fabric/image/upload/f_auto,q_60,w_1600,c_limit/About1_j3mzld.jpg";
+const FALLBACK_HERO = "https://res.cloudinary.com/age-fabric/image/upload/About1_j3mzld.jpg";
 const rawImage = image ?? FALLBACK_HERO;
-const heroImage = buildHeroUrl(rawImage, 1600);
-const heroSrcset = [400, 768, 1024, 1600].map((w) => `${buildHeroUrl(rawImage, w)} ${w}w`).join(", ");
+
+const widths = [400, 768, 1024, 1280];
+const heroSrc = buildHeroUrl(rawImage, 1024);
+const avifSrcset = widths.map((w) => `${buildHeroUrl(rawImage, w, "f_avif")} ${w}w`).join(", ");
+const webpSrcset = widths.map((w) => `${buildHeroUrl(rawImage, w, "f_webp")} ${w}w`).join(", ");
+const fallbackSrcset = widths.map((w) => `${buildHeroUrl(rawImage, w)} ${w}w`).join(", ");
+// Hero is a full-bleed background but has a heavy dark overlay — 1024px is sufficient quality
+const sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1280px";
 ---
 <style>
   .gold-text {
@@ -36,18 +42,22 @@ const heroSrcset = [400, 768, 1024, 1600].map((w) => `${buildHeroUrl(rawImage, w
 </style>
 <header class="relative h-[870px] flex items-center overflow-hidden bg-[#041632] pt-16">
   <div class="absolute inset-0 opacity-70">
-    <img
-      src={heroImage}
-      srcset={heroSrcset}
-      sizes="100vw"
-      alt="Industrial textile loom threads close up"
-      title="Industrial textile loom threads close up"
-      width="1600"
-      height="870"
-      class="w-full h-full object-cover"
-      loading="eager"
-      fetchpriority="high"
-    />
+    <picture>
+      <source type="image/avif" srcset={avifSrcset} sizes={sizes} />
+      <source type="image/webp" srcset={webpSrcset} sizes={sizes} />
+      <img
+        src={heroSrc}
+        srcset={fallbackSrcset}
+        sizes={sizes}
+        alt="Industrial textile loom threads close up"
+        title="Industrial textile loom threads close up"
+        width="1024"
+        height="870"
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </picture>
     <div class="absolute inset-0 bg-gradient-to-r from-[#041632] via-[#041632]/60 to-transparent"></div>
   </div>
   <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">

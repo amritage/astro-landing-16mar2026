@@ -10,8 +10,18 @@ const FALLBACK_IMAGE2 = "https://res.cloudinary.com/age-fabric/image/upload/f_au
 
 function optimizeCloudinary(url: string, width: number): string {
   if (!url.includes("res.cloudinary.com")) return url;
-  if (url.includes("f_auto")) return url;
-  return url.replace("/upload/", `/upload/f_auto,q_auto,w_${width},c_limit/`);
+  const uploadIdx = url.indexOf("/upload/");
+  if (uploadIdx === -1) return url;
+  const base = url.slice(0, uploadIdx + "/upload/".length);
+  const segments = url.slice(base.length).split("/");
+  let i = 0;
+  while (i < segments.length) {
+    const seg = segments[i];
+    if (/^v\d+$/.test(seg)) break;
+    if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; } else { break; }
+  }
+  const publicPart = segments.slice(i).join("/");
+  return `${base}f_auto,q_auto:low,w_${width},c_limit/${publicPart}`;
 }
 
 const missionImage = image2

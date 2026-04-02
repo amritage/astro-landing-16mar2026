@@ -44,17 +44,21 @@ const faqs = [
       <!-- Blog image 1 (inline) -->
       {post.blogimage1CloudURL && (
         <div class="my-8 rounded-xl overflow-hidden shadow-md">
-          <img
-            src={post.blogimage1CloudURL}
-            srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800])}
-            sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px"
-            alt={post.altimage1 ?? post.title}
-            title={post.altimage1 ?? post.title}
-            width="800"
-            height="420"
-            class="w-full object-cover max-h-[420px]"
-            loading="lazy"
-          />
+          <picture>
+            <source type="image/avif" srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800], "f_avif")} sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <source type="image/webp" srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800], "f_webp")} sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <img
+              src={post.blogimage1CloudURL}
+              srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800])}
+              sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px"
+              alt={post.altimage1 ?? post.title}
+              title={post.altimage1 ?? post.title}
+              width="640"
+              height="420"
+              class="w-full object-cover max-h-[420px]"
+              loading="lazy"
+            />
+          </picture>
         </div>
       )}
 
@@ -64,17 +68,21 @@ const faqs = [
       <!-- Blog image 2 (inline) -->
       {post.blogimage2CloudURL && (
         <div class="my-8 rounded-xl overflow-hidden shadow-md">
-          <img
-            src={post.blogimage2CloudURL}
-            srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800])}
-            sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px"
-            alt={post.altimage2 ?? post.title}
-            title={post.altimage2 ?? post.title}
-            width="800"
-            height="420"
-            class="w-full object-cover max-h-[420px]"
-            loading="lazy"
-          />
+          <picture>
+            <source type="image/avif" srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800], "f_avif")} sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <source type="image/webp" srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800], "f_webp")} sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <img
+              src={post.blogimage2CloudURL}
+              srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800])}
+              sizes="(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc(100vw - 4rem), 640px"
+              alt={post.altimage2 ?? post.title}
+              title={post.altimage2 ?? post.title}
+              width="640"
+              height="420"
+              class="w-full object-cover max-h-[420px]"
+              loading="lazy"
+            />
+          </picture>
         </div>
       )}
 
