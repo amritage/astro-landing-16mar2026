@@ -2,8 +2,12 @@
 interface Props {
   mission?: string | null;
   vision?: string | null;
+  image2?: string | null;
 }
-const { mission, vision } = Astro.props;
+const { mission, vision, image2 } = Astro.props;
+
+const FALLBACK_IMAGE2 = "https://lh3.googleusercontent.com/aida-public/AB6AXuBUwvG5HyStVdcQE5dsZIcCNWvut2289MwIkV9q5Tp4s7V4lCviRSkp8gy7tD7_J92-UwLlb5AlFXksaPV9ZxdrGJ9WVqGvkli1qTTPqp8-ECJXu6sqdVcjGK8Dpg4g4P8IkjSjmKMPFrI3J9lxaRwnUuZi1XyOsNrncHTChFuWsJH53DP5VD9f_0Ce6cO_SxJLoE58z_YpFHdK7JwX3H0CPOWnbLg-ibkxxj6P_tP20Uz0_fPU97TR0hC96rRhLmKT2k90RUKvjeaQ";
+const missionImage = image2 ?? FALLBACK_IMAGE2;
 
 const fallbackMission = "To engineer textiles that define the standard for quality and sustainability, ensuring every thread woven in our facility contributes to a more conscious global fashion ecosystem.";
 const fallbackVision = "To remain the preferred global manufacturing partner for world-class brands by fusing traditional Gujarati craftsmanship with AI-driven manufacturing technology.";
@@ -13,7 +17,7 @@ const fallbackVision = "To remain the preferred global manufacturing partner for
     <div class="w-full md:w-1/2 relative">
       <div class="aspect-[4/5] bg-[#1b2b48] overflow-hidden">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUwvG5HyStVdcQE5dsZIcCNWvut2289MwIkV9q5Tp4s7V4lCviRSkp8gy7tD7_J92-UwLlb5AlFXksaPV9ZxdrGJ9WVqGvkli1qTTPqp8-ECJXu6sqdVcjGK8Dpg4g4P8IkjSjmKMPFrI3J9lxaRwnUuZi1XyOsNrncHTChFuWsJH53DP5VD9f_0Ce6cO_SxJLoE58z_YpFHdK7JwX3H0CPOWnbLg-ibkxxj6P_tP20Uz0_fPU97TR0hC96rRhLmKT2k90RUKvjeaQ"
+          src={missionImage}
           alt="Luxury folded white fabric textures"
           title="Luxury folded white fabric textures"
           width="600"
@@ -23,7 +27,7 @@ const fallbackVision = "To remain the preferred global manufacturing partner for
         />
       </div>
       <div class="absolute -bottom-8 -right-8 bg-[#775a19] p-12 hidden lg:block">
-        <span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings:'FILL' 1;">eco</span>
+        <span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings:'FILL' 1;">verified</span>
       </div>
     </div>
     <div class="w-full md:w-1/2">

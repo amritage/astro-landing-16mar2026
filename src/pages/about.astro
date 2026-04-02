@@ -32,7 +32,7 @@ const [aboutData, authors, company] = await Promise.all([
 >
   <AboutHero image={aboutData?.image1CloudUrlHero ?? aboutData?.image1CloudUrl ?? null} />
   <AboutTrustNumbers />
-  <AboutMissionVision mission={aboutData?.p1 ?? null} vision={aboutData?.p2 ?? null} />
+  <AboutMissionVision mission={aboutData?.p1 ?? null} vision={aboutData?.p2 ?? null} image2={aboutData?.image2CloudUrl ?? null} />
   <AboutTimeline />
   <AboutManufacturing />
   <AboutLeadership authors={authors} />

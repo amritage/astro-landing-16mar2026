@@ -1,4 +1,10 @@
 ---
+interface Props {
+  image?: string | null;
+}
+const { image } = Astro.props;
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&q=80";
+const heroImage = image ?? FALLBACK_IMAGE;
 ---
 <style>
   .gold-text {
@@ -13,7 +19,7 @@
   <!-- Background image -->
   <div class="absolute inset-0 opacity-30 pointer-events-none">
     <img
-      src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1600&q=80"
+      src={heroImage}
       alt="Support team at work"
       title="Support team at work"
       width="1600"

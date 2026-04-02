@@ -72,7 +72,7 @@ const { featured, posts } = Astro.props;
             <div class="flex items-center gap-3 mb-3">
               <span class="text-[10px] font-bold text-[#775a19] uppercase tracking-widest">{post.category}</span>
               <span class="w-1 h-1 bg-[#c5c6ce] rounded-full"></span>
-              <span class="text-[10px] text-[#75777e] uppercase">{formatDate(post.publishedAt)}</span>
+              <span class="text-[10px] text-[#5a5c63] uppercase">{formatDate(post.publishedAt)}</span>
             </div>
             <h4 class="font-serif text-lg text-[#041632] font-bold mb-2 line-clamp-2">{post.title}</h4>
             <p class="text-[#44474d] text-sm font-sans line-clamp-3">{post.excerpt}</p>
@@ -88,6 +88,6 @@ const { featured, posts } = Astro.props;
 
 {posts.length === 0 && !featured && (
   <section class="px-8 mb-24 max-w-7xl mx-auto text-center py-24">
-    <p class="text-[#75777e] font-sans text-lg">No articles available at the moment.</p>
+    <p class="text-[#5a5c63] font-sans text-lg">No articles available at the moment.</p>
   </section>
 )}

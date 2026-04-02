@@ -29,7 +29,7 @@ const [company, authors, seo] = await Promise.all([
     { name: "Support" },
   ]}
 >
-  <SupportHero />
+  <SupportHero image={seo?.image1CloudUrl ?? null} />
   <SupportChannels
     whatsapp={company?.whatsappNumber ?? null}
     supportEmail={company?.supportEmail ?? null}

@@ -2,8 +2,9 @@
 interface Props {
   whatsapp?: string | null;
   phone?: string | null;
+  image1?: string;
 }
-const { whatsapp, phone } = Astro.props;
+const { whatsapp, phone, image1 } = Astro.props;
 
 const whatsappHref = whatsapp
   ? `https://wa.me/${whatsapp.replace(/\D/g, "")}`
@@ -14,36 +15,35 @@ const pillars = [
   {
     title: "Precision Weaving",
     desc: "High-density looms capable of handling complex fiber structures with micron-level accuracy for industrial applications.",
-    icon: "loom",
+    icon: "factory",
     wide: true,
   },
   {
     title: "Quality Control",
     desc: "Multi-stage rigorous testing protocols.",
-    icon: "verified",
+    icon: "check_circle",
   },
   {
     title: "Sourcing",
     desc: "Ethical fiber procurement pathways.",
-    icon: "eco",
+    icon: "payments",
   },
   {
     title: "Bulk Scaling",
     desc: "Massive monthly throughput capacities.",
-    icon: "precision_manufacturing",
+    icon: "local_shipping",
   },
   {
     title: "Industrial Customization",
     desc: "Bespoke fabric construction tailored to specific engineering requirements and tensile strengths.",
-    icon: "design_services",
+    icon: "description",
     wide: true,
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDiUo6KfVsc6OW9-lgdOCBOESkxRHzy6W-mNiR9bY8Xkeq401k1p5oCVhNwgXBz80B_efZmjXD7fuc0Us0nrYJpLNmN1_Na7RFWQ2MhDYpqS3q1uzluVOmnsMh8m1hwzan3n2j3GYegAas8ABp8dO2oBwSbXlKv4Pw5n1kN1j1kN9BoruPe0lzAK35zDaMjYatvZSK7-eh7Ju5dpOOWY0LpoVjj_nCft8SVSE7asiEsabfUpLjwMNErUX8X9jsB5s766ztd7tWfZZn1",
+    image: image1,
   },
   {
     title: "Global Logistics",
     desc: "Seamless export to 40+ countries.",
-    icon: "public",
+    icon: "location_on",
   },
 ];
 ---

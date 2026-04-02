@@ -1,4 +1,12 @@
 ---
+interface Props {
+  image2?: string;
+}
+const { image2 } = Astro.props;
+
+const FALLBACK_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuB8L140-K46PJdmR2ggQ0tJZLGW0oy_yIYKd3Vt-av_nUn63TCfCd4o6bFk81wR9eUuU9M4GCJC2KXIgN1RoAIna9-ZjXO-G1_x5bfDpnfZNlISy4S_V0Og1UU7eZjhblu0OH_nCozl5Miu5mM_UBsmPtJBj3dV4JYV9G22y22x4LZ2KyC57Gs88l2kWOFz4cD-YzZqyxvjfEqJ3Bm0z9Q2ba7BuBbUHEbVOsUu59_S_7l_xJnin4nmhGHH9t9ndKV7LBz212IQLxK6";
+const qualityImage = image2 || FALLBACK_IMAGE;
+
 const qcItems = [
   {
     title: "GSM Verification",
@@ -43,7 +51,7 @@ const qcItems = [
 
       <div class="relative aspect-square overflow-hidden rounded-xl bg-[#041632] shadow-2xl lg:aspect-auto lg:h-[600px]">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8L140-K46PJdmR2ggQ0tJZLGW0oy_yIYKd3Vt-av_nUn63TCfCd4o6bFk81wR9eUuU9M4GCJC2KXIgN1RoAIna9-ZjXO-G1_x5bfDpnfZNlISy4S_V0Og1UU7eZjhblu0OH_nCozl5Miu5mM_UBsmPtJBj3dV4JYV9G22y22x4LZ2KyC57Gs88l2kWOFz4cD-YzZqyxvjfEqJ3Bm0z9Q2ba7BuBbUHEbVOsUu59_S_7l_xJnin4nmhGHH9t9ndKV7LBz212IQLxK6"
+          src={qualityImage}
           alt="Lab Testing"
           title="Lab Testing — Quality Control Hub"
           width="600"
