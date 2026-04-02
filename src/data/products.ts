@@ -266,7 +266,7 @@ export function mapApiProduct(p: ApiProduct): Product {
     image1Card: nullIfEmpty(p.image1CloudUrlCard),
     image1Web: nullIfEmpty(p.image1CloudUrlWeb),
     image1Srcset: buildCloudinarySrcset(
-      nullIfEmpty(p.image1CloudUrl),
+      sanitizeSecondaryImage(p.image1CloudUrl),
       [400, 800, 1200],
     ),
     image2: sanitizeSecondaryImage(p.image2CloudUrl),

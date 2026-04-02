@@ -76,7 +76,7 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
                   </>
                 ) : null}
                 <img
-                  src={getCloudinaryUrl(slide.src, "f_auto,q_auto,w_700,c_limit")}
+                  src={getCloudinaryUrl(slide.src, slide.srcset ? "f_auto,q_auto,w_700,c_limit" : "f_auto,q_auto,w_665,c_limit")}
                   srcset={slide.srcset || undefined}
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 58vw"
                   alt={slide.alt}
