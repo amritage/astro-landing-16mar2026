@@ -59,18 +59,32 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
         {slides.map((slide, i) => (
           <div class="snap-center shrink-0 w-full" data-index={i}>
             {slide.type === "image" ? (
-              <img
-                src={slide.src}
-                srcset={slide.srcset || undefined}
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                alt={slide.alt}
-                title={slide.alt}
-                width="800"
-                height="533"
-                class="w-full h-[350px] lg:h-[600px] object-cover"
-                loading={i === 0 ? "eager" : "lazy"}
-                decoding={i === 0 ? "sync" : "async"}
-              />
+              <picture>
+                {slide.srcset && (
+                  <source
+                    type="image/avif"
+                    srcset={slide.srcset.replace(/f_auto/g, "f_avif")}
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                  />
+                  <source
+                    type="image/webp"
+                    srcset={slide.srcset.replace(/f_auto/g, "f_webp")}
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                  />
+                )}
+                <img
+                  src={slide.src}
+                  srcset={slide.srcset || undefined}
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  alt={slide.alt}
+                  title={slide.alt}
+                  width="800"
+                  height="533"
+                  class="w-full h-[350px] lg:h-[600px] object-cover"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding={i === 0 ? "sync" : "async"}
+                />
+              </picture>
             ) : slide.type === "youtube" ? (
               <iframe
                 src={slide.embedSrc}
