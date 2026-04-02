@@ -17,7 +17,7 @@ function buildHeroUrl(url: string, width: number): string {
     if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; } else break;
   }
   const publicPart = segments.slice(i).join("/");
-  return `${base}f_auto,q_auto,w_${width},c_limit/${publicPart}`;
+  return `${base}f_auto,q_auto:low,w_${width},c_limit/${publicPart}`;
 }
 
 const FALLBACK_HERO = "https://res.cloudinary.com/age-fabric/image/upload/f_auto,q_60,w_1600,c_limit/About1_j3mzld.jpg";

@@ -61,7 +61,7 @@ export function getPostImage(post: ApiBlogPost): string {
 }
 
 /**
- * Rewrites a Cloudinary URL with an exact width using c_limit (no crop).
+ * Rewrites a Cloudinary URL with an exact width using c_scale (no upscale, no crop).
  * Strips any existing transform segments and injects clean ones.
  */
 function buildCloudinaryUrl(url: string, width: number): string {
@@ -80,7 +80,7 @@ function buildCloudinaryUrl(url: string, width: number): string {
   }
 
   const publicPart = segments.slice(i).join("/");
-  return `${base}f_auto,q_auto,w_${width},c_limit/${publicPart}`;
+  return `${base}f_auto,q_auto,w_${width},c_scale/${publicPart}`;
 }
 
 /**

@@ -60,8 +60,9 @@ const staticDepts = [
           <div class="w-12 h-12 rounded-full overflow-hidden mx-auto mb-4 bg-[#041632]/5 flex items-center justify-center">
             {dynamicAuthor.authorimageCard ? (
               <img
-                src={dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_96,h_96,c_fill/')}
-                alt={dynamicAuthor.altimage ?? dynamicAuthor.name}
+                src={dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_96,h_96,c_fill,g_face/')}
+                srcset={`${dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_48,h_48,c_fill,g_face/')} 1x, ${dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_96,h_96,c_fill,g_face/')} 2x`}
+                alt={dynamicAuthor.altimage ?? `${dynamicAuthor.name} Profile Image`}
                 title={dynamicAuthor.altimage ?? dynamicAuthor.name}
                 width="48"
                 height="48"

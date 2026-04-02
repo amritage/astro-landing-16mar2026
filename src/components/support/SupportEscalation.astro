@@ -33,7 +33,7 @@ const steps = [
     <div class="w-full md:w-2/3 flex flex-col gap-6">
       {steps.map((step) => (
         <div class="bg-white rounded-lg p-8 flex items-start gap-6 relative overflow-hidden border border-[#e1e3e4] hover:border-[#775a19] transition-colors group">
-          <span class="text-6xl md:text-8xl font-serif italic text-[#e1e3e4] absolute -right-2 -bottom-3 select-none group-hover:text-[#ffdea5] transition-colors">
+          <span aria-hidden="true" class="text-6xl md:text-8xl font-serif italic text-[#e1e3e4] absolute -right-2 -bottom-3 select-none group-hover:text-[#ffdea5] transition-colors">
             {step.number}
           </span>
           <div class="w-12 h-12 bg-[#041632]/5 rounded-lg flex items-center justify-center flex-shrink-0">
