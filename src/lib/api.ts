@@ -233,28 +233,34 @@ export interface ApiTopicPage {
   a5: string | null;
 }
 
-export async function getDynamicTopicPages(): Promise<ApiTopicPage[]> {
+async function getAllTopicPages(): Promise<ApiTopicPage[]> {
+  const all: ApiTopicPage[] = [];
+  let page = 1;
+  let totalPages = 1;
   try {
-    const res = await fetch(`${BASE_URL}/api/topicpage`);
-    if (!res.ok) return [];
-    const json = await res.json();
-    const data: ApiTopicPage[] = json.data ?? [];
-    return data.filter((p) => p.pageType === "Dynamic" && !p.deleted);
+    do {
+      const res = await fetch(`${BASE_URL}/api/topicpage?page=${page}&limit=20`);
+      if (!res.ok) break;
+      const json = await res.json();
+      const data: ApiTopicPage[] = json.data ?? [];
+      all.push(...data);
+      totalPages = json.pagination?.totalPages ?? 1;
+      page++;
+    } while (page <= totalPages);
   } catch {
-    return [];
+    // return whatever we collected so far
   }
+  return all;
+}
+
+export async function getDynamicTopicPages(): Promise<ApiTopicPage[]> {
+  const data = await getAllTopicPages();
+  return data.filter((p) => p.pageType === "Dynamic" && !p.deleted);
 }
 
 export async function getCategoryTopicPages(): Promise<ApiTopicPage[]> {
-  try {
-    const res = await fetch(`${BASE_URL}/api/topicpage`);
-    if (!res.ok) return [];
-    const json = await res.json();
-    const data: ApiTopicPage[] = json.data ?? [];
-    return data.filter((p) => p.pageType === "Category" && !p.deleted);
-  } catch {
-    return [];
-  }
+  const data = await getAllTopicPages();
+  return data.filter((p) => p.pageType === "Category" && !p.deleted);
 }
 
 export async function getCategoryTopicPageBySlug(slug: string): Promise<ApiTopicPage | undefined> {
@@ -263,10 +269,7 @@ export async function getCategoryTopicPageBySlug(slug: string): Promise<ApiTopic
 }
 
 export async function getTopicPageBySlug(slug: string): Promise<ApiTopicPage | undefined> {
-  const res = await fetch(`${BASE_URL}/api/topicpage`);
-  if (!res.ok) throw new Error(`Failed to fetch topic pages: ${res.status}`);
-  const json = await res.json();
-  const data: ApiTopicPage[] = json.data ?? [];
+  const data = await getAllTopicPages();
   return data.find((p) => p.slug === slug && !p.deleted);
 }
 
