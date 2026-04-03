@@ -1,9 +1,14 @@
 ---
+interface Props {
+  heroImage?: string;
+}
+const { heroImage } = Astro.props;
+const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80";
 ---
 <section class="relative h-[500px] md:h-[614px] flex items-center overflow-hidden bg-[#041632] px-4 md:px-8">
   <div class="absolute inset-0 opacity-20">
     <img
-      src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80"
+      src={bgImage}
       alt="Industrial textile weaving machinery"
       title="Industrial textile weaving machinery"
       width="1600"
