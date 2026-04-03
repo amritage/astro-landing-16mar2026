@@ -489,6 +489,26 @@ export interface ApiAuthor {
   authorLinkedinURL: string | null;
 }
 
+/**
+ * Build a correct wa.me link from any phone string like "+91-9925155141"
+ * Always produces: https://wa.me/+919925155141
+ */
+export function buildWaLink(number: string | null | undefined, fallback = ""): string {
+  if (!number) return fallback;
+  const digits = String(number).replace(/[^\d]/g, "");
+  return digits ? `https://wa.me/+${digits}` : fallback;
+}
+
+/**
+ * Build a tel: href from any phone string like "+91-9925155141"
+ * Always produces: tel:+919925155141
+ */
+export function buildPhoneHref(number: string | null | undefined, fallback = ""): string {
+  if (!number) return fallback;
+  const digits = String(number).replace(/[^\d]/g, "");
+  return digits ? `tel:+${digits}` : fallback;
+}
+
 export async function getAuthors(): Promise<ApiAuthor[]> {
   try {
     const res = await fetch(`${BASE_URL}/api/author`);

@@ -1,4 +1,6 @@
 ---
+import { buildWaLink, buildPhoneHref } from "../../lib/api";
+
 interface Props {
   whatsapp?: string | null;
   phone?: string | null;
@@ -6,10 +8,8 @@ interface Props {
 }
 const { whatsapp, phone, image1 } = Astro.props;
 
-const whatsappHref = whatsapp
-  ? `https://wa.me/${whatsapp.replace(/\D/g, "")}`
-  : "https://wa.me/";
-const phoneHref = phone ? `tel:${phone.replace(/\s/g, "")}` : "tel:";
+const whatsappHref = buildWaLink(whatsapp, "https://wa.me/");
+const phoneHref = buildPhoneHref(phone, "tel:");
 
 const pillars = [
   {

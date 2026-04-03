@@ -1,4 +1,6 @@
 ---
+import { buildWaLink } from "../../lib/api";
+
 interface Props {
   whatsapp?: string | null;
   supportEmail?: string | null;
@@ -7,8 +9,7 @@ interface Props {
 }
 const { whatsapp, supportEmail, phone2, phone2Dept } = Astro.props;
 
-const waNumber = whatsapp?.replace(/\D/g, "") ?? "";
-const waLink = waNumber ? `https://wa.me/${waNumber}` : "#";
+const waLink = buildWaLink(whatsapp, "#");
 const agentLabel = phone2Dept ? `${phone2Dept} Line` : "Live Agent";
 ---
 <section id="channels" class="py-20 md:py-28 bg-white">

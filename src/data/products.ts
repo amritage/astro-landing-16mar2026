@@ -1,4 +1,4 @@
-import { getProducts, getAllProducts, type ApiProduct } from "../lib/api";
+import { getProducts, getAllProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
 
 // ── Type used by all product components ───────────────────────────────────────
 
@@ -205,7 +205,9 @@ function buildSrcset(entries: [string | null, number][]): string {
     .join(", ");
 }
 
-export function mapApiProduct(p: ApiProduct): Product {
+export function mapApiProduct(p: ApiProduct, whatsappNumber?: string, phone1?: string): Product {
+  const waNumber = buildWaLink(whatsappNumber, "https://wa.me/+919925155141");
+  const phoneHref = buildPhoneHref(phone1, "tel:+919925155141");
   return {
     id: p.id,
     slug: p.productslug,
@@ -220,8 +222,8 @@ export function mapApiProduct(p: ApiProduct): Product {
     category: p.category,
     categorySlug: p.category.toLowerCase().replace(/\s+/g, "-"),
     supplyStatus: p.supplyModel,
-    whatsapp: "https://wa.me/919925155141",
-    phone: "tel:+919925155141",
+    whatsapp: waNumber,
+    phone: phoneHref,
     specs: {
       material: p.content.join(", "),
       weight: `${Math.round(p.gsm)} GSM`,
@@ -293,14 +295,18 @@ function hasValidSlug(p: ApiProduct): boolean {
 }
 
 export async function fetchProducts(): Promise<Product[]> {
-  const raw = await getAllProducts();
-  return raw.filter(hasValidSlug).map(mapApiProduct);
+  const [raw, company] = await Promise.all([getAllProducts(), getCompanyInfo("AGE")]);
+  const wa = company?.whatsappNumber ?? undefined;
+  const ph = company?.phone1 ?? undefined;
+  return raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
 }
 
 export async function fetchProductsPage(page: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
-  const result = await getProducts(page, 20);
+  const [result, company] = await Promise.all([getProducts(page, 20), getCompanyInfo("AGE")]);
+  const wa = company?.whatsappNumber ?? undefined;
+  const ph = company?.phone1 ?? undefined;
   return {
-    products: result.data.filter(hasValidSlug).map(mapApiProduct),
+    products: result.data.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph)),
     total: result.total,
     totalPages: result.totalPages,
     currentPage: result.page,

@@ -1,7 +1,7 @@
 ---
 import { navItems, mobileQuickLinks } from "../data/navigation";
 import { siteConfig } from "../data/site";
-import { getCompanyInfo } from "../lib/api";
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../lib/api";
 
 const pathname = Astro.url.pathname;
 
@@ -11,12 +11,9 @@ const isActivePath = (href: string) => {
 };
 
 const company = await getCompanyInfo();
-const phoneNumber = company?.phone1?.replace(/\D/g, "") ?? "";
-const whatsappNumber = company?.whatsappNumber?.replace(/\D/g, "") ?? phoneNumber;
-const phoneHref = phoneNumber ? `tel:+${phoneNumber}` : siteConfig.phoneHref;
-const whatsappHref = whatsappNumber
-  ? `https://wa.me/${whatsappNumber}?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote`
-  : siteConfig.whatsappHref;
+const phoneHref = buildPhoneHref(company?.phone1, siteConfig.phoneHref);
+const whatsappHref = buildWaLink(company?.whatsappNumber ?? company?.phone1, siteConfig.whatsappHref)
+  + (company?.whatsappNumber || company?.phone1 ? "?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote" : "");
 ---
 
 <!-- Trust Strip -->

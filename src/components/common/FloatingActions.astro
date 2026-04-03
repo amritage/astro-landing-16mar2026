@@ -1,18 +1,10 @@
 ---
-import { getCompanyInfo } from "../../lib/api";
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
 
 const company = await getCompanyInfo("AGE");
 
-const whatsappHref = company?.whatsappNumber
-  ? `https://wa.me/${company.whatsappNumber.replace(/\D/g, "")}`
-  : null;
-
-const phoneHref = company?.phone1
-  ? `tel:${company.phone1.replace(/\s+/g, "")}`
-  : company?.phone2
-  ? `tel:${company.phone2.replace(/\s+/g, "")}`
-  : null;
-
+const whatsappHref = buildWaLink(company?.whatsappNumber);
+const phoneHref = buildPhoneHref(company?.phone1 ?? company?.phone2);
 const emailHref = company?.primaryEmail
   ? `mailto:${company.primaryEmail}`
   : company?.salesEmail

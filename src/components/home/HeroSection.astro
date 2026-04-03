@@ -1,14 +1,12 @@
 ---
-import { getCompanyInfo, getTopicPageBySlug } from "../../lib/api";
+import { getCompanyInfo, getTopicPageBySlug, buildWaLink, buildPhoneHref } from "../../lib/api";
 
 const [company, homePage] = await Promise.all([
   getCompanyInfo(),
   getTopicPageBySlug("home"),
 ]);
 const heroImage = homePage?.image1CloudUrl ?? null;
-const whatsappLink = company?.whatsappNumber
-  ? `https://wa.me/${company.whatsappNumber.replace(/\D/g, "")}`
-  : "/support";
+const whatsappLink = buildWaLink(company?.whatsappNumber, "/support");
 ---
 
 <section class="relative min-h-[600px] md:h-[870px] flex items-center bg-[#f3f4f5] overflow-hidden py-12 md:py-0">
