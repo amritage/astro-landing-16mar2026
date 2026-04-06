@@ -5,7 +5,7 @@ import Footer from "/src/layouts/Footer.astro";
 import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
-import { getSiteSettings } from "../lib/api";
+import { getSiteSettings, getCompanyInfo } from "../lib/api";
 
 interface Props {
   title?: string;
@@ -48,7 +48,12 @@ const {
 } = Astro.props;
 
 // Site-wide settings from API (eCatalogue)
-const site = await getSiteSettings("eCatalogue");
+const [site, company] = await Promise.all([
+  getSiteSettings("eCatalogue"),
+  getCompanyInfo("AGE"),
+]);
+
+const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
 
 const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 const resolvedCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
@@ -122,8 +127,8 @@ const schemaArray = schemaMarkup
     </style>
     <meta name="description" content={description} />
     <meta name="robots" content={robotsContent} />
-    <meta name="author" content="Amrita Global Enterprises" />
-    <meta name="publisher" content="Amrita Global Enterprises" />
+    <meta name="author" content={companyName} />
+    <meta name="publisher" content={companyName} />
     {keywords && keywords.length > 0 && (
       <meta name="keywords" content={keywords.join(", ")} />
     )}
