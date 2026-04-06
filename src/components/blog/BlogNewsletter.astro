@@ -8,8 +8,11 @@
       Receive our monthly intelligence report on textile engineering, market shifts, and manufacturing breakthroughs.
     </p>
     <form id="newsletter-form" class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto" novalidate>
+      <label for="newsletter-email" class="sr-only">Corporate Email Address</label>
       <input
         id="newsletter-email"
+        name="email"
+        autocomplete="email"
         type="email"
         placeholder="Corporate Email Address"
         required

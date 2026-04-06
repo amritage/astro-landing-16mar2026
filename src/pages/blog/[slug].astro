@@ -49,7 +49,7 @@ const articleSchema = {
     name: company?.legalName ?? "Amrita Global Enterprises",
     logo: {
       "@type": "ImageObject",
-      url: company?.logoUrl ?? `${siteBase}/favicon.svg`,
+      url: company?.logoUrl ? decodeURIComponent(company.logoUrl) : `${siteBase}/favicon.svg`,
     },
   },
   mainEntityOfPage: {

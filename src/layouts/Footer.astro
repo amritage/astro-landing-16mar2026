@@ -151,8 +151,11 @@ const socialLinks = [
 
       <!-- Newsletter -->
       <form id="footer-newsletter-form" class="relative">
+        <label for="footer-newsletter-email" class="sr-only">Email address</label>
         <input
           id="footer-newsletter-email"
+          name="email"
+          autocomplete="email"
           class="w-full bg-white text-primary rounded-full px-6 py-4 pr-16 focus:ring-2 focus:ring-secondary border border-outline-variant outline-none"
           placeholder="Subscribe with us"
           type="email"

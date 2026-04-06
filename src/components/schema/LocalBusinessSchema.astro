@@ -1,8 +1,9 @@
 ---
-import { getCompanyInfo, getSiteSettings } from "../../lib/api";
+import { getCompanyInfo, getSiteSettings, getTopicPageBySlug } from "../../lib/api";
 
 const company = await getCompanyInfo("AGE");
 const site = await getSiteSettings("eCatalogue");
+const homePage = await getTopicPageBySlug("home");
 
 const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
@@ -37,6 +38,10 @@ if (company.phone2) {
   });
 }
 
+// Decode URLs that may have been double-encoded (%252F → %2F → /)
+const decodeUrl = (url: string | null | undefined) =>
+  url ? decodeURIComponent(url) : undefined;
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "Corporation",
@@ -46,10 +51,10 @@ const schema = {
   url: `${siteBase}/`,
   logo: {
     "@type": "ImageObject",
-    url: company.faviconUrl ?? undefined,
-    image: company.defaultOgImage ?? undefined,
+    url: decodeUrl(company.faviconUrl),
+    image: decodeUrl(company.defaultOgImage),
   },
-  description: company.description ?? undefined,
+  description: homePage?.description ?? company.description ?? undefined,
   telephone: company.phone1 ?? undefined,
   email: company.primaryEmail ?? undefined,
   areaServed: company.areaServed?.length ? company.areaServed : ["Worldwide"],

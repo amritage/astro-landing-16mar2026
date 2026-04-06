@@ -1,7 +1,17 @@
 ---
-import { getWebsiteFAQ } from "../../lib/api";
+import { getTopicPageBySlug } from "../../lib/api";
 
-const faqs = await getWebsiteFAQ();
+const homePage = await getTopicPageBySlug("home");
+
+const faqs = [
+  { q: homePage?.q1, a: homePage?.a1 },
+  { q: homePage?.q2, a: homePage?.a2 },
+  { q: homePage?.q3, a: homePage?.a3 },
+  { q: homePage?.q4, a: homePage?.a4 },
+  { q: homePage?.q5, a: homePage?.a5 },
+]
+  .filter((item): item is { q: string; a: string } => !!item.q && !!item.a)
+  .map(({ q, a }) => ({ question: q, answer: a }));
 ---
 
 <section class="py-16 md:py-24 bg-[#f3f4f5]">
@@ -23,18 +33,6 @@ const faqs = await getWebsiteFAQ();
           </details>
         ))}
       </div>
-    ) : (
-      <div class="space-y-4">
-        <details class="group bg-white rounded-xl shadow-sm overflow-hidden" open>
-          <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
-            <h3 class="font-headline text-lg md:text-xl text-[#041632]">Why choose AGE for wholesale fabrics?</h3>
-            <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
-          </summary>
-          <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed">
-            With over 50 years of manufacturing heritage, AGE offers an unparalleled combination of traditional craftsmanship and modern technical precision.
-          </div>
-        </details>
-      </div>
-    )}
+    ) : null}
   </div>
 </section>
