@@ -38,15 +38,19 @@ if (company.phone2) {
   });
 }
 
-// Resolve a URL: if it's relative (starts with /), prepend siteBase.
-// Also decode any double-encoded URLs (%252F → %2F → /).
+// Fully decode a URL that may have been double/triple encoded (%252F → %2F → /)
 const resolveUrl = (url: string | null | undefined): string | undefined => {
   if (!url) return undefined;
-  const decoded = decodeURIComponent(url);
-  if (decoded.startsWith("http://") || decoded.startsWith("https://")) return decoded;
-  return `${siteBase}${decoded.startsWith("/") ? "" : "/"}${decoded}`;
+  let decoded = url;
+  try {
+    while (decoded !== decodeURIComponent(decoded)) {
+      decoded = decodeURIComponent(decoded);
+    }
+  } catch {
+    // stop if malformed
+  }
+  return decoded || undefined;
 };
-const decodeUrl = resolveUrl;
 
 const schema = {
   "@context": "https://schema.org",
