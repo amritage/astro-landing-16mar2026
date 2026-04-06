@@ -38,9 +38,15 @@ if (company.phone2) {
   });
 }
 
-// Decode URLs that may have been double-encoded (%252F → %2F → /)
-const decodeUrl = (url: string | null | undefined) =>
-  url ? decodeURIComponent(url) : undefined;
+// Resolve a URL: if it's relative (starts with /), prepend siteBase.
+// Also decode any double-encoded URLs (%252F → %2F → /).
+const resolveUrl = (url: string | null | undefined): string | undefined => {
+  if (!url) return undefined;
+  const decoded = decodeURIComponent(url);
+  if (decoded.startsWith("http://") || decoded.startsWith("https://")) return decoded;
+  return `${siteBase}${decoded.startsWith("/") ? "" : "/"}${decoded}`;
+};
+const decodeUrl = resolveUrl;
 
 const schema = {
   "@context": "https://schema.org",
@@ -51,8 +57,8 @@ const schema = {
   url: `${siteBase}/`,
   logo: {
     "@type": "ImageObject",
-    url: decodeUrl(company.logoUrl),
-    image: decodeUrl(company.defaultOgImage),
+    url: resolveUrl(company.logoUrl),
+    image: resolveUrl(company.defaultOgImage),
   },
   description: homePage?.description ?? company.description ?? undefined,
   telephone: company.phone1 ?? undefined,
