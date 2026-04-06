@@ -21,7 +21,6 @@ export const siteConfig = {
       { label: "Home", href: "/" },
       { label: "About Us", href: "/about" },
       { label: "Capabilities", href: "/capabilities" },
-      { label: "Certifications", href: "/certifications" },
       { label: "Blog", href: "/blog" },
       { label: "Support & Contact", href: "/support" },
       { label: "FAQ", href: "/faq" },
@@ -29,9 +28,6 @@ export const siteConfig = {
       { label: "Ahmedabad Hub", href: "/ahmedabad-hub" },
     ],
     products: [
-      { label: "All Fabrics", href: "/fabric" },
-      { label: "Cotton Fabrics", href: "/category/cotton-fabric" },
-      { label: "Denim Fabrics", href: "/category/denim-fabric" },
       { label: "Apparel Industry", href: "/industry/apparel" },
       { label: "Textile Industry", href: "/industry/home-textile" },
       { label: "Terms & Conditions", href: "/terms-and-conditions" },
@@ -40,7 +36,6 @@ export const siteConfig = {
       { label: "Certifications", href: "/certifications" },
     ],
     legal: [
-      { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "Terms & Conditions", href: "/terms-and-conditions" },
       { label: "Sitemap", href: "/sitemap.xml" },
     ],

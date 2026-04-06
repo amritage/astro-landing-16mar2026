@@ -51,7 +51,7 @@ const schema = {
   url: `${siteBase}/`,
   logo: {
     "@type": "ImageObject",
-    url: decodeUrl(company.faviconUrl),
+    url: decodeUrl(company.logoUrl),
     image: decodeUrl(company.defaultOgImage),
   },
   description: homePage?.description ?? company.description ?? undefined,
