@@ -42,7 +42,9 @@ const phone2Dept = company?.phone2Dept ?? "Director";
 const salesEmail = company?.salesEmail ?? "sales@amrita-fashions.com";
 const supportEmail = company?.supportEmail ?? "support@amrita-fashions.com";
 const foundingYear = company?.foundingYear ?? 1971;
-const recognition = company?.recognitions?.[0] ?? "";
+const recognitions = company?.recognitions ?? [];
+const recognition = recognitions.join(". ");
+const gstin = company?.gstin ?? null;
 
 const socialLinks = [
   {
@@ -305,6 +307,7 @@ const socialLinks = [
     <p class="text-on-surface-variant leading-relaxed">
       © {foundingYear} {company?.legalName ?? siteConfig.brandName}.
       {fullAddress && <span class="block md:inline"> {fullAddress}.</span>}
+      {gstin && <span class="block md:inline"> GSTIN: {gstin}.</span>}
       {recognition && <span class="block md:inline"> {recognition}.</span>}
     </p>
     <div class="flex space-x-6 uppercase tracking-widest text-on-surface-variant shrink-0">

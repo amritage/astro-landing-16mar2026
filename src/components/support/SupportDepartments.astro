@@ -9,8 +9,9 @@ interface Props {
   phone1Dept?: string | null;
   phone2?: string | null;
   phone2Dept?: string | null;
+  gstin?: string | null;
 }
-const { authors, salesEmail, supportEmail, phone1, phone1Dept, phone2, phone2Dept } = Astro.props;
+const { authors, salesEmail, supportEmail, phone1, phone1Dept, phone2, phone2Dept, gstin } = Astro.props;
 
 const dynamicAuthor = authors[0] ?? null;
 
@@ -61,6 +62,9 @@ const staticDepts = [
       </span>
       <h2 class="font-serif text-4xl md:text-5xl text-[#041632] mb-4">Department Contacts</h2>
       <div class="w-16 h-0.5 bg-[#775a19] mx-auto mt-4"></div>
+      {gstin && (
+        <p class="mt-4 text-xs text-[#775a19] font-sans tracking-widest uppercase">GSTIN: <span class="font-bold">{gstin}</span></p>
+      )}
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e1e3e4] border border-[#e1e3e4] rounded-lg overflow-hidden">

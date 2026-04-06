@@ -37,7 +37,7 @@ const [company, authors, seo] = await Promise.all([
     phone2Dept={company?.phone2Dept ?? null}
   />
   <SupportEscalation />
-  <SupportDepartments authors={authors} salesEmail={company?.salesEmail ?? null} supportEmail={company?.supportEmail ?? null} />
+  <SupportDepartments authors={authors} salesEmail={company?.salesEmail ?? null} supportEmail={company?.supportEmail ?? null} phone1={company?.phone1 ?? null} phone1Dept={company?.phone1Dept ?? null} gstin={company?.gstin ?? null} />
   <SupportCTA />
   <SupportContactForm />
 </BaseLayout>

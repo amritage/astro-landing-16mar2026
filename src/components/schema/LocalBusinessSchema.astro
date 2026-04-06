@@ -52,6 +52,16 @@ const resolveUrl = (url: string | null | undefined): string | undefined => {
   return decoded || undefined;
 };
 
+// Build geo coordinates if available
+const geo = (company.latitude != null && company.longitude != null)
+  ? { "@type": "GeoCoordinates", latitude: company.latitude, longitude: company.longitude }
+  : undefined;
+
+// Build hasCredential from recognitions
+const hasCredential = company.recognitions?.length
+  ? company.recognitions.map((r) => ({ "@type": "EducationalOccupationalCredential", name: r }))
+  : undefined;
+
 const schema = {
   "@context": "https://schema.org",
   "@type": "Corporation",
@@ -63,6 +73,7 @@ const schema = {
     "@type": "ImageObject",
     url: resolveUrl(company.logoUrl) ?? resolveUrl(company.defaultOgImage),
   },
+  image: resolveUrl(company.defaultOgImage) ?? undefined,
   description: homePage?.description ?? company.description ?? undefined,
   telephone: company.phone1 ?? undefined,
   email: company.primaryEmail ?? undefined,
@@ -71,6 +82,11 @@ const schema = {
   sameAs,
   knowsAbout: site?.knowsAbout ?? [],
   foundingDate: company.foundingYear ? String(company.foundingYear) : undefined,
+  ...(company.tagline ? { slogan: company.tagline } : {}),
+  ...(company.employeeRange ? { numberOfEmployees: { "@type": "QuantitativeValue", description: company.employeeRange } } : {}),
+  ...(company.gstin ? { taxID: company.gstin } : {}),
+  ...(geo ? { geo } : {}),
+  ...(hasCredential ? { hasCredential } : {}),
   address: {
     "@type": "PostalAddress",
     streetAddress: company.addressStreet ?? undefined,

@@ -463,6 +463,10 @@ export interface ApiCompanyInfo {
   recognitions: string[];
   alternateName: string[];
   languages: string[];
+  gstin: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  employeeRange: string | null;
 }
 
 export async function getCompanyInfo(companyName = "AGE"): Promise<ApiCompanyInfo | null> {
