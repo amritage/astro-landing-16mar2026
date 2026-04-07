@@ -114,6 +114,14 @@ const faqSchema = product.faq.length > 0
 
 const schemas = [productSchema, faqSchema].filter(Boolean);
 
+// Build a proper OG image URL with 1200x630 crop for social sharing
+function buildOgImageUrl(cloudUrl: string | null | undefined): string | undefined {
+  if (!cloudUrl) return undefined;
+  // Insert OG-specific transformations into the Cloudinary URL
+  return cloudUrl.replace("/upload/", "/upload/f_jpg,q_auto,w_1200,h_630,c_fill,g_auto/");
+}
+const ogImageUrl = buildOgImageUrl(product.imageLarge || product.image1 || null);
+
 // LCP image preload — first product image at display-appropriate sizes
 const lcpImageSrcset = product.image1
   ? buildCloudinarySrcset(product.image1, [400, 700, 1200]).replace(/f_auto/g, "f_webp")
@@ -139,11 +147,11 @@ const lcpImageHref = product.image1
   keywords={product.keywords}
   ogTitle={product.name}
   ogDescription={product.shortDesc}
-  ogImage={product.imageLarge || product.image1 || undefined}
+  ogImage={ogImageUrl}
   ogType="product"
   twitterTitle={product.name}
   twitterDescription={product.shortDesc}
-  twitterImage={product.imageLarge || product.image1 || undefined}
+  twitterImage={ogImageUrl}
   schemaMarkup={schemas}
   breadcrumbs={breadcrumbItems}
   preloadImage={lcpImageHref}
