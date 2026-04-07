@@ -63,8 +63,10 @@ export interface HeroProps {
 export interface IntroProps {
   /** Main H1 heading below the hero */
   heading: string;
-  /** Supporting paragraph */
+  /** Supporting paragraph (plain text) */
   body: string;
+  /** Optional rich HTML content (p1 from API) — rendered with set:html */
+  p1Html?: string | null;
   /** Optional sidebar callout title */
   calloutTitle?: string;
   /** Optional sidebar callout body */
@@ -91,6 +93,8 @@ interface Props {
   guideImageUrl?: string | null;
   /** Guide section image alt text */
   guideImageAlt?: string | null;
+  /** Rich HTML for the guide left-side content (p2 from topicpage API) */
+  guideP2Html?: string | null;
 }
 
 const {
@@ -107,6 +111,7 @@ const {
   showCTA = true,
   guideImageUrl,
   guideImageAlt,
+  guideP2Html,
 } = Astro.props;
 
 const pageCount = products.length;
@@ -162,10 +167,16 @@ const heroSrcset = hero.imageUrl
     <div class="lg:col-span-2">
       <h2 class="font-headline text-3xl leading-tight text-[#041632] md:text-5xl">
         {intro.heading || <span class="text-slate-300 italic">Content coming soon</span>}
-      </h1>
-      <p class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
-        {intro.body || <span class="text-slate-400 italic">Description not yet available.</span>}
-      </p>
+      </h2>
+      {intro.p1Html ? (
+        <div class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 category-rich-content">
+          <div set:html={intro.p1Html} />
+        </div>
+      ) : (
+        <p class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
+          {intro.body || <span class="text-slate-400 italic">Description not yet available.</span>}
+        </p>
+      )}
     </div>
     {(intro.calloutTitle || intro.calloutBody) && (
       <div class="rounded-lg border-l-4 border-[#775a19] bg-slate-50 p-6 md:p-8">
@@ -200,7 +211,37 @@ const heroSrcset = hero.imageUrl
 {showCTA && <ProductCTA />}
 
 <!-- Optional Buyer Guide -->
-{showGuide && <ProductGuide imageUrl={guideImageUrl} imageAlt={guideImageAlt ?? undefined} />}
+{showGuide && <ProductGuide imageUrl={guideImageUrl} imageAlt={guideImageAlt ?? undefined} p2Html={guideP2Html} />}
 
 <!-- FAQ — only rendered when items are provided -->
 {faqItems.length > 0 && <ProductFAQ items={faqItems} />}
+
+<style>
+  .category-rich-content h2,
+  .category-rich-content h3,
+  .category-rich-content h4 {
+    font-family: var(--font-headline, Georgia, serif);
+    color: #041632;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .category-rich-content h2 { font-size: 1.5rem; }
+  .category-rich-content h3 { font-size: 1.25rem; }
+  .category-rich-content h4 { font-size: 1.1rem; }
+  .category-rich-content p {
+    margin-top: 0.75rem;
+    line-height: 1.75;
+  }
+  .category-rich-content ul,
+  .category-rich-content ol {
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+  }
+  .category-rich-content ul { list-style-type: disc; }
+  .category-rich-content ol { list-style-type: decimal; }
+  .category-rich-content li { margin-bottom: 0.4rem; }
+  .category-rich-content strong { color: #041632; font-weight: 600; }
+  .category-rich-content em { font-style: italic; }
+  .category-rich-content a { color: #775a19; text-decoration: underline; }
+</style>

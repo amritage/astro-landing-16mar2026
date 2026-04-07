@@ -286,8 +286,15 @@ const socialLinks = [
         )}
       </div>
 
+      <!-- GSTIN -->
+      {gstin && (
+        <p class="text-xs text-on-surface-variant pt-2">
+          <span class="font-semibold text-on-surface uppercase tracking-widest">GSTIN:</span> {gstin}
+        </p>
+      )}
+
       <!-- Social Icons -->
-      <div class="flex flex-wrap gap-3 mt-8">
+      <div class="flex flex-wrap gap-3 mt-4">
         {socialLinks.filter(s => s.href && s.href !== "#").map((s) => (
           <a
             href={s.href}
@@ -307,7 +314,6 @@ const socialLinks = [
     <p class="text-on-surface-variant leading-relaxed">
       © {foundingYear} {company?.legalName ?? siteConfig.brandName}.
       {fullAddress && <span class="block md:inline"> {fullAddress}.</span>}
-      {gstin && <span class="block md:inline"> GSTIN: {gstin}.</span>}
       {recognition && <span class="block md:inline"> {recognition}.</span>}
     </p>
     <div class="flex space-x-6 uppercase tracking-widest text-on-surface-variant shrink-0">

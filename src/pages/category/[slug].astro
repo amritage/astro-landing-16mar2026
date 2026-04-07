@@ -112,6 +112,7 @@ const introBody: string =
       intro={{
         heading: page.metaTitle ?? `${page.name} Fabrics`,
         body: page.description ?? page.excerpt ?? "Awaiting content from API.",
+        p1Html: page.p1 ?? null,
         calloutTitle: "B2B Supply Ready",
         calloutBody: "All fabrics available in bulk with consistent quality, GSM verification, and export documentation.",
       }}
@@ -130,6 +131,7 @@ const introBody: string =
       faqItems={faqItems}
       preSelectedCategory={page.name}
       showGuide={true}
+      guideP2Html={page.p2 ?? null}
     />
   </div>
 </BaseLayout>

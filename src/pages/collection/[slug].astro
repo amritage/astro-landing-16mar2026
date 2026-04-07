@@ -98,6 +98,7 @@ const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudU
       intro={{
         heading: page.metaTitle ?? page.name,
         body: page.description ?? page.excerpt ?? "Awaiting content from API.",
+        p1Html: page.p1 ?? null,
         calloutTitle: "B2B Supply Ready",
         calloutBody: "All fabrics available in bulk with consistent quality, GSM verification, and export documentation.",
       }}
@@ -115,6 +116,7 @@ const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudU
       totalPages={1}
       faqItems={faqItems}
       showGuide={true}
+      guideP2Html={page.p2 ?? null}
     />
   </div>
 </BaseLayout>

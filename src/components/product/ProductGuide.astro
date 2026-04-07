@@ -2,51 +2,59 @@
 interface Props {
   imageUrl?: string | null;
   imageAlt?: string | null;
+  p2Html?: string | null;
 }
 const {
   imageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAjPWWMiViK30OwTJ9-F6BVa14dHPEyuiMtOTtq8VEny2f-mv_eLBiS2PamBzXDpcJK5W4VDywciqkTZZ7uo-nZVttr-CUgB0fH7upKNRNj12E9pMXsurU2Tb8jz_VNgFVA0WhE2iXpVXtDrIM4-2-WtZ0jCvQZEoLXUXyOfoWqc3-95IXB_h8zi5DogjwwPBv5aWEPE5yCLvzIWi0o_o1dWI8CKKH4WbmQ0EbYBRJA7iiirotve8TLmo7BKXPl1BDnZCtIqvDfcaAc",
   imageAlt = "Fabric guidance",
+  p2Html = null,
 } = Astro.props;
 ---
 
 <section class="bg-slate-50 py-16 md:py-24">
   <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
     <div>
-      <h2 class="font-headline text-3xl text-[#041632] md:text-4xl">
-        How to choose the right fabric for your brand
-      </h2>
+      {p2Html ? (
+        <div class="guide-rich-content" set:html={p2Html} />
+      ) : (
+        <>
+          <h2 class="font-headline text-3xl text-[#041632] md:text-4xl">
+            How to choose the right fabric for your brand
+          </h2>
 
-      <div class="mt-8 space-y-6">
-        <div class="flex gap-4">
-          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#041632] font-mono text-sm text-white">01</span>
-          <div>
-            <h3 class="font-bold text-[#041632]">Define Utility First</h3>
-            <p class="mt-1 text-sm text-slate-600">
-              Identify the end-use. Industrial workwear requires higher tensile strength.
-            </p>
-          </div>
-        </div>
+          <div class="mt-8 space-y-6">
+            <div class="flex gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#041632] font-mono text-sm text-white">01</span>
+              <div>
+                <h3 class="font-bold text-[#041632]">Define Utility First</h3>
+                <p class="mt-1 text-sm text-slate-600">
+                  Identify the end-use. Industrial workwear requires higher tensile strength.
+                </p>
+              </div>
+            </div>
 
-        <div class="flex gap-4">
-          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#041632] font-mono text-sm text-white">02</span>
-          <div>
-            <h3 class="font-bold text-[#041632]">Understand GSM Dynamics</h3>
-            <p class="mt-1 text-sm text-slate-600">
-              GSM determines drape and durability. 125-150 is ideal for shirting.
-            </p>
-          </div>
-        </div>
+            <div class="flex gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#041632] font-mono text-sm text-white">02</span>
+              <div>
+                <h3 class="font-bold text-[#041632]">Understand GSM Dynamics</h3>
+                <p class="mt-1 text-sm text-slate-600">
+                  GSM determines drape and durability. 125-150 is ideal for shirting.
+                </p>
+              </div>
+            </div>
 
-        <div class="flex gap-4">
-          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#041632] font-mono text-sm text-white">03</span>
-          <div>
-            <h3 class="font-bold text-[#041632]">Finish Selection</h3>
-            <p class="mt-1 text-sm text-slate-600">
-              Choose mercerization for luster or silicone washes for soft hand feel.
-            </p>
+            <div class="flex gap-4">
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#041632] font-mono text-sm text-white">03</span>
+              <div>
+                <h3 class="font-bold text-[#041632]">Finish Selection</h3>
+                <p class="mt-1 text-sm text-slate-600">
+                  Choose mercerization for luster or silicone washes for soft hand feel.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
 
     <div class="hidden sm:block">
@@ -64,3 +72,36 @@ const {
     </div>
   </div>
 </section>
+
+<style>
+  .guide-rich-content h2,
+  .guide-rich-content h3,
+  .guide-rich-content h4 {
+    font-family: var(--font-headline, Georgia, serif);
+    color: #041632;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .guide-rich-content h2 { font-size: 1.75rem; }
+  .guide-rich-content h3 { font-size: 1.25rem; }
+  .guide-rich-content h4 { font-size: 1.1rem; }
+  .guide-rich-content p {
+    margin-top: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #475569;
+  }
+  .guide-rich-content ul,
+  .guide-rich-content ol {
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+    color: #475569;
+    font-size: 0.95rem;
+  }
+  .guide-rich-content ul { list-style-type: disc; }
+  .guide-rich-content ol { list-style-type: decimal; }
+  .guide-rich-content li { margin-bottom: 0.4rem; }
+  .guide-rich-content strong { color: #041632; font-weight: 600; }
+  .guide-rich-content em { font-style: italic; }
+</style>
