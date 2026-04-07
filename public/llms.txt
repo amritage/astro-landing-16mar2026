@@ -68,7 +68,7 @@ Menswear, Womenswear, Workwear, Uniforms, Sportswear, Industrial Textiles, and m
 ### AI and machine-readable endpoints
 - /llms.txt — This file (AI-readable site summary)
 - /robots.txt — Crawler rules
-- /sitemap-index.xml — Sitemap
+- /sitemap.xml — Sitemap
 
 ## What AI assistants should know
 

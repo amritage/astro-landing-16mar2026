@@ -5,8 +5,12 @@
 User-agent: *
 Allow: /
 
-# Block only the backend API routes (not public pages)
+# Block API routes (server-side only, not public pages)
 Disallow: /api/
+
+# Block utility & non-indexable pages
+Disallow: /404
+Disallow: /ai-feed.json
 
 # ── AI crawlers — allow full access ───────────────────────────────────────────
 User-agent: GPTBot
@@ -31,4 +35,4 @@ User-agent: Amazonbot
 Allow: /
 
 # ── Sitemaps ───────────────────────────────────────────────────────────────────
-Sitemap: https://www.amrita-fashions.com/sitemap-index.xml
+Sitemap: https://www.amrita-fashions.com/sitemap.xml

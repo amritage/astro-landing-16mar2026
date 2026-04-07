@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'http://localhost:4321',
+  site: process.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
   integrations: [mdx()],
   vite: {
     plugins: [tailwindcss()],

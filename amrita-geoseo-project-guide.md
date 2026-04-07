@@ -551,7 +551,7 @@ These can handle:
 ### AI + sitemap endpoints
 - `ai-feed.json.ts`
 - `llms-full.txt.ts`
-- `sitemap-index.xml.ts`
+- `sitemap.xml.ts`
 
 These support SEO, AI crawlers, and content discovery. Your documentation explicitly calls for `llms.txt`, AI feed JSON, and sitemap support. fileciteturn3file5turn3file4
 
