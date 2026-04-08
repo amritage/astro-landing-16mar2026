@@ -4,7 +4,7 @@ import { fetchBlogPosts } from "../lib/blog";
 import { getDynamicTopicPages, getCategoryTopicPages } from "../lib/api";
 import { fetchProducts } from "../data/products";
 
-const SITE = import.meta.env.PUBLIC_SITE_URL ?? "https://astro-geo-project.vercel.app/";
+const SITE = import.meta.env.PUBLIC_SITE_URL ?? "https://astro-geo-project.vercel.app";
 
 function url(path: string, lastmod?: string, priority = "0.7", changefreq = "weekly") {
   return `  <url>
