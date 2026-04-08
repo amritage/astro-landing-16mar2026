@@ -1,0 +1,56 @@
+---
+const ports = [
+  {
+    label: "Gateway West",
+    name: "Port Mundra",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>`,
+  },
+  {
+    label: "Gateway East",
+    name: "Port Kolkata",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/><path d="M12 2v3"/></svg>`,
+  },
+];
+
+const specs = [
+  { key: "Transit Time (EU)", value: "22–28 Days" },
+  { key: "Incoterms",         value: "FOB, CIF, DAP" },
+  { key: "Tracking",          value: "24/7 Digital Hub" },
+];
+---
+<section class="px-6 py-16 bg-[#f3f4f5]">
+  <div class="max-w-7xl mx-auto flex flex-col gap-8">
+    <div>
+      <h2 class="font-headline text-3xl mb-4 text-[#041632]">Strategic Port Connectivity</h2>
+      <p class="text-[#44474d] leading-relaxed max-w-2xl">
+        Our Ahmedabad HQ is strategically positioned between India's premier western and eastern maritime gateways.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {ports.map((p) => (
+        <div class="bg-white p-6 flex items-center justify-between group hover:bg-[#041632] transition-colors duration-300">
+          <div class="flex flex-col">
+            <span class="font-label text-[10px] uppercase text-[#775a19] group-hover:text-[#ffdea5]">{p.label}</span>
+            <span class="font-headline text-xl text-[#041632] group-hover:text-white">{p.name}</span>
+          </div>
+          <span class="text-[#041632] group-hover:text-white" set:html={p.svg} />
+        </div>
+      ))}
+    </div>
+
+    <div class="p-6 bg-[#1b2b48] text-white">
+      <h3 class="font-label text-xs uppercase tracking-widest text-[#ffdea5] mb-4">Logistics Specs</h3>
+      <table class="w-full text-left text-sm border-separate border-spacing-y-2">
+        <tbody>
+          {specs.map((s) => (
+            <tr>
+              <td class="py-2 text-[#8393b5]">{s.key}</td>
+              <td class="py-2 font-mono text-right text-white">{s.value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

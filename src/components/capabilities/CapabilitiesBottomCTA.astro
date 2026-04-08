@@ -1,0 +1,44 @@
+---
+import { buildWaLink, buildPhoneHref } from "../../lib/api";
+
+interface Props {
+  whatsapp?: string | null;
+  phone?: string | null;
+}
+const { whatsapp, phone } = Astro.props;
+
+const whatsappHref = buildWaLink(whatsapp, "https://wa.me/");
+const phoneHref = buildPhoneHref(phone, "tel:");
+---
+
+<section class="bg-[#041632] py-24 text-white">
+  <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+    <h2 class="font-headline italic text-4xl md:text-5xl">
+      Discuss Your Industrial Specifications
+    </h2>
+
+    <p class="mt-8 text-lg leading-relaxed text-[#8393b5]">
+      Our specialists are ready to provide technical advisory for your next large-scale textile requirement.
+    </p>
+
+    <div class="mt-12 flex flex-col justify-center gap-4 sm:flex-row">
+      <a
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-3 rounded-lg bg-[#775a19] px-8 py-4 text-lg font-bold text-white transition hover:opacity-90"
+      >
+        <span class="material-symbols-outlined">mail</span>
+        Request a Technical Consultation
+      </a>
+
+      <a
+        href={phoneHref}
+        class="inline-flex items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-lg font-bold text-white transition hover:bg-white/20"
+      >
+        <span class="material-symbols-outlined">description</span>
+        Download Capacity Deck
+      </a>
+    </div>
+  </div>
+</section>

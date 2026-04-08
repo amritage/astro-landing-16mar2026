@@ -1,0 +1,44 @@
+---
+const milestones = [
+  { year: "1971", title: "The Foundation", desc: "Established in Ahmedabad as a boutique textile trading house specializing in premium cottons.", align: "left", accent: "#775a19" },
+  { year: "1995", title: "Vertical Integration", desc: "Commissioned our first automated weaving facility, moving from trading to high-scale production.", align: "right", accent: "#041632" },
+  { year: "2018", title: "Global Expansion", desc: "Achieved milestone of exporting to 40+ countries and established global HQ at Safal Prelude.", align: "left", accent: "#041632" },
+  { year: "Today", title: "The Modern Weaver", desc: "Leading the industry with sustainable certifications and 100% solar-powered manufacturing units.", align: "right", accent: "#775a19" },
+];
+---
+<section class="py-32 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="text-center mb-24">
+      <span class="font-sans text-xs uppercase tracking-[0.3em] text-[#ffdea5] bg-[#041632] px-4 py-1 inline-block mb-4">The Journey</span>
+      <h2 class="font-serif text-5xl text-[#041632] italic">A Timeline of Growth</h2>
+    </div>
+    <div class="relative space-y-24">
+      <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[#c5c6ce] hidden md:block"></div>
+      {milestones.map((m) => (
+        <div class="relative flex flex-col md:flex-row items-center md:justify-between group">
+          {m.align === "left" ? (
+            <>
+              <div class="md:w-[45%] text-right mb-8 md:mb-0">
+                <span class="font-serif text-6xl text-[#041632] opacity-60 group-hover:opacity-100 transition-opacity">{m.year}</span>
+                <h3 class="text-xl font-bold text-[#041632] mt-2">{m.title}</h3>
+                <p class="text-[#44474d] mt-2">{m.desc}</p>
+              </div>
+              <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-4 border-[#f8f9fa] hidden md:block z-10" style={`background:${m.accent}`}></div>
+              <div class="md:w-[45%]"></div>
+            </>
+          ) : (
+            <>
+              <div class="md:w-[45%]"></div>
+              <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full border-4 border-[#f8f9fa] hidden md:block z-10" style={`background:${m.accent}`}></div>
+              <div class="md:w-[45%] text-left mb-8 md:mb-0">
+                <span class="font-serif text-6xl text-[#041632] opacity-60 group-hover:opacity-100 transition-opacity">{m.year}</span>
+                <h3 class="text-xl font-bold text-[#041632] mt-2">{m.title}</h3>
+                <p class="text-[#44474d] mt-2">{m.desc}</p>
+              </div>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,114 @@
+---
+/**
+ * Reusable Cloudinary responsive image component.
+ * Renders a <picture> element with explicit AVIF and WebP <source> tags
+ * so the browser picks the best supported format natively.
+ * Falls back to a JPEG/original <img> for older browsers.
+ *
+ * Usage:
+ *   <CloudinaryImage
+ *     src={cloudinaryUrl}
+ *     alt="description"
+ *     width={400} height={533}
+ *     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+ *     widths={[200, 400, 800]}
+ *     crop="fill"
+ *   />
+ */
+import { rebuildCloudinaryUrl } from "../../data/products";
+
+interface Props {
+  src: string | null | undefined;
+  alt: string;
+  width: number;
+  height: number;
+  sizes: string;
+  /** Width breakpoints for srcset. Defaults to [320, 480, 640, 800] */
+  widths?: number[];
+  /** Cloudinary crop mode. "fill" for cards, "limit" for hero/editorial */
+  crop?: "fill" | "limit";
+  /** Cloudinary gravity. "auto" works for most content images */
+  gravity?: string;
+  loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
+  class?: string;
+  title?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  sizes,
+  widths = [320, 480, 640, 800],
+  crop = "fill",
+  gravity = "auto",
+  loading = "lazy",
+  fetchpriority,
+  class: className,
+  title,
+} = Astro.props;
+
+function buildUrl(sourceUrl: string, w: number, format: "f_avif" | "f_webp" | "f_auto"): string {
+  const h = Math.round((w * height) / width);
+  const t =
+    crop === "limit"
+      ? `${format},q_auto,c_limit,w_${w}`
+      : `${format},q_auto,c_fill,g_${gravity},w_${w},h_${h}`;
+  return rebuildCloudinaryUrl(sourceUrl, t);
+}
+
+const safeSrc = src ?? "";
+const isCloudinary = safeSrc.includes("res.cloudinary.com") && safeSrc.includes("/upload/");
+
+// Pick a fallback close to the intended slot width
+const fallbackWidth =
+  widths.find((w) => w >= width) ?? widths[Math.max(0, widths.length - 1)];
+
+const fallback = safeSrc && isCloudinary ? buildUrl(safeSrc, fallbackWidth, "f_auto") : safeSrc;
+
+const avifSrcset = safeSrc && isCloudinary
+  ? widths.map((w) => `${buildUrl(safeSrc, w, "f_avif")} ${w}w`).join(", ")
+  : undefined;
+
+const webpSrcset = safeSrc && isCloudinary
+  ? widths.map((w) => `${buildUrl(safeSrc, w, "f_webp")} ${w}w`).join(", ")
+  : undefined;
+
+const fallbackSrcset = safeSrc && isCloudinary
+  ? widths.map((w) => `${buildUrl(safeSrc, w, "f_auto")} ${w}w`).join(", ")
+  : undefined;
+---
+
+{isCloudinary ? (
+  <picture>
+    <source type="image/avif" srcset={avifSrcset} sizes={sizes} />
+    <source type="image/webp" srcset={webpSrcset} sizes={sizes} />
+    <img
+      src={fallback || safeSrc}
+      srcset={fallbackSrcset}
+      sizes={sizes}
+      width={width}
+      height={height}
+      alt={alt}
+      title={title}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      class={className}
+      decoding={loading === "eager" ? "sync" : "async"}
+    />
+  </picture>
+) : (
+  <img
+    src={safeSrc}
+    width={width}
+    height={height}
+    alt={alt}
+    title={title}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    class={className}
+    decoding={loading === "eager" ? "sync" : "async"}
+  />
+)}

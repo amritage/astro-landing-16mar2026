@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FabricListLayout from "../../components/product/FabricListLayout.astro";
+import type { FAQItem, FabricProduct } from "../../components/product/FabricListLayout.astro";
+import { mapApiProduct, getCloudinaryUrl } from "../../data/products";
+import {
+  getDynamicTopicPages,
+  getProductsByMerchTag,
+  getFilterValues,
+} from "../../lib/api";
+import type { ApiTopicPage } from "../../lib/api";
+
+export async function getStaticPaths() {
+  const pages = await getDynamicTopicPages();
+  return pages.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+
+// Fetch the topic page data
+const allTopics = await getDynamicTopicPages();
+const page: ApiTopicPage | undefined = allTopics.find((p) => p.slug === slug);
+if (!page) return Astro.redirect("/404");
+
+// Fetch all products for this merchtag (slug1 is the merchtag value) + filters in parallel
+const [rawProducts, filters] = await Promise.all([
+  getProductsByMerchTag(page.slug1, 0), // 0 = no limit, return all
+  getFilterValues(),
+]);
+
+// Map to FabricProduct shape (skip pending slugs)
+const products: FabricProduct[] = rawProducts
+  .filter((raw) => (raw.productslug ?? "").trim().toLowerCase() !== "pending")
+  .map((raw) => {
+  const p = mapApiProduct(raw);
+  return {
+    id: p.id,
+    name: p.name,
+    category: p.category,
+    weight: p.specs.weight,
+    width: p.specs.width,
+    color: p.hex?.[0] ?? "#041632",
+    image: p.image,
+    imageSrcset: p.image1Srcset || undefined,
+    href: p.slug ? `/collection/${slug}/${p.slug}` : null,
+    filterCategory: p.category,
+    filterColor: p.colorNames.join("|"),
+    filterStructure: p.structure,
+    filterContent: p.content,
+    filterGsm: String(p.gsm),
+    filterDesign: p.design,
+    filterFinish: p.finish.join("|"),
+  };
+});
+
+// Build FAQ from API q/a fields, fallback to generic if null
+const apiFaqs: FAQItem[] = (["1", "2", "3", "4", "5"] as const)
+  .map((n) => ({
+    question: (page as Record<string, unknown>)[`q${n}`] as string | null,
+    answer: (page as Record<string, unknown>)[`a${n}`] as string | null,
+  }))
+  .filter((f): f is FAQItem => typeof f.question === "string" && typeof f.answer === "string");
+
+const faqItems: FAQItem[] = apiFaqs.length > 0 ? apiFaqs : [
+  {
+    question: `What fabrics are included in the ${page.name}?`,
+    answer: "This collection features a curated selection of fabrics available for bulk B2B orders. Contact us for the full catalogue.",
+  },
+  {
+    question: "What is your Minimum Order Quantity (MOQ)?",
+    answer: "Our standard MOQ is 100 meters per color. Custom MOQs are available for repeat orders.",
+  },
+  {
+    question: "Do you offer export documentation?",
+    answer: "Yes, we provide full export documentation including GSM test reports, packing lists, and certifications on request.",
+  },
+];
+
+const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudUrl ?? null;
+---
+
+<BaseLayout
+  title={page.metaTitle ?? `${page.name} | Amrita Global Enterprises`}
+  description={page.description ?? page.excerpt ?? ""}
+  keywords={page.keywords ?? undefined}
+  canonical={page.canonicalUrl ? `https://${page.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={page.ogType ?? "website"}
+  ogImage={heroImageUrl ?? undefined}
+>
+  <div class="bg-white text-slate-900">
+    <FabricListLayout
+      hero={{
+        title: page.name,
+        imageUrl: heroImageUrl,
+        breadcrumbLabel: page.name,
+        breadcrumbHref: `/collection/${slug}`,
+      }}
+      intro={{
+        heading: page.metaTitle ?? page.name,
+        body: page.description ?? page.excerpt ?? "Awaiting content from API.",
+        p1Html: page.p1 ?? null,
+        calloutTitle: "B2B Supply Ready",
+        calloutBody: "All fabrics available in bulk with consistent quality, GSM verification, and export documentation.",
+      }}
+      products={products}
+      filters={{
+        categories: filters.category,
+        colors: filters.color,
+        structures: filters.structure,
+        contents: filters.content,
+        designs: filters.design,
+        finishes: filters.finish,
+      }}
+      total={products.length}
+      currentPage={1}
+      totalPages={1}
+      faqItems={faqItems}
+      showGuide={true}
+      guideP2Html={page.p2 ?? null}
+    />
+  </div>
+</BaseLayout>

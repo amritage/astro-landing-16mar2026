@@ -1,0 +1,38 @@
+# robots.txt — Amrita Global Enterprises
+# https://www.amrita-fashions.com
+
+# ── All crawlers ───────────────────────────────────────────────────────────────
+User-agent: *
+Allow: /
+
+# Block API routes (server-side only, not public pages)
+Disallow: /api/
+
+# Block utility & non-indexable pages
+Disallow: /404
+Disallow: /ai-feed.json
+
+# ── AI crawlers — allow full access ───────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+# ── Sitemaps ───────────────────────────────────────────────────────────────────
+Sitemap: https://www.amrita-fashions.com/sitemap.xml

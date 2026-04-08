@@ -1,0 +1,59 @@
+---
+const steps = [
+  {
+    no: "01",
+    title: "Fiber Selection",
+    desc: "Sourcing premium natural and synthetic fibers with certified tensile strengths.",
+  },
+  {
+    no: "02",
+    title: "Warping & Weaving",
+    desc: "Automated looms operate with continuous monitoring for weave consistency.",
+  },
+  {
+    no: "03",
+    title: "Technical Finishing",
+    desc: "Application of heat-setting, coating, and specialized industrial treatments.",
+  },
+  {
+    no: "04",
+    title: "Final Dispatch",
+    desc: "Secure vacuum packaging and GPS-tracked container loading.",
+  },
+];
+---
+
+<section class="bg-[#f8f9fa] py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mb-20 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div class="max-w-2xl">
+        <h2 class="font-headline italic text-4xl text-[#041632]">The Manufacturing Lifecycle</h2>
+        <p class="mt-6 text-lg leading-relaxed text-[#44474d]">
+          Our process is a closed-loop system of precision, ensuring every thread meets the Amrita
+          Global standard before it leaves our facility.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2 font-label text-sm font-bold uppercase tracking-widest text-[#775a19]">
+        <span class="h-px w-12 bg-[#775a19]"></span>
+        From Fiber to Freight
+      </div>
+    </div>
+
+    <div class="relative">
+      <div class="absolute left-0 top-1/2 hidden h-px w-full -translate-y-1/2 bg-[#c5c6ce]/20 md:block"></div>
+
+      <div class="relative grid grid-cols-1 gap-12 md:grid-cols-4">
+        {steps.map((step) => (
+          <div class="group relative bg-[#f8f9fa]">
+            <div class="relative z-10 mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-[#041632] font-bold text-white transition-transform group-hover:scale-110">
+              {step.no}
+            </div>
+            <h3 class="text-lg font-bold text-[#041632]">{step.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-[#44474d]">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

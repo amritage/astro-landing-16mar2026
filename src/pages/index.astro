@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import HeroSection from "../components/home/HeroSection.astro";
+import TrustSignals from "../components/home/TrustSignals.astro";
+import FeaturedCategories from "../components/home/FeaturedCategories.astro";
+import IndustriesSection from "../components/home/IndustriesSection.astro";
+import DynamicTopicSections from "../components/home/DynamicTopicSections.astro";
+import CapabilitiesPreview from "../components/home/CapabilitiesPreview.astro";
+import CertificationsPreview from "../components/home/CertificationsPreview.astro";
+import KnowledgePreview from "../components/home/KnowledgePreview.astro";
+import HomepageFAQ from "../components/home/HomepageFAQ.astro";
+import LocationsSection from "../components/home/LocationsSection.astro";
+import { getTopicPageBySlug, getCompanyInfo } from "../lib/api";
+
+const [seo, company] = await Promise.all([
+  getTopicPageBySlug("home"),
+  getCompanyInfo("AGE"),
+]);
+
+const defaultOgImage = company?.defaultOgImage ?? undefined;
+---
+
+<BaseLayout
+  title={seo?.metaTitle ?? "Amrita Fashions | B2B Fabric Manufacturer & Exporter"}
+  description={seo?.description ?? "Explore premium cotton, denim, knit, and woven fabrics for brands, wholesalers, and sourcing teams."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "website"}
+  ogImage={defaultOgImage}
+>
+  <HeroSection />
+  <TrustSignals />
+  <FeaturedCategories />
+  <IndustriesSection />
+  <DynamicTopicSections />
+  <CapabilitiesPreview />
+  <CertificationsPreview />
+  <KnowledgePreview />
+  <HomepageFAQ />
+  <LocationsSection />
+</BaseLayout>

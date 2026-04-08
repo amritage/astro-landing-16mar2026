@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ProductDetailHero from "../../../components/product/ProductDetailHero.astro";
+import ProductDetailBody from "../../../components/product/ProductDetailBody.astro";
+import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
+import { fetchProducts, type Product } from "../../../data/products";
+import { getCategoryTopicPages } from "../../../lib/api";
+
+export async function getStaticPaths() {
+  const [products, categories] = await Promise.all([
+    fetchProducts(),
+    getCategoryTopicPages(),
+  ]);
+
+  const paths: {
+    params: { categorySlug: string; productSlug: string };
+    props: { product: Product; collectionProducts: Product[]; categoryName: string };
+  }[] = [];
+
+  for (const cat of categories) {
+    const catProducts = products.filter(
+      (p) => p.slug && p.category.toLowerCase().trim() === cat.name.toLowerCase().trim()
+    );
+    for (const product of catProducts) {
+      const collectionProducts = products.filter(
+        (p) => p.collectionId === product.collectionId && p.id !== product.id && p.slug
+      );
+      paths.push({
+        params: { categorySlug: cat.slug, productSlug: product.slug },
+        props: { product, collectionProducts, categoryName: cat.name },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { product, collectionProducts, categoryName } = Astro.props as {
+  product: Product;
+  collectionProducts: Product[];
+  categoryName: string;
+};
+
+const { categorySlug } = Astro.params;
+---
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<BaseLayout title={`${product.name} | Amrita Global Enterprises`} description={product.shortDesc}>
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
+    <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">
+      <a href="/" class="hover:text-[#041632]">Home</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <a href={`/category/${categorySlug}`} class="hover:text-[#041632]">{categoryName}</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <span class="text-[#041632] font-semibold">{product.name.split(" ").slice(0, 2).join(" ")}</span>
+    </nav>
+  </div>
+
+  <ProductDetailHero product={product} />
+  <ProductDetailBody product={product} />
+  <ProductDetailRelated product={product} collectionProducts={collectionProducts} />
+</BaseLayout>

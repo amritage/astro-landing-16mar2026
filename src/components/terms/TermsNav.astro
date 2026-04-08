@@ -1,0 +1,23 @@
+---
+const sections = [
+  { num: "01.", label: "Terms of Service", href: "#tos" },
+  { num: "02.", label: "Privacy Policy",   href: "#privacy" },
+  { num: "03.", label: "Cookie Policy",    href: "#cookies" },
+  { num: "04.", label: "Wholesale Rules",  href: "#wholesale" },
+];
+---
+<div class="px-6 max-w-5xl mx-auto mb-20">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+    {sections.map(({ num, label, href }) => (
+      <a
+        href={href}
+        class="group p-5 md:p-6 bg-[#f3f4f5] hover:bg-[#e1e3e4] transition-all duration-300"
+      >
+        <span class="block font-headline italic text-2xl text-[#041632] mb-2">{num}</span>
+        <span class="block font-label text-xs uppercase tracking-widest font-bold text-[#44474d] group-hover:text-[#775a19] transition-colors">
+          {label}
+        </span>
+      </a>
+    ))}
+  </div>
+</div>

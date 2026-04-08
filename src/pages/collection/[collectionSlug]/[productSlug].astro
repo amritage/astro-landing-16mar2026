@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ProductDetailHero from "../../../components/product/ProductDetailHero.astro";
+import ProductDetailBody from "../../../components/product/ProductDetailBody.astro";
+import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
+import { fetchProducts, type Product } from "../../../data/products";
+import { getDynamicTopicPages } from "../../../lib/api";
+
+export async function getStaticPaths() {
+  const [products, topics] = await Promise.all([
+    fetchProducts(),
+    getDynamicTopicPages(),
+  ]);
+
+  const paths: { params: { collectionSlug: string; productSlug: string }; props: { product: Product; collectionProducts: Product[]; collectionName: string } }[] = [];
+
+  for (const topic of topics) {
+    const topicProducts = products.filter(
+      (p) => p.slug && p.merchTags?.includes(topic.slug1)
+    );
+    for (const product of topicProducts) {
+      const collectionProducts = products.filter(
+        (p) => p.collectionId === product.collectionId && p.id !== product.id && p.slug
+      );
+      paths.push({
+        params: { collectionSlug: topic.slug, productSlug: product.slug },
+        props: { product, collectionProducts, collectionName: topic.name },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { product, collectionProducts, collectionName } = Astro.props as {
+  product: Product;
+  collectionProducts: Product[];
+  collectionName: string;
+};
+
+const { collectionSlug } = Astro.params;
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const canonicalUrl = `${siteBase}/collection/${collectionSlug}/${product.slug}`;
+---
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<BaseLayout
+  title={`${product.name} | Amrita Global Enterprises`}
+  description={product.shortDesc}
+  canonical={canonicalUrl}
+  keywords={product.keywords}
+  ogTitle={`${product.name} | Amrita Global Enterprises`}
+  ogDescription={product.shortDesc}
+  ogImage={product.imageLarge || product.image1 || undefined}
+  ogType="product"
+  twitterTitle={`${product.name} | Amrita Global Enterprises`}
+  twitterDescription={product.shortDesc}
+  twitterImage={product.imageLarge || product.image1 || undefined}
+>
+  <!-- Breadcrumb — collection context -->
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
+    <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">
+      <a href="/" class="hover:text-[#041632]">Home</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <a href={`/collection/${collectionSlug}`} class="hover:text-[#041632]">{collectionName}</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <span class="text-[#041632] font-semibold">{product.name.split(" ").slice(0, 2).join(" ")}</span>
+    </nav>
+  </div>
+
+  <ProductDetailHero product={product} />
+  <ProductDetailBody product={product} />
+  <ProductDetailRelated product={product} collectionProducts={collectionProducts} />
+</BaseLayout>

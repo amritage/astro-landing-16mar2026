@@ -1,0 +1,68 @@
+---
+import { buildWaLink } from "../../lib/api";
+
+interface Props {
+  whatsapp?: string | null;
+  supportEmail?: string | null;
+  phone2?: string | null;
+  phone2Dept?: string | null;
+}
+const { whatsapp, supportEmail, phone2, phone2Dept } = Astro.props;
+
+const waLink = buildWaLink(whatsapp, "#");
+const agentLabel = phone2Dept ? `${phone2Dept} Line` : "Live Agent";
+---
+<section id="channels" class="py-20 md:py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-1 mb-4 border border-[#775a19] text-[#775a19] font-sans text-xs tracking-[0.2em] uppercase">
+        Reach Us Instantly
+      </span>
+      <h2 class="font-serif text-4xl md:text-5xl text-[#041632] mb-4">Support Channels</h2>
+      <p class="text-[#44474d] max-w-xl mx-auto text-base">Choose the fastest route to our team — we're available across all channels around the clock.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- WhatsApp -->
+      <div class="border border-[#e1e3e4] rounded-lg p-8 hover:shadow-lg transition-shadow group">
+        <div class="w-12 h-12 bg-[#25D366]/10 rounded-lg flex items-center justify-center mb-6">
+          <svg class="w-6 h-6 fill-[#25D366]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.29-4.139c1.52.907 3.327 1.386 5.174 1.387 5.422 0 9.835-4.412 9.837-9.835.001-2.628-1.023-5.1-2.885-6.963s-4.337-2.887-6.963-2.888c-5.424 0-9.837 4.412-9.839 9.835-.001 1.944.575 3.841 1.666 5.461l-.1.16-1.03 3.766 3.856-1.011.164.098zM17.476 14.39c-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-2xl text-[#041632] mb-2">WhatsApp Direct</h3>
+        <p class="text-[#44474d] text-sm mb-6 leading-relaxed">Instant technical support for on-floor manufacturing issues. Fastest response guaranteed.</p>
+        <a href={waLink} class="inline-flex items-center gap-2 text-[#1a7a3f] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
+          {whatsapp ?? "Contact via WhatsApp"}
+          <span class="material-symbols-outlined text-sm">arrow_outward</span>
+        </a>
+      </div>
+
+      <!-- Email -->
+      <div class="border border-[#e1e3e4] rounded-lg p-8 hover:shadow-lg transition-shadow group">
+        <div class="w-12 h-12 bg-[#1B2B48]/10 rounded-lg flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-[#1B2B48]">mail</span>
+        </div>
+        <h3 class="font-serif text-2xl text-[#041632] mb-2">Corporate Email</h3>
+        <p class="text-[#44474d] text-sm mb-6 leading-relaxed">For documentation, order changes, certification requests, and formal escalations.</p>
+        <a href={`mailto:${supportEmail}`} class="inline-flex items-center gap-2 text-[#1B2B48] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
+          {supportEmail ?? "Email Us"}
+          <span class="material-symbols-outlined text-sm">arrow_outward</span>
+        </a>
+      </div>
+
+      <!-- Live Agent -->
+      <div class="bg-[#041632] rounded-lg p-8 group">
+        <div class="w-12 h-12 bg-[#775a19]/20 rounded-lg flex items-center justify-center mb-6">
+          <span class="material-symbols-outlined text-[#ffdea5]">support_agent</span>
+        </div>
+        <h3 class="font-serif text-2xl mb-2 !text-white">{agentLabel}</h3>
+        <p class="text-[#8393b5] text-sm mb-6 leading-relaxed">Real-time collaboration with our supply chain logistics team for critical issues.</p>
+        <a href={`tel:${phone2}`} class="inline-flex items-center gap-2 text-[#ffdea5] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">
+          {phone2 ?? "Call Us"}
+          <span class="material-symbols-outlined text-sm">arrow_outward</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

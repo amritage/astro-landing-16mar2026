@@ -1,0 +1,184 @@
+---
+import type { Product } from "../../data/products";
+interface Props { product: Product }
+const { product } = Astro.props;
+---
+
+<!-- Long Description -->
+<section class="max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-16">
+  <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 flex items-center">
+    <span class="w-10 h-px bg-[#775a19] mr-4"></span>About this Fabric
+  </h2>
+  <div
+    class="text-[#44474d] font-sans leading-relaxed text-sm lg:text-base max-w-none prose prose-sm"
+    set:html={product.longDescription}
+  />
+</section>
+
+<!-- Technical Specs & Applications -->
+<section class="bg-[#f3f4f5] py-12 lg:py-20">
+  <div class="max-w-7xl mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+
+      <!-- Tech Specs Table -->
+      <div>
+        <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 lg:mb-8 flex items-center">
+          <span class="w-10 h-px bg-[#775a19] mr-4"></span>Technical Specifications
+        </h2>
+        <div class="overflow-x-auto shadow-sm">
+          <table class="w-full text-left font-sans min-w-[300px]">
+            <tbody>
+              {product.techSpecs.map((row) => (
+                <tr class="border-b border-[#edeeef]">
+                  <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">{row.label}</td>
+                  <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Application Suitability -->
+      <div>
+        <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 lg:mb-8 flex items-center">
+          <span class="w-10 h-px bg-[#775a19] mr-4"></span>Application Suitability (AI Analysis)
+        </h2>
+        {(() => {
+          const sorted = [...product.applications].sort((a, b) => b.score - a.score);
+          const visible = sorted.slice(0, 4);
+          const hidden = sorted.slice(4);
+          return (
+            <div>
+              <div class="space-y-4 lg:space-y-6">
+                {visible.map((app) => (
+                  <div class="bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]">
+                    <div class="flex justify-between mb-2">
+                      <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+                    </div>
+                    <div class="w-full bg-[#e7e8e9] h-2">
+                      <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
+                    </div>
+                    <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+                  </div>
+                ))}
+              </div>
+              {hidden.length > 0 && (
+                <div>
+                  <div id="extra-apps" class="space-y-4 lg:space-y-6 mt-4 lg:mt-6 hidden">
+                    {hidden.map((app) => (
+                      <div class="bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]">
+                        <div class="flex justify-between mb-2">
+                          <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+                        </div>
+                        <div class="w-full bg-[#e7e8e9] h-2">
+                          <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
+                        </div>
+                        <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    id="toggle-apps-btn"
+                    class="mt-5 flex items-center gap-2 text-sm font-semibold text-[#041632] hover:text-[#775a19] transition-colors"
+                  >
+                    <span id="toggle-apps-label">View more ({hidden.length})</span>
+                    <span id="toggle-apps-icon" class="material-symbols-outlined text-base transition-transform">expand_more</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })()}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Certifications -->
+<section class="max-w-7xl mx-auto px-4 lg:px-8 py-16 lg:py-20">
+  <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-10 lg:mb-12 text-center">Quality &amp; Compliance</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+    {product.certifications.map((cert) => (
+      <div class="bg-white p-6 lg:p-8 border border-[#c5c6ce]/10 text-center flex flex-col items-center shadow-sm">
+        <span class="material-symbols-outlined text-3xl lg:text-4xl text-[#775a19] mb-4" style="font-variation-settings: 'FILL' 1;">{cert.icon}</span>
+        <h3 class="font-bold text-base lg:text-lg mb-2">{cert.title}</h3>
+        <p class="text-xs lg:text-sm text-[#44474d]">{cert.desc}</p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- Contextual: Region / Industries / FAQ -->
+<section class="bg-[#041632] text-white py-16 lg:py-20">
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+
+    <!-- Regional Preference -->
+    <div>
+      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Regional Preference</h3>
+      <div class="flex items-start space-x-4">
+        <span class="material-symbols-outlined text-[#775a19] mt-1">location_on</span>
+        <p class="text-[#8393b5] leading-relaxed text-sm lg:text-base">
+          Preferred choice for
+          {product.regionalCities.map((city, i) => (
+            <>
+              <span class="text-white font-bold">{city}</span>
+              {i < product.regionalCities.length - 1 && <span> and </span>}
+            </>
+          ))}
+          {" "}garment hubs due to its adaptable GSM and rich cocoa tone.
+        </p>
+      </div>
+    </div>
+
+    <!-- Industries -->
+    <div>
+      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Target Industries</h3>
+      <ul class="space-y-4 font-sans text-sm lg:text-base">
+        {product.industries.map((ind) => (
+          <li class="flex items-center">
+            <span class="w-1.5 h-1.5 bg-[#775a19] rounded-full mr-3"></span>
+            {ind}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- FAQ -->
+    <div>
+      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Industrial FAQ</h3>
+      <div class="space-y-3">
+        {product.faq.map((item) => (
+          <details class="group cursor-pointer rounded-lg bg-white/5 border border-white/10 hover:border-[#c9a84c]/40 transition-colors duration-200">
+            <summary class="list-none flex justify-between items-start gap-3 px-5 py-4 text-sm lg:text-base font-semibold text-white group-open:text-[#c9a84c] transition-colors duration-200">
+              <span>{item.q}</span>
+              <span class="material-symbols-outlined text-base flex-shrink-0 mt-0.5 text-[#c9a84c] group-open:rotate-180 transition-transform duration-200">expand_more</span>
+            </summary>
+            <div class="px-5 pb-5 pt-1">
+              <div class="w-8 h-px bg-[#c9a84c]/50 mb-3"></div>
+              <p class="text-sm text-[#cbd5e1] leading-relaxed">{item.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const btn = document.getElementById("toggle-apps-btn");
+  const extra = document.getElementById("extra-apps");
+  const label = document.getElementById("toggle-apps-label");
+  const icon = document.getElementById("toggle-apps-icon");
+  if (btn && extra && label && icon) {
+    const count = extra.children.length;
+    btn.addEventListener("click", () => {
+      const isHidden = extra.classList.contains("hidden");
+      extra.classList.toggle("hidden", !isHidden);
+      label.textContent = isHidden ? "View less" : `View more (${count})`;
+      icon.style.transform = isHidden ? "rotate(180deg)" : "";
+    });
+  }
+</script>

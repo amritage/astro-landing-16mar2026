@@ -1,0 +1,79 @@
+---
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
+
+const company = await getCompanyInfo("AGE");
+
+const whatsappHref = buildWaLink(company?.whatsappNumber);
+const phoneHref = buildPhoneHref(company?.phone1 ?? company?.phone2);
+const emailHref = company?.primaryEmail
+  ? `mailto:${company.primaryEmail}`
+  : company?.salesEmail
+  ? `mailto:${company.salesEmail}`
+  : null;
+---
+
+<!-- Floating Action Buttons -->
+<div id="floating-left" class="fixed bottom-8 z-[200] flex flex-col gap-2.5 left-4 transition-opacity duration-300 opacity-0 pointer-events-none">
+  <!-- WhatsApp -->
+  {whatsappHref && (
+    <a
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat on WhatsApp"
+      class="w-12 h-12 flex items-center justify-center rounded-xl shadow-lg hover:scale-105 transition-transform"
+      style="background-color: #25D366;"
+    >
+      <svg class="w-6 h-6 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448L.057 24zm6.29-4.139c1.52.907 3.327 1.386 5.174 1.387 5.422 0 9.835-4.412 9.837-9.835.001-2.628-1.023-5.1-2.885-6.963s-4.337-2.887-6.963-2.888c-5.424 0-9.837 4.412-9.839 9.835-.001 1.944.575 3.841 1.666 5.461l-.1.16-1.03 3.766 3.856-1.011.164.098zM17.476 14.39c-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/>
+      </svg>
+    </a>
+  )}
+
+  <!-- Call -->
+  {phoneHref && (
+    <a
+      href={phoneHref}
+      aria-label="Call us"
+      class="w-12 h-12 flex items-center justify-center rounded-xl shadow-lg hover:scale-105 transition-transform"
+      style="background-color: #1a9e6e;"
+    >
+      <span class="material-symbols-outlined text-white" style="font-size: 24px; font-variation-settings: 'FILL' 1;">call</span>
+    </a>
+  )}
+</div>
+
+<div id="floating-right" class="fixed bottom-8 z-[200] flex flex-col gap-2.5 right-4 transition-opacity duration-300 opacity-0 pointer-events-none">
+  <!-- Email -->
+  {emailHref && (
+    <a
+      href={emailHref}
+      aria-label="Email us"
+      class="w-12 h-12 flex items-center justify-center rounded-xl shadow-lg hover:scale-105 transition-transform"
+      style="background-color: #2563eb;"
+    >
+      <span class="material-symbols-outlined text-white" style="font-size: 24px; font-variation-settings: 'FILL' 1;">mail</span>
+    </a>
+  )}
+</div>
+
+<script>
+  const floatingEls = [
+    document.getElementById('floating-left'),
+    document.getElementById('floating-right'),
+  ].filter(Boolean) as HTMLElement[];
+
+  // Show after user scrolls past ~80vh (past the hero)
+  const SCROLL_THRESHOLD = window.innerHeight * 0.8;
+
+  function updateVisibility() {
+    const visible = window.scrollY > SCROLL_THRESHOLD;
+    floatingEls.forEach((el) => {
+      el.classList.toggle('opacity-0', !visible);
+      el.classList.toggle('pointer-events-none', !visible);
+    });
+  }
+
+  window.addEventListener('scroll', updateVisibility, { passive: true });
+  updateVisibility();
+</script>

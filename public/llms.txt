@@ -1,0 +1,85 @@
+# Amrita Global Enterprises — llms.txt
+
+> Amrita Global Enterprises (AGE) is an Indian fabric manufacturer and exporter with over five decades of experience in precision textile manufacturing. This site is the product discovery, SEO, and lead-generation frontend for the AGE fabric catalogue.
+
+## What this site is
+
+This is the marketing and catalogue frontend for Amrita Global Enterprises, built with Astro. It covers product discovery, category pages, location landing pages, industry solution pages, blog and guides, trust pages, and lead generation. It is not a commerce/checkout application.
+
+## Company
+
+- Name: Amrita Global Enterprises
+- Also known as: Amrita Fashions, AGE
+- Founded: 1970s (over 50 years in operation)
+- Headquarters: India (Gujarat)
+- Type: Fabric manufacturer, exporter, and B2B supplier
+- Contact (Sales): +91 99251 55141
+- WhatsApp: https://wa.me/919925155141
+- Website: https://www.amrita-fashions.com
+
+## What we make and sell
+
+Amrita Global Enterprises manufactures and supplies woven fabrics for garment and industrial use. Core product categories include:
+
+- Cotton Twill Fabrics
+- Woven Fabrics
+- Denim Fabrics
+- Performance / Technical Textiles
+- Shirting Fabrics
+- Suiting Fabrics
+
+Products are described by: GSM weight, width (cm/inch), weave/structure, fiber content, design, finish, and color. All fabrics undergo a 12-point quality inspection including GSM verification, color fastness, and tensile strength testing.
+
+## Key capabilities
+
+- In-house manufacturing with precision quality control
+- Export-ready supply chain (global shipping)
+- Custom fabric development and sampling
+- Certifications for chemical finishes, mercerization, and silicon treatments
+- Minimum Order Quantities (MOQ) available per product
+- Supply models: stock and made-to-order
+
+## Industries served
+
+Menswear, Womenswear, Workwear, Uniforms, Sportswear, Industrial Textiles, and more.
+
+## Site structure
+
+### Main pages
+- / — Homepage: featured products, categories, industries, trust signals, FAQ
+- /fabric — Full fabric catalogue with filters (category, color, structure, content, design, finish, GSM)
+- /fabric/[productSlug] — Individual product detail pages
+- /category/[slug] — Category landing pages (e.g. cotton-twill, denim)
+- /location/[slug] — GeoSEO location pages for cities and regions
+- /industry/[slug] — Industry solution pages
+- /about — Company history, mission, leadership, manufacturing strengths
+- /capabilities — Manufacturing, quality, logistics, export, and compliance capabilities
+- /certifications — Certifications and compliance documentation
+- /blog — Blog index
+- /blog/[slug] — Individual blog posts
+- /guides — Fabric buying and technical guides
+- /guides/[slug] — Individual guide pages
+- /faq — Frequently asked questions
+- /support — Contact and inquiry form
+- /careers — Open positions and application form
+- /shipping — Shipping and logistics information
+- /support — Customer support channels
+
+### AI and machine-readable endpoints
+- /llms.txt — This file (AI-readable site summary)
+- /robots.txt — Crawler rules
+- /sitemap.xml — Sitemap
+
+## What AI assistants should know
+
+- This site is B2B focused. Visitors are garment manufacturers, sourcing managers, and export buyers.
+- Product pages include: specifications (GSM, width, weave, content), applications/suitability scores, certifications, FAQ, related products, and a direct inquiry/WhatsApp CTA.
+- The site does not handle cart, checkout, login, or orders. Those are in a separate commerce application.
+- All fabric data is fetched from a backend API at build time (Astro static generation).
+- The primary call-to-action is a WhatsApp or phone inquiry, not an add-to-cart.
+
+## Contact for inquiries
+
+- Phone / WhatsApp: +91 99251 55141
+- WhatsApp link: https://wa.me/919925155141
+- Inquiry form: https://www.amrita-fashions.com/support

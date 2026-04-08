@@ -1,0 +1,39 @@
+---
+const layers = [
+  {
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 10 6.5v7L12 22 2 15.5v-7z"/><path d="M12 22v-6.5"/><path d="m22 8.5-10 7-10-7"/></svg>`,
+    title: "Moisture-Proof Barrier",
+    desc: "High-density polyethylene wrap prevents humidity ingress during maritime transit.",
+    accent: "border-[#775a19]",
+    iconColor: "text-[#775a19]",
+  },
+  {
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg>`,
+    title: "Double-Wall Corrugation",
+    desc: "Reinforced industrial-grade boxing designed to withstand multi-modal handling stresses.",
+    accent: "border-[#041632]",
+    iconColor: "text-[#041632]",
+  },
+  {
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="m9 12 2 2 4-4"/></svg>`,
+    title: "Seismic Stabilization",
+    desc: "Internal pallet bracing and shock-absorbent lining for maximum textile integrity.",
+    accent: "border-[#775a19]",
+    iconColor: "text-[#775a19]",
+  },
+];
+---
+<section class="px-6 py-16 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="font-headline text-3xl mb-10 text-[#041632]">Triple-Layer Protection</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {layers.map((l) => (
+        <div class:list={["bg-white p-6 border-l-4 shadow-sm", l.accent]}>
+          <span class:list={["mb-4 block", l.iconColor]} set:html={l.svg} />
+          <h3 class="font-headline text-xl text-[#041632] mb-2">{l.title}</h3>
+          <p class="text-[#44474d] text-sm leading-relaxed">{l.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

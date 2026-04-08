@@ -1,0 +1,93 @@
+---
+import type { ApiBlogPost } from "../../lib/blog";
+import { formatDate, getPostImage, cloudinarySrcset } from "../../lib/blog";
+
+interface Props {
+  featured: ApiBlogPost | undefined;
+  posts: ApiBlogPost[];
+}
+
+const { featured, posts } = Astro.props;
+---
+
+<!-- Featured Post -->
+{featured && (
+  <section class="px-4 md:px-8 mb-16 md:mb-20 max-w-7xl mx-auto">
+    <div class="relative flex flex-col md:flex-row gap-0 group">
+      <div class="md:w-2/3 h-[400px] md:h-[550px] overflow-hidden rounded-xl shadow-2xl relative">
+        <img
+          src={getPostImage(featured)}
+          srcset={cloudinarySrcset(getPostImage(featured), [400, 800, 1200])}
+          sizes="(max-width: 768px) 100vw, 66vw"
+          alt={featured.featuredImageAlt ?? featured.title}
+          title={featured.featuredImageAlt ?? featured.title}
+          width="800"
+          height="550"
+          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="eager"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#041632]/80 via-transparent to-transparent"></div>
+        <div class="absolute top-6 left-6">
+          <span class="px-3 py-1 bg-[#775a19] text-white font-sans text-[10px] font-bold tracking-widest uppercase rounded">Featured Insight</span>
+        </div>
+      </div>
+      <div class="md:w-5/12 md:-ml-20 md:mt-24 z-10 bg-white p-8 md:p-12 shadow-xl border-l-4 border-[#775a19] rounded-r-lg">
+        <span class="font-sans text-[#775a19] text-xs font-bold tracking-widest uppercase mb-4 block">{featured.category}</span>
+        <h2 class="font-serif text-3xl md:text-5xl text-[#041632] font-bold mb-6 leading-tight italic">
+          {featured.title}
+        </h2>
+        <p class="text-[#44474d] leading-relaxed font-sans mb-8 text-lg line-clamp-3">
+          {featured.excerpt}
+        </p>
+        <a href={`/blog/${featured.slug}`} class="inline-flex items-center gap-3 font-sans font-bold text-[#041632] group/link">
+          Read Full Article
+          <span class="material-symbols-outlined transition-transform group-hover/link:translate-x-2">arrow_right_alt</span>
+        </a>
+      </div>
+    </div>
+  </section>
+)}
+
+<!-- Posts Grid -->
+{posts.length > 0 && (
+  <section class="px-4 md:px-8 mb-24 max-w-7xl mx-auto">
+    <h3 class="font-serif text-3xl text-[#041632] mb-10 border-b border-[#c5c6ce] pb-4">Latest Articles</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}`} class="bg-[#f3f4f5] rounded-xl overflow-hidden group block hover:shadow-md transition-shadow">
+          <div class="aspect-video overflow-hidden bg-slate-200">
+            <img
+              src={getPostImage(post)}
+              srcset={cloudinarySrcset(getPostImage(post), [400, 800])}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              alt={post.featuredImageAlt ?? post.title}
+              title={post.featuredImageAlt ?? post.title}
+              width="400"
+              height="225"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-[10px] font-bold text-[#775a19] uppercase tracking-widest">{post.category}</span>
+              <span class="w-1 h-1 bg-[#c5c6ce] rounded-full"></span>
+              <span class="text-[10px] text-[#5a5c63] uppercase">{formatDate(post.publishedAt)}</span>
+            </div>
+            <h4 class="font-serif text-lg text-[#041632] font-bold mb-2 line-clamp-2">{post.title}</h4>
+            <p class="text-[#44474d] text-sm font-sans line-clamp-3">{post.excerpt}</p>
+            <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-[#041632] border-b-2 border-[#041632]/20 hover:border-[#775a19] transition-colors pb-0.5 uppercase tracking-tighter">
+              Read Article
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+{posts.length === 0 && !featured && (
+  <section class="px-4 md:px-8 mb-24 max-w-7xl mx-auto text-center py-24">
+    <p class="text-[#5a5c63] font-sans text-lg">No articles available at the moment.</p>
+  </section>
+)}

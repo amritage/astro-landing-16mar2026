@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FabricListLayout from "../../components/product/FabricListLayout.astro";
+import type { FAQItem, FabricProduct } from "../../components/product/FabricListLayout.astro";
+import { mapApiProduct, getCloudinaryUrl } from "../../data/products";
+import {
+  getCategoryTopicPages,
+  getCategoryTopicPageBySlug,
+  getProductsByCategory,
+  getFilterValues,
+} from "../../lib/api";
+
+export async function getStaticPaths() {
+  const pages = await getCategoryTopicPages();
+  return pages.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+
+// Fetch page data first (need its name to filter products)
+const page = await getCategoryTopicPageBySlug(slug);
+if (!page) return Astro.redirect("/404");
+
+// Now fetch products + filters in parallel using the resolved category name
+const [rawProducts, filters] = await Promise.all([
+  getProductsByCategory(page.name),
+  getFilterValues(),
+]);
+
+// Only show categories that actually exist in this page's products
+const pageCategories = [...new Set(rawProducts.map((p) => p.category).filter(Boolean))];
+
+// Map raw API products → typed FabricProduct shape (skip pending slugs)
+const products: FabricProduct[] = rawProducts
+  .filter((raw) => (raw.productslug ?? "").trim().toLowerCase() !== "pending")
+  .map((raw) => {
+  const p = mapApiProduct(raw);
+  return {
+    id: p.id,
+    name: p.name,
+    category: p.category,
+    weight: p.specs.weight,
+    width: p.specs.width,
+    color: p.hex?.[0] ?? "#041632",
+    image: p.image,
+    imageSrcset: p.image1Srcset || undefined,
+    href: p.slug ? `/category/${slug}/${p.slug}` : null,
+    filterCategory: p.category,
+    filterColor: p.colorNames.join("|"),
+    filterStructure: p.structure,
+    filterContent: p.content,
+    filterGsm: String(p.gsm),
+    filterDesign: p.design,
+    filterFinish: p.finish.join("|"),
+  };
+});
+
+// Build FAQ items from the topic page q/a fields
+// If all are null, use fallback placeholder items so the section always renders
+const apiFaqs: FAQItem[] = (["1", "2", "3", "4", "5"] as const)
+  .map((n) => ({
+    question: (page as Record<string, unknown>)[`q${n}`] as string | null,
+    answer: (page as Record<string, unknown>)[`a${n}`] as string | null,
+  }))
+  .filter((f): f is FAQItem => typeof f.question === "string" && typeof f.answer === "string");
+
+const faqItems: FAQItem[] = apiFaqs.length > 0 ? apiFaqs : [
+  {
+    question: `What types of ${page.name} do you supply?`,
+    answer: "We supply a wide range of fabrics in bulk for B2B buyers. Contact us for the full catalogue and specifications.",
+  },
+  {
+    question: "What is your Minimum Order Quantity (MOQ)?",
+    answer: "Our standard MOQ is 100 meters per color. Custom MOQs are available for repeat orders.",
+  },
+  {
+    question: "Do you offer export documentation?",
+    answer: "Yes, we provide full export documentation including GSM test reports, packing lists, and certifications on request.",
+  },
+];
+
+// Hero image (image2CloudUrl) — category page hero background
+const heroImageUrl: string | null =
+  page.image2CloudUrlHero ?? page.image2CloudUrl ?? null;
+
+// Guide section image (image3CloudUrl) — near footer / p2 section
+const guideImageUrl: string | null =
+  page.image3CloudUrl ?? null;
+const guideImageAlt: string | null =
+  page.altTextImage3 ?? page.name ?? null;
+
+// Intro body: combine p1 + p2 from the topic page, strip HTML tags for plain text
+function stripHtml(html: string | null): string {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+const introBody: string =
+  [stripHtml(page.p1), stripHtml(page.p2)].filter(Boolean).join(" ") ||
+  page.description ||
+  page.excerpt ||
+  "";
+---
+
+<BaseLayout
+  title={page.metaTitle ?? `${page.name} Fabrics | Amrita Global Enterprises`}
+  description={page.description ?? page.excerpt ?? ""}
+  keywords={page.keywords ?? undefined}
+  canonical={page.canonicalUrl ? `https://${page.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={page.ogType ?? "website"}
+  ogImage={page.image1CloudUrl ?? heroImageUrl ?? undefined}
+>
+  <div class="bg-white text-slate-900">
+    <FabricListLayout
+      hero={{
+        title: page.name,
+        imageUrl: heroImageUrl,
+        breadcrumbLabel: page.name,
+        breadcrumbHref: `/category/${slug}`,
+      }}
+      intro={{
+        heading: page.metaTitle ?? `${page.name} Fabrics`,
+        body: page.description ?? page.excerpt ?? "Awaiting content from API.",
+        p1Html: page.p1 ?? null,
+        calloutTitle: "B2B Supply Ready",
+        calloutBody: "All fabrics available in bulk with consistent quality, GSM verification, and export documentation.",
+      }}
+      products={products}
+      filters={{
+        categories: filters.category,
+        colors: filters.color,
+        structures: filters.structure,
+        contents: filters.content,
+        designs: filters.design,
+        finishes: filters.finish,
+      }}
+      total={products.length}
+      currentPage={1}
+      totalPages={1}
+      faqItems={faqItems}
+      preSelectedCategory={page.name}
+      showGuide={true}
+      guideImageUrl={guideImageUrl}
+      guideImageAlt={guideImageAlt}
+      guideP2Html={page.p2 ?? null}
+    />
+  </div>
+</BaseLayout>

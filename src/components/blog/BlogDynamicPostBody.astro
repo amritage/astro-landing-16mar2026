@@ -1,0 +1,130 @@
+---
+import type { ApiBlogPost } from "../../lib/blog";
+import { cloudinarySrcset, safeExternalLinks } from "../../lib/blog";
+
+interface Props { post: ApiBlogPost }
+const { post } = Astro.props;
+
+const faqs = [
+  { q: post.q1, a: post.a1 },
+  { q: post.q2, a: post.a2 },
+  { q: post.q3, a: post.a3 },
+].filter((item) => item.q && item.a) as { q: string; a: string }[];
+---
+
+<section class="max-w-5xl mx-auto px-4 md:px-8 pb-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+
+    <!-- Article body -->
+    <article class="lg:col-span-8 rich-content">
+
+      {post.excerpt && (
+        <p class="text-lg md:text-xl font-sans text-[#191c1d] leading-relaxed mb-10 italic opacity-80 border-l-4 border-[#775a19]/30 pl-6">
+          {post.excerpt}
+        </p>
+      )}
+
+      {post.paragraph1 && <div set:html={safeExternalLinks(post.paragraph1)} />}
+
+      {post.blogimage1CloudURL && (
+        <div class="my-8 rounded-xl overflow-hidden shadow-md">
+          <picture>
+            <source type="image/avif" srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800], "f_avif")} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <source type="image/webp" srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800], "f_webp")} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <img
+              src={post.blogimage1CloudURL}
+              srcset={cloudinarySrcset(post.blogimage1CloudURL, [400, 640, 800])}
+              sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(100vw - 4rem), 640px"
+              alt={post.altimage1 ?? post.title}
+              title={post.altimage1 ?? post.title}
+              width="640"
+              height="420"
+              class="w-full object-cover max-h-[420px]"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      )}
+
+      {post.paragraph2 && <div set:html={safeExternalLinks(post.paragraph2)} />}
+
+      {post.blogimage2CloudURL && (
+        <div class="my-8 rounded-xl overflow-hidden shadow-md">
+          <picture>
+            <source type="image/avif" srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800], "f_avif")} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <source type="image/webp" srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800], "f_webp")} sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(100vw - 4rem), 640px" />
+            <img
+              src={post.blogimage2CloudURL}
+              srcset={cloudinarySrcset(post.blogimage2CloudURL, [400, 640, 800])}
+              sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1024px) calc(100vw - 4rem), 640px"
+              alt={post.altimage2 ?? post.title}
+              title={post.altimage2 ?? post.title}
+              width="640"
+              height="420"
+              class="w-full object-cover max-h-[420px]"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      )}
+
+      {post.paragraph3 && <div set:html={safeExternalLinks(post.paragraph3)} />}
+
+      {faqs.length > 0 && (
+        <div class="mt-12 border-t border-[#c5c6ce]/30 pt-10">
+          <h2 class="font-serif text-2xl md:text-3xl text-[#041632] mb-6 font-semibold not-italic">Frequently Asked Questions</h2>
+          <div class="space-y-3">
+            {faqs.map((item) => (
+              <details class="bg-[#f3f4f5] rounded-xl border border-[#c5c6ce]/20 group">
+                <summary class="flex justify-between items-center px-6 py-4 cursor-pointer font-bold text-[#041632] list-none text-sm md:text-base">
+                  {item.q}
+                  <span class="material-symbols-outlined text-[#775a19] transition-transform group-open:rotate-180 shrink-0 ml-4">expand_more</span>
+                </summary>
+                <div class="px-6 pb-5 text-sm text-[#44474d] leading-relaxed">{item.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="lg:col-span-4">
+      <div class="lg:sticky lg:top-28 space-y-6">
+
+        {post.tags && post.tags.length > 0 && (
+          <div class="bg-[#f3f4f5] rounded-2xl p-6">
+            <h3 class="font-serif text-base text-[#041632] mb-3 font-bold">Topics</h3>
+            <div class="flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span class="px-3 py-1 bg-white border border-[#c5c6ce]/40 text-[#44474d] rounded-full text-xs font-bold uppercase tracking-wider">{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div class="bg-[#041632] text-white p-8 rounded-2xl shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-[#775a19]/10 rounded-full -mr-16 -mt-16 blur-3xl pointer-events-none"></div>
+          <h3 class="font-serif text-xl mb-3 italic">Need Fabric Solutions?</h3>
+          <p class="text-[#8393b5] text-sm mb-6 leading-relaxed">Talk to our team about your requirements — quality, compliance, and delivery.</p>
+          <a
+            href="/support"
+            class="block w-full py-3 bg-[#775a19] text-white text-center rounded-lg font-sans text-sm font-bold uppercase tracking-widest hover:bg-[#ffdea5] hover:text-[#041632] transition-colors"
+          >
+            Get in Touch
+          </a>
+        </div>
+
+        <a
+          href="/blog"
+          class="flex items-center gap-3 text-sm font-bold text-[#041632] border border-[#c5c6ce] rounded-xl px-6 py-4 hover:border-[#775a19] hover:text-[#775a19] transition-colors"
+        >
+          <span class="material-symbols-outlined text-base">arrow_back</span>
+          Back to All Insights
+        </a>
+
+      </div>
+    </aside>
+
+  </div>
+</section>

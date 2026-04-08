@@ -1,0 +1,38 @@
+---
+import { getTopicPageBySlug } from "../../lib/api";
+
+const homePage = await getTopicPageBySlug("home");
+
+const faqs = [
+  { q: homePage?.q1, a: homePage?.a1 },
+  { q: homePage?.q2, a: homePage?.a2 },
+  { q: homePage?.q3, a: homePage?.a3 },
+  { q: homePage?.q4, a: homePage?.a4 },
+  { q: homePage?.q5, a: homePage?.a5 },
+]
+  .filter((item): item is { q: string; a: string } => !!item.q && !!item.a)
+  .map(({ q, a }) => ({ question: q, answer: a }));
+---
+
+<section class="py-16 md:py-24 bg-[#f3f4f5]">
+  <div class="container mx-auto px-4 md:px-8 max-w-4xl">
+    <div class="text-center mb-12 md:mb-16">
+      <h2 class="font-headline text-4xl md:text-5xl text-[#041632] mb-4 md:mb-6">Partnering with AGE</h2>
+      <p class="font-body text-sm md:text-base text-[#44474d]">Common inquiries from wholesale buyers and manufacturers.</p>
+    </div>
+
+    {faqs.length > 0 ? (
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <details class="group bg-white rounded-xl shadow-sm overflow-hidden" open={i === 0}>
+            <summary class="flex justify-between items-center p-6 md:p-8 cursor-pointer list-none">
+              <h3 class="font-headline text-lg md:text-xl text-[#041632]">{faq.question}</h3>
+              <span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+            </summary>
+            <div class="px-6 md:px-8 pb-6 md:pb-8 font-body text-sm md:text-base text-[#44474d] leading-relaxed rich-content" set:html={faq.answer} />
+          </details>
+        ))}
+      </div>
+    ) : null}
+  </div>
+</section>

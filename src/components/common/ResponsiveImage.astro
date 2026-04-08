@@ -1,0 +1,82 @@
+---
+import CloudinaryImage from "./CloudinaryImage.astro";
+
+interface Props {
+  /** Cloudinary URL or any normal image URL */
+  src: string | null | undefined;
+  alt: string;
+
+  /** Intrinsic aspect ratio (required for Cloudinary transforms + CLS) */
+  width: number;
+  height: number;
+
+  /** Required for responsive selection */
+  sizes: string;
+
+  /** Candidate widths for Cloudinary srcset (ignored for non-Cloudinary) */
+  widths?: number[];
+  crop?: "fill" | "limit";
+  gravity?: string;
+
+  /** Optional: provide your own srcset for non-Cloudinary images */
+  srcset?: string;
+
+  loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
+  class?: string;
+  title?: string;
+  decoding?: "sync" | "async" | "auto";
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  sizes,
+  widths,
+  crop,
+  gravity,
+  srcset,
+  loading = "lazy",
+  fetchpriority,
+  class: className,
+  title,
+  decoding,
+} = Astro.props;
+
+const safeSrc = src ?? "";
+const isCloudinary = safeSrc.includes("res.cloudinary.com") && safeSrc.includes("/upload/");
+---
+
+{isCloudinary ? (
+  <CloudinaryImage
+    src={safeSrc}
+    alt={alt}
+    title={title}
+    width={width}
+    height={height}
+    widths={widths}
+    sizes={sizes}
+    crop={crop}
+    gravity={gravity}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    class={className}
+  />
+) : (
+  <img
+    src={safeSrc}
+    srcset={srcset}
+    sizes={srcset ? sizes : undefined}
+    width={width}
+    height={height}
+    alt={alt}
+    title={title}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    class={className}
+    decoding={decoding ?? (loading === "eager" ? "sync" : "async")}
+  />
+)}
+

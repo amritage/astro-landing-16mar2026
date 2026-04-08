@@ -1,0 +1,39 @@
+---
+import { buildWaLink } from "../../lib/api";
+
+interface Props {
+  whatsapp?: string | null;
+}
+
+const { whatsapp } = Astro.props;
+
+const whatsappHref = buildWaLink(whatsapp, "https://wa.me/");
+---
+
+<section class="max-w-5xl mx-auto px-8 pb-24">
+  <div class="bg-[#1b2b48] rounded-3xl p-8 md:p-16 text-center relative overflow-hidden shadow-2xl">
+    <div class="relative z-10">
+      <h2 class="font-serif text-3xl md:text-4xl text-white mb-6">Ready to Elevate Your Supply Chain?</h2>
+      <p class="text-[#8393b5] max-w-2xl mx-auto mb-10 text-base md:text-lg">
+        Partner with Amrita Global Enterprises for technical superiority and logistical excellence since 1971.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-[#775a19] text-white px-10 py-4 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-[#ffdea5] hover:text-[#041632] transition-all shadow-lg"
+        >
+          Consult an Expert
+        </a>
+        <a
+          href="/fabric"
+          class="border border-[#775a19] text-[#ffdea5] px-10 py-4 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-[#775a19]/10 transition-colors"
+        >
+          Browse Our Collections
+        </a>
+      </div>
+    </div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.03),transparent)] pointer-events-none"></div>
+  </div>
+</section>

@@ -1,0 +1,252 @@
+---
+import { navItems, mobileQuickLinks } from "../data/navigation";
+import { siteConfig } from "../data/site";
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../lib/api";
+
+const pathname = Astro.url.pathname;
+
+const isActivePath = (href: string) => {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/") || pathname.startsWith(href);
+};
+
+const company = await getCompanyInfo();
+const phoneHref = buildPhoneHref(company?.phone1, siteConfig.phoneHref);
+const whatsappHref = buildWaLink(company?.whatsappNumber ?? company?.phone1, siteConfig.whatsappHref)
+  + (company?.whatsappNumber || company?.phone1 ? "?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote" : "");
+---
+
+<!-- Trust Strip -->
+<div class="fixed top-0 left-0 right-0 z-[60] bg-[#041632] flex items-center justify-center gap-[10px] px-4 h-[30px] overflow-hidden" id="trust-strip">
+  {siteConfig.topbarItems.map((item, index) => (
+    <span
+      class:list={["text-white/90 text-[9px] sm:text-[10px] font-semibold tracking-[0.12em] uppercase whitespace-nowrap transition-opacity duration-400", { "hidden sm:inline": index !== 0 }]}
+      data-trust-item
+    >{item}</span>
+  ))}
+  <span class="hidden sm:contents" aria-hidden="true">
+    {siteConfig.topbarItems.map((_, index) => (
+      index < siteConfig.topbarItems.length - 1 && <span class="text-white/25 text-[10px]">|</span>
+    ))}
+  </span>
+</div>
+
+<!-- Main Header -->
+<header class="site-header fixed top-[30px] left-0 right-0 z-50 bg-white/92 backdrop-blur-md border-b border-slate-200/50 shadow-[0_2px_16px_rgba(4,22,50,0.06)] transition-shadow duration-300" id="site-header">
+  <div class="max-w-[1400px] mx-auto px-4 md:px-8 h-16 md:h-[72px] flex items-center justify-between gap-3">
+
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 no-underline flex-shrink-0" aria-label={siteConfig.brandName}>
+      <div class="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center flex-shrink-0">
+        {(() => {
+          const logoSrc = company?.logoUrl ?? "/images/icons/my_logo.png";
+          const clMatch = logoSrc.match(/^(https:\/\/res\.cloudinary\.com\/.+\/upload\/)(.+)$/);
+          if (clMatch) {
+            const [, base, pub] = clMatch;
+            return (
+              <picture>
+                <source type="image/avif" srcset={`${base}w_36,f_avif,q_auto/${pub} 1x, ${base}w_72,f_avif,q_auto/${pub} 2x`} sizes="36px" />
+                <source type="image/webp" srcset={`${base}w_36,f_webp,q_auto/${pub} 1x, ${base}w_72,f_webp,q_auto/${pub} 2x`} sizes="36px" />
+                <img
+                  src={`${base}w_72,f_auto,q_auto/${pub}`}
+                  srcset={`${base}w_36,f_auto,q_auto/${pub} 1x, ${base}w_72,f_auto,q_auto/${pub} 2x`}
+                  sizes="36px"
+                  alt={`${siteConfig.brandName} logo`}
+                  title={siteConfig.brandName}
+                  width="36"
+                  height="36"
+                  class="w-full h-full object-contain"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              </picture>
+            );
+          }
+          return (
+            <img
+              src={logoSrc}
+              alt={`${siteConfig.brandName} logo`}
+              title={siteConfig.brandName}
+              width="36"
+              height="36"
+              class="w-full h-full object-contain"
+              loading="eager"
+              fetchpriority="high"
+            />
+          );
+        })()}
+      </div>
+      <div class="flex flex-col gap-0 min-w-0">
+        <span class="text-[15px] sm:text-base md:text-lg font-extrabold leading-tight whitespace-nowrap overflow-hidden text-ellipsis text-[#041632]">{siteConfig.brandName}</span>
+        <span class="hidden sm:block text-[9px] md:text-[10px] font-semibold text-slate-500 tracking-[0.18em] uppercase whitespace-nowrap">{siteConfig.tagline}</span>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            "relative px-[10px] xl:px-3 py-[6px] text-[13px] xl:text-sm font-semibold text-slate-800 no-underline tracking-[0.01em] rounded-lg transition-colors duration-200 whitespace-nowrap hover:text-[#041632] hover:bg-[#041632]/5 nav-link",
+            { "text-[#041632] font-bold nav-link--active": isActivePath(item.href) }
+          ]}
+          aria-current={isActivePath(item.href) ? "page" : undefined}
+        >
+          {item.label}
+          <span class="nav-underline absolute bottom-[2px] left-[10px] right-[10px] h-[2px] rounded-sm bg-[#775a19]" aria-hidden="true"></span>
+        </a>
+      ))}
+    </nav>
+
+    <!-- Desktop CTA -->
+    <div class="hidden md:flex items-center gap-2 flex-shrink-0">
+      <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>
+      <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button
+      class="hamburger lg:hidden flex flex-col justify-center items-center gap-[5px] w-11 h-11 rounded-xl border-[1.5px] border-slate-200 bg-white cursor-pointer p-0 flex-shrink-0 transition-colors duration-200 hover:border-[#041632]"
+      id="hamburger"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-drawer"
+    >
+      <span class="hamburger__bar block w-[18px] h-[2px] rounded-sm bg-[#041632]"></span>
+      <span class="hamburger__bar block w-[18px] h-[2px] rounded-sm bg-[#041632]"></span>
+      <span class="hamburger__bar block w-[18px] h-[2px] rounded-sm bg-[#041632]"></span>
+    </button>
+
+  </div>
+</header>
+
+<!-- Mobile Drawer Overlay -->
+<div class="drawer-overlay fixed inset-0 z-[70] bg-[#041632]/45 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" aria-hidden="true"></div>
+
+<!-- Mobile Drawer -->
+<aside class="mobile-drawer fixed top-0 right-0 bottom-0 z-[80] w-screen sm:w-[min(85vw,380px)] bg-white flex flex-col overflow-y-auto shadow-[-8px_0_40px_rgba(4,22,50,0.15)] lg:hidden" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true" inert>
+  <div class="flex items-center justify-between px-5 pt-5 pb-4 bg-[#041632] flex-shrink-0">
+    <div class="flex flex-col gap-[2px]">
+      <span class="text-white text-[17px] font-extrabold">{siteConfig.brandName}</span>
+      <span class="text-white/60 text-[9px] tracking-[0.2em] uppercase">{siteConfig.tagline}</span>
+    </div>
+    <button class="drawer-close w-9 h-9 rounded-[10px] border-[1.5px] border-white/20 bg-white/10 text-white flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors duration-200 hover:bg-white/20" id="drawer-close" aria-label="Close navigation menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="flex flex-col p-3 pb-0" aria-label="Mobile navigation">
+    {navItems.map((item) => (
+      <a
+        href={item.href}
+        class:list={[
+          "px-[14px] py-3 rounded-xl text-[15px] font-semibold text-slate-800 no-underline transition-colors duration-200 hover:bg-slate-100 hover:text-[#041632]",
+          { "bg-slate-100 text-[#041632] font-bold": isActivePath(item.href) }
+        ]}
+        aria-current={isActivePath(item.href) ? "page" : undefined}
+      >
+        {item.label}
+      </a>
+    ))}
+  </nav>
+
+  <div class="h-px bg-slate-200 mx-5 my-3"></div>
+
+  <div class="mx-3 mt-4 p-4 rounded-2xl bg-slate-50 flex flex-col gap-[6px]">
+    <p class="text-[10px] font-bold tracking-[0.16em] uppercase text-slate-500 mb-1">Quick Contact</p>
+    <a href={phoneHref} class="text-sm font-bold text-[#041632] no-underline hover:underline">{company?.phone1 ?? siteConfig.phone}</a>
+    <a href={`mailto:${company?.primaryEmail ?? siteConfig.email}`} class="text-[13px] text-slate-500 no-underline break-all hover:text-[#041632]">{company?.primaryEmail ?? siteConfig.email}</a>
+  </div>
+
+  <div class="flex gap-[10px] px-3 pt-4 pb-6 mt-auto flex-shrink-0">
+    <a href={whatsappHref} class="flex-1 flex items-center justify-center py-[14px] rounded-2xl bg-[#041632] text-white text-[13px] font-bold tracking-[0.06em] uppercase no-underline transition-colors duration-200 hover:bg-[#775a19]" target="_blank" rel="noopener noreferrer">Get a Quote</a>
+    <a href={phoneHref} class="flex items-center justify-center px-[18px] py-[14px] rounded-2xl border-[1.5px] border-slate-200 bg-white text-[#041632] text-[13px] font-bold no-underline transition-colors duration-200 hover:border-[#041632]">Call Now</a>
+  </div>
+</aside>
+
+<style>
+  /* Hamburger open animation */
+  .hamburger.is-open .hamburger__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-open .hamburger__bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.is-open .hamburger__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .hamburger__bar { transition: transform 0.3s ease, opacity 0.3s ease; }
+
+  /* Nav underline animation */
+  .nav-underline { transform: scaleX(0); transition: transform 0.25s ease; transform-origin: left; }
+  .nav-link--active .nav-underline,
+  .nav-link:hover .nav-underline { transform: scaleX(1); }
+
+  /* Drawer open states */
+  .drawer-overlay.is-open { opacity: 1; pointer-events: auto; }
+  .mobile-drawer {
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-drawer.is-open { transform: translateX(0); }
+
+  /* Scrolled shadow */
+  .site-header.scrolled { box-shadow: 0 4px 24px rgba(4,22,50,0.12); }
+</style>
+
+<script>
+  const hamburger = document.getElementById("hamburger")!;
+  const drawer = document.getElementById("mobile-drawer")!;
+  const overlay = document.getElementById("drawer-overlay")!;
+  const closeBtn = document.getElementById("drawer-close")!;
+  const header = document.getElementById("site-header")!;
+
+  function openDrawer() {
+    drawer.classList.add("is-open");
+    overlay.classList.add("is-open");
+    hamburger.classList.add("is-open");
+    hamburger.setAttribute("aria-expanded", "true");
+    drawer.setAttribute("aria-hidden", "false");
+    drawer.removeAttribute("inert");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    closeBtn.focus();
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove("is-open");
+    overlay.classList.remove("is-open");
+    hamburger.classList.remove("is-open");
+    hamburger.setAttribute("aria-expanded", "false");
+    drawer.setAttribute("aria-hidden", "true");
+    drawer.setAttribute("inert", "");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    hamburger.focus();
+  }
+
+  hamburger.addEventListener("click", () => {
+    drawer.classList.contains("is-open") ? closeDrawer() : openDrawer();
+  });
+
+  closeBtn.addEventListener("click", closeDrawer);
+  overlay.addEventListener("click", closeDrawer);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDrawer();
+  });
+
+  window.addEventListener("scroll", () => {
+    header.classList.toggle("scrolled", window.scrollY > 10);
+  }, { passive: true });
+
+  // Trust strip ticker on mobile
+  const trustItems = document.querySelectorAll<HTMLElement>("[data-trust-item]");
+  if (trustItems.length > 1) {
+    let current = 0;
+    function cycleTrust() {
+      if (window.innerWidth >= 640) return;
+      trustItems[current].classList.add("hidden");
+      current = (current + 1) % trustItems.length;
+      trustItems[current].classList.remove("hidden");
+    }
+    setInterval(cycleTrust, 3000);
+  }
+</script>

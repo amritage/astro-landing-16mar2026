@@ -1,0 +1,139 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import FabricListLayout from "../../components/product/FabricListLayout.astro";
+import type { FAQItem } from "../../components/product/FabricListLayout.astro";
+import { fetchProductsPage, getCloudinaryUrl } from "../../data/products";
+import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
+
+const FABRIC_HERO_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuDXILs7vI9jTFPWWO0ngF8Ui-YT9674spB4lXOMQdOFMu7t5X7RyxOAGKm9YKWwUa4bJjALACc-AydvYav7TOQbv5phLBVC8IRktf5451HZnhTMu9WNYMfXOqEob14cesbhrbM3KPpL4MQ8Try_UlEL_ce65vI2eOFWkh20w8aWmhys0NYqcvPCnr0huz0J7Ub7UX6hobR1a8Nnzh16FVRZvAKH5176oU6Hf2vOc1Ma2YIvbT9sKvweH0wTLaeEHj9OasHKJ9-ClxFx";
+
+const [{ products: rawProducts, total, totalPages }, filters, seo, faqData] = await Promise.all([
+  fetchProductsPage(1),
+  getFilterValues(),
+  getTopicPageBySlug("fabric"),
+  getWebsiteFAQ(),
+]);
+
+const products = rawProducts.map((p) => ({
+  id: p.id,
+  name: p.name,
+  category: p.category,
+  weight: p.specs.weight,
+  width: p.specs.width,
+  color: p.hex?.[0] ?? "#041632",
+  image: p.image,
+  imageSrcset: p.image1Srcset || undefined,
+  href: p.slug ? `/fabric/${p.slug}` : null,
+  filterCategory: p.category,
+  filterColor: p.colorNames.join("|"),
+  filterStructure: p.structure,
+  filterContent: p.content,
+  filterGsm: String(p.gsm),
+  filterDesign: p.design,
+  filterFinish: p.finish.join("|"),
+}));
+
+const heroImageUrl = seo?.image1CloudUrl ?? null;
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+
+// ── JSON-LD: ItemList schema (product snippets in Google) ──────────────────────
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Fabric Catalog — Amrita Global Enterprises",
+  url: `${siteBase}/fabric`,
+  numberOfItems: total,
+  itemListElement: rawProducts.map((p, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Product",
+      "@id": `${siteBase}/fabric/${p.slug}`,
+      name: p.name,
+      url: `${siteBase}/fabric/${p.slug}`,
+      image: p.image1 || p.image || undefined,
+      description: p.shortDesc || undefined,
+      sku: p.slug,
+      brand: {
+        "@type": "Brand",
+        name: "Amrita Global Enterprises",
+      },
+      ...(p.ratingCount > 0 ? {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: p.rating,
+          ratingCount: p.ratingCount,
+          bestRating: 5,
+          worstRating: 1,
+        },
+      } : {}),
+      offers: {
+        "@type": "Offer",
+        "@id": `${siteBase}/fabric/${p.slug}#offer`,
+        url: `${siteBase}/fabric/${p.slug}`,
+        priceCurrency: "INR",
+        price: 0,
+        availability: "https://schema.org/InStock",
+        seller: {
+          "@type": "Organization",
+          name: "Amrita Global Enterprises",
+        },
+      },
+    },
+  })),
+};
+
+const breadcrumbItems = [
+  { name: "Home", url: "/" },
+  { name: "Fabric" },
+];
+
+const faqItems: FAQItem[] = faqData.map((f) => ({
+  question: f.question,
+  answer: f.answer,
+}));
+---
+
+<BaseLayout
+  title={seo?.metaTitle ?? "Shop Fabric Catalog | Amrita Global Enterprises"}
+  description={seo?.description ?? "Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "product"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? FABRIC_HERO_IMAGE}
+  schemaMarkup={[itemListSchema]}
+  breadcrumbs={breadcrumbItems}
+>
+  <div class="bg-white text-slate-900">
+    <FabricListLayout
+      hero={{
+        title: "Browse Our Full Fabric Catalog",
+        imageUrl: heroImageUrl ?? "https://lh3.googleusercontent.com/aida-public/AB6AXuDXILs7vI9jTFPWWO0ngF8Ui-YT9674spB4lXOMQdOFMu7t5X7RyxOAGKm9YKWwUa4bJjALACc-AydvYav7TOQbv5phLBVC8IRktf5451HZnhTMu9WNYMfXOqEob14cesbhrbM3KPpL4MQ8Try_UlEL_ce65vI2eOFWkh20w8aWmhys0NYqcvPCnr0huz0J7Ub7UX6hobR1a8Nnzh16FVRZvAKH5176oU6Hf2vOc1Ma2YIvbT9sKvweH0wTLaeEHj9OasHKJ9-ClxFx",
+        breadcrumbLabel: "Fabric",
+        breadcrumbHref: "/fabric",
+      }}
+      intro={{
+        heading: "Explore 100% Cotton Twill, Woven Fabrics, and Performance Textiles",
+        body: "Precision-engineered for durability and aesthetic excellence. Our curated selection represents the pinnacle of industrial textile manufacturing, sourcing the finest fibers for global brands.",
+        calloutTitle: "Technical Assurance",
+        calloutBody: "All fabrics undergo 12-point quality inspection including GSM verification, color fastness, and tensile strength testing.",
+      }}
+      products={products}
+      filters={{
+        categories: filters.category,
+        colors: filters.color,
+        structures: filters.structure,
+        contents: filters.content,
+        designs: filters.design,
+        finishes: filters.finish,
+      }}
+      total={total}
+      currentPage={1}
+      totalPages={totalPages}
+      faqItems={faqItems}
+      guideImageUrl={seo?.image2CloudUrl ?? null}
+      guideImageAlt={seo?.altTextImage2 ?? "How to choose the right fabric for your brand"}
+    />
+  </div>
+</BaseLayout>

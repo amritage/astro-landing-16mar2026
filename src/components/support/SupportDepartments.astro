@@ -1,0 +1,144 @@
+---
+import type { ApiAuthor } from "../../lib/api";
+
+interface Props {
+  authors: ApiAuthor[];
+  salesEmail?: string | null;
+  supportEmail?: string | null;
+  phone1?: string | null;
+  phone1Dept?: string | null;
+  phone2?: string | null;
+  phone2Dept?: string | null;
+  gstin?: string | null;
+}
+const { authors, salesEmail, supportEmail, phone1, phone1Dept, phone2, phone2Dept, gstin } = Astro.props;
+
+const dynamicAuthor = authors[0] ?? null;
+
+// Inline SVG icons — no external font dependency
+const svgIcons = {
+  person: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  support_agent: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0z"/></svg>`,
+  local_shipping: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`,
+  inbox: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>`,
+  mail: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>`,
+  call: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  arrow_outward: `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>`,
+};
+
+const staticDepts = [
+  {
+    iconKey: "support_agent",
+    designation: "Support",
+    name: "Customer Support",
+    contactLabel: supportEmail ?? "support@amrita-fashions.com",
+    href: `mailto:${supportEmail ?? "support@amrita-fashions.com"}`,
+    contactIconKey: "mail",
+  },
+  {
+    iconKey: "local_shipping",
+    designation: "Logistics",
+    name: "Shipping & Dispatch",
+    contactLabel: salesEmail ?? "sales@amrita-fashions.com",
+    href: `mailto:${salesEmail ?? "sales@amrita-fashions.com"}`,
+    contactIconKey: "mail",
+  },
+  {
+    iconKey: "inbox",
+    designation: "Sales",
+    name: "Bulk Orders & RFQ",
+    contactLabel: phone1 ?? "+91-9925155141",
+    href: `tel:${phone1 ?? "+91-9925155141"}`,
+    contactIconKey: "call",
+  },
+];
+---
+
+<section class="py-20 md:py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="text-center mb-16">
+      <span class="inline-block px-4 py-1 mb-4 border border-[#775a19] text-[#775a19] font-sans text-xs tracking-[0.2em] uppercase">
+        Direct Lines
+      </span>
+      <h2 class="font-serif text-4xl md:text-5xl text-[#041632] mb-4">Department Contacts</h2>
+      <div class="w-16 h-0.5 bg-[#775a19] mx-auto mt-4"></div>
+      {gstin && (
+        <p class="mt-4 text-xs text-[#775a19] font-sans tracking-widest uppercase">GSTIN: <span class="font-bold">{gstin}</span></p>
+      )}
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#e1e3e4] border border-[#e1e3e4] rounded-lg overflow-hidden">
+
+      <!-- Dynamic author card (Director) -->
+      {dynamicAuthor ? (
+        <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
+          <div class="w-12 h-12 rounded-full overflow-hidden mx-auto mb-4 bg-[#041632]/5 flex items-center justify-center">
+            {dynamicAuthor.authorimageCard ? (
+              <img
+                src={dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_96,h_96,c_fill,g_face/')}
+                srcset={`${dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_48,h_48,c_fill,g_face/')} 1x, ${dynamicAuthor.authorimageCard.replace('/upload/', '/upload/f_auto,q_auto,w_96,h_96,c_fill,g_face/')} 2x`}
+                alt={dynamicAuthor.altimage ?? `${dynamicAuthor.name} Profile Image`}
+                title={dynamicAuthor.altimage ?? dynamicAuthor.name}
+                width="48"
+                height="48"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <span class="text-[#1B2B48]"><Fragment set:html={svgIcons.person} /></span>
+            )}
+          </div>
+          {dynamicAuthor.designation && (
+            <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dynamicAuthor.designation}</p>
+          )}
+          <h3 class="font-serif text-lg text-[#041632] mb-4">{dynamicAuthor.name}</h3>
+          <a
+            href={dynamicAuthor.authorLinkedinURL ?? `mailto:${salesEmail ?? "#"}`}
+            target={dynamicAuthor.authorLinkedinURL ? "_blank" : undefined}
+            rel={dynamicAuthor.authorLinkedinURL ? "noopener noreferrer" : undefined}
+            class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"
+          >
+            Contact <span class="text-[#1B2B48] group-hover:text-[#775a19] transition-colors"><Fragment set:html={svgIcons.arrow_outward} /></span>
+          </a>
+        </div>
+      ) : (
+        <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors">
+          <div class="w-12 h-12 bg-[#041632]/5 rounded-full flex items-center justify-center mx-auto mb-4 text-[#1B2B48]">
+            <Fragment set:html={svgIcons.person} />
+          </div>
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">Director</p>
+          <h3 class="font-serif text-lg text-[#041632] mb-4">Management</h3>
+          <a href={`mailto:${salesEmail ?? "#"}`} class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors">
+            Contact <Fragment set:html={svgIcons.arrow_outward} />
+          </a>
+        </div>
+      )}
+
+      <!-- Static department cards -->
+      {staticDepts.map((dept) => (
+        <div class="p-8 md:p-10 text-center hover:bg-[#f3f4f5] transition-colors group">
+          <div class="w-12 h-12 bg-[#041632]/5 rounded-full flex items-center justify-center mx-auto mb-4 text-[#1B2B48]">
+            <Fragment set:html={svgIcons[dept.iconKey as keyof typeof svgIcons]} />
+          </div>
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">{dept.designation}</p>
+          <h3 class="font-serif text-lg text-[#041632] mb-3">{dept.name}</h3>
+          <a
+            href={dept.href}
+            class="inline-flex items-center justify-center gap-1.5 text-[#1B2B48] text-xs font-sans hover:text-[#775a19] transition-colors mb-4 break-all"
+          >
+            <span class="shrink-0"><Fragment set:html={svgIcons[dept.contactIconKey as keyof typeof svgIcons]} /></span>
+            <span>{dept.contactLabel}</span>
+          </a>
+          <br />
+          <a
+            href={dept.href}
+            class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"
+          >
+            Contact <Fragment set:html={svgIcons.arrow_outward} />
+          </a>
+        </div>
+      ))}
+
+    </div>
+  </div>
+</section>

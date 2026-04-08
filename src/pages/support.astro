@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SupportHero from "../components/support/SupportHero.astro";
+import SupportChannels from "../components/support/SupportChannels.astro";
+import SupportEscalation from "../components/support/SupportEscalation.astro";
+import SupportDepartments from "../components/support/SupportDepartments.astro";
+import SupportCTA from "../components/support/SupportCTA.astro";
+import SupportContactForm from "../components/support/SupportContactForm.astro";
+import { getCompanyInfo, getAuthors, getTopicPageBySlug } from "../lib/api";
+
+const SUPPORT_OG_IMAGE = "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=80";
+
+const [company, authors, seo] = await Promise.all([
+  getCompanyInfo("AGE"),
+  getAuthors(),
+  getTopicPageBySlug("contact"),
+]);
+---
+
+<BaseLayout
+  title={seo?.metaTitle ?? "Support & Contact | Amrita Global Enterprises"}
+  description={seo?.description ?? "24/7 B2B support and escalation for Amrita Global Enterprises. Direct access to technical experts, logistics leads, and supply chain coordinators."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  ogType={seo?.ogType ?? "website"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? SUPPORT_OG_IMAGE}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Support" },
+  ]}
+>
+  <SupportHero image={seo?.image1CloudUrl ?? null} />
+  <SupportChannels
+    whatsapp={company?.whatsappNumber ?? null}
+    supportEmail={company?.supportEmail ?? null}
+    phone2={company?.phone2 ?? null}
+    phone2Dept={company?.phone2Dept ?? null}
+  />
+  <SupportEscalation />
+  <SupportDepartments authors={authors} salesEmail={company?.salesEmail ?? null} supportEmail={company?.supportEmail ?? null} phone1={company?.phone1 ?? null} phone1Dept={company?.phone1Dept ?? null} gstin={company?.gstin ?? null} />
+  <SupportCTA />
+  <SupportContactForm />
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
+
+const company = await getCompanyInfo();
+const whatsappLink = buildWaLink(company?.whatsappNumber, "/support");
+const phoneLink = buildPhoneHref(company?.phone1, "/support");
+---
+
+<section class="relative py-20 md:py-32 bg-[#041632] overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_rgba(119,90,25,0.4),_transparent)]"></div>
+  </div>
+  <div class="container mx-auto px-4 md:px-8 relative z-10 text-center text-white">
+    <h2 class="font-headline text-4xl md:text-6xl mb-6 md:mb-8">Ready to Scale Your Production?</h2>
+    <p class="font-body text-base md:text-xl opacity-80 max-w-2xl mx-auto mb-10 md:mb-12">
+      Connect with our textile experts today for customized fabric solutions and global logistics support.
+    </p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4 md:gap-6">
+      <a
+        href={whatsappLink}
+        class="font-label bg-[#775a19] text-white px-8 md:px-12 py-4 md:py-5 rounded-md font-bold tracking-widest uppercase hover:bg-[#5d4201] transition-all shadow-xl text-xs md:text-sm text-center"
+      >
+        Start Your Bulk Order Today
+      </a>
+      <a
+        href={phoneLink}
+        class="font-label border border-white/20 text-white px-8 md:px-12 py-4 md:py-5 rounded-md font-bold tracking-widest uppercase hover:bg-white/10 transition-all text-xs md:text-sm text-center"
+      >
+        Request Sample Book
+      </a>
+    </div>
+  </div>
+</section>

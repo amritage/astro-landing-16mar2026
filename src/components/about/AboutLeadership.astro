@@ -1,0 +1,108 @@
+---
+import type { ApiAuthor } from "../../lib/api";
+
+interface Props {
+  authors: ApiAuthor[];
+}
+const { authors } = Astro.props;
+
+// Single leader layout when 1 author, grid layout for multiple
+const single = authors.length === 1 ? authors[0] : null;
+---
+
+<section class="py-32 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="mb-20 text-center">
+      <h2 class="font-serif text-5xl text-[#041632]">Our <span class="italic text-[#775a19]">Visionary</span> Founder</h2>
+    </div>
+
+    {single ? (
+      <!-- Single leader: image left, text right -->
+      <div class="flex flex-col md:flex-row items-center gap-16">
+        <div class="w-full md:w-2/5 bg-[#f3f4f5] overflow-hidden group">
+          <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+            <img
+              src={single.authorimageWeb ?? single.authorimage ?? ""}
+              alt={single.altimage ?? `Portrait of ${single.name}`}
+              title={single.altimage ?? `Portrait of ${single.name}`}
+              width="480"
+              height="640"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="w-full md:w-3/5">
+          <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold mb-2">Leadership</p>
+          <h3 class="font-serif text-4xl text-[#041632] mb-1">{single.name}</h3>
+          {single.designation && (
+            <p class="font-sans text-sm uppercase tracking-widest text-[#775a19] mb-6">{single.designation}</p>
+          )}
+          <div class="h-px bg-[#c5c6ce] w-16 mb-6"></div>
+          {single.description && (
+            <p class="text-[#44474d] text-lg leading-relaxed mb-8">{single.description}</p>
+          )}
+          {single.authorLinkedinURL && (
+            <a
+              href={single.authorLinkedinURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 border border-[#775a19] text-[#775a19] text-sm font-sans tracking-widest uppercase hover:bg-[#775a19] hover:text-white transition-colors duration-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              LinkedIn Profile
+            </a>
+          )}
+        </div>
+      </div>
+    ) : (
+      <!-- Multiple leaders: grid layout -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {authors.map((leader) => (
+          <div class="bg-[#f3f4f5] group overflow-hidden">
+            <div class="aspect-[3/4] overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700">
+              <img
+                src={leader.authorimageWeb ?? leader.authorimage ?? ""}
+                alt={leader.altimage ?? `Portrait of ${leader.name}`}
+                title={leader.altimage ?? `Portrait of ${leader.name}`}
+                width="400"
+                height="533"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-8">
+              <h4 class="font-serif text-2xl text-[#041632]">{leader.name}</h4>
+              {leader.designation && (
+                <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mt-1">{leader.designation}</p>
+              )}
+              {leader.description && (
+                <p class="text-[#44474d] text-sm mt-4 leading-relaxed line-clamp-4">{leader.description}</p>
+              )}
+              {leader.authorLinkedinURL && (
+                <a
+                  href={leader.authorLinkedinURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 mt-5 text-[#775a19] text-xs font-sans tracking-widest uppercase hover:underline"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                  </svg>
+                  LinkedIn
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {authors.length === 0 && (
+      <p class="text-center text-[#44474d]">Leadership information coming soon.</p>
+    )}
+  </div>
+</section>
+M

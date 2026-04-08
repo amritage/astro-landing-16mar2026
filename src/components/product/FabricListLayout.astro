@@ -1,0 +1,268 @@
+---
+/**
+ * FabricListLayout.astro
+ * Shared layout for any page that shows a filterable fabric product grid.
+ * Used by: /fabric, /category/[slug], and any future topic/dynamic pages.
+ *
+ * All data fetching and transformation happens in the calling page's frontmatter (TypeScript).
+ * This component is purely presentational — no client-side JS added here.
+ */
+
+import ProductSection from "./ProductSection.astro";
+import ProductCTA from "./ProductCTA.astro";
+import ProductGuide from "./ProductGuide.astro";
+import ProductFAQ from "./ProductFAQ.astro";
+import { getCloudinaryUrl } from "../../data/products";
+
+// ── Types ──────────────────────────────────────────────────────────────────────
+
+export interface FabricProduct {
+  id: string;
+  name: string;
+  category: string;
+  weight: string;
+  width: string;
+  color: string;
+  image: string;
+  imageSrcset?: string;
+  href: string | null;
+  filterCategory?: string;
+  filterColor?: string;
+  filterStructure?: string;
+  filterContent?: string;
+  filterGsm?: string;
+  filterDesign?: string;
+  filterFinish?: string;
+}
+
+export interface FabricFilterValues {
+  categories: string[];
+  colors: { name: string; hex: string }[];
+  structures: string[];
+  contents: string[];
+  designs: string[];
+  finishes: string[];
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface HeroProps {
+  /** Large heading shown in the hero banner */
+  title: string;
+  /** Optional background image URL */
+  imageUrl?: string | null;
+  /** Breadcrumb label (e.g. "Shop", "Woven Fabrics") */
+  breadcrumbLabel: string;
+  /** Breadcrumb href (e.g. "/fabric", "/category/woven-fabrics") */
+  breadcrumbHref: string;
+}
+
+export interface IntroProps {
+  /** Main H1 heading below the hero */
+  heading: string;
+  /** Supporting paragraph (plain text) */
+  body: string;
+  /** Optional rich HTML content (p1 from API) — rendered with set:html */
+  p1Html?: string | null;
+  /** Optional sidebar callout title */
+  calloutTitle?: string;
+  /** Optional sidebar callout body */
+  calloutBody?: string;
+}
+
+interface Props {
+  hero: HeroProps;
+  intro: IntroProps;
+  products: FabricProduct[];
+  filters: FabricFilterValues;
+  /** Total product count from API (may differ from products.length due to pagination) */
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  faqItems?: FAQItem[];
+  /** Pre-select a category filter (e.g. "Denim Fabrics") — checked server-side */
+  preSelectedCategory?: string;
+  /** Show the generic "How to choose fabric" guide section (default: true) */
+  showGuide?: boolean;
+  /** Show the CTA section (default: true) */
+  showCTA?: boolean;
+  /** Guide section image URL (image2CloudUrl from topicpage API) */
+  guideImageUrl?: string | null;
+  /** Guide section image alt text */
+  guideImageAlt?: string | null;
+  /** Rich HTML for the guide left-side content (p2 from topicpage API) */
+  guideP2Html?: string | null;
+}
+
+const {
+  hero,
+  intro,
+  products,
+  filters,
+  total,
+  currentPage,
+  totalPages,
+  faqItems = [],
+  preSelectedCategory,
+  showGuide = true,
+  showCTA = true,
+  guideImageUrl,
+  guideImageAlt,
+  guideP2Html,
+} = Astro.props;
+
+const pageCount = products.length;
+
+// Build responsive hero srcset from the raw Cloudinary URL
+const heroSrc = hero.imageUrl
+  ? getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_800,c_fill,g_auto")
+  : null;
+
+const heroAvifSrcset = hero.imageUrl
+  ? [
+      `${getCloudinaryUrl(hero.imageUrl, "f_avif,q_auto,w_640,c_fill,g_auto")} 640w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_avif,q_auto,w_960,c_fill,g_auto")} 960w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_avif,q_auto,w_1280,c_fill,g_auto")} 1280w`,
+    ].join(", ")
+  : undefined;
+
+const heroWebpSrcset = hero.imageUrl
+  ? [
+      `${getCloudinaryUrl(hero.imageUrl, "f_webp,q_auto,w_640,c_fill,g_auto")} 640w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_webp,q_auto,w_960,c_fill,g_auto")} 960w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_webp,q_auto,w_1280,c_fill,g_auto")} 1280w`,
+    ].join(", ")
+  : undefined;
+
+const heroFallbackSrcset = hero.imageUrl
+  ? [
+      `${getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_640,c_fill,g_auto")} 640w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_960,c_fill,g_auto")} 960w`,
+      `${getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_1280,c_fill,g_auto")} 1280w`,
+    ].join(", ")
+  : undefined;
+---
+
+<!-- Hero Banner -->
+<header class="relative flex h-[250px] items-center overflow-hidden md:h-[300px]">
+  <div class="absolute inset-0 bg-[#041632]/40 z-10"></div>
+  {heroSrc ? (
+    <picture>
+      <source type="image/avif" srcset={heroAvifSrcset} sizes="100vw" />
+      <source type="image/webp" srcset={heroWebpSrcset} sizes="100vw" />
+      <img
+        src={heroSrc}
+        srcset={heroFallbackSrcset}
+        sizes="100vw"
+        alt={hero.title}
+        title={hero.title}
+        width="960"
+        height="300"
+        class="absolute inset-0 h-full w-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+  ) : (
+    <div class="absolute inset-0 bg-[#041632]"></div>
+  )}
+  <div class="relative z-20 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <h1 class="font-headline italic text-3xl text-white tracking-tight md:text-5xl">
+      {hero.title}
+    </h1>
+    <nav class="mt-4 flex items-center gap-2 text-[10px] font-label font-medium uppercase tracking-widest text-white/80 md:text-sm">
+      <a href="/" class="transition hover:text-white">Home</a>
+      <span>/</span>
+      <a href={hero.breadcrumbHref} class="font-bold text-white">{hero.breadcrumbLabel}</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Intro Section -->
+<section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 md:py-16 lg:px-8">
+  <div class="grid grid-cols-1 gap-8 items-start md:gap-12 lg:grid-cols-3">
+    <div class="lg:col-span-2">
+      <h2 class="font-headline text-3xl leading-tight text-[#041632] md:text-5xl">
+        {intro.heading || <span class="text-slate-300 italic">Content coming soon</span>}
+      </h2>
+      {intro.p1Html ? (
+        <div class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 rich-content">
+          <div set:html={intro.p1Html} />
+        </div>
+      ) : (
+        <p class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
+          {intro.body || <span class="text-slate-400 italic">Description not yet available.</span>}
+        </p>
+      )}
+    </div>
+    {(intro.calloutTitle || intro.calloutBody) && (
+      <div class="rounded-lg border-l-4 border-[#775a19] bg-slate-50 p-6 md:p-8">
+        {intro.calloutTitle && (
+          <h3 class="font-headline italic text-xl text-[#041632] mb-2">{intro.calloutTitle}</h3>
+        )}
+        {intro.calloutBody && (
+          <p class="text-sm font-label text-slate-600">{intro.calloutBody}</p>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- Product Grid + Filters -->
+<ProductSection
+  products={products}
+  categories={filters.categories}
+  colors={filters.colors}
+  structures={filters.structures}
+  contents={filters.contents}
+  designs={filters.designs}
+  finishes={filters.finishes}
+  currentPage={currentPage}
+  totalPages={totalPages}
+  total={total}
+  pageCount={pageCount}
+  preSelectedCategory={preSelectedCategory}
+/>
+
+<!-- Optional CTA -->
+{showCTA && <ProductCTA />}
+
+<!-- Optional Buyer Guide -->
+{showGuide && <ProductGuide imageUrl={guideImageUrl} imageAlt={guideImageAlt ?? undefined} p2Html={guideP2Html} />}
+
+<!-- FAQ — only rendered when items are provided -->
+{faqItems.length > 0 && <ProductFAQ items={faqItems} />}
+
+<style>
+  .category-rich-content h2,
+  .category-rich-content h3,
+  .category-rich-content h4 {
+    font-family: var(--font-headline, Georgia, serif);
+    color: #041632;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .category-rich-content h2 { font-size: 1.5rem; }
+  .category-rich-content h3 { font-size: 1.25rem; }
+  .category-rich-content h4 { font-size: 1.1rem; }
+  .category-rich-content p {
+    margin-top: 0.75rem;
+    line-height: 1.75;
+  }
+  .category-rich-content ul,
+  .category-rich-content ol {
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+  }
+  .category-rich-content ul { list-style-type: disc; }
+  .category-rich-content ol { list-style-type: decimal; }
+  .category-rich-content li { margin-bottom: 0.4rem; }
+  .category-rich-content strong { color: #041632; font-weight: 600; }
+  .category-rich-content em { font-style: italic; }
+  .category-rich-content a { color: #775a19; text-decoration: underline; }
+</style>

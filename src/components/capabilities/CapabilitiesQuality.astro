@@ -1,0 +1,71 @@
+---
+interface Props {
+  image2?: string;
+}
+const { image2 } = Astro.props;
+
+const FALLBACK_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuB8L140-K46PJdmR2ggQ0tJZLGW0oy_yIYKd3Vt-av_nUn63TCfCd4o6bFk81wR9eUuU9M4GCJC2KXIgN1RoAIna9-ZjXO-G1_x5bfDpnfZNlISy4S_V0Og1UU7eZjhblu0OH_nCozl5Miu5mM_UBsmPtJBj3dV4JYV9G22y22x4LZ2KyC57Gs88l2kWOFz4cD-YzZqyxvjfEqJ3Bm0z9Q2ba7BuBbUHEbVOsUu59_S_7l_xJnin4nmhGHH9t9ndKV7LBz212IQLxK6";
+const qualityImage = image2 || FALLBACK_IMAGE;
+
+const qcItems = [
+  {
+    title: "GSM Verification",
+    desc: "Electronic precision grammage testing",
+    value: "±1.5% Tolerance",
+  },
+  {
+    title: "Color Fastness",
+    desc: "ISO 105-B02 Grade testing",
+    value: "Level 4.5+",
+  },
+  {
+    title: "Shrinkage Control",
+    desc: "Steam and wash dimensional stability",
+    value: "< 2% Max",
+  },
+];
+---
+
+<section id="quality-hub" class="bg-[#e7e8e9] py-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 items-start gap-16 lg:grid-cols-2">
+      <div>
+        <h2 class="font-headline italic text-4xl text-[#041632]">Quality Control Hub</h2>
+        <p class="mt-8 text-lg leading-relaxed text-[#44474d]">
+          We operate a dedicated testing laboratory for in-house validation. No batch bypasses our
+          three-tier inspection protocol.
+        </p>
+
+        <div class="mt-12 space-y-4">
+          {qcItems.map((item) => (
+            <div class="flex items-center justify-between rounded-lg border-l-4 border-[#775a19] bg-white p-6">
+              <div>
+                <h3 class="font-bold text-[#041632]">{item.title}</h3>
+                <p class="mt-1 text-sm text-[#44474d]">{item.desc}</p>
+              </div>
+              <span class="ml-4 text-right text-sm font-bold text-[#775a19]">{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="relative aspect-square overflow-hidden rounded-xl bg-[#041632] shadow-2xl lg:aspect-auto lg:h-[600px]">
+        <img
+          src={qualityImage}
+          alt="Lab Testing"
+          title="Lab Testing — Quality Control Hub"
+          width="600"
+          height="600"
+          class="h-full w-full object-cover opacity-60"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#041632] via-transparent to-transparent"></div>
+
+        <div class="absolute bottom-10 left-10 right-10">
+          <div class="font-headline italic text-4xl text-white">"Zero-Defect"</div>
+          <p class="mt-2 text-lg text-[#8393b5]">Our philosophy is built into every loom.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+---
+/**
+ * BreadcrumbSchema.astro
+ * Renders a JSON-LD BreadcrumbList schema.
+ * Pass relative paths — siteBase is resolved automatically from PUBLIC_SITE_URL.
+ *
+ * Usage (relative paths preferred):
+ *   <BreadcrumbSchema items={[
+ *     { name: "Home", url: "/" },
+ *     { name: "Fabric", url: "/fabric" },
+ *     { name: "Product Name" },   // last item — no url needed
+ *   ]} />
+ */
+
+interface BreadcrumbItem {
+  name: string;
+  url?: string; // relative ("/fabric") or absolute — both work
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const siteBase = (import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com").replace(/\/$/, "");
+
+function resolveUrl(url: string): string {
+  if (url.startsWith("http")) return url;
+  return `${siteBase}${url.startsWith("/") ? url : `/${url}`}`;
+}
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.name,
+    ...(item.url ? { item: { "@type": "Thing", "@id": resolveUrl(item.url) } } : {}),
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

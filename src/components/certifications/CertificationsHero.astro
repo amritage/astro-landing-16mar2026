@@ -1,0 +1,35 @@
+---
+interface Props {
+  heroImage?: string;
+}
+const { heroImage } = Astro.props;
+const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80";
+---
+<section class="relative h-[500px] md:h-[614px] flex items-center overflow-hidden bg-[#041632] px-4 md:px-8">
+  <div class="absolute inset-0 opacity-20">
+    <img
+      src={bgImage}
+      alt="Industrial textile weaving machinery"
+      title="Industrial textile weaving machinery"
+      width="1600"
+      height="614"
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto w-full">
+    <div class="max-w-3xl">
+      <span class="inline-block py-1 px-3 bg-[#775a19]/20 text-[#ffdea5] font-label text-xs uppercase tracking-[0.2em] mb-4 md:mb-6">
+        Established 1971
+      </span>
+      <h1 class="font-headline text-4xl md:text-7xl text-white italic leading-tight mb-6 md:mb-8">
+        Certified for <br class="hidden md:block" />
+        <span class="not-italic font-bold">Global Excellence</span>
+      </h1>
+      <p class="text-[#8393b5] text-base md:text-xl font-body max-w-xl">
+        At AGE, we don't just manufacture textiles; we engineer trust. Our facility adheres to the most stringent international standards for quality, safety, and ethics.
+      </p>
+    </div>
+  </div>
+</section>

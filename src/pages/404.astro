@@ -1,0 +1,92 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page Not Found | Amrita Global Enterprises"
+  description="The page you're looking for doesn't exist. Browse our fabric collections or get in touch with our team."
+  noindex={true}
+>
+  <section class="relative overflow-hidden bg-[#f8f9fa] min-h-[90vh] flex items-center pt-32 pb-20">
+
+    <!-- Dot pattern background -->
+    <div class="pointer-events-none absolute inset-0 opacity-[0.04]"
+      style="background-image: radial-gradient(#041632 1px, transparent 0); background-size: 32px 32px;">
+    </div>
+
+    <!-- Skewed accent block (matches HeroSection) -->
+    <div class="absolute top-0 right-0 w-1/3 h-full bg-[#041632]/5 -skew-x-12 transform translate-x-20 hidden lg:block pointer-events-none"></div>
+
+    <!-- Giant faded 404 -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+      <span class="font-headline font-bold text-[20rem] md:text-[28rem] leading-none text-[#041632]/[0.04]">404</span>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
+      <div class="max-w-2xl">
+
+        <span class="mb-6 inline-block rounded-full bg-[#fed488] px-4 py-1.5 text-xs font-label font-bold uppercase tracking-widest text-[#785a1a]">
+          Error 404
+        </span>
+
+        <h1 class="mt-4 font-headline italic text-5xl md:text-7xl leading-[1.1] tracking-tight text-[#041632]">
+          This thread<br/>
+          doesn't lead<br/>
+          <span class="text-[#775a19]">anywhere.</span>
+        </h1>
+
+        <p class="mt-8 text-lg md:text-xl leading-relaxed text-[#44474d] max-w-lg">
+          The page you're looking for has been moved, renamed, or never existed.
+          Let's get you back on track.
+        </p>
+
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 rounded-lg bg-[#041632] px-8 py-4 font-label font-bold text-sm uppercase tracking-widest text-white transition hover:bg-[#775a19] group"
+          >
+            Go to Homepage
+            <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
+          </a>
+          <a
+            href="/fabric"
+            class="inline-flex items-center gap-2 rounded-lg border border-[#c5c6ce] px-8 py-4 font-label font-bold text-sm uppercase tracking-widest text-[#041632] transition hover:bg-[#f3f4f5]"
+          >
+            Browse Collections
+          </a>
+          <a
+            href="/support"
+            class="inline-flex items-center gap-2 rounded-lg border border-[#c5c6ce] px-8 py-4 font-label font-bold text-sm uppercase tracking-widest text-[#041632] transition hover:bg-[#f3f4f5]"
+          >
+            Contact Us
+          </a>
+        </div>
+
+        <!-- Quick links -->
+        <div class="mt-16 pt-10 border-t border-[#c5c6ce]/40">
+          <p class="font-label text-[10px] uppercase tracking-[0.25em] text-[#64748b] mb-5">Popular pages</p>
+          <div class="flex flex-wrap gap-3">
+            {[
+              { label: "Fabric Catalog", href: "/fabric" },
+              { label: "Capabilities", href: "/capabilities" },
+              { label: "Certifications", href: "/certifications" },
+              { label: "Blog", href: "/blog" },
+              { label: "About", href: "/about" },
+              { label: "FAQ", href: "/faq" },
+              { label: "Careers", href: "/careers" },
+            ].map((link) => (
+              <a
+                href={link.href}
+                class="px-4 py-2 rounded-md border border-[#c5c6ce]/60 bg-white text-[#44474d] font-label text-xs font-bold uppercase tracking-wider hover:border-[#041632] hover:text-[#041632] transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+</BaseLayout>

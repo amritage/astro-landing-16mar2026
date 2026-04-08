@@ -1,0 +1,396 @@
+@import "tailwindcss";
+
+@theme {
+  /* preserve Tailwind defaults */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
+
+  /* brand */
+  --color-primary: #041632;
+  --color-primary-hover: #0a224a;
+  --color-accent: #123a73;
+  --color-secondary: #8d6708;
+  --color-secondary-light: #e8b84b;
+
+  /* surfaces */
+  --color-background: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f3f4f6;
+  --color-surface-low: #f6f7f8;
+  --color-surface-high: #eceff1;
+  --color-border: #d9dfe5;
+  --color-outline: #c7cdd4;
+
+  /* text */
+  --color-text: #191c1d;
+  --color-text-secondary: #44474d;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  /* extras */
+  --color-navy-dim: #b7c7eb;
+  --color-amber-warm: #fef3c7;
+
+  /* fonts */
+  --font-headline: "Newsreader Variable", serif;
+  --font-body: "Manrope Variable", sans-serif;
+  --font-label: "Inter Variable", sans-serif;
+}
+
+:root {
+  --color-primary: #041632;
+  --color-primary-hover: #0a224a;
+  --color-accent: #123a73;
+  --color-secondary: #8d6708;
+
+  --color-background: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f3f4f6;
+  --color-surface-low: #f6f7f8;
+  --color-surface-high: #eceff1;
+  --color-border: #d9dfe5;
+  --color-outline: #c7cdd4;
+
+  --color-text: #191c1d;
+  --color-text-secondary: #44474d;
+  --color-text-muted: #64748b;
+  --color-text-inverse: #ffffff;
+
+  --shadow-soft: 0 8px 30px rgba(15, 23, 42, 0.07);
+  --shadow-md: 0 18px 48px rgba(15, 23, 42, 0.12);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+
+  --container-width: 1280px;
+
+  --font-headline: "Newsreader Variable", serif;
+  --font-body: "Manrope Variable", sans-serif;
+  --font-label: "Inter Variable", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+button,
+input,
+select,
+textarea,
+a {
+  font-family: inherit;
+}
+
+.container-main {
+  width: min(100% - 24px, var(--container-width));
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .container-main {
+    width: min(100% - 40px, var(--container-width));
+  }
+}
+
+.font-headline {
+  font-family: var(--font-headline);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-label {
+  font-family: var(--font-label);
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #041632 0%, #0a224a 55%, #123a73 100%);
+}
+
+.metallic-gradient {
+  background: linear-gradient(135deg, #041632 0%, #1b2b48 100%);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+}
+
+.footer-grid-line {
+  background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+}
+
+/* ─── Rich HTML content from API (set:html) ─────────────────────────────── */
+
+/* Headings h1–h6 */
+.rich-content h1 {
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #041632;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+.rich-content h2 {
+  font-family: var(--font-headline);
+  font-size: 1.625rem;
+  font-weight: 600;
+  color: #041632;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+.rich-content h3 {
+  font-family: var(--font-headline);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #041632;
+  font-style: italic;
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+.rich-content h4 {
+  font-family: var(--font-label);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #041632;
+  margin-top: 1.5rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.rich-content h5 {
+  font-family: var(--font-label);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #44474d;
+  margin-top: 1.25rem;
+  margin-bottom: 0.35rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.rich-content h6 {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Paragraph */
+.rich-content p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+/* Lists */
+.rich-content ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.25rem;
+}
+.rich-content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.rich-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+.rich-content ul li {
+  padding-left: 1.5rem;
+  position: relative;
+}
+.rich-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  background-color: #041632;
+  transform: rotate(45deg);
+}
+.rich-content li > p {
+  margin-bottom: 0.25rem;
+}
+
+/* Inline text */
+.rich-content strong, .rich-content b {
+  font-weight: 700;
+  color: #041632;
+}
+.rich-content em, .rich-content i {
+  font-style: italic;
+}
+.rich-content u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.rich-content s, .rich-content del {
+  text-decoration: line-through;
+  color: #64748b;
+}
+.rich-content mark {
+  background-color: #fef3c7;
+  color: #041632;
+  padding: 0.1em 0.25em;
+  border-radius: 2px;
+}
+.rich-content small {
+  font-size: 0.8em;
+  color: #64748b;
+}
+.rich-content sub {
+  vertical-align: sub;
+  font-size: 0.75em;
+}
+.rich-content sup {
+  vertical-align: super;
+  font-size: 0.75em;
+}
+
+/* Links */
+.rich-content a {
+  color: #775a19;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+.rich-content a:hover {
+  color: #041632;
+}
+
+/* Blockquote */
+.rich-content blockquote {
+  border-left: 4px solid #775a19;
+  padding: 0.75rem 1rem;
+  margin: 1.75rem 0;
+  background: #faf9ff;
+  color: #44474d;
+  font-style: italic;
+  border-radius: 0 6px 6px 0;
+}
+.rich-content blockquote p {
+  margin-bottom: 0;
+}
+
+/* Code */
+.rich-content code {
+  font-family: ui-monospace, monospace;
+  font-size: 0.875em;
+  background: #f1f5f9;
+  color: #041632;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.rich-content pre {
+  background: #041632;
+  color: #e2e8f0;
+  padding: 1.25rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.rich-content pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* Table */
+.rich-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+.rich-content th {
+  background: #041632;
+  color: #ffffff;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+.rich-content td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #44474d;
+  vertical-align: top;
+}
+.rich-content tr:last-child td {
+  border-bottom: none;
+}
+.rich-content tr:nth-child(even) td {
+  background: #f8f9fa;
+}
+
+/* Divider */
+.rich-content hr {
+  border: none;
+  border-top: 1px solid #d9dfe5;
+  margin: 2rem 0;
+}
+
+/* Image */
+.rich-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+/* Responsive heading sizes */
+@media (min-width: 768px) {
+  .rich-content h1 { font-size: 2.5rem; }
+  .rich-content h2 { font-size: 1.875rem; }
+  .rich-content h3 { font-size: 1.5rem; }
+  .rich-content h4 { font-size: 1.1rem; }
+}
+
+/* ── Blog article overrides (larger for long-form reading) ── */
+article.rich-content h1 { font-size: 2.25rem; margin-top: 3rem; }
+article.rich-content h2 { font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; }
+article.rich-content h3 { font-size: 1.25rem; margin-top: 1.75rem; margin-bottom: 0.75rem; }
+article.rich-content p  { margin-bottom: 1.5rem; color: #44474d; text-align: justify; }
+article.rich-content ul,
+article.rich-content ol  { margin-bottom: 1.5rem; color: #44474d; }
+article.rich-content li  { margin-bottom: 0.5rem; }
+@media (min-width: 768px) {
+  article.rich-content h1 { font-size: 3rem; }
+  article.rich-content h2 { font-size: 2.25rem; }
+  article.rich-content h3 { font-size: 1.75rem; }
+}

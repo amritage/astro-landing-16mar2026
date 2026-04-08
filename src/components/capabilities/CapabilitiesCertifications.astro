@@ -1,0 +1,42 @@
+---
+const certifications = [
+  {
+    title: "ISO 9001:2015",
+    desc: "Quality Management System",
+    icon: "verified",
+  },
+  {
+    title: "OEKO-TEX",
+    desc: "Standard 100 Safety",
+    icon: "check_circle",
+  },
+  {
+    title: "GOTS Certified",
+    desc: "Organic Textile Standard",
+    icon: "verified_user",
+  },
+  {
+    title: "BSCI Member",
+    desc: "Social Compliance Audit",
+    icon: "gavel",
+  },
+];
+---
+
+<section class="bg-[#f3f4f5] py-24">
+  <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+    <h2 class="font-headline italic text-3xl text-[#041632]">Global Compliance Standards</h2>
+
+    <div class="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+      {certifications.map((item) => (
+        <div class="group rounded-xl border border-[#c5c6ce]/10 bg-white p-8 transition hover:border-[#775a19]">
+          <div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#edeeef]">
+            <span class="material-symbols-outlined text-3xl text-[#775a19]">{item.icon}</span>
+          </div>
+          <h3 class="text-sm font-bold uppercase tracking-widest text-[#041632]">{item.title}</h3>
+          <p class="mt-2 text-xs text-[#44474d]">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

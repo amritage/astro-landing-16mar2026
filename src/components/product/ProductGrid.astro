@@ -1,0 +1,86 @@
+---
+import ProductCard from "./ProductCard.astro";
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  weight: string;
+  width: string;
+  color: string;
+  image: string;
+  imageSrcset?: string;
+  href: string;
+  filterCategory?: string;
+  filterColor?: string;
+  filterStructure?: string;
+  filterContent?: string;
+  filterGsm?: string;
+  filterDesign?: string;
+  filterFinish?: string;
+}
+
+interface Props {
+  products: Product[];
+  currentPage: number;
+  totalPages: number;
+  baseUrl?: string;
+}
+
+const { products, currentPage, totalPages, baseUrl = "/fabric" } = Astro.props;
+
+function pageUrl(p: number) {
+  return p === 1 ? baseUrl : `${baseUrl}/page/${p}`;
+}
+
+// Pre-compute visible page items in frontmatter — no conditional JSX returns needed
+type PageItem = { type: "page"; num: number } | { type: "ellipsis" };
+
+const pageItems: PageItem[] = [];
+if (totalPages <= 5) {
+  for (let i = 1; i <= totalPages; i++) pageItems.push({ type: "page", num: i });
+} else {
+  const show = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1].filter(n => n >= 1 && n <= totalPages));
+  let prev = 0;
+  for (const n of [...show].sort((a, b) => a - b)) {
+    if (prev && n - prev > 1) pageItems.push({ type: "ellipsis" });
+    pageItems.push({ type: "page", num: n });
+    prev = n;
+  }
+}
+---
+
+<div>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {products.map((product) => (
+      <ProductCard product={product} />
+    ))}
+  </div>
+
+  {totalPages > 1 && (
+    <div class="mt-12 flex items-center justify-center gap-2 font-label text-sm md:mt-16">
+      {currentPage > 1 && (
+        <a href={pageUrl(currentPage - 1)} class="flex items-center pr-4 text-xs font-bold uppercase tracking-widest text-[#041632] transition hover:text-[#775a19]">
+          <span class="material-symbols-outlined mr-2 text-sm">arrow_back</span> Prev
+        </a>
+      )}
+
+      {pageItems.map((item) =>
+        item.type === "ellipsis"
+          ? <span class="px-1 text-slate-500">...</span>
+          : <a
+              href={pageUrl(item.num)}
+              class={`flex h-10 w-10 items-center justify-center transition ${item.num === currentPage ? "bg-[#041632] font-bold text-white" : "hover:bg-slate-100"}`}
+            >
+              {item.num}
+            </a>
+      )}
+
+      {currentPage < totalPages && (
+        <a href={pageUrl(currentPage + 1)} class="flex items-center pl-4 text-xs font-bold uppercase tracking-widest text-[#041632] transition hover:text-[#775a19]">
+          Next <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+        </a>
+      )}
+    </div>
+  )}
+</div>

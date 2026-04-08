@@ -1,0 +1,101 @@
+---
+const BASE_URL =
+  import.meta.env.API_BASE_URL ??
+  "https://espobackend.vercel.app";
+
+interface ApiCareer {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  employmentType: string[];
+  experience: string;
+  requirements: string;
+  isActive: boolean;
+  postedDate: string;
+  department: string;
+  // jobType is missing from API — would be "Full-Time", "Contract", etc.
+}
+
+let positions: ApiCareer[] = [];
+try {
+  const res = await fetch(`${BASE_URL}/api/career`);
+  if (res.ok) {
+    const json = await res.json();
+    positions = (json.data ?? []).filter((p: ApiCareer) => p.isActive);
+  }
+} catch (e) {
+  console.error("Failed to fetch careers:", e);
+}
+
+// Icon map by department keyword
+function getDeptIcon(dept: string): string {
+  const d = dept.toLowerCase();
+  if (d.includes("sales")) return "payments";
+  if (d.includes("supply") || d.includes("logistics")) return "local_shipping";
+  if (d.includes("operation") || d.includes("production")) return "factory";
+  if (d.includes("tech") || d.includes("it")) return "code";
+  if (d.includes("hr") || d.includes("human")) return "people";
+  return "work";
+}
+---
+
+<section class="py-24 bg-[#f8f9fa]" id="positions">
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="mb-16">
+      <span class="font-sans text-xs uppercase tracking-[0.3em] text-[#ffdea5] bg-[#041632] px-4 py-1 inline-block mb-4">
+        We're Hiring
+      </span>
+      <h2 class="font-serif text-5xl text-[#041632] italic">Open Opportunities</h2>
+      <div class="w-12 h-px bg-[#775a19] mt-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        {positions.map((pos) => (
+          <div class="bg-white border border-[#e1e3e4] p-8 flex flex-col group hover:border-[#775a19] transition-colors">
+            <div class="flex justify-between items-start mb-6">
+              <span class="material-symbols-outlined text-[#775a19] bg-[#ffdea5]/30 p-2 text-2xl">
+                {getDeptIcon(pos.department)}
+              </span>
+              <div class="flex gap-2 flex-wrap justify-end">
+                <span class="font-sans text-xs bg-[#041632] text-white px-3 py-1.5 uppercase tracking-widest">
+                  {pos.department}
+                </span>
+              </div>
+            </div>
+
+            <h3 class="font-serif text-2xl text-[#041632] mb-3">{pos.name}</h3>
+
+            <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs font-sans text-[#44474d] mb-4">
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">location_on</span>
+                {pos.location}
+              </span>
+              <span class="flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">history</span>
+                {pos.experience}
+              </span>
+              {pos.employmentType?.length > 0 && (
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm">work</span>
+                  {pos.employmentType.join(" / ")}
+                </span>
+              )}
+            </div>
+
+            <p class="text-sm text-[#44474d] leading-relaxed mb-6">{pos.description}</p>
+
+            <div class="mb-8 flex-1">
+              <h4 class="text-xs font-bold uppercase tracking-widest text-[#041632] mb-3">Key Requirements</h4>
+              <div class="text-sm text-[#44474d] leading-relaxed prose prose-sm max-w-none" set:html={pos.requirements} />
+            </div>
+
+            <a href="#apply-now" class="block text-center py-3 border border-[#041632] text-[#041632] font-sans font-bold uppercase tracking-widest text-xs hover:bg-[#041632] hover:text-white transition-colors">
+              Apply for This Role
+            </a>
+          </div>
+        ))}
+      </div>
+  </div>
+</section>

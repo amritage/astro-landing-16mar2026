@@ -1,0 +1,176 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
+import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
+import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
+import { fetchProducts, buildCloudinarySrcset, type Product } from "../../data/products";
+import { getCompanyInfo } from "../../lib/api";
+
+export async function getStaticPaths() {
+  const products = await fetchProducts();
+  return products
+    .filter((p) => p.slug)
+    .map((product) => {
+      const collectionProducts = products.filter(
+        (p) => p.collectionId === product.collectionId && p.id !== product.id && p.slug
+      );
+      return {
+        params: { productSlug: product.slug },
+        props: { product, collectionProducts },
+      };
+    });
+}
+
+const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
+const company = await getCompanyInfo("AGE");
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const canonicalUrl = `${siteBase}/fabric/${product.slug}`;
+
+// ── JSON-LD: Product schema ────────────────────────────────────────────────────
+
+// Build additionalProperty array for all fabric-specific specs
+const additionalProperties = [
+  { name: "Category",   value: product.category },
+  { name: "Structure",  value: product.structure },
+  { name: "Design",     value: product.design },
+  { name: "GSM",        value: `${product.gsm} GSM` },
+  { name: "Weight (oz)", value: `${product.ozs} oz` },
+  { name: "Width (cm)", value: `${product.cm} cm` },
+  { name: "Width (inch)", value: `${product.inch} inch` },
+  ...(product.motif && product.motif !== "N/A" ? [{ name: "Motif", value: product.motif }] : []),
+  ...product.finish.map((f) => ({ name: "Finish", value: f })),
+  ...product.keywords.map((k) => ({ name: "Keyword", value: k })),
+  ...product.applications.map((a) => ({ name: "Suitability", value: `${a.name} ${a.score}%` })),
+].map(({ name, value }) => ({
+  "@type": "PropertyValue",
+  name,
+  value,
+}));
+
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "@id": canonicalUrl,
+  name: product.name,
+  url: canonicalUrl,
+  description: product.shortDesc,
+  image: [product.image1, product.image2, product.image3].filter(Boolean),
+  sku: product.slug,
+  brand: {
+    "@type": "Brand",
+    name: "Amrita Global Enterprises",
+  },
+  material: product.content,
+  color: product.colorNames.join(", "),
+  category: product.category,
+  additionalProperty: additionalProperties,
+  ...(product.ratingCount > 0 ? {
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: product.rating,
+      ratingCount: product.ratingCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
+  } : {}),
+  offers: {
+    "@type": "Offer",
+    "@id": `${canonicalUrl}#offer`,
+    url: canonicalUrl,
+    priceCurrency: "INR",
+    price: 0,
+    availability: "https://schema.org/InStock",
+    seller: {
+      "@type": "Organization",
+      name: "Amrita Global Enterprises",
+    },
+  },
+};
+
+// ── JSON-LD: BreadcrumbList schema ─────────────────────────────────────────────
+const breadcrumbItems = [
+  { name: "Home", url: "/" },
+  { name: "Fabric", url: "/fabric" },
+  { name: product.category, url: `/category/${product.categorySlug}` },
+  { name: product.name },
+];
+
+// ── JSON-LD: FAQPage schema ────────────────────────────────────────────────────
+const faqSchema = product.faq.length > 0
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: product.faq.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: a,
+        },
+      })),
+    }
+  : null;
+
+const schemas = [productSchema, faqSchema].filter(Boolean);
+
+// Build a proper OG image URL with 1200x630 crop for social sharing
+function buildOgImageUrl(cloudUrl: string | null | undefined): string | undefined {
+  if (!cloudUrl) return undefined;
+  // Insert OG-specific transformations into the Cloudinary URL
+  return cloudUrl.replace("/upload/", "/upload/f_jpg,q_auto,w_1200,h_630,c_fill,g_auto/");
+}
+const ogImageUrl = buildOgImageUrl(product.imageLarge || product.image1 || null);
+
+// LCP image preload — first product image at display-appropriate sizes
+const lcpImageSrcset = product.image1
+  ? buildCloudinarySrcset(product.image1, [400, 700, 1200]).replace(/f_auto/g, "f_webp")
+  : undefined;
+const lcpImageSrc = product.image1Srcset
+  ? undefined // srcset handles it; href just needs a valid fallback
+  : undefined;
+// Use the 700w candidate as the href fallback
+const lcpImageHref = product.image1
+  ? buildCloudinarySrcset(product.image1, [700]).split(" ")[0]
+  : undefined;
+---
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+
+<BaseLayout
+  title={product.name}
+  description={product.shortDesc}
+  canonical={canonicalUrl}
+  keywords={product.keywords}
+  ogTitle={product.name}
+  ogDescription={product.shortDesc}
+  ogImage={ogImageUrl}
+  ogType="product"
+  twitterTitle={product.name}
+  twitterDescription={product.shortDesc}
+  twitterImage={ogImageUrl}
+  schemaMarkup={schemas}
+  breadcrumbs={breadcrumbItems}
+  preloadImage={lcpImageHref}
+  preloadImageSrcset={lcpImageSrcset}
+>
+  <!-- Breadcrumb UI -->
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
+    <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">
+      <a href="/" class="hover:text-[#041632]">Home</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <a href="/fabric" class="hover:text-[#041632]">Fabric</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <a href={`/category/${product.categorySlug}`} class="hover:text-[#041632]">{product.category}</a>
+      <span class="material-symbols-outlined text-xs">chevron_right</span>
+      <span class="text-[#041632] font-semibold">{product.name.split(" ").slice(0, 2).join(" ")}</span>
+    </nav>
+  </div>
+
+  <ProductDetailHero product={product} />
+  <ProductDetailBody product={product} />
+  <ProductDetailRelated product={product} collectionProducts={collectionProducts} whatsapp={company?.whatsappNumber} phone={company?.phone1} />
+</BaseLayout>

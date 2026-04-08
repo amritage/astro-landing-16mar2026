@@ -1,0 +1,94 @@
+---
+const certs = [
+  {
+    name: "ISO 9001:2015",
+    label: "Quality Management System",
+    icon: "verified_user",
+    description:
+      "Ensuring consistent product quality and operational efficiency through a structured process-oriented approach.",
+    highlight: true,
+    badge: "Key Certification",
+    badgeColor: "bg-[#041632]",
+  },
+  {
+    name: "OEKO-TEX 100",
+    label: "Product Safety",
+    icon: "eco",
+    description:
+      "Certified free from harmful chemicals. Our textiles are safe for human health across all processing stages.",
+    highlight: true,
+    badge: "Safety Grade",
+    badgeColor: "bg-[#775a19]",
+  },
+  {
+    name: "GOTS",
+    label: "Organic Textile Standard",
+    icon: "nature",
+    description:
+      "Global Organic Textile Standard defines high-level environmental criteria along the entire organic supply chain.",
+    highlight: false,
+  },
+  {
+    name: "SA 8000",
+    label: "Social Accountability",
+    icon: "groups",
+    description:
+      "Ensuring ethical work environments, fair wages, and safe conditions across all our production units.",
+    highlight: false,
+  },
+];
+---
+
+<section class="py-16 md:py-24 px-4 md:px-8 max-w-7xl mx-auto">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16 items-start">
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-4 lg:sticky lg:top-32">
+      <h2 class="font-headline text-3xl md:text-4xl text-[#041632] mb-6">
+        Our Quality <br class="hidden md:block" />Framework
+      </h2>
+      <p class="text-[#44474d] mb-8 font-body leading-relaxed">
+        Every thread produced at Amrita Global Enterprises undergoes rigorous testing. Our certifications reflect our commitment to the planet and the people who power our looms.
+      </p>
+      <div class="p-6 bg-[#f3f4f5] border-l-4 border-[#775a19]">
+        <span class="material-symbols-outlined text-[#775a19] mb-2 block" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">verified</span>
+        <h3 class="font-bold text-[#041632] mb-2">The "Modern Weaver" Pledge</h3>
+        <p class="text-sm text-[#44474d] italic">
+          "We uphold the heritage of Indian textiles through the lens of modern accountability."
+        </p>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      {certs.map((cert) => (
+        <div class:list={[
+          "relative p-6 md:p-8 hover:-translate-y-1 transition-transform duration-300",
+          cert.highlight
+            ? "border-2 border-[#041632]/20 bg-[#041632]/5"
+            : "bg-white border border-[#e1e3e4] shadow-sm",
+        ]}>
+          <div class="absolute top-4 right-4 text-[#041632] opacity-10">
+            <span class="material-symbols-outlined text-5xl">{cert.icon}</span>
+          </div>
+
+          {cert.badge && (
+            <span class:list={["inline-block px-2 py-0.5 text-white text-[10px] font-bold tracking-widest uppercase mb-4", cert.badgeColor]}>
+              {cert.badge}
+            </span>
+          )}
+
+          <h3 class="font-headline text-2xl text-[#041632] mb-2">{cert.name}</h3>
+          <p class="font-label text-xs text-[#775a19] font-bold tracking-widest uppercase mb-4">{cert.label}</p>
+          <p class="text-[#44474d] text-sm mb-6 leading-relaxed">{cert.description}</p>
+
+          <but
+          ton class="flex items-center gap-1 text-xs font-bold text-[#041632] hover:text-[#775a19] transition-colors group">
+            DOWNLOAD PDF
+            <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">download</span>
+          </button>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

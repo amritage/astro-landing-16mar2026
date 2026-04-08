@@ -1,0 +1,315 @@
+<section class="py-24 bg-[#f3f4f5]" id="apply-now">
+  <div class="max-w-2xl mx-auto px-8">
+    <div class="text-center mb-12">
+      <span class="material-symbols-outlined text-4xl text-[#775a19] mb-4 block" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">work</span>
+      <span class="font-sans text-xs uppercase tracking-[0.3em] text-[#ffdea5] bg-[#041632] px-4 py-1 inline-block mb-6">Join the Team</span>
+      <h2 class="font-serif text-5xl text-[#041632] italic mb-4">Apply Now</h2>
+      <p class="text-[#44474d] text-sm">Begin your journey with Amrita Global.</p>
+    </div>
+
+    <div class="bg-white border border-[#e1e3e4] p-10">
+      <!-- Progress -->
+      <div class="flex items-center mb-10" id="job-progress">
+        <div class="flex flex-col items-center gap-1">
+          <div id="step-dot-1" class="w-8 h-8 rounded-full border-2 border-[#775a19] flex items-center justify-center text-xs font-bold text-[#775a19]">1</div>
+          <span id="step-label-1" class="text-[10px] uppercase font-bold text-[#775a19] tracking-widest">Personal</span>
+        </div>
+        <div class="h-px flex-1 bg-[#e1e3e4] mx-3"></div>
+        <div class="flex flex-col items-center gap-1">
+          <div id="step-dot-2" class="w-8 h-8 rounded-full border-2 border-[#c5c6ce] flex items-center justify-center text-xs font-bold text-[#44474d]">2</div>
+          <span id="step-label-2" class="text-[10px] uppercase font-bold text-[#44474d] tracking-widest">Experience</span>
+        </div>
+        <div class="h-px flex-1 bg-[#e1e3e4] mx-3"></div>
+        <div class="flex flex-col items-center gap-1">
+          <div id="step-dot-3" class="w-8 h-8 rounded-full border-2 border-[#c5c6ce] flex items-center justify-center text-xs font-bold text-[#44474d]">3</div>
+          <span id="step-label-3" class="text-[10px] uppercase font-bold text-[#44474d] tracking-widest">Resume</span>
+        </div>
+      </div>
+
+      <form id="job-form" novalidate>
+
+        <!-- Step 1: Personal -->
+        <div id="job-step-1" class="space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">First Name <span class="text-red-500">*</span></label>
+              <input id="jf-firstName" type="text" placeholder="First name" required
+                class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Last Name <span class="text-red-500">*</span></label>
+              <input id="jf-lastName" type="text" placeholder="Last name" required
+                class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Email Address <span class="text-red-500">*</span></label>
+            <input id="jf-email" type="email" placeholder="email@example.com" required
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Phone Number</label>
+            <input id="jf-phone" type="tel" placeholder="+91 XXXXX XXXXX"
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Street Address</label>
+            <input id="jf-street" type="text" placeholder="Street address"
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">City</label>
+            <input id="jf-city" type="text" placeholder="Your city"
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">State</label>
+              <input id="jf-state" type="text" placeholder="State"
+                class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Country</label>
+              <input id="jf-country" type="text" placeholder="Country"
+                class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Postal Code</label>
+              <input id="jf-postal" type="text" placeholder="PIN / ZIP"
+                class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+            </div>
+          </div>
+          <button type="button" id="job-next-1"
+            class="w-full bg-[#041632] text-white py-4 font-sans font-bold tracking-widest uppercase text-sm hover:bg-[#775a19] transition-colors">
+            Next
+          </button>
+        </div>
+
+        <!-- Step 2: Experience -->
+        <div id="job-step-2" class="space-y-5 hidden">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Position Applied For <span class="text-red-500">*</span></label>
+            <input id="jf-title" type="text" placeholder="e.g. Production Manager" required
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Years of Experience</label>
+            <input id="jf-experience" type="text" placeholder="e.g. 5 years"
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Cover Letter</label>
+            <textarea id="jf-description" rows="5" placeholder="Briefly describe why you are a good fit"
+              class="w-full bg-[#f3f4f5] border border-[#c5c6ce] px-4 py-3 text-sm focus:outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition-colors resize-none"></textarea>
+          </div>
+          <div class="flex gap-3">
+            <button type="button" id="job-back-2"
+              class="flex-1 py-4 border border-[#041632] text-[#041632] font-sans font-bold tracking-widest uppercase text-sm hover:bg-[#f3f4f5] transition-colors">
+              Back
+            </button>
+            <button type="button" id="job-next-2"
+              class="flex-1 bg-[#041632] text-white py-4 font-sans font-bold tracking-widest uppercase text-sm hover:bg-[#775a19] transition-colors">
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Resume -->
+        <div id="job-step-3" class="space-y-5 hidden">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-widest text-[#041632] mb-2">Upload Resume (PDF/DOCX)</label>
+            <label class="flex flex-col items-center justify-center border-2 border-dashed border-[#c5c6ce] px-6 py-8 cursor-pointer hover:border-[#775a19] transition-colors group">
+              <span class="material-symbols-outlined text-[#44474d] text-3xl mb-2 group-hover:text-[#775a19] transition-colors">upload_file</span>
+              <span class="text-sm text-[#44474d]">
+                <span class="font-bold text-[#775a19]">Upload a file</span> or drag and drop
+              </span>
+              <span class="text-xs text-[#44474d] mt-1">PDF or DOCX · Up to 10MB</span>
+              <input id="jf-resume" type="file" accept=".pdf,.docx" class="sr-only" />
+            </label>
+            <p id="jf-resume-name" class="text-xs text-[#775a19] mt-2 hidden"></p>
+          </div>
+
+          <div id="job-error" class="hidden text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-3"></div>
+
+          <div class="flex gap-3">
+            <button type="button" id="job-back-3"
+              class="flex-1 py-4 border border-[#041632] text-[#041632] font-sans font-bold tracking-widest uppercase text-sm hover:bg-[#f3f4f5] transition-colors">
+              Back
+            </button>
+            <button type="submit" id="job-submit"
+              class="flex-1 bg-[#041632] text-white py-4 font-sans font-bold tracking-widest uppercase text-sm hover:bg-[#775a19] transition-colors flex items-center justify-center gap-2">
+              <span id="job-submit-text">Submit Application</span>
+              <span id="job-submit-spinner" class="material-symbols-outlined animate-spin text-base" style="display:none">progress_activity</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Success -->
+        <div id="job-success" class="hidden text-center py-8 space-y-4">
+          <span class="material-symbols-outlined text-5xl text-[#775a19]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          <h3 class="font-serif text-2xl text-[#041632] italic">Application Submitted</h3>
+          <p class="text-sm text-[#44474d]">Thank you for applying. We'll be in touch soon.</p>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const ENDPOINT = "https://espo.egport.com/api/v1/LeadCapture/517205fe58db736ea2438667b84df4d0";
+
+  let current = 1;
+
+  function goTo(step: number) {
+    [1, 2, 3].forEach((s) => {
+      const el = document.getElementById(`job-step-${s}`);
+      if (el) el.classList.toggle("hidden", s !== step);
+      const dot = document.getElementById(`step-dot-${s}`);
+      const label = document.getElementById(`step-label-${s}`);
+      if (dot && label) {
+        if (s < step) {
+          dot.className = "w-8 h-8 rounded-full border-2 border-[#775a19] bg-[#775a19] flex items-center justify-center text-xs font-bold text-white";
+          label.className = "text-[10px] uppercase font-bold text-[#775a19] tracking-widest";
+        } else if (s === step) {
+          dot.className = "w-8 h-8 rounded-full border-2 border-[#775a19] flex items-center justify-center text-xs font-bold text-[#775a19]";
+          label.className = "text-[10px] uppercase font-bold text-[#775a19] tracking-widest";
+        } else {
+          dot.className = "w-8 h-8 rounded-full border-2 border-[#c5c6ce] flex items-center justify-center text-xs font-bold text-[#44474d]";
+          label.className = "text-[10px] uppercase font-bold text-[#44474d] tracking-widest";
+        }
+      }
+    });
+    current = step;
+  }
+
+  function val(id: string): string {
+    return (document.getElementById(id) as HTMLInputElement)?.value?.trim() ?? "";
+  }
+
+  function showError(msg: string) {
+    const el = document.getElementById("job-error");
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.remove("hidden");
+  }
+
+  document.getElementById("job-next-1")?.addEventListener("click", () => {
+    if (!val("jf-firstName") || !val("jf-lastName") || !val("jf-email")) {
+      alert("Please fill in First Name, Last Name and Email.");
+      return;
+    }
+    goTo(2);
+  });
+
+  document.getElementById("job-back-2")?.addEventListener("click", () => goTo(1));
+  document.getElementById("job-next-2")?.addEventListener("click", () => {
+    if (!val("jf-title")) {
+      alert("Please enter the position you are applying for.");
+      return;
+    }
+    goTo(3);
+  });
+  document.getElementById("job-back-3")?.addEventListener("click", () => goTo(2));
+
+  document.getElementById("jf-resume")?.addEventListener("change", (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    const nameEl = document.getElementById("jf-resume-name");
+    if (nameEl) {
+      nameEl.textContent = file ? `Selected: ${file.name}` : "";
+      nameEl.classList.toggle("hidden", !file);
+    }
+  });
+
+  document.getElementById("job-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    document.getElementById("job-error")?.classList.add("hidden");
+
+    const submitBtn = document.getElementById("job-submit") as HTMLButtonElement;
+    const submitText = document.getElementById("job-submit-text");
+    const spinner = document.getElementById("job-submit-spinner");
+
+    submitBtn.disabled = true;
+    if (submitText) submitText.textContent = "Submitting...";
+    if (spinner) spinner.style.display = "";
+
+    try {
+      // Step 1: upload resume if provided
+      let resumeAttachmentId: string | undefined;
+      const resumeFile = (document.getElementById("jf-resume") as HTMLInputElement)?.files?.[0];
+      if (resumeFile) {
+        try {
+          const fileData = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve((reader.result as string).split(",")[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(resumeFile);
+          });
+
+          const uploadRes = await fetch("https://espo.egport.com/api/v1/Attachment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Api-Key": "517205fe58db736ea2438667b84df4d0",
+            },
+            body: JSON.stringify({
+              name: resumeFile.name,
+              type: resumeFile.type,
+              size: resumeFile.size,
+              contents: fileData,
+              relatedType: "Lead",
+              field: "cResumeAttachment",
+            }),
+          });
+
+          if (uploadRes.ok) {
+            const uploadJson = await uploadRes.json();
+            resumeAttachmentId = uploadJson.id;
+          }
+        } catch {
+          // Attachment upload blocked by CORS — continue without it
+        }
+      }
+
+      // Step 2: submit lead capture
+      const payload: Record<string, string> = {
+        firstName:         val("jf-firstName"),
+        lastName:          val("jf-lastName"),
+        emailAddress:      val("jf-email"),
+        phoneNumber:       val("jf-phone"),
+        title:             val("jf-title"),
+        addressStreet:     val("jf-street"),
+        addressCity:       val("jf-city"),
+        addressState:      val("jf-state"),
+        addressCountry:    val("jf-country"),
+        addressPostalCode: val("jf-postal"),
+        cExperience:       val("jf-experience"),
+        description:       val("jf-description"),
+      };
+
+      if (resumeAttachmentId) {
+        (payload as Record<string, unknown> as Record<string, string>)["cResumeAttachmentIds"] = resumeAttachmentId;
+      }
+
+      console.log("Submitting payload:", payload);
+
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error((await res.text()) || `Error ${res.status}`);
+
+      document.getElementById("job-progress")?.classList.add("hidden");
+      document.getElementById(`job-step-${current}`)?.classList.add("hidden");
+      document.getElementById("job-success")?.classList.remove("hidden");
+
+    } catch (err: unknown) {
+      showError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      submitBtn.disabled = false;
+      if (submitText) submitText.textContent = "Submit Application";
+      if (spinner) spinner.style.display = "none";
+    }
+  });
+</script>

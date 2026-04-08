@@ -1,0 +1,36 @@
+---
+import { getWebsiteFAQCategories } from "../../lib/api";
+import { faqCategories } from "../../data/faqs";
+
+const apiCategories = await getWebsiteFAQCategories();
+
+const source = apiCategories.length > 0 ? apiCategories : faqCategories;
+const logisticsCategory = source.find((c) => c.id === "logistics");
+const faqs = (logisticsCategory?.faqs ?? [])
+  .slice()
+  .sort((a, b) => a.question.localeCompare(b.question));
+---
+
+<section class="px-6 py-16 bg-[#f8f9fa]">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="font-headline text-3xl mb-10 text-[#041632] text-center">Logistics FAQ</h2>
+
+    {faqs.length > 0 ? (
+      <div class="space-y-4 max-w-3xl mx-auto">
+        {faqs.map((faq) => (
+          <details class="group bg-[#edeeef] p-5">
+            <summary class="flex justify-between items-center font-bold text-[#041632] list-none cursor-pointer">
+              <span>{faq.question}</span>
+              <span class="material-symbols-outlined shrink-0 transition-transform duration-200 group-open:rotate-180">expand_more</span>
+            </summary>
+            <p class="mt-4 text-[#44474d] text-sm leading-relaxed">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-[#44474d]">No logistics FAQs available at this time.</p>
+    )}
+
+
+  </div>
+</section>

@@ -1,0 +1,63 @@
+---
+const steps = [
+  {
+    number: "01",
+    title: "Apply",
+    desc: "Submit your digital portfolio or CV via our secure portal.",
+  },
+  {
+    number: "02",
+    title: "Interview",
+    desc: "Technical and cultural alignment with our master weavers.",
+  },
+  {
+    number: "03",
+    title: "Offer",
+    desc: "Competitive packages reflecting your industrial expertise.",
+  },
+  {
+    number: "04",
+    title: "Onboard",
+    desc: "Welcome to the legacy that began in 1971.",
+  },
+];
+---
+
+<section class="py-24 bg-[#041632] text-white relative overflow-hidden">
+  <!-- Subtle grid overlay -->
+  <div class="absolute inset-0 opacity-10 pointer-events-none">
+    <div class="grid grid-cols-6 h-full w-full">
+      {Array.from({ length: 5 }).map(() => (
+        <div class="border-r border-white/20"></div>
+      ))}
+    </div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-8">
+    <div class="mb-16">
+      <span class="font-sans text-xs uppercase tracking-[0.3em] text-[#ffdea5] border border-[#775a19] px-4 py-1 inline-block mb-4">
+        Our Process
+      </span>
+      <h2 class="font-serif text-5xl italic">Hiring Excellence</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-0">
+      {steps.map((step, i) => (
+        <div class="relative flex flex-col md:flex-row">
+          <!-- Step content -->
+          <div class="flex-1 pr-8 pb-12 md:pb-0">
+            <div class="w-12 h-12 rounded-full border border-[#775a19] flex items-center justify-center font-sans text-[#ffdea5] text-sm mb-6">
+              {step.number}
+            </div>
+            <h3 class="font-serif text-2xl italic mb-3">{step.title}</h3>
+            <p class="text-sm text-[#8393b5] leading-relaxed">{step.desc}</p>
+          </div>
+          <!-- Connector line (not on last) -->
+          {i < steps.length - 1 && (
+            <div class="hidden md:block absolute top-6 left-full w-full h-px bg-[#75777e]/30 -translate-x-6 z-0"></div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

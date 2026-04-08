@@ -1,0 +1,64 @@
+---
+interface Props {
+  mission?: string | null;
+  vision?: string | null;
+  image2?: string | null;
+}
+const { mission, vision, image2 } = Astro.props;
+
+import CloudinaryImage from "../common/CloudinaryImage.astro";
+
+const FALLBACK_IMAGE2 = "https://res.cloudinary.com/age-fabric/image/upload/f_auto,q_auto,w_600,c_limit/About2_fallback.jpg";
+
+const missionImage = image2 ?? FALLBACK_IMAGE2;
+
+const fallbackMission = "To engineer textiles that define the standard for quality and sustainability, ensuring every thread woven in our facility contributes to a more conscious global fashion ecosystem.";
+const fallbackVision = "To remain the preferred global manufacturing partner for world-class brands by fusing traditional Gujarati craftsmanship with AI-driven manufacturing technology.";
+---
+<section class="py-32 bg-[#f3f4f5] overflow-hidden">
+  <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-20">
+    <div class="w-full md:w-1/2 relative">
+      <div class="aspect-[4/5] bg-[#1b2b48] overflow-hidden">
+        <CloudinaryImage
+          src={missionImage}
+          alt="Luxury folded white fabric textures"
+          title="Luxury folded white fabric textures"
+          width={600}
+          height={750}
+          widths={[300, 600, 900]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          crop="fill"
+          loading="lazy"
+          class="w-full h-full object-cover mix-blend-overlay opacity-80"
+        />
+      </div>
+      <div class="absolute -bottom-8 -right-8 bg-[#775a19] p-12 hidden lg:block">
+        <span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings:'FILL' 1;">verified</span>
+      </div>
+    </div>
+    <div class="w-full md:w-1/2">
+      <h2 class="font-serif text-5xl text-[#041632] mb-12 leading-tight">
+        Empowering Global Fashion Through <span class="italic text-[#775a19]">Ethical Weaving</span>
+      </h2>
+      <div class="space-y-10">
+        <div>
+          <h3 class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold mb-3">Our Mission</h3>
+          {mission ? (
+            <div class="text-[#44474d] text-lg leading-relaxed prose prose-sm max-w-none" set:html={mission} />
+          ) : (
+            <p class="text-[#44474d] text-lg leading-relaxed">{fallbackMission}</p>
+          )}
+        </div>
+        <div class="h-px bg-[#c5c6ce] w-1/4"></div>
+        <div>
+          <h3 class="font-sans text-xs uppercase tracking-widest text-[#775a19] font-bold mb-3">Our Vision</h3>
+          {vision ? (
+            <div class="text-[#44474d] text-lg leading-relaxed prose prose-sm max-w-none" set:html={vision} />
+          ) : (
+            <p class="text-[#44474d] text-lg leading-relaxed">{fallbackVision}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

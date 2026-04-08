@@ -1,0 +1,42 @@
+---
+export interface Props {
+  heading?: string;
+  subtext?: string;
+  primaryLabel?: string;
+  secondaryLabel?: string;
+  primaryHref?: string;
+  secondaryHref?: string;
+}
+
+const {
+  heading = "Ready to scale your textile supply?",
+  subtext = "Join the league of global brands served by Amrita since 1971.",
+  primaryLabel = "Consult Our Experts",
+  secondaryLabel = "View Catalog",
+  primaryHref = "/support",
+  secondaryHref = "/fabric",
+} = Astro.props;
+---
+
+<section class="py-24 px-6 bg-[#041632] text-center relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-64 h-64 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none bg-[#8d6708]/10"></div>
+  <div class="relative z-10 max-w-sm mx-auto">
+    <h2 class="font-headline text-4xl !text-white mb-6">{heading}</h2>
+    <p class="font-body text-[#b7c7eb] mb-10 text-base">{subtext}</p>
+    <div class="flex flex-col gap-4">
+      <a
+        href={primaryHref}
+        class="block w-full py-4 rounded-xl bg-[#8d6708] text-[#ffffff] font-body font-bold text-center hover:opacity-90 transition-opacity"
+      >
+        {primaryLabel}
+      </a>
+      <a
+        href={secondaryHref}
+        class="block w-full py-4 rounded-xl border text-[#ffffff] font-body font-bold text-center hover:bg-white/10 transition-colors"
+        style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2);"
+      >
+        {secondaryLabel}
+      </a>
+    </div>
+  </div>
+</section>

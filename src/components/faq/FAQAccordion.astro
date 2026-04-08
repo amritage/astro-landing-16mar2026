@@ -1,0 +1,151 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface FAQCategory {
+  id: string;
+  label: string;
+  icon: string;
+  faqs: FAQItem[];
+}
+
+interface Props {
+  categories: FAQCategory[];
+}
+
+const { categories } = Astro.props;
+
+// Inline SVG icons — no external font dependency
+const iconSvg: Record<string, string> = {
+  category: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l-5.5 9h11L12 2zm0 3.84L14.14 9h-4.28L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5S15.01 22 17.5 22s4.5-2.01 4.5-4.5S19.99 13 17.5 13zm0 7a2.5 2.5 0 010-5 2.5 2.5 0 010 5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z"/></svg>`,
+  precision_manufacturing: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 013 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 15.91l6 3.38v-6.71L5 9.21v6.7zm8 3.38l6-3.38V9.21l-6 3.37v6.71z"/></svg>`,
+  local_shipping: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`,
+  payments: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>`,
+  help_center: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>`,
+  search_off: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm-1-7h2v2h2v2h-2v2h-2v-2h-2v-2h2V7z"/></svg>`,
+  expand_more: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6-1.41-1.41z"/></svg>`,
+  search: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`,
+};
+
+function getIcon(name: string, size = "20"): string {
+  const svg = iconSvg[name];
+  if (!svg) return `<svg width="${size}" height="${size}" viewBox="0 0 24 24"/>`;
+  return svg.replace(/width="\d+"/, `width="${size}"`).replace(/height="\d+"/, `height="${size}"`);
+}
+---
+
+<section class="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24">
+  <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+    <!-- Sidebar -->
+    <aside class="lg:w-1/4">
+      <div class="lg:sticky lg:top-32 space-y-4">
+        <h2 class="font-headline text-2xl text-[#041632] italic mb-2">Categories</h2>
+        <nav class="grid grid-cols-2 lg:flex lg:flex-col gap-2" id="faq-sidebar">
+          {categories.map((cat, i) => (
+            <a
+              href={`#${cat.id}`}
+              data-category={cat.id}
+              class:list={[
+                "px-4 py-3 flex items-center gap-3 text-sm font-bold transition-colors",
+                i === 0
+                  ? "bg-[#041632] text-white border-l-4 border-[#775a19]"
+                  : "bg-[#f3f4f5] text-[#44474d] hover:bg-[#edeeef] hover:text-[#041632]",
+              ]}
+            >
+              <span class="shrink-0" set:html={getIcon(cat.icon, "18")} />
+              {cat.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Accordion -->
+    <div class="lg:w-3/4 space-y-16" id="faq-content">
+      {categories.map((cat) => (
+        <div class="scroll-mt-32" id={cat.id} data-section={cat.id}>
+          <h2 class="font-headline text-2xl md:text-3xl text-[#041632] mb-6 border-b border-[#c5c6ce] pb-4 flex items-center gap-4 italic">
+            <span class="text-[#775a19] shrink-0" set:html={getIcon(cat.icon, "28")} />
+            {cat.label}
+          </h2>
+
+          <div class="space-y-3">
+            {cat.faqs.map((faq) => (
+              <details class="group bg-white border border-[#c5c6ce]/40 faq-item">
+                <summary class="flex justify-between items-center p-5 md:p-6 cursor-pointer list-none">
+                  <span class="font-bold text-[#041632] md:text-lg pr-4">{faq.question}</span>
+                  <span class="text-[#775a19] shrink-0 transition-transform duration-200 group-open:rotate-180" set:html={getIcon('expand_more')} />
+                </summary>
+                <div class="px-5 md:px-6 pb-5 md:pb-6 text-[#44474d] leading-relaxed text-sm md:text-base border-t border-[#c5c6ce]/20 pt-4 rich-content" set:html={faq.answer} />
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- Empty state for search (populated by JS to avoid soft-404 triggers) -->
+      <div id="faq-empty" class="hidden text-center py-16" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const searchInput = document.getElementById("faq-search") as HTMLInputElement;
+  const items = document.querySelectorAll<HTMLElement>(".faq-item");
+  const sections = document.querySelectorAll<HTMLElement>("[data-section]");
+  const emptyState = document.getElementById("faq-empty");
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    let visible = 0;
+
+    items.forEach((item) => {
+      const text = item.textContent?.toLowerCase() ?? "";
+      const match = !q || text.includes(q);
+      item.style.display = match ? "" : "none";
+      if (match) visible++;
+    });
+
+    sections.forEach((sec) => {
+      const anyVisible = [...sec.querySelectorAll<HTMLElement>(".faq-item")].some(
+        (el) => el.style.display !== "none"
+      );
+      (sec as HTMLElement).style.display = anyVisible ? "" : "none";
+    });
+
+    if (visible === 0 && emptyState) {
+      emptyState.innerHTML = `
+        <span class="text-[#c5c6ce] mb-4 block"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm-1-7h2v2h2v2h-2v2h-2v-2h-2v-2h2V7z"/></svg></span>
+        <p class="text-[#44474d] text-lg font-medium">No results found.</p>
+        <p class="text-[#75777e] text-sm mt-2">Try a different keyword or browse the categories.</p>
+      `;
+      emptyState.classList.remove("hidden");
+    } else {
+      emptyState?.classList.add("hidden");
+    }
+  });
+
+  // Active sidebar highlight on scroll
+  const sidebarLinks = document.querySelectorAll<HTMLAnchorElement>("[data-category]");
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          sidebarLinks.forEach((link) => {
+            const active = link.dataset.category === id;
+            link.className = active
+              ? "px-4 py-3 flex items-center gap-3 text-sm font-bold bg-[#041632] text-white border-l-4 border-[#775a19] transition-colors"
+              : "px-4 py-3 flex items-center gap-3 text-sm font-bold bg-[#f3f4f5] text-[#44474d] hover:bg-[#edeeef] hover:text-[#041632] transition-colors";
+          });
+        }
+      });
+    },
+    { rootMargin: "-30% 0px -60% 0px" }
+  );
+
+  sections.forEach((sec) => observer.observe(sec));
+</script>

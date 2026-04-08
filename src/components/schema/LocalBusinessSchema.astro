@@ -1,0 +1,104 @@
+---
+import { getCompanyInfo, getSiteSettings, getTopicPageBySlug } from "../../lib/api";
+
+const company = await getCompanyInfo("AGE");
+const site = await getSiteSettings("eCatalogue");
+const homePage = await getTopicPageBySlug("home");
+
+const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+
+if (!company) return;
+
+const sameAs = [
+  company.linkedinUrl,
+  company.instagramUrl,
+  company.facebookUrl,
+  company.youtubeUrl,
+  company.xUrl,
+  company.pinterestUrl,
+].filter(Boolean);
+
+const contactPoints = [];
+if (company.phone1) {
+  contactPoints.push({
+    "@type": "ContactPoint",
+    telephone: company.phone1,
+    contactType: (company.phone1Dept ?? "sales").toLowerCase(),
+    areaServed: company.areaServed?.length ? company.areaServed : ["Worldwide"],
+    availableLanguage: company.languages ?? ["en"],
+  });
+}
+if (company.phone2) {
+  contactPoints.push({
+    "@type": "ContactPoint",
+    telephone: company.phone2,
+    contactType: (company.phone2Dept ?? "customer support").toLowerCase(),
+    areaServed: company.areaServed?.length ? company.areaServed : ["Worldwide"],
+    availableLanguage: company.languages ?? ["en"],
+  });
+}
+
+// Fully decode a URL that may have been double/triple encoded (%252F → %2F → /)
+const resolveUrl = (url: string | null | undefined): string | undefined => {
+  if (!url) return undefined;
+  let decoded = url;
+  try {
+    while (decoded !== decodeURIComponent(decoded)) {
+      decoded = decodeURIComponent(decoded);
+    }
+  } catch {
+    // stop if malformed
+  }
+  return decoded || undefined;
+};
+
+// Build geo coordinates if available
+const geo = (company.latitude != null && company.longitude != null)
+  ? { "@type": "GeoCoordinates", latitude: company.latitude, longitude: company.longitude }
+  : undefined;
+
+// Build hasCredential from recognitions
+const hasCredential = company.recognitions?.length
+  ? company.recognitions.map((r) => ({ "@type": "EducationalOccupationalCredential", name: r }))
+  : undefined;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Corporation",
+  "@id": `${siteBase}/#org`,
+  name: company.legalName,
+  alternateName: company.alternateName ?? [],
+  url: `${siteBase}/`,
+  logo: {
+    "@type": "ImageObject",
+    url: resolveUrl(company.logoUrl) ?? resolveUrl(company.defaultOgImage),
+  },
+  image: resolveUrl(company.defaultOgImage) ?? undefined,
+  description: homePage?.description ?? company.description ?? undefined,
+  telephone: company.phone1 ?? undefined,
+  email: company.primaryEmail ?? undefined,
+  areaServed: company.areaServed?.length ? company.areaServed : ["Worldwide"],
+  contactPoint: contactPoints,
+  sameAs,
+  knowsAbout: site?.knowsAbout ?? [],
+  foundingDate: company.foundingYear ? String(company.foundingYear) : undefined,
+  ...(company.tagline ? { slogan: company.tagline } : {}),
+  ...(company.employeeRange ? { numberOfEmployees: { "@type": "QuantitativeValue", description: company.employeeRange } } : {}),
+  ...(company.gstin ? { taxID: company.gstin } : {}),
+  ...(geo ? { geo } : {}),
+  ...(hasCredential ? { hasCredential } : {}),
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: company.addressStreet ?? undefined,
+    addressLocality: company.addressCity ?? undefined,
+    addressRegion: company.addressState ?? undefined,
+    postalCode: company.addressPostalCode ?? undefined,
+    addressCountry: {
+      "@type": "Country",
+      name: company.addressCountry ?? "India",
+    },
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

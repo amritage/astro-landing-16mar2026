@@ -1,0 +1,142 @@
+---
+import ProductFilters from "./ProductFilters.astro";
+import ProductToolbar from "./ProductToolbar.astro";
+import ProductGrid from "./ProductGrid.astro";
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  weight: string;
+  width: string;
+  color: string;
+  image: string;
+  imageSrcset?: string;
+  href: string;
+  filterCategory?: string;
+  filterColor?: string;
+  filterStructure?: string;
+  filterContent?: string;
+  filterGsm?: string;
+  filterDesign?: string;
+  filterFinish?: string;
+}
+
+interface ColorItem { name: string; hex: string; }
+
+interface Props {
+  products: Product[];
+  categories: string[];
+  colors: ColorItem[];
+  structures: string[];
+  contents: string[];
+  designs: string[];
+  finishes: string[];
+  currentPage: number;
+  totalPages: number;
+  total: number;
+  pageCount: number;
+  preSelectedCategory?: string;
+}
+
+const { products, categories, colors, structures, contents, designs, finishes, currentPage, totalPages, total, pageCount, preSelectedCategory } = Astro.props;
+const showingStart = (currentPage - 1) * 20 + 1;
+const showingEnd = (currentPage - 1) * 20 + pageCount;
+---
+
+<!-- Mobile filter open button -->
+<div class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:hidden">
+  <button
+    id="open-filters"
+    class="flex items-center gap-2 bg-[#041632] px-4 py-2 text-xs font-label uppercase tracking-widest text-white"
+  >
+    <span class="material-symbols-outlined text-sm">filter_list</span>
+    Filters
+  </button>
+</div>
+
+<section class="pb-20 md:pb-24">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-8 lg:flex-row">
+
+      <!--
+        Filter panel — rendered ONCE.
+        On desktop: sticky sidebar (via lg: classes).
+        On mobile: slides in as a drawer (position fixed, toggled via JS).
+      -->
+      <div
+        id="filter-panel"
+        class="
+          fixed inset-0 z-[60] overflow-y-auto bg-white
+          translate-x-[-100%] transition-transform duration-300
+          lg:relative lg:inset-auto lg:z-auto lg:overflow-visible lg:bg-transparent
+          lg:translate-x-0 lg:transition-none
+          lg:w-72 lg:flex-shrink-0
+        "
+      >
+        <!-- Mobile header (hidden on desktop) -->
+        <div class="flex items-center justify-between p-6 pb-0 lg:hidden">
+          <h2 class="font-headline text-2xl text-[#041632]">Filters</h2>
+          <button id="close-filters" class="material-symbols-outlined p-2 text-[#041632]">close</button>
+        </div>
+
+        <!-- Filter content -->
+        <div class="p-6 lg:p-0 lg:sticky lg:top-28">
+          <ProductFilters
+            categories={categories}
+            colors={colors}
+            structures={structures}
+            contents={contents}
+            designs={designs}
+            finishes={finishes}
+            preSelectedCategory={preSelectedCategory}
+          />
+        </div>
+      </div>
+
+      <!-- Backdrop (mobile only) -->
+      <div id="filter-backdrop" class="fixed inset-0 z-[59] bg-black/40 hidden lg:hidden"></div>
+
+      <!-- Product grid -->
+      <div class="min-w-0 flex-1">
+        <ProductToolbar total={total} showingStart={showingStart} showingEnd={showingEnd} />
+        {products.length > 0 ? (
+          <ProductGrid products={products} currentPage={currentPage} totalPages={totalPages} />
+        ) : (
+          <div class="flex flex-col items-center justify-center py-24 text-center">
+            <span class="material-symbols-outlined text-5xl text-slate-300 mb-4">inbox</span>
+            <p class="font-headline text-xl text-slate-400">No products available yet</p>
+            <p class="mt-2 text-sm text-slate-400">Content is being updated. Check back soon.</p>
+            <a href="/fabric" class="mt-6 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] underline underline-offset-4">
+              Browse all fabrics
+            </a>
+          </div>
+        )}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  const panel = document.getElementById("filter-panel") as HTMLElement;
+  const backdrop = document.getElementById("filter-backdrop") as HTMLElement;
+
+  function openFilters(): void {
+    panel.classList.remove("translate-x-[-100%]");
+    panel.classList.add("translate-x-0");
+    backdrop.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeFilters(): void {
+    panel.classList.add("translate-x-[-100%]");
+    panel.classList.remove("translate-x-0");
+    backdrop.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("open-filters")?.addEventListener("click", openFilters);
+  document.getElementById("close-filters")?.addEventListener("click", closeFilters);
+  backdrop.addEventListener("click", closeFilters);
+</script>
