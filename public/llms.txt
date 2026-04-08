@@ -9,7 +9,7 @@ This is the marketing and catalogue frontend for Amrita Global Enterprises, buil
 ## Company
 
 - Name: Amrita Global Enterprises
-- Also known as: Amrita Fashions, AGE
+- Also known as: AGE
 - Founded: 1970s (over 50 years in operation)
 - Headquarters: India (Gujarat)
 - Type: Fabric manufacturer, exporter, and B2B supplier
