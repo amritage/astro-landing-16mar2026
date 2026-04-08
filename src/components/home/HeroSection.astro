@@ -1,6 +1,6 @@
 ---
 import { getCompanyInfo, getTopicPageBySlug, buildWaLink, buildPhoneHref } from "../../lib/api";
-import CloudinaryImage from "../common/CloudinaryImage.astro";
+import ResponsiveImage from "../common/ResponsiveImage.astro";
 
 const [company, homePage] = await Promise.all([
   getCompanyInfo(),
@@ -41,7 +41,7 @@ const whatsappLink = buildWaLink(company?.whatsappNumber, "/support");
 
     <div class="lg:col-span-5 relative">
       <div class="aspect-[4/5] bg-[#e1e3e4] rounded-xl overflow-hidden shadow-2xl lg:rotate-2">
-        <CloudinaryImage
+        <ResponsiveImage
           src={heroImage}
           alt={homePage?.altTextImage1 ?? "Premium textile fabric"}
           title={homePage?.altTextImage1 ?? "Premium textile fabric"}

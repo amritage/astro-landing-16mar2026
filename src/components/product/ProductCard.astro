@@ -1,4 +1,6 @@
 ---
+import CloudinaryImage from "../common/CloudinaryImage.astro";
+
 interface Product {
   id: string;
   name: string;
@@ -37,34 +39,18 @@ const { product } = Astro.props;
 >
   <a href={product.href ?? undefined} class={`block${!product.href ? " pointer-events-none" : ""}`}>
     <div class="relative h-64 overflow-hidden">
-      <picture>
-        {product.imageSrcset ? (
-          <>
-            <source
-              type="image/avif"
-              srcset={product.imageSrcset.replace(/f_auto/g, "f_avif")}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            />
-            <source
-              type="image/webp"
-              srcset={product.imageSrcset.replace(/f_auto/g, "f_webp")}
-              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            />
-          </>
-        ) : null}
-        <img
-          src={product.image}
-          srcset={product.imageSrcset || undefined}
-          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-          alt={product.name}
-          title={product.name}
-          width="400"
-          height="267"
-          class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-          loading="lazy"
-          decoding="async"
-        />
-      </picture>
+      <CloudinaryImage
+        src={product.image}
+        alt={product.name}
+        title={product.name}
+        width={400}
+        height={267}
+        widths={[320, 400, 560, 720, 880]}
+        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+        crop="fill"
+        loading="lazy"
+        class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+      />
       <span class="absolute right-4 top-4 bg-[#041632] px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-white">
         ID: {product.id}
       </span>

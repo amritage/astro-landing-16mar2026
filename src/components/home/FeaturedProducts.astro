@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "../common/ResponsiveImage.astro";
 const products = [
   { image: "https://lh3.googleusercontent.com/aida-public/AB6AXuAez2OXD0guX8q7ZS88A62BPup6kSjy5WItlJ85-d2_MHh0WjBrDFuUq7xXnHmhadI3gNRDfs2XLLl4phntV8d111omysmQyX7lJCV-csJhOFHh9dyfiI2TT6nEpksbjY1-Nwy6AdRW2Ba6GHFoBnhIUbLfQeuEo5C3t3O9ffL5mF1OddBaAhP3RgejYslI21O29YfHSrfdHddzPDULchzqIIGyHieCm2r6S6egKhFcQ6V9Wboe4DBjOJbYkLhPjhqf6nCsiuD4HXHP", title: "Majestica-767", label: "Premium Collection", meta: "240 GSM | Twill" },
   { image: "https://lh3.googleusercontent.com/aida-public/AB6AXuADpvyQPMbKMrCLhEAjmVGI_lOhMmQV5xqHywuTKVxBxUZBLIG0sGjaesvZ_ne7GWbISoYbquowuY1CO1xQhiGdfujrYTEVsVxacf1lvfGnJoJ7UroqG-H4qZ7fGufPT4-Px9fQZG7NcvGrVpy43bMkQQDkXpncqzDcv8w0doLveuczSR7AeqVtFzS2-EW5VvwgZqfqHqAifsHQLHFWqsKuYXDYHAXCCXOV6OTXnbhfd4vKewr4jWT5A6a5HjsecPYybr8MiEHW-h0T", title: "Regency Linen 400", label: "Natural Series", meta: "180 GSM | Breathable" },
@@ -17,7 +18,18 @@ const products = [
       {products.map((product) => (
         <div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all border border-[#edeeef]">
           <div class="aspect-square bg-[#f3f4f5] overflow-hidden">
-            <img class="w-full h-full object-cover" src={product.image} alt={product.title} title={product.title} width="400" height="400" loading="lazy" />
+            <ResponsiveImage
+              src={product.image}
+              alt={product.title}
+              title={product.title}
+              width={400}
+              height={400}
+              widths={[320, 400, 560, 720]}
+              sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+              crop="fill"
+              loading="lazy"
+              class="w-full h-full object-cover"
+            />
           </div>
           <div class="p-4 md:p-6">
             <span class="font-label text-[9px] md:text-[10px] text-[#775a19] font-bold uppercase tracking-widest">{product.label}</span>

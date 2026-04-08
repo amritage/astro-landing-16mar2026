@@ -59,12 +59,16 @@ function buildUrl(sourceUrl: string, w: number): string {
 }
 
 const safeSrc = src ?? "";
-// Use the second width as the fallback src (not the smallest, not the largest)
-const fallbackWidth = widths[Math.min(1, widths.length - 1)];
-const fallback = safeSrc ? buildUrl(safeSrc, fallbackWidth) : safeSrc;
-const srcset = safeSrc
-  ? widths.map((w) => `${buildUrl(safeSrc, w)} ${w}w`).join(", ")
-  : undefined;
+const isCloudinary = safeSrc.includes("res.cloudinary.com") && safeSrc.includes("/upload/");
+
+// Pick a fallback close to the intended slot width (better than "always 2nd entry")
+const fallbackWidth =
+  widths.find((w) => w >= width) ?? widths[Math.max(0, widths.length - 1)];
+const fallback = safeSrc && isCloudinary ? buildUrl(safeSrc, fallbackWidth) : safeSrc;
+const srcset =
+  safeSrc && isCloudinary
+    ? widths.map((w) => `${buildUrl(safeSrc, w)} ${w}w`).join(", ")
+    : undefined;
 ---
 
 <img
