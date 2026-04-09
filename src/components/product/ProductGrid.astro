@@ -22,65 +22,152 @@ interface Product {
 
 interface Props {
   products: Product[];
-  currentPage: number;
-  totalPages: number;
+  // kept for API compatibility but no longer used for pagination
+  currentPage?: number;
+  totalPages?: number;
   baseUrl?: string;
 }
 
-const { products, currentPage, totalPages, baseUrl = "/fabric" } = Astro.props;
+const { products } = Astro.props;
 
-function pageUrl(p: number) {
-  return p === 1 ? baseUrl : `${baseUrl}/page/${p}`;
-}
-
-// Pre-compute visible page items in frontmatter — no conditional JSX returns needed
-type PageItem = { type: "page"; num: number } | { type: "ellipsis" };
-
-const pageItems: PageItem[] = [];
-if (totalPages <= 5) {
-  for (let i = 1; i <= totalPages; i++) pageItems.push({ type: "page", num: i });
-} else {
-  const show = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1].filter(n => n >= 1 && n <= totalPages));
-  let prev = 0;
-  for (const n of [...show].sort((a, b) => a - b)) {
-    if (prev && n - prev > 1) pageItems.push({ type: "ellipsis" });
-    pageItems.push({ type: "page", num: n });
-    prev = n;
-  }
-}
+// Initial batch: first 9 products (3 rows of 3). Rest loaded via IntersectionObserver.
+const INITIAL_COUNT = 9;
+const initialProducts = products.slice(0, INITIAL_COUNT);
+const deferredProducts = products.slice(INITIAL_COUNT);
 ---
 
 <div>
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-    {products.map((product) => (
+  <div id="product-grid" class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+    {initialProducts.map((product) => (
       <ProductCard product={product} />
     ))}
   </div>
 
-  {totalPages > 1 && (
-    <div class="mt-12 flex items-center justify-center gap-2 font-label text-sm md:mt-16">
-      {currentPage > 1 && (
-        <a href={pageUrl(currentPage - 1)} class="flex items-center pr-4 text-xs font-bold uppercase tracking-widest text-[#041632] transition hover:text-[#775a19]">
-          <span class="material-symbols-outlined mr-2 text-sm">arrow_back</span> Prev
-        </a>
-      )}
-
-      {pageItems.map((item) =>
-        item.type === "ellipsis"
-          ? <span class="px-1 text-slate-500">...</span>
-          : <a
-              href={pageUrl(item.num)}
-              class={`flex h-10 w-10 items-center justify-center transition ${item.num === currentPage ? "bg-[#041632] font-bold text-white" : "hover:bg-slate-100"}`}
-            >
-              {item.num}
-            </a>
-      )}
-
-      {currentPage < totalPages && (
-        <a href={pageUrl(currentPage + 1)} class="flex items-center pl-4 text-xs font-bold uppercase tracking-widest text-[#041632] transition hover:text-[#775a19]">
-          Next <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
-        </a>
-      )}
-    </div>
+  <!-- Sentinel: triggers loading more cards when scrolled into view -->
+  {deferredProducts.length > 0 && (
+    <div id="load-more-sentinel" class="h-4 w-full" aria-hidden="true"></div>
   )}
+
+  <!-- Hidden container holding serialised product data for JS to pick up -->
+  {deferredProducts.length > 0 && (
+    <script
+      id="deferred-products-data"
+      type="application/json"
+      set:html={JSON.stringify(deferredProducts)}
+    />
+  )}
+
+  <!-- No-results message (shown by filter JS when nothing matches) -->
+  <div id="no-results" class="hidden py-24 text-center">
+    <span class="material-symbols-outlined text-5xl text-slate-300 mb-4 block">search_off</span>
+    <p class="font-headline text-xl text-slate-400">No products match your filters</p>
+    <button
+      id="clear-filters-inline"
+      class="mt-6 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] underline underline-offset-4"
+    >
+      Clear all filters
+    </button>
+  </div>
 </div>
+
+<script>
+  // ── Infinite scroll ──────────────────────────────────────────────────────────
+  const sentinel = document.getElementById("load-more-sentinel");
+  const grid = document.getElementById("product-grid") as HTMLElement | null;
+  const dataEl = document.getElementById("deferred-products-data");
+
+  if (sentinel && grid && dataEl) {
+    const deferred: Array<Record<string, string>> = JSON.parse(dataEl.textContent ?? "[]");
+    const BATCH = 9; // cards to inject per scroll trigger
+    let loaded = 0;
+    let filteringInProgress = false;
+
+    // Expose a flag so applyFilters can pause infinite-scroll during filter ops
+    (window as any).__setFiltering = (val: boolean) => { filteringInProgress = val; };
+
+    function buildCard(p: Record<string, string>): string {
+      const href = p.href ?? "";
+      const hasLink = href && href !== "null";
+      return `
+        <article
+          class="product-card group cursor-pointer overflow-hidden rounded bg-white shadow-sm transition-all hover:shadow-xl"
+          data-category="${p.filterCategory ?? p.category ?? ""}"
+          data-color="${p.filterColor ?? ""}"
+          data-structure="${p.filterStructure ?? ""}"
+          data-content="${p.filterContent ?? ""}"
+          data-design="${p.filterDesign ?? ""}"
+          data-finish="${p.filterFinish ?? ""}"
+          data-gsm="${p.filterGsm ?? "0"}"
+        >
+          <a href="${hasLink ? href : ""}" class="block${hasLink ? "" : " pointer-events-none"}">
+            <div class="relative h-64 overflow-hidden bg-slate-100">
+              <img
+                src="${p.image ?? ""}"
+                alt="${p.name ?? ""}"
+                title="${p.name ?? ""}"
+                width="400"
+                height="267"
+                loading="lazy"
+                decoding="async"
+                class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              />
+              <span class="absolute right-4 top-4 bg-[#041632] px-2 py-1 text-[10px] font-mono uppercase tracking-widest text-white">
+                ID: ${p.id}
+              </span>
+            </div>
+            <div class="p-6">
+              <div class="mb-2 flex items-start justify-between">
+                <p class="text-[10px] font-label font-bold uppercase tracking-widest text-[#775a19]">${p.category ?? ""}</p>
+              </div>
+              <h3 class="font-headline text-base leading-snug text-[#041632] line-clamp-3">${p.name ?? ""}</h3>
+              <div class="mt-4 flex gap-6 text-xs text-slate-500">
+                <div><span class="block font-label font-bold uppercase tracking-widest text-[10px]">Weight</span>${p.weight ?? ""}</div>
+                <div><span class="block font-label font-bold uppercase tracking-widest text-[10px]">Width</span>${p.width ?? ""}</div>
+              </div>
+              <div class="mt-5 border-t border-slate-100 pt-4">
+                <span class="inline-block w-full bg-[#041632] px-4 py-2.5 text-center text-[10px] font-label font-bold uppercase tracking-widest text-white transition hover:bg-[#775a19]">
+                  View Specifications
+                </span>
+              </div>
+            </div>
+          </a>
+        </article>`;
+    }
+
+    function loadBatch(): void {
+      const batch = deferred.slice(loaded, loaded + BATCH);
+      if (batch.length === 0) {
+        observer.disconnect();
+        sentinel.remove();
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      batch.forEach((p) => {
+        const div = document.createElement("div");
+        div.innerHTML = buildCard(p);
+        const card = div.firstElementChild as HTMLElement;
+        frag.appendChild(card);
+      });
+      grid.appendChild(frag);
+      loaded += batch.length;
+
+      // Re-run active filters on newly added cards
+      if (typeof (window as any).__applyFilters === "function") {
+        (window as any).__applyFilters();
+      }
+
+      if (loaded >= deferred.length) {
+        observer.disconnect();
+        sentinel.remove();
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !filteringInProgress) loadBatch();
+      },
+      { rootMargin: "300px" }
+    );
+    observer.observe(sentinel);
+  }
+</script>

@@ -1,16 +1,16 @@
 ---
 interface Props {
   total: number;
-  showingStart: number;
-  showingEnd: number;
+  showingStart?: number;
+  showingEnd?: number;
 }
 
-const { total, showingStart, showingEnd } = Astro.props;
+const { total } = Astro.props;
 ---
 
 <div class="mb-8 flex flex-col gap-4 rounded bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-  <span class="text-sm font-label text-slate-600">
-    Showing {showingStart}-{showingEnd} of {total} textiles
+  <span id="toolbar-count" data-total={total} class="text-sm font-label text-slate-600">
+    Showing all {total} textiles
   </span>
 
   <div class="flex w-full items-center justify-between gap-4 sm:w-auto">
