@@ -1,0 +1,5 @@
+{
+  // Suppress false-positive warnings for Tailwind v4 at-rules
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore"
+}
