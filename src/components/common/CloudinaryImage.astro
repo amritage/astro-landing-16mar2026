@@ -96,7 +96,6 @@ const fallbackSrcset = safeSrc && isCloudinary
       loading={loading}
       fetchpriority={fetchpriority}
       class={className}
-      decoding={loading === "eager" ? "sync" : "async"}
     />
   </picture>
 ) : (
