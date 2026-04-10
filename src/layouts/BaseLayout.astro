@@ -88,6 +88,7 @@ const schemaArray = schemaMarkup
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#041632" />
     <title>{title}</title>
 
     <!-- Preconnect to analytics origins for faster LCP -->
@@ -256,6 +257,6 @@ const schemaArray = schemaMarkup
     <Footer />
     <FloatingActions />
     <!-- Auto-upgrade any <img src="...cloudinary..."> to <picture> with AVIF/WebP srcset -->
-    <script src="../scripts/cloudinary-auto-picture.ts"></script>
+    <script src="../scripts/cloudinary-auto-picture.ts" defer></script>
   </body>
 </html>
