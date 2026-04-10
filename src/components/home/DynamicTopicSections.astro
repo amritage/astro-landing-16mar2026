@@ -123,14 +123,62 @@ const sections = await Promise.all(
 })}
 
 <script>
+  // Arrow buttons
   document.querySelectorAll('[data-carousel-prev], [data-carousel-next]').forEach((btn) => {
     const isPrev = btn.hasAttribute('data-carousel-prev');
     const trackId = btn.getAttribute(isPrev ? 'data-carousel-prev' : 'data-carousel-next');
-    const track = document.getElementById(trackId);
+    const track = document.getElementById(trackId) as HTMLElement | null;
     if (!track) return;
     btn.addEventListener('click', () => {
-      track.scrollBy({ left: isPrev ? -track.clientWidth : track.clientWidth, behavior: 'smooth' });
+      const card = track.querySelector('.c-card') as HTMLElement | null;
+      const cardWidth = card ? card.offsetWidth : track.clientWidth;
+      track.scrollBy({ left: isPrev ? -cardWidth : cardWidth, behavior: 'smooth' });
     });
+  });
+
+  // Fully manual touch handler — prevents native scroll momentum entirely
+  document.querySelectorAll('.c-track').forEach((el) => {
+    const track = el as HTMLElement;
+    let touchStartX = 0;
+    let startScrollLeft = 0;
+    let isDragging = false;
+
+    // On mobile, lock out the browser's scroll engine completely
+    if (window.innerWidth < 1024) {
+      track.style.overflowX = 'hidden';
+    }
+
+    track.addEventListener('touchstart', (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      startScrollLeft = track.scrollLeft;
+      isDragging = true;
+    }, { passive: true });
+
+    // passive: false lets us call preventDefault(), killing browser momentum scroll
+    track.addEventListener('touchmove', (e: TouchEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const dx = touchStartX - e.touches[0].clientX;
+      track.scrollLeft = startScrollLeft + dx;
+    }, { passive: false });
+
+    track.addEventListener('touchend', (e: TouchEvent) => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const card = track.querySelector('.c-card') as HTMLElement | null;
+      const cardWidth = card ? card.offsetWidth : track.clientWidth;
+      const delta = touchStartX - e.changedTouches[0].clientX;
+
+      if (Math.abs(delta) > cardWidth * 0.2) {
+        const targetScroll = startScrollLeft + (delta > 0 ? cardWidth : -cardWidth);
+        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      } else {
+        track.scrollTo({ left: startScrollLeft, behavior: 'smooth' });
+      }
+    }, { passive: true });
+
+    track.addEventListener('touchcancel', () => { isDragging = false; }, { passive: true });
   });
 </script>
 
@@ -167,8 +215,6 @@ const sections = await Promise.all(
     display: flex;
     gap: 0;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     scroll-behavior: smooth;
   }
@@ -179,7 +225,6 @@ const sections = await Promise.all(
 
   /* Cards */
   .c-card {
-    scroll-snap-align: start;
     flex-shrink: 0;
     width: 100%;
     padding: 0 0.5rem;
