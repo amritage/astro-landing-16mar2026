@@ -114,6 +114,8 @@ const {
   guideP2Html,
 } = Astro.props;
 
+const pageCount = products.length;
+
 // Build responsive hero srcset from the raw Cloudinary URL
 const heroSrc = hero.imageUrl
   ? getCloudinaryUrl(hero.imageUrl, "f_auto,q_auto,w_800,c_fill,g_auto")
@@ -222,6 +224,7 @@ const heroFallbackSrcset = hero.imageUrl
   currentPage={currentPage}
   totalPages={totalPages}
   total={total}
+  pageCount={pageCount}
   preSelectedCategory={preSelectedCategory}
 />
 

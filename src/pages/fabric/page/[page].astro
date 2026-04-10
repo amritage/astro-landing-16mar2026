@@ -10,10 +10,7 @@ import { fetchProductsPage } from "../../../data/products";
 import { getProducts, getFilterValues } from "../../../lib/api";
 
 export async function getStaticPaths() {
-  const first = await getProducts(1, 20);
-  return Array.from({ length: first.totalPages - 1 }, (_, i) => ({
-    params: { page: String(i + 2) },
-  }));
+  return [];
 }
 
 const pageNum = Number(Astro.params.page);

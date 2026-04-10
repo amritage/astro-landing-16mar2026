@@ -22,63 +22,24 @@ function isPreSelected(value: string): boolean {
 }
 ---
 
-<style>
-  .filter-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 transparent;
-  }
-  .filter-scroll::-webkit-scrollbar {
-    width: 4px;
-  }
-  .filter-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .filter-scroll::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
-    border-radius: 9999px;
-  }
-  .filter-scroll::-webkit-scrollbar-thumb:hover {
-    background-color: #94a3b8;
-  }
-  /* Outer panel scroll on desktop sticky sidebar */
-  .filter-panel-outer {
-    max-height: calc(100vh - 8rem);
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #e2e8f0 transparent;
-  }
-  .filter-panel-outer::-webkit-scrollbar {
-    width: 4px;
-  }
-  .filter-panel-outer::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .filter-panel-outer::-webkit-scrollbar-thumb {
-    background-color: #e2e8f0;
-    border-radius: 9999px;
-  }
-  .filter-panel-outer::-webkit-scrollbar-thumb:hover {
-    background-color: #cbd5e1;
-  }
-</style>
+<div class="space-y-3 sticky top-[90px] max-h-[calc(100vh-110px)] overflow-y-auto">
 
-<div class="filter-panel-outer">
-<div class="filter-panel space-y-6 pr-1">
-
-  <!-- Clear All — hidden until a filter is active -->
+  <!-- Clear All — medium, polished -->
   <button
     id="clear-filters"
-    class="hidden items-center gap-1.5 text-xs text-[#775a19] underline underline-offset-2 hover:text-[#041632] transition"
+    class="hidden items-center gap-2 rounded-md bg-slate-100 px-4 py-2 text-xs font-label font-semibold uppercase tracking-wider text-slate-600 transition hover:bg-[#041632] hover:text-white"
   >
-    <span class="material-symbols-outlined text-sm">filter_alt_off</span>
-    Clear filters
+    <span class="material-symbols-outlined" style="font-size:16px">filter_alt_off</span>
+    Clear all filters
   </button>
+
+  <div class="filter-panel space-y-6 pr-2">
 
   <!-- 1. Category -->
   {categories.length > 0 && (
     <div>
       <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Category</h3>
-      <ul class="max-h-48 overflow-y-auto space-y-2 pr-1 filter-scroll">
+      <ul class="space-y-2">
         {categories.map((item) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
@@ -95,7 +56,7 @@ function isPreSelected(value: string): boolean {
   {structures.length > 0 && (
     <div>
       <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Structure / Weave</h3>
-      <ul class="max-h-48 overflow-y-auto space-y-2 pr-1 filter-scroll">
+      <ul class="space-y-2">
         {structures.map((item) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
@@ -112,7 +73,7 @@ function isPreSelected(value: string): boolean {
   {contents.length > 0 && (
     <div>
       <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Content</h3>
-      <ul class="max-h-48 overflow-y-auto space-y-2 pr-1 filter-scroll">
+      <ul class="space-y-2">
         {contents.map((item) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
@@ -129,7 +90,7 @@ function isPreSelected(value: string): boolean {
   {designs.length > 0 && (
     <div>
       <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Design</h3>
-      <ul class="max-h-48 overflow-y-auto space-y-2 pr-1 filter-scroll">
+      <ul class="space-y-2">
         {designs.map((item) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
@@ -146,7 +107,7 @@ function isPreSelected(value: string): boolean {
   {colors.length > 0 && (
     <div>
       <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Color</h3>
-      <ul class="max-h-52 overflow-y-auto space-y-2 pr-1 filter-scroll">
+      <ul class="max-h-52 overflow-y-auto space-y-2 pr-1">
         {colors.map((c) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
@@ -167,7 +128,7 @@ function isPreSelected(value: string): boolean {
   {finishes.length > 0 && (
     <div>
       <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Core Finishes</h3>
-      <ul class="max-h-48 overflow-y-auto space-y-2 pr-1 filter-scroll">
+      <ul class="space-y-2">
         {finishes.map((item) => (
           <li>
             <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
@@ -191,8 +152,9 @@ function isPreSelected(value: string): boolean {
     </div>
   </div>
 
-</div>
-</div>
+  </div><!-- /filter-panel -->
+
+</div><!-- /outer wrapper -->
 
 <script>
   const active = new Map<string, Set<string>>();
@@ -209,19 +171,15 @@ function isPreSelected(value: string): boolean {
     btn.classList.toggle("flex", hasActiveFilters());
   }
 
-  function applyFilters(): void {
-    const grid = document.getElementById("product-grid");
-
-    // Tell infinite-scroll to pause while we're filtering
-    if (typeof (window as any).__setFiltering === "function") {
-      (window as any).__setFiltering(true);
+  function applyFilters(scrollToGrid = false): void {
+    if (scrollToGrid) {
+      const grid = document.getElementById("product-grid");
+      if (grid) {
+        const top = grid.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({ top, behavior: "instant" });
+      }
     }
 
-    // Capture scroll position and pin grid height BEFORE hiding cards
-    const scrollY = window.scrollY;
-    if (grid) grid.style.minHeight = grid.offsetHeight + "px";
-
-    let visible = 0;
     document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
       const passes =
         matchField("category", card.dataset.category ?? "") &&
@@ -232,34 +190,8 @@ function isPreSelected(value: string): boolean {
         matchField("finish",   card.dataset.finish ?? "") &&
         parseInt(card.dataset.gsm ?? "0", 10) <= maxGsm;
       card.style.display = passes ? "" : "none";
-      if (passes) visible++;
     });
-
-    // Update toolbar count
-    const countEl = document.getElementById("toolbar-count");
-    if (countEl) {
-      const total = parseInt(countEl.dataset.total ?? "0", 10);
-      countEl.textContent = hasActiveFilters()
-        ? `Showing ${visible} of ${total} textiles`
-        : `Showing all ${total} textiles`;
-    }
-
-    // Show/hide no-results message
-    const noResults = document.getElementById("no-results");
-    if (noResults) noResults.classList.toggle("hidden", visible > 0);
-
-    // After two frames: restore scroll, release min-height, re-enable infinite-scroll
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      window.scrollTo({ top: scrollY, behavior: "instant" });
-      if (grid) grid.style.minHeight = "";
-      if (typeof (window as any).__setFiltering === "function") {
-        (window as any).__setFiltering(false);
-      }
-    }));
   }
-
-  // Expose globally so infinite-scroll can call after injecting new cards
-  (window as any).__applyFilters = applyFilters;
 
   function matchField(field: string, value: string): boolean {
     const set = active.get(field);
@@ -307,17 +239,6 @@ function isPreSelected(value: string): boolean {
   }
 
   document.querySelectorAll<HTMLInputElement>(".filter-checkbox").forEach((cb) => {
-    const label = cb.closest("label");
-
-    // Intercept the label click: prevent the browser's default focus+scroll,
-    // manually toggle the checkbox, then fire change ourselves.
-    label?.addEventListener("click", (e) => {
-      e.preventDefault();
-      cb.checked = !cb.checked;
-      cb.focus({ preventScroll: true });
-      cb.dispatchEvent(new Event("change", { bubbles: true }));
-    });
-
     cb.addEventListener("change", () => {
       const field = cb.dataset.filterField ?? "";
       const val   = cb.dataset.filterValue ?? "";
@@ -325,12 +246,12 @@ function isPreSelected(value: string): boolean {
       const set = active.get(field)!;
       cb.checked ? set.add(val) : set.delete(val);
 
-      const dot = label?.querySelector<HTMLElement>(".color-dot");
+      const dot = cb.closest("label")?.querySelector<HTMLElement>(".color-dot");
       if (dot) {
         dot.style.outline = cb.checked ? "2px solid #775a19" : "";
         dot.style.outlineOffset = cb.checked ? "2px" : "";
       }
-      applyFilters();
+      applyFilters(true);
       updateClearBtn();
     });
   });
@@ -341,7 +262,7 @@ function isPreSelected(value: string): boolean {
   gsmRange?.addEventListener("input", () => {
     maxGsm = parseInt(gsmRange.value, 10);
     if (gsmLabel) gsmLabel.textContent = `${maxGsm} GSM`;
-    applyFilters();
+    applyFilters(true);
     updateClearBtn();
   });
 
@@ -355,7 +276,25 @@ function isPreSelected(value: string): boolean {
     maxGsm = 500;
     if (gsmRange) gsmRange.value = "500";
     if (gsmLabel) gsmLabel.textContent = "500 GSM";
-    applyFilters();
+    applyFilters(true);
     updateClearBtn();
   });
 </script>
+
+<style>
+  .filter-panel::-webkit-scrollbar {
+    width: 3px;
+  }
+  .filter-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .filter-panel::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 999px;
+  }
+  /* Firefox */
+  .filter-panel {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+</style>

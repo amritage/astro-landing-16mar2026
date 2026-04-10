@@ -305,13 +305,13 @@ export async function fetchProducts(): Promise<Product[]> {
 }
 
 export async function fetchProductsPage(page: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
-  const [result, company] = await Promise.all([getProducts(page, 20), getCompanyInfo("AGE")]);
+  const [result, company] = await Promise.all([getProducts(1, 1000), getCompanyInfo("AGE")]);
   const wa = company?.whatsappNumber ?? undefined;
   const ph = company?.phone1 ?? undefined;
   return {
     products: result.data.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph)),
     total: result.total,
-    totalPages: result.totalPages,
-    currentPage: result.page,
+    totalPages: 1,
+    currentPage: 1,
   };
 }

@@ -15,6 +15,9 @@
  */
 
 import type { AstroIntegration } from "astro";
+import { readFile, writeFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 
 const UPLOAD_MARKER = "/upload/";
 const DEFAULT_WIDTHS = [320, 480, 640, 800, 1200];
@@ -100,9 +103,6 @@ export function cloudinaryPicture(): AstroIntegration {
     name: "cloudinary-picture",
     hooks: {
       "astro:build:done": async ({ dir, pages }) => {
-        const { readFile, writeFile } = await import("node:fs/promises");
-        const { fileURLToPath } = await import("node:url");
-        const { join } = await import("node:path");
         const dirPath = fileURLToPath(dir);
 
         await Promise.all(
