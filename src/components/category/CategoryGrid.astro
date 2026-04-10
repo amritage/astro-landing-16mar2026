@@ -94,79 +94,102 @@ const trackId = `cg-track-${Math.random().toString(36).slice(2, 7)}`;
   </div>
 </section>
 
-<script>
-  // Arrow buttons: scroll exactly one card width at a time
-  document.querySelectorAll('[data-cg-prev], [data-cg-next]').forEach((btn) => {
+<script lang="ts">
+  // ── Shared: scroll track to an exact card index ─────────────────────────────
+  function getCardWidth(track: HTMLElement): number {
+    return (track.querySelector('.cg-card') as HTMLElement | null)?.offsetWidth
+      ?? track.clientWidth;
+  }
+
+  function scrollToIndex(track: HTMLElement, index: number): void {
+    const cardWidth = getCardWidth(track);
+    const maxIndex = track.querySelectorAll('.cg-card').length - 1;
+    const clamped = Math.max(0, Math.min(index, maxIndex));
+    track.scrollTo({ left: clamped * cardWidth, behavior: 'smooth' });
+  }
+
+  function currentIndex(track: HTMLElement): number {
+    return Math.round(track.scrollLeft / getCardWidth(track));
+  }
+
+  // ── Arrow buttons ────────────────────────────────────────────────────────────
+  document.querySelectorAll<HTMLElement>('[data-cg-prev], [data-cg-next]').forEach((btn) => {
     const isPrev = btn.hasAttribute('data-cg-prev');
-    const trackId = btn.getAttribute(isPrev ? 'data-cg-prev' : 'data-cg-next');
-    const track = document.getElementById(trackId) as HTMLElement | null;
+    const trackId = btn.getAttribute(isPrev ? 'data-cg-prev' : 'data-cg-next')!;
+    const track = document.getElementById(trackId);
     if (!track) return;
     btn.addEventListener('click', () => {
-      const card = track.querySelector('.cg-card') as HTMLElement | null;
-      const cardWidth = card ? card.offsetWidth : track.clientWidth;
-      track.scrollBy({ left: isPrev ? -cardWidth : cardWidth, behavior: 'smooth' });
+      scrollToIndex(track, currentIndex(track) + (isPrev ? -1 : 1));
     });
   });
 
-  // Fully manual touch handler — prevents native scroll momentum entirely
-  document.querySelectorAll('.cg-track').forEach((el) => {
-    const track = el as HTMLElement;
-    let touchStartX = 0;
-    let startScrollLeft = 0;
-    let isDragging = false;
+  // ── One-card-at-a-time touch swipe ──────────────────────────────────────────
+  // Strategy: disable CSS scroll-snap and overflow on touch so the browser
+  // never gets a chance to apply momentum. We move scrollLeft manually during
+  // drag, then snap to the nearest card on touchend — exactly one card at a time.
 
-    // On mobile, lock out the browser's scroll engine completely
-    if (window.innerWidth < 1024) {
-      track.style.overflowX = 'hidden';
+  document.querySelectorAll<HTMLElement>('.cg-track').forEach((track) => {
+    // Only wire up on touch-capable devices
+    if (window.matchMedia('(hover: none)').matches || window.innerWidth < 1024) {
+      initTouchCarousel(track);
     }
-
-    track.addEventListener('touchstart', (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
-      startScrollLeft = track.scrollLeft;
-      isDragging = true;
-    }, { passive: true });
-
-    // passive: false is required so we can call preventDefault()
-    // This kills the browser's native scroll and momentum engine for this gesture
-    track.addEventListener('touchmove', (e: TouchEvent) => {
-      if (!isDragging) return;
-      e.preventDefault(); // stops browser momentum scroll from ever starting
-      const dx = touchStartX - e.touches[0].clientX;
-      track.scrollLeft = startScrollLeft + dx; // we own every pixel
-    }, { passive: false });
-
-    track.addEventListener('touchend', (e: TouchEvent) => {
-      if (!isDragging) return;
-      isDragging = false;
-
-      const card = track.querySelector('.cg-card') as HTMLElement | null;
-      const cardWidth = card ? card.offsetWidth : track.clientWidth;
-      const delta = touchStartX - e.changedTouches[0].clientX;
-
-      if (Math.abs(delta) > cardWidth * 0.2) {
-        // Intentional swipe — snap to next/prev card
-        const targetScroll = startScrollLeft + (delta > 0 ? cardWidth : -cardWidth);
-        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
-      } else {
-        // Tap or tiny drag — snap back
-        track.scrollTo({ left: startScrollLeft, behavior: 'smooth' });
-      }
-    }, { passive: true });
-
-    track.addEventListener('touchcancel', () => { isDragging = false; }, { passive: true });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1024) initTouchCarousel(track);
+    }, { once: true });
   });
 
-  // Hide arrows when all cards fit in view
-  function updateArrowVisibility() {
-    document.querySelectorAll('.cg-outer').forEach((outer) => {
-      const track = outer.querySelector('.cg-track') as HTMLElement | null;
+  function initTouchCarousel(track: HTMLElement): void {
+    // Disable native scroll snap & momentum — we own the scrolling now
+    track.style.overflowX = 'hidden';
+    track.style.scrollSnapType = 'none';
+    (track.style as any).webkitOverflowScrolling = 'auto';
+
+    let startX = 0;
+    let startScrollLeft = 0;
+    let rafId = 0;
+
+    track.addEventListener('touchstart', (e: TouchEvent) => {
+      cancelAnimationFrame(rafId);
+      startX = e.touches[0].clientX;
+      startScrollLeft = track.scrollLeft;
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e: TouchEvent) => {
+      // Prevent browser from doing ANY native scrolling
+      e.preventDefault();
+      const dx = startX - e.touches[0].clientX;
+      track.scrollLeft = startScrollLeft + dx;
+    }, { passive: false }); // passive:false so e.preventDefault() works
+
+    track.addEventListener('touchend', (e: TouchEvent) => {
+      const dx = startX - e.changedTouches[0].clientX;
+      const cardWidth = getCardWidth(track);
+      const threshold = cardWidth * 0.15; // 15% of card width = intentional swipe
+
+      const baseIndex = Math.round(startScrollLeft / cardWidth);
+      let targetIndex: number;
+
+      if (Math.abs(dx) < threshold) {
+        targetIndex = baseIndex; // tiny movement — snap back
+      } else {
+        targetIndex = baseIndex + (dx > 0 ? 1 : -1); // exactly one card
+      }
+
+      scrollToIndex(track, targetIndex);
+    }, { passive: true });
+  }
+
+  // ── Hide arrows when all cards fit in view ───────────────────────────────────
+  function updateArrowVisibility(): void {
+    document.querySelectorAll<HTMLElement>('.cg-outer').forEach((outer) => {
+      const track = outer.querySelector<HTMLElement>('.cg-track');
       if (!track) return;
       const cards = track.querySelectorAll('.cg-card');
       const w = window.innerWidth;
       const visibleCols = w >= 1024 ? 4 : w >= 640 ? 2 : 1;
       const shouldHide = cards.length <= visibleCols;
-      outer.querySelectorAll('.cg-arrow').forEach((arrow) => {
-        (arrow as HTMLElement).style.display = shouldHide ? 'none' : '';
+      outer.querySelectorAll<HTMLElement>('.cg-arrow').forEach((arrow) => {
+        arrow.style.display = shouldHide ? 'none' : '';
       });
     });
   }
@@ -199,6 +222,8 @@ const trackId = `cg-track-${Math.random().toString(36).slice(2, 7)}`;
     .cg-track { overflow: hidden; }
   }
   .cg-card {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     flex-shrink: 0;
     width: 100%;
     padding: 0 0.5rem;
@@ -242,5 +267,4 @@ const trackId = `cg-track-${Math.random().toString(36).slice(2, 7)}`;
   .cg-arrow svg { display: block; flex-shrink: 0; }
   .cg-dots { display: none; }
 </style>
-
 

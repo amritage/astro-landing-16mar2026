@@ -19,6 +19,31 @@ const [seo, company] = await Promise.all([
 ]);
 
 const defaultOgImage = company?.defaultOgImage ?? undefined;
+
+// Build LCP preload for the hero image
+const heroImageUrl = seo?.image1CloudUrl ?? null;
+function buildCloudinaryUrl(url: string, transforms: string): string {
+  const uploadIdx = url.indexOf("/upload/");
+  if (uploadIdx === -1) return url;
+  const base = url.slice(0, uploadIdx + "/upload/".length);
+  const rest = url.slice(base.length);
+  const segments = rest.split("/");
+  let i = 0;
+  while (i < segments.length) {
+    const seg = segments[i];
+    if (/^v\d+$/.test(seg)) break;
+    if (seg.includes(",") || /^[a-z]_/.test(seg)) { i++; continue; }
+    break;
+  }
+  return `${base}${transforms}/${segments.slice(i).join("/")}`;
+}
+const heroWidths = [480, 640, 800, 1024];
+const heroPreloadImage = heroImageUrl
+  ? buildCloudinaryUrl(heroImageUrl, "f_avif,q_auto,c_fill,g_auto,w_1024,h_1280")
+  : undefined;
+const heroPreloadSrcset = heroImageUrl
+  ? heroWidths.map((w) => `${buildCloudinaryUrl(heroImageUrl, `f_avif,q_auto,c_fill,g_auto,w_${w},h_${Math.round(w * 1.25)}`)} ${w}w`).join(", ")
+  : undefined;
 ---
 
 <BaseLayout
@@ -28,6 +53,8 @@ const defaultOgImage = company?.defaultOgImage ?? undefined;
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "website"}
   ogImage={defaultOgImage}
+  preloadImage={heroPreloadImage}
+  preloadImageSrcset={heroPreloadSrcset}
 >
   <HeroSection />
   <TrustSignals />
