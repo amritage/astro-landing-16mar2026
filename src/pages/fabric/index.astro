@@ -2,18 +2,22 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
-import { fetchProductsPage, getCloudinaryUrl } from "../../data/products";
+import { fetchProducts, getCloudinaryUrl } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
 import { SITE_BASE } from "../../lib/constants";
 
 const FABRIC_HERO_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg";
 
-const [{ products: rawProducts, total, totalPages }, filters, seo, faqData] = await Promise.all([
-  fetchProductsPage(1),
+const [allProducts, filters, seo, faqData] = await Promise.all([
+  fetchProducts(),
   getFilterValues(),
   getTopicPageBySlug("fabric"),
   getWebsiteFAQ(),
 ]);
+
+const total = allProducts.length;
+const totalPages = 1;
+const rawProducts = allProducts;
 
 const products = rawProducts.map((p) => ({
   id: p.id,
