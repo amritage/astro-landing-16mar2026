@@ -131,8 +131,8 @@ const INITIAL_BATCH = 12;
 
   // ── Empty state ──────────────────────────────────────────────────────────────
   function updateEmptyState(): void {
-    const cards = document.querySelectorAll<HTMLElement>(".product-card");
-    const visible = [...cards].some((c) => c.style.display !== "none" && c.closest<HTMLElement>(".product-card-wrapper")?.style.display !== "none");
+    const wrappers = document.querySelectorAll<HTMLElement>(".product-card-wrapper");
+    const visible = [...wrappers].some((w) => w.style.display !== "none");
     const noResults = document.getElementById("no-results");
     if (!noResults) return;
     noResults.classList.toggle("hidden", visible);
@@ -140,7 +140,7 @@ const INITIAL_BATCH = 12;
   }
 
   const observer = new MutationObserver(updateEmptyState);
-  document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
-    observer.observe(card, { attributes: true, attributeFilter: ["style"] });
+  document.querySelectorAll<HTMLElement>(".product-card-wrapper").forEach((wrapper) => {
+    observer.observe(wrapper, { attributes: true, attributeFilter: ["style"] });
   });
 </script>

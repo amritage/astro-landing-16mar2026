@@ -195,7 +195,13 @@ function isPreSelected(value: string): boolean {
         matchField("design",   card.dataset.design ?? "") &&
         matchField("finish",   card.dataset.finish ?? "") &&
         parseInt(card.dataset.gsm ?? "0", 10) <= maxGsm;
-      card.style.display = passes ? "" : "none";
+      // Hide/show the wrapper so empty grid cells don't create gaps
+      const wrapper = card.closest<HTMLElement>(".product-card-wrapper");
+      if (wrapper) {
+        wrapper.style.display = passes ? "" : "none";
+      } else {
+        card.style.display = passes ? "" : "none";
+      }
     });
   }
 
