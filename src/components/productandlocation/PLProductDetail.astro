@@ -73,7 +73,7 @@ const specs = [
           {slides.map((slide, i) => (
             <div class:list={["pl-slide w-full h-full absolute inset-0 transition-opacity duration-300", i === 0 ? "opacity-100" : "opacity-0 pointer-events-none"]} data-slide={i}>
               {slide.type === "image" && (
-                <img src={slide.src} alt={slide.alt} class="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
+                <img src={slide.src} alt={slide.alt} title={slide.alt} width="800" height="1000" class="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
               )}
               {slide.type === "youtube" && (
                 <iframe src={slide.embedSrc} class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" title={slide.alt} />
@@ -95,11 +95,11 @@ const specs = [
                 aria-label={`View slide ${i + 1}`}
               >
                 {slide.type === "image" && (
-                  <img src={slide.src} alt={slide.alt} class="w-full h-full object-cover" loading="lazy" />
+                  <img src={slide.src} alt={slide.alt} title={slide.alt} width="80" height="80" class="w-full h-full object-cover" loading="lazy" />
                 )}
                 {slide.type === "youtube" && (
                   <div class="relative w-full h-full bg-[#e8e7ed]">
-                    <img src={slide.thumbSrc} alt={slide.alt} class="w-full h-full object-cover" loading="lazy" />
+                    <img src={slide.thumbSrc} alt={slide.alt} title={slide.alt} width="80" height="80" class="w-full h-full object-cover" loading="lazy" />
                     <div class="absolute inset-0 flex items-center justify-center bg-black/20">
                       <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">play_circle</span>
                     </div>

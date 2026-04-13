@@ -16,7 +16,7 @@ const eyebrow = data.keywords?.length
 
 <section class="relative min-h-[560px] md:min-h-[870px] flex items-center overflow-hidden">
   <div class="absolute inset-0 z-0">
-    {heroImg && <img src={heroImg} alt={heroAlt} class="w-full h-full object-cover grayscale-[0.3] contrast-[1.1]" loading="eager" fetchpriority="high" />}
+    {heroImg && <img src={heroImg} alt={heroAlt} title={headline} width="1600" height="900" class="w-full h-full object-cover grayscale-[0.3] contrast-[1.1]" loading="eager" fetchpriority="high" />}
     <div class="absolute inset-0 bg-gradient-to-r from-[#001a40]/90 to-[#001a40]/20"></div>
   </div>
   <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full py-16 md:py-24">

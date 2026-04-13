@@ -114,14 +114,23 @@ const INITIAL_BATCH = 12;
   // When filters are cleared, re-hide wrappers beyond the revealed count.
   function onFilterStateChange(hasActiveFilters: boolean): void {
     if (hasActiveFilters) {
-      // Reveal all so filter JS can see every card
+      // Reveal all so filter JS can see every card — also remove the attribute
+      // so the filter's own display:none isn't overridden when filters are cleared
       document.querySelectorAll<HTMLElement>('.product-card-wrapper[data-scroll-hidden="true"]').forEach((w) => {
+        w.removeAttribute("data-scroll-hidden");
         w.style.display = "";
       });
     } else {
-      // Re-hide scroll-hidden wrappers (filter cleared, back to scroll mode)
-      document.querySelectorAll<HTMLElement>('.product-card-wrapper[data-scroll-hidden="true"]').forEach((w) => {
-        w.style.display = "none";
+      // Filters cleared — re-hide wrappers beyond the revealed count
+      let count = 0;
+      document.querySelectorAll<HTMLElement>(".product-card-wrapper").forEach((w) => {
+        count++;
+        if (count > revealedCount) {
+          w.setAttribute("data-scroll-hidden", "true");
+          w.style.display = "none";
+        } else {
+          w.style.display = "";
+        }
       });
     }
   }
@@ -131,7 +140,8 @@ const INITIAL_BATCH = 12;
 
   // ── Empty state ──────────────────────────────────────────────────────────────
   function updateEmptyState(): void {
-    const wrappers = document.querySelectorAll<HTMLElement>(".product-card-wrapper");
+    // Only count wrappers that are not scroll-hidden (i.e. actively hidden by the filter)
+    const wrappers = document.querySelectorAll<HTMLElement>(".product-card-wrapper:not([data-scroll-hidden])");
     const visible = [...wrappers].some((w) => w.style.display !== "none");
     const noResults = document.getElementById("no-results");
     if (!noResults) return;

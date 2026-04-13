@@ -41,7 +41,7 @@ const pageTitle =
   (product && location ? `${product.productTitle || product.name} in ${location.name}` : null) ||
   "Product & Location";
 
-const metaTitle = `${pageTitle} | Amrita Global Enterprises`;
+const metaTitle = `${pageTitle}`;
 
 const metaDescription =
   stripHtml(data?.fulldescription).slice(0, 155) ||
@@ -52,11 +52,6 @@ const metaDescription =
 
 const keywords = [
   ...(data?.keywords ?? []),
-  ...(product?.keywords ?? []),
-  ...(product && location ? [
-    `${product.name} in ${location.name}`,
-    `${product.category || "fabric"} supplier in ${location.name}`,
-  ] : []),
 ];
 
 const ogImage =

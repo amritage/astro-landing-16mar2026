@@ -24,7 +24,7 @@ const body = location.description && location.description.trim()
       <!-- Image -->
       <div class="lg:col-span-7 relative">
         {locationImg
-          ? <img src={locationImg} alt={locationAlt} class="w-full aspect-video object-cover rounded-lg shadow-xl" loading="lazy" />
+          ? <img src={locationImg} alt={locationAlt} title={locationAlt} width="1280" height="720" class="w-full aspect-video object-cover rounded-lg shadow-xl" loading="lazy" />
           : <div class="w-full aspect-video bg-[#e8e7ed] rounded-lg flex items-center justify-center">
               <span class="material-symbols-outlined text-6xl text-[#747781]">location_city</span>
             </div>
