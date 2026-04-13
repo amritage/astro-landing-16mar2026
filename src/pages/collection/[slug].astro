@@ -30,7 +30,10 @@ const [rawProducts, filters] = await Promise.all([
 
 // Map to FabricProduct shape (skip pending slugs)
 const products: FabricProduct[] = rawProducts
-  .filter((raw) => (raw.productslug ?? "").trim().toLowerCase() !== "pending")
+  .filter((raw) => {
+    const s = (raw.productslug ?? "").trim().toLowerCase();
+    return s.length > 0 && s !== "pending";
+  })
   .map((raw) => {
   const p = mapApiProduct(raw);
   return {

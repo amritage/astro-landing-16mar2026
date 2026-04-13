@@ -180,6 +180,12 @@ function isPreSelected(value: string): boolean {
       }
     }
 
+    // Notify grid about filter state so it can reveal/hide scroll-batched wrappers
+    const filterActive = hasActiveFilters();
+    if (typeof (window as any).__onFilterStateChange === "function") {
+      (window as any).__onFilterStateChange(filterActive);
+    }
+
     document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
       const passes =
         matchField("category", card.dataset.category ?? "") &&

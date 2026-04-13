@@ -4,6 +4,7 @@ import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProductsPage, getCloudinaryUrl } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
+import { SITE_BASE } from "../../lib/constants";
 
 const FABRIC_HERO_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg";
 
@@ -35,23 +36,22 @@ const products = rawProducts.map((p) => ({
 
 const heroImageUrl = seo?.image1CloudUrl ?? null;
 
-const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
-
+// F2 FIX: use SITE_BASE directly — no local alias needed
 // ── JSON-LD: ItemList schema (product snippets in Google) ──────────────────────
 const itemListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
   name: "Fabric Catalog — Amrita Global Enterprises",
-  url: `${siteBase}/fabric`,
+  url: `${SITE_BASE}/fabric`,
   numberOfItems: total,
   itemListElement: rawProducts.map((p, index) => ({
     "@type": "ListItem",
     position: index + 1,
     item: {
       "@type": "Product",
-      "@id": `${siteBase}/fabric/${p.slug}`,
+      "@id": `${SITE_BASE}/fabric/${p.slug}`,
       name: p.name,
-      url: `${siteBase}/fabric/${p.slug}`,
+      url: `${SITE_BASE}/fabric/${p.slug}`,
       image: p.image1 || p.image || undefined,
       description: p.shortDesc || undefined,
       sku: p.slug,
@@ -70,8 +70,8 @@ const itemListSchema = {
       } : {}),
       offers: {
         "@type": "Offer",
-        "@id": `${siteBase}/fabric/${p.slug}#offer`,
-        url: `${siteBase}/fabric/${p.slug}`,
+        "@id": `${SITE_BASE}/fabric/${p.slug}#offer`,
+        url: `${SITE_BASE}/fabric/${p.slug}`,
         priceCurrency: "INR",
         price: 0,
         availability: "https://schema.org/InStock",

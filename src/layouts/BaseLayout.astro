@@ -6,6 +6,7 @@ import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import { getSiteSettings, getCompanyInfo, getAuthors } from "../lib/api";
+import { SITE_BASE } from "../lib/constants";
 
 interface Props {
   title?: string;
@@ -57,7 +58,7 @@ const [site, company, authors] = await Promise.all([
 const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
 const authorName = authors[0]?.name ?? companyName;
 
-const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const siteBase = SITE_BASE;
 const resolvedCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDesc = ogDescription ?? description;
@@ -175,7 +176,7 @@ const schemaArray = schemaMarkup
     ))}
 
     <!-- Local Business / Organization Schema -->
-    <LocalBusinessSchema />
+    <LocalBusinessSchema company={company} site={site} />
 
     <!-- Breadcrumb Schema (skip on homepage) -->
     {breadcrumbs && breadcrumbs.length > 0 && (

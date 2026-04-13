@@ -4,6 +4,7 @@ import { getTopicPageBySlug, getDynamicTopicPages, getCategoryTopicPages, getCom
 import { fetchBlogPosts } from "../lib/blog";
 import { fetchProducts } from "../data/products";
 import CloudinaryImage from "../components/common/CloudinaryImage.astro";
+import { WA_FALLBACK } from "../lib/constants";
 
 const seo = await getTopicPageBySlug("sitemap");
 
@@ -15,7 +16,7 @@ const [collections, categoryPages, blogPosts, products, company] = await Promise
   getCompanyInfo("AGE"),
 ]);
 
-const whatsappHref = buildWaLink(company?.whatsappNumber, "https://wa.me/+919925155141");
+const whatsappHref = buildWaLink(company?.whatsappNumber, WA_FALLBACK);
 
 const realIndustries = [
   { label: "Apparel", href: "/industry/apparel" },

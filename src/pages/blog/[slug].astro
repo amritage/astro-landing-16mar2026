@@ -5,6 +5,7 @@ import BlogDynamicPostHero from "../../components/blog/BlogDynamicPostHero.astro
 import BlogDynamicPostBody from "../../components/blog/BlogDynamicPostBody.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getCompanyInfo } from "../../lib/api";
+import { SITE_BASE } from "../../lib/constants";
 
 export async function getStaticPaths() {
   const posts = await fetchBlogPosts();
@@ -17,8 +18,8 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const company = await getCompanyInfo("AGE");
 
-const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
-const canonicalUrl = `${siteBase}/blog/${post.slug}`;
+// F2 FIX: use SITE_BASE directly — no local alias needed
+const canonicalUrl = `${SITE_BASE}/blog/${post.slug}`;
 const heroImage = getPostImage(post);
 
 // JSON-LD: Article schema
@@ -42,14 +43,14 @@ const articleSchema = {
   author: {
     "@type": "Organization",
     name: company?.legalName ?? "Amrita Global Enterprises",
-    url: siteBase,
+    url: SITE_BASE,
   },
   publisher: {
     "@type": "Organization",
     name: company?.legalName ?? "Amrita Global Enterprises",
     logo: {
       "@type": "ImageObject",
-      url: company?.logoUrl ? decodeURIComponent(company.logoUrl) : `${siteBase}/favicon.svg`,
+      url: company?.logoUrl ? decodeURIComponent(company.logoUrl) : `${SITE_BASE}/favicon.svg`,
     },
   },
   mainEntityOfPage: {
@@ -85,7 +86,7 @@ const schemas = [articleSchema, faqSchema].filter(Boolean);
   description={post.excerpt ?? undefined}
   canonical={canonicalUrl}
   keywords={post.tags?.length ? post.tags : undefined}
-  robots={post.robots ?? "index,follow"}
+  noindex={post.robots ? post.robots.includes("noindex") : false}
   ogTitle={post.title}
   ogDescription={post.excerpt ?? undefined}
   ogImage={heroImage}

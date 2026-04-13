@@ -1,4 +1,10 @@
-import { getProducts, getAllProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
+import { getAllProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
+// C1 FIX: Cloudinary utils now live in lib/cloudinary — import from there, no local copies
+// Re-export so existing consumers of data/products still work without import changes
+export { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
+import { getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
+// C4 FIX: fallback constants from single source of truth
+import { WA_FALLBACK, PHONE_FALLBACK } from "../lib/constants";
 
 // ── Type used by all product components ───────────────────────────────────────
 
@@ -68,16 +74,24 @@ export interface Product {
 // ── Map API shape → Product ────────────────────────────────────────────────────
 
 function parseSuitability(raw: string[]): { name: string; score: number; desc: string }[] {
-  return raw.map((s) => {
-    // format: "Menswear | Shirt | 85%"
-    const parts = s.split("|").map((p) => p.trim());
-    const score = parseInt(parts[2] ?? "0", 10);
-    return {
-      name: `${parts[0]} ${parts[1]}`,
-      score: isNaN(score) ? 0 : score,
-      desc: `Suitable for ${parts[0]} ${parts[1]}`,
-    };
-  });
+  // B5 FIX: guard against malformed entries like "Menswear" (missing parts)
+  // which previously produced names like "Menswear undefined".
+  return raw
+    .map((s) => {
+      // expected format: "Menswear | Shirt | 85%"
+      const parts = s.split("|").map((p) => p.trim());
+      const category = parts[0] ?? "";
+      const type = parts[1] ?? "";           // was blindly used → "undefined" when missing
+      const scoreRaw = parts[2] ?? "0";
+      const score = parseInt(scoreRaw, 10);
+      const name = type ? `${category} ${type}` : category;
+      return {
+        name,
+        score: isNaN(score) ? 0 : score,
+        desc: `Suitable for ${name}`,
+      };
+    })
+    .filter((item) => item.name.length > 0); // drop completely empty entries
 }
 
 function buildFaq(p: ApiProduct): { q: string; a: string }[] {
@@ -94,15 +108,8 @@ function buildFaq(p: ApiProduct): { q: string; a: string }[] {
     .map(([q, a]) => ({ q: q!, a: a! }));
 }
 
-/**
- * Inject Cloudinary transforms into any Cloudinary URL, stripping any existing transforms first.
- * Safe to call on non-Cloudinary URLs — returns them unchanged.
- * Example: getCloudinaryUrl(url, "f_auto,q_auto,w_400,c_fill,g_auto")
- */
-export function getCloudinaryUrl(url: string | null | undefined, transforms: string): string {
-  if (!url || !url.includes("/upload/")) return url ?? "";
-  return rebuildCloudinaryUrl(url, transforms);
-}
+
+
 
 /** Strip HTML tags and return plain text, or null if nothing meaningful remains */
 function stripHtml(html: string | null | undefined): string {
@@ -136,79 +143,16 @@ function sanitizeSecondaryImage(url: string | null | undefined): string | null {
   return url;
 }
 
-/**
- * Strip any existing Cloudinary transforms from a URL and inject new ones.
- * Works with or without a version segment (v1234...).
- * Handles both comma-separated single segments and any known single-param prefixes.
- */
-export function rebuildCloudinaryUrl(
-  url: string,
-  transforms: string,
-): string {
-  const uploadIdx = url.indexOf("/upload/");
-  if (uploadIdx === -1) return url;
 
-  const base = url.slice(0, uploadIdx + "/upload/".length);
-  const rest = url.slice(base.length);
 
-  // Split on "/" but keep version + public ID intact.
-  // A transform segment either contains "," or matches a known Cloudinary param prefix.
-  // We stop as soon as we hit a version segment (v\d+) or a plain public-ID segment.
-  const TRANSFORM_RE = /^[a-z]_/; // any lowercase letter followed by underscore
-  const VERSION_RE = /^v\d+$/;
 
-  const segments = rest.split("/");
-  let i = 0;
-  while (i < segments.length) {
-    const seg = segments[i];
-    if (VERSION_RE.test(seg)) break;           // version — stop here
-    if (seg.includes(",") || TRANSFORM_RE.test(seg)) { i++; continue; } // transform — skip
-    break;                                      // public ID — stop
-  }
 
-  const publicPart = segments.slice(i).join("/");
-  return `${base}${transforms}/${publicPart}`;
-}
 
-/**
- * Build a srcset string for a Cloudinary image.
- * @param sourceUrl  Any Cloudinary URL (existing transforms are stripped and replaced)
- * @param widths     Array of pixel widths for the srcset descriptors
- * @param aspectW    Slot aspect ratio width  (e.g. 4 for 4:5)
- * @param aspectH    Slot aspect ratio height (e.g. 5 for 4:5)
- * @param crop       Cloudinary crop mode: "fill" (cards) | "limit" (editorial)
- */
-export function buildCloudinarySrcset(
-  sourceUrl: string | null | undefined,
-  widths: number[],
-  aspectW = 1,
-  aspectH = 1,
-  crop: "fill" | "limit" = "limit",
-): string {
-  if (!sourceUrl) return "";
-  return widths
-    .map((w) => {
-      const h = Math.round((w * aspectH) / aspectW);
-      const t =
-        crop === "fill"
-          ? `f_auto,q_auto,c_fill,g_auto,w_${w},h_${h}`
-          : `f_auto,q_auto,c_limit,w_${w}`;
-      return `${rebuildCloudinaryUrl(sourceUrl, t)} ${w}w`;
-    })
-    .join(", ");
-}
-
-/** Build a srcset string from [url, width] pairs, skipping nulls (legacy helper) */
-function buildSrcset(entries: [string | null, number][]): string {
-  return entries
-    .filter((e): e is [string, number] => !!e[0])
-    .map(([url, w]) => `${url} ${w}w`)
-    .join(", ");
-}
 
 export function mapApiProduct(p: ApiProduct, whatsappNumber?: string, phone1?: string): Product {
-  const waNumber = buildWaLink(whatsappNumber, "https://wa.me/+919925155141");
-  const phoneHref = buildPhoneHref(phone1, "tel:+919925155141");
+  // C4 FIX: fallbacks come from constants, not hardcoded strings
+  const waNumber = buildWaLink(whatsappNumber, WA_FALLBACK);
+  const phoneHref = buildPhoneHref(phone1, PHONE_FALLBACK);
   return {
     id: p.id,
     slug: p.productslug,
@@ -304,13 +248,14 @@ export async function fetchProducts(): Promise<Product[]> {
   return raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
 }
 
-export async function fetchProductsPage(page: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
-  const [result, company] = await Promise.all([getProducts(1, 1000), getCompanyInfo("AGE")]);
+export async function fetchProductsPage(_page?: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
+  const [raw, company] = await Promise.all([getAllProducts(), getCompanyInfo("AGE")]);
   const wa = company?.whatsappNumber ?? undefined;
   const ph = company?.phone1 ?? undefined;
+  const products = raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
   return {
-    products: result.data.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph)),
-    total: result.total,
+    products,
+    total: products.length,
     totalPages: 1,
     currentPage: 1,
   };

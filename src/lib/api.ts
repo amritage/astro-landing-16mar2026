@@ -1,7 +1,5 @@
-const BASE_URL =
-  import.meta.env.API_BASE_URL ??
-  process.env.API_BASE_URL ??
-  "https://espobackend.vercel.app";
+// C3 FIX: single source of truth — no more hardcoded URL here
+import { API_BASE as BASE_URL } from "./constants";
 
 // ── Raw API shape ──────────────────────────────────────────────────────────────
 
@@ -99,7 +97,9 @@ export interface ProductsPage {
 // ── Fetch helpers ──────────────────────────────────────────────────────────────
 
 export async function getProducts(page = 1, limit = 20): Promise<ProductsPage> {
-  const res = await fetch(`${BASE_URL}/api/product?page=${page}&limit=${limit}`);
+  // D2 FIX: force-cache avoids redundant network hits when the same URL is
+  // requested multiple times during a single SSG build run.
+  const res = await fetch(`${BASE_URL}/api/product?page=${page}&limit=${limit}`, { cache: "force-cache" });
   if (!res.ok) return { data: [], total: 0, page, totalPages: 0, limit };
   const json: ApiResponse = await res.json();
   return {
@@ -112,10 +112,11 @@ export async function getProducts(page = 1, limit = 20): Promise<ProductsPage> {
 }
 
 export async function getAllProducts(): Promise<ApiProduct[]> {
-  const first = await getProducts(1, 20);
+  // B1 FIX: use large page size to minimise round-trips (ideally one request)
+  const first = await getProducts(1, 500);
   if (first.totalPages <= 1) return first.data;
   const rest = await Promise.all(
-    Array.from({ length: first.totalPages - 1 }, (_, i) => getProducts(i + 2, 20))
+    Array.from({ length: first.totalPages - 1 }, (_, i) => getProducts(i + 2, 500))
   );
   return [first.data, ...rest.map((p) => p.data)].flat();
 }
@@ -130,7 +131,7 @@ export interface FilterValues {
 }
 
 async function fetchField(field: string): Promise<string[]> {
-  const res = await fetch(`${BASE_URL}/api/product/fieldname/${field}`);
+  const res = await fetch(`${BASE_URL}/api/product/fieldname/${field}`, { cache: "force-cache" });
   if (!res.ok) return [];
   const json = await res.json();
   return json.values ?? [];
@@ -167,9 +168,11 @@ export async function getFilterValues(): Promise<FilterValues> {
   return { category, color, structure, content, design, finish };
 }
 
-export async function getProductBySlug(slug: string): Promise<ApiProduct | undefined> {
-  const all = await getAllProducts();
-  return all.find((p) => p.productslug === slug);
+// D3 FIX: no longer downloads the full catalogue to find one product.
+// Pass the already-fetched products array (from getAllProducts / fetchProducts)
+// and filter in memory — zero extra network requests.
+export function getProductBySlug(slug: string, products: ApiProduct[]): ApiProduct | undefined {
+  return products.find((p) => p.productslug === slug);
 }
 
 // ── Topic Pages ────────────────────────────────────────────────────────────────
@@ -233,24 +236,26 @@ export interface ApiTopicPage {
   a5: string | null;
 }
 
+// B2 FIX: fetch remaining topic pages in parallel instead of sequentially
 async function getAllTopicPages(): Promise<ApiTopicPage[]> {
-  const all: ApiTopicPage[] = [];
-  let page = 1;
-  let totalPages = 1;
   try {
-    do {
-      const res = await fetch(`${BASE_URL}/api/topicpage?page=${page}&limit=20`);
-      if (!res.ok) break;
-      const json = await res.json();
-      const data: ApiTopicPage[] = json.data ?? [];
-      all.push(...data);
-      totalPages = json.pagination?.totalPages ?? 1;
-      page++;
-    } while (page <= totalPages);
+    const firstRes = await fetch(`${BASE_URL}/api/topicpage?page=1&limit=20`, { cache: "force-cache" });
+    if (!firstRes.ok) return [];
+    const firstJson = await firstRes.json();
+    const firstData: ApiTopicPage[] = firstJson.data ?? [];
+    const totalPages: number = firstJson.pagination?.totalPages ?? 1;
+    if (totalPages <= 1) return firstData;
+    const rest = await Promise.all(
+      Array.from({ length: totalPages - 1 }, (_, i) =>
+        fetch(`${BASE_URL}/api/topicpage?page=${i + 2}&limit=20`, { cache: "force-cache" })
+          .then((r) => (r.ok ? r.json() : { data: [] }))
+          .then((j) => (j.data ?? []) as ApiTopicPage[])
+      )
+    );
+    return [...firstData, ...rest.flat()];
   } catch {
-    // return whatever we collected so far
+    return [];
   }
-  return all;
 }
 
 export async function getDynamicTopicPages(): Promise<ApiTopicPage[]> {
@@ -275,22 +280,16 @@ export async function getTopicPageBySlug(slug: string): Promise<ApiTopicPage | u
 
 export async function getProductsByCategory(categoryName: string): Promise<ApiProduct[]> {
   // The backend ?category= filter is unreliable (returns all products).
-  // Always fetch all and filter client-side for exact category match.
+  // Always fetch all and filter client-side.
   const all = await getAllProducts();
   const needle = categoryName.toLowerCase().trim();
-  return all.filter((p) => {
-    const cat = (p.category ?? "").toLowerCase().trim();
-    // Exact match first
-    if (cat === needle) return true;
-    // Fuzzy: strip spaces and check contains (handles "Denim Fabric" vs "Denim Fabrics")
-    const catStripped = cat.replace(/\s+/g, "");
-    const needleStripped = needle.replace(/\s+/g, "");
-    return catStripped.includes(needleStripped) || needleStripped.includes(catStripped);
-  });
+  // B3 FIX: exact match only — fuzzy contains-check caused "Knit" to match "Non-Knit",
+  // "Woven" to match "Non-Woven", etc., corrupting category pages.
+  return all.filter((p) => (p.category ?? "").toLowerCase().trim() === needle);
 }
 
 export async function getProductsByMerchTag(tag: string, limit = 4): Promise<ApiProduct[]> {
-  const res = await fetch(`${BASE_URL}/api/product?merchtag=${encodeURIComponent(tag)}&limit=100`);
+  const res = await fetch(`${BASE_URL}/api/product?merchtag=${encodeURIComponent(tag)}&limit=100`, { cache: "force-cache" });
   if (!res.ok) return [];
   const json: ApiResponse = await res.json();
   const exact = (json.data ?? []).filter((p) => p.merchTags?.includes(tag));
@@ -323,13 +322,22 @@ function nameToId(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
 
+// B4 FIX: single shared fetch so both getWebsiteFAQCategories and getWebsiteFAQ
+// reuse the same response instead of each hitting the endpoint independently.
+let _faqCache: Promise<Array<Record<string, string>>> | null = null;
+function fetchFaqData(): Promise<Array<Record<string, string>>> {
+  if (!_faqCache) {
+    _faqCache = fetch(`${BASE_URL}/api/websitefaq`, { cache: "force-cache" })
+      .then((r) => (r.ok ? r.json() : { data: [] }))
+      .then((j) => (j.data ?? []) as Array<Record<string, string>>)
+      .catch(() => []);
+  }
+  return _faqCache;
+}
+
 export async function getWebsiteFAQCategories(): Promise<WebsiteFaqCategory[]> {
   try {
-    const res = await fetch(`${BASE_URL}/api/websitefaq`);
-    if (!res.ok) return [];
-    const json = await res.json();
-    const records: Array<Record<string, string>> = json.data ?? [];
-
+    const records = await fetchFaqData();
     return records
       .filter((r) => !r.deleted)
       .map((r) => {
@@ -351,12 +359,9 @@ export async function getWebsiteFAQCategories(): Promise<WebsiteFaqCategory[]> {
 
 export async function getWebsiteFAQ(): Promise<WebsiteFaqItem[]> {
   try {
-    const res = await fetch(`${BASE_URL}/api/websitefaq`);
-    if (!res.ok) return [];
-    const json = await res.json();
-    const record = json.data?.[0];
+    const records = await fetchFaqData();
+    const record = records[0];
     if (!record) return [];
-
     const items: WebsiteFaqItem[] = [];
     for (let i = 1; i <= 4; i++) {
       const q = record[`question${i}`];
@@ -370,33 +375,10 @@ export async function getWebsiteFAQ(): Promise<WebsiteFaqItem[]> {
 }
 
 // ── Blog Posts ─────────────────────────────────────────────────────────────────
-
-export interface ApiBlogPost {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  category: string | null;
-  paragraph1: string | null;
-  blogimage1CloudURL: string | null;
-  altimage1: string | null;
-  publishedAt: string | null;
-  readingTimeMin: number | null;
-}
-
-export async function getBlogPosts(limit = 20): Promise<ApiBlogPost[]> {
-  try {
-    const res = await fetch(`${BASE_URL}/api/blog?limit=${limit}`);
-    if (!res.ok) return [];
-    const json = await res.json();
-    const posts: ApiBlogPost[] = json.data ?? [];
-    return posts.sort((a, b) =>
-      new Date(b.publishedAt ?? 0).getTime() - new Date(a.publishedAt ?? 0).getTime()
-    );
-  } catch {
-    return [];
-  }
-}
+// C2 FIX: ApiBlogPost was defined here (9 fields) AND in src/lib/blog.ts (27 fields).
+// The canonical full definition lives in lib/blog.ts — re-export from there.
+export type { ApiBlogPost } from "./blog";
+export { fetchBlogPosts as getBlogPosts } from "./blog";
 
 // ── Site Settings ─────────────────────────────────────────────────────────────
 
@@ -418,7 +400,7 @@ export interface ApiSiteSettings {
 
 export async function getSiteSettings(name = "eCatalogue"): Promise<ApiSiteSettings | null> {
   try {
-    const res = await fetch(`${BASE_URL}/api/sitesettings`);
+    const res = await fetch(`${BASE_URL}/api/sitesettings`, { cache: "force-cache" });
     if (!res.ok) return null;
     const json = await res.json();
     const data: ApiSiteSettings[] = json.data ?? [];
@@ -471,7 +453,7 @@ export interface ApiCompanyInfo {
 
 export async function getCompanyInfo(companyName = "AGE"): Promise<ApiCompanyInfo | null> {
   try {
-    const res = await fetch(`${BASE_URL}/api/companyinformation`);
+    const res = await fetch(`${BASE_URL}/api/companyinformation`, { cache: "force-cache" });
     if (!res.ok) return null;
     const json = await res.json();
     const data: ApiCompanyInfo[] = json.data ?? [];
@@ -515,7 +497,7 @@ export function buildPhoneHref(number: string | null | undefined, fallback = "")
 
 export async function getAuthors(): Promise<ApiAuthor[]> {
   try {
-    const res = await fetch(`${BASE_URL}/api/author`);
+    const res = await fetch(`${BASE_URL}/api/author`, { cache: "force-cache" });
     if (!res.ok) return [];
     const json = await res.json();
     return (json.data ?? []).filter((a: ApiAuthor & { deleted?: boolean }) => !a.deleted);

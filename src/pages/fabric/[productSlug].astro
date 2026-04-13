@@ -1,10 +1,14 @@
----
+..---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
 import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, buildCloudinarySrcset, type Product } from "../../data/products";
 import { getCompanyInfo } from "../../lib/api";
+// C1 FIX: use shared utility instead of local buildOgImageUrl copy
+import { buildOgImageUrl } from "../../lib/cloudinary";
+// C5 FIX: use shared constant instead of repeated inline fallback
+import { SITE_BASE } from "../../lib/constants";
 
 export async function getStaticPaths() {
   const products = await fetchProducts();
@@ -24,8 +28,8 @@ export async function getStaticPaths() {
 const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
 const company = await getCompanyInfo("AGE");
 
-const siteBase = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
-const canonicalUrl = `${siteBase}/fabric/${product.slug}`;
+// F2 FIX: use SITE_BASE directly — no local alias needed
+const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
 
 // ── JSON-LD: Product schema ────────────────────────────────────────────────────
 
@@ -114,12 +118,6 @@ const faqSchema = product.faq.length > 0
 
 const schemas = [productSchema, faqSchema].filter(Boolean);
 
-// Build a proper OG image URL with 1200x630 crop for social sharing
-function buildOgImageUrl(cloudUrl: string | null | undefined): string | undefined {
-  if (!cloudUrl) return undefined;
-  // Insert OG-specific transformations into the Cloudinary URL
-  return cloudUrl.replace("/upload/", "/upload/f_jpg,q_auto,w_1200,h_630,c_fill,g_auto/");
-}
 const ogImageUrl = buildOgImageUrl(product.imageLarge || product.image1 || null);
 
 // LCP image preload — first product image at display-appropriate sizes

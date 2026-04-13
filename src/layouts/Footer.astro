@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from "../data/site";
 import { getCompanyInfo, getCategoryTopicPages, getDynamicTopicPages } from "../lib/api";
+import { LEAD_CAPTURE_URL } from "../config/endpoints";
 
 const company = await getCompanyInfo("AGE");
 const categoryPages = await getCategoryTopicPages();
@@ -328,10 +329,10 @@ const socialLinks = [
   </div>
 </footer>
 
-<script>
-  const ESPO_URL = 'https://espo.egport.com/api/v1/LeadCapture/a4624c9bb58b8b755e3d94f1a25fc9be';
+<script define:vars={{ LEAD_CAPTURE_URL }}>
+  const ESPO_URL = LEAD_CAPTURE_URL;
 
-  const form = document.getElementById('footer-newsletter-form') as HTMLFormElement;
+  const form = document.getElementById('footer-newsletter-form');
   const emailInput = document.getElementById('footer-newsletter-email') as HTMLInputElement;
   const btn = document.getElementById('footer-newsletter-btn') as HTMLButtonElement;
   const successMsg = document.getElementById('footer-newsletter-success')!;

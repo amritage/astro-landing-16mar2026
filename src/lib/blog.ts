@@ -1,4 +1,9 @@
-const API_URL = "https://espobackend.vercel.app/api/blog";
+// C3 FIX: use shared constant instead of hardcoded URL
+// C1 FIX: cloudinary helpers now live in lib/cloudinary.ts — import from there
+import { API_BASE } from "./constants";
+export { cloudinarySrcset } from "./cloudinary";
+
+const API_URL = `${API_BASE}/api/blog`;
 const FALLBACK_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1773744244/BlogFallBackImage_snbkg6.jpg";
 
 export interface ApiBlogPost {
@@ -32,7 +37,7 @@ export interface ApiBlogPost {
 
 export async function fetchBlogPosts(): Promise<ApiBlogPost[]> {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch(API_URL, { cache: "force-cache" });
     const json = await res.json();
     if (json.success && Array.isArray(json.data)) {
       return json.data.filter((p: ApiBlogPost) => p.status === "Approved");
@@ -60,37 +65,8 @@ export function getPostImage(post: ApiBlogPost): string {
   return post.featuredImageUrl || post.blogimage1CloudURL || FALLBACK_IMAGE;
 }
 
-/**
- * Rewrites a Cloudinary URL with an exact width using c_scale (no upscale, no crop).
- * Strips any existing transform segments and injects clean ones.
- */
-function buildCloudinaryUrl(url: string, width: number, format: "f_auto" | "f_avif" | "f_webp" = "f_auto"): string {
-  const uploadIdx = url.indexOf("/upload/");
-  if (uploadIdx === -1) return url;
 
-  const base = url.slice(0, uploadIdx + "/upload/".length);
-  const segments = url.slice(base.length).split("/");
 
-  let i = 0;
-  while (i < segments.length) {
-    const seg = segments[i];
-    if (/^v\d+$/.test(seg)) break;
-    if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; }
-    else break;
-  }
-
-  const publicPart = segments.slice(i).join("/");
-  return `${base}${format},q_auto,w_${width},c_limit/${publicPart}`;
-}
-
-/**
- * Generates a Cloudinary srcset string for responsive images.
- * Each candidate uses an exact width that matches its w descriptor.
- */
-export function cloudinarySrcset(url: string, widths: number[] = [400, 800, 1200], format: "f_auto" | "f_avif" | "f_webp" = "f_auto"): string {
-  if (!url) return "";
-  return widths.map((w) => `${buildCloudinaryUrl(url, w, format)} ${w}w`).join(", ");
-}
 
 /**
  * Adds rel="noopener noreferrer" to all <a target="_blank"> links in an HTML string.

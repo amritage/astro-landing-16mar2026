@@ -1,8 +1,10 @@
 ---
+// C2 FIX: getBlogPosts now re-exports fetchBlogPosts which takes no limit arg.
+// KnowledgePreview only needs the latest post — fetchBlogPosts returns all approved posts sorted by date.
 import { getBlogPosts } from "../../lib/api";
 import CloudinaryImage from "../common/CloudinaryImage.astro";
 
-const posts = await getBlogPosts(20);
+const posts = await getBlogPosts();
 const post = posts[0];
 ---
 

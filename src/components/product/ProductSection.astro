@@ -40,8 +40,6 @@ interface Props {
 }
 
 const { products, categories, colors, structures, contents, designs, finishes, currentPage, totalPages, total, pageCount, preSelectedCategory } = Astro.props;
-const showingStart = (currentPage - 1) * 20 + 1;
-const showingEnd = (currentPage - 1) * 20 + pageCount;
 ---
 
 <!-- Mobile filter open button -->
@@ -99,7 +97,7 @@ const showingEnd = (currentPage - 1) * 20 + pageCount;
 
       <!-- Product grid -->
       <div class="min-w-0 flex-1">
-        <ProductToolbar total={total} showingStart={showingStart} showingEnd={showingEnd} />
+        <ProductToolbar total={total} />
         {products.length > 0 ? (
           <ProductGrid products={products} currentPage={currentPage} totalPages={totalPages} />
         ) : (

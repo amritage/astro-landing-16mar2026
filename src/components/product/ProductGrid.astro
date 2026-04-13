@@ -22,51 +22,46 @@ interface Product {
 
 interface Props {
   products: Product[];
-  currentPage: number;
-  totalPages: number;
+  currentPage?: number;
+  totalPages?: number;
   baseUrl?: string;
 }
 
-const { products, currentPage, totalPages, baseUrl = "/fabric" } = Astro.props;
+const { products } = Astro.props;
 
-function pageUrl(p: number) {
-  return p === 1 ? baseUrl : `${baseUrl}/page/${p}`;
-}
-
-// Pre-compute visible page items in frontmatter — no conditional JSX returns needed
-type PageItem = { type: "page"; num: number } | { type: "ellipsis" };
-
-const pageItems: PageItem[] = [];
-if (totalPages <= 5) {
-  for (let i = 1; i <= totalPages; i++) pageItems.push({ type: "page", num: i });
-} else {
-  const show = new Set([1, totalPages, currentPage, currentPage - 1, currentPage + 1].filter(n => n >= 1 && n <= totalPages));
-  let prev = 0;
-  for (const n of [...show].sort((a, b) => a - b)) {
-    if (prev && n - prev > 1) pageItems.push({ type: "ellipsis" });
-    pageItems.push({ type: "page", num: n });
-    prev = n;
-  }
-}
+// First batch rendered visible, rest scroll-hidden — revealed by IntersectionObserver
+const INITIAL_BATCH = 12;
 ---
 
 <div id="product-grid">
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-    {products.map((product) => (
-      <ProductCard product={product} />
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" id="product-grid-inner">
+    {products.map((product, i) => (
+      <div
+        class="product-card-wrapper"
+        data-scroll-hidden={i >= INITIAL_BATCH ? "true" : undefined}
+        style={i >= INITIAL_BATCH ? "display:none" : undefined}
+      >
+        <ProductCard product={product} />
+      </div>
     ))}
+  </div>
+
+  <!-- Scroll sentinel — IntersectionObserver watches this to load next batch -->
+  <div id="scroll-sentinel" class="h-4 w-full" aria-hidden="true"></div>
+
+  <!-- Loading indicator -->
+  <div id="load-more-indicator" style="display:none" class="flex justify-center py-8">
+    <span class="text-sm font-label text-slate-400 tracking-widest uppercase">Loading more fabrics…</span>
   </div>
 
   <!-- Empty state — shown via JS when all cards are filtered out -->
   <div id="no-results" class="hidden flex-col items-center justify-center py-24 text-center">
-    <!-- search_off icon -->
     <svg class="w-16 h-16 text-slate-200 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zm-1-7h2v2h2v2h-2v2h-2v-2h-2v-2h2V7z"/>
     </svg>
     <h3 class="font-headline text-2xl text-[#041632] mb-2">No fabrics match your filters</h3>
     <p class="text-sm text-slate-500 max-w-xs mb-6">Try removing a few filters to broaden your search, or browse our full collection.</p>
     <a href="/fabric" class="inline-flex items-center gap-2 bg-[#041632] px-6 py-3 text-xs font-label font-bold uppercase tracking-widest text-white transition hover:bg-[#775a19]">
-      <!-- grid_view icon -->
       <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M3 3v8h8V3H3zm6 6H5V5h4v4zm-6 4v8h8v-8H3zm6 6H5v-4h4v4zm4-16v8h8V3h-8zm6 6h-4V5h4v4zm-6 4v8h8v-8h-8zm6 6h-4v-4h4v4z"/>
       </svg>
@@ -76,16 +71,74 @@ if (totalPages <= 5) {
 </div>
 
 <script>
+  const BATCH = 12;
+
+  // Track how many wrappers have been scroll-revealed
+  let revealedCount = document.querySelectorAll<HTMLElement>(".product-card-wrapper:not([data-scroll-hidden])").length;
+
+  function revealNextBatch(): void {
+    const toReveal = document.querySelectorAll<HTMLElement>('.product-card-wrapper[data-scroll-hidden="true"]');
+    let count = 0;
+    for (const wrapper of toReveal) {
+      if (count >= BATCH) break;
+      wrapper.removeAttribute("data-scroll-hidden");
+      wrapper.style.display = "";
+      revealedCount++;
+      count++;
+    }
+  }
+
+  // ── Infinite scroll ──────────────────────────────────────────────────────────
+  const sentinel = document.getElementById("scroll-sentinel");
+  const indicator = document.getElementById("load-more-indicator") as HTMLElement | null;
+
+  if (sentinel) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return;
+        const remaining = document.querySelectorAll<HTMLElement>('.product-card-wrapper[data-scroll-hidden="true"]');
+        if (remaining.length === 0) { io.disconnect(); return; }
+        if (indicator) indicator.style.display = "flex";
+        requestAnimationFrame(() => {
+          revealNextBatch();
+          if (indicator) indicator.style.display = "none";
+        });
+      },
+      { rootMargin: "300px" }
+    );
+    io.observe(sentinel);
+  }
+
+  // ── Filter integration ───────────────────────────────────────────────────────
+  // When filters are active, reveal ALL wrappers so filtering works across all products.
+  // When filters are cleared, re-hide wrappers beyond the revealed count.
+  function onFilterStateChange(hasActiveFilters: boolean): void {
+    if (hasActiveFilters) {
+      // Reveal all so filter JS can see every card
+      document.querySelectorAll<HTMLElement>('.product-card-wrapper[data-scroll-hidden="true"]').forEach((w) => {
+        w.style.display = "";
+      });
+    } else {
+      // Re-hide scroll-hidden wrappers (filter cleared, back to scroll mode)
+      document.querySelectorAll<HTMLElement>('.product-card-wrapper[data-scroll-hidden="true"]').forEach((w) => {
+        w.style.display = "none";
+      });
+    }
+  }
+
+  // Expose so ProductFilters script can call it
+  (window as any).__onFilterStateChange = onFilterStateChange;
+
+  // ── Empty state ──────────────────────────────────────────────────────────────
   function updateEmptyState(): void {
     const cards = document.querySelectorAll<HTMLElement>(".product-card");
-    const visible = [...cards].some((c) => c.style.display !== "none");
+    const visible = [...cards].some((c) => c.style.display !== "none" && c.closest<HTMLElement>(".product-card-wrapper")?.style.display !== "none");
     const noResults = document.getElementById("no-results");
     if (!noResults) return;
     noResults.classList.toggle("hidden", visible);
     noResults.classList.toggle("flex", !visible);
   }
 
-  // Observe card visibility changes
   const observer = new MutationObserver(updateEmptyState);
   document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
     observer.observe(card, { attributes: true, attributeFilter: ["style"] });

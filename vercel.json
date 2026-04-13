@@ -1,15 +1,6 @@
 {
   "headers": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Link",
-          "value": "<//www.clarity.ms>; rel=dns-prefetch, <//a.clarity.ms>; rel=dns-prefetch, <//b.clarity.ms>; rel=dns-prefetch, <//c.clarity.ms>; rel=dns-prefetch"
-        }
-      ]
-    },
-    {
       "source": "/fonts/(.*)",
       "headers": [
         {

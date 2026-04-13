@@ -1,4 +1,5 @@
 ---
+import { LEAD_CAPTURE_URL } from "../../config/endpoints";
 ---
 <section class="px-8 py-20 bg-[#e7e8e9] relative overflow-hidden">
   <div class="max-w-4xl mx-auto text-center relative z-10">
@@ -36,10 +37,10 @@
   <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#041632]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 </section>
 
-<script>
-  const ESPO_URL = 'https://espo.egport.com/api/v1/LeadCapture/a4624c9bb58b8b755e3d94f1a25fc9be';
+<script define:vars={{ LEAD_CAPTURE_URL }}>
+  const ESPO_URL = LEAD_CAPTURE_URL;
 
-  const form = document.getElementById('newsletter-form') as HTMLFormElement;
+  const form = document.getElementById('newsletter-form');
   const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
   const btn = document.getElementById('newsletter-btn') as HTMLButtonElement;
   const successMsg = document.getElementById('newsletter-success')!;

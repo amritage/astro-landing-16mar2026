@@ -32,7 +32,10 @@ const pageCategories = [...new Set(rawProducts.map((p) => p.category).filter(Boo
 
 // Map raw API products → typed FabricProduct shape (skip pending slugs)
 const products: FabricProduct[] = rawProducts
-  .filter((raw) => (raw.productslug ?? "").trim().toLowerCase() !== "pending")
+  .filter((raw) => {
+    const s = (raw.productslug ?? "").trim().toLowerCase();
+    return s.length > 0 && s !== "pending";
+  })
   .map((raw) => {
   const p = mapApiProduct(raw);
   return {
