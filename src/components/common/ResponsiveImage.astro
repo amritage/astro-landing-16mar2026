@@ -76,7 +76,7 @@ const isCloudinary = safeSrc.includes("res.cloudinary.com") && safeSrc.includes(
     loading={loading}
     fetchpriority={fetchpriority}
     class={className}
-    decoding={decoding ?? (loading === "eager" ? "sync" : "async")}
+    decoding="async"
   />
 )}
 

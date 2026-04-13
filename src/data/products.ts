@@ -1,8 +1,8 @@
-import { getAllProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
+import { getAllProducts, getProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
 // C1 FIX: Cloudinary utils now live in lib/cloudinary — import from there, no local copies
-// Re-export so existing consumers of data/products still work without import changes
-export { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
-import { getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
+// Import for local use; also re-exported below so existing consumers don't need import changes
+import { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
+export { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset };
 // C4 FIX: fallback constants from single source of truth
 import { WA_FALLBACK, PHONE_FALLBACK } from "../lib/constants";
 
@@ -248,15 +248,17 @@ export async function fetchProducts(): Promise<Product[]> {
   return raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
 }
 
-export async function fetchProductsPage(_page?: number): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
-  const [raw, company] = await Promise.all([getAllProducts(), getCompanyInfo("AGE")]);
+const PAGE_SIZE = 20;
+
+export async function fetchProductsPage(page = 1): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
+  const [raw, company] = await Promise.all([getProducts(page, PAGE_SIZE), getCompanyInfo("AGE")]);
   const wa = company?.whatsappNumber ?? undefined;
   const ph = company?.phone1 ?? undefined;
-  const products = raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
+  const products = raw.data.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
   return {
     products,
-    total: products.length,
-    totalPages: 1,
-    currentPage: 1,
+    total: raw.total,
+    totalPages: raw.totalPages,
+    currentPage: raw.page,
   };
 }

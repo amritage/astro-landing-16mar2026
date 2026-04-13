@@ -5,7 +5,7 @@ import Footer from "/src/layouts/Footer.astro";
 import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
-import { getSiteSettings, getCompanyInfo, getAuthors } from "../lib/api";
+import { getSiteSettings, getCompanyInfo, getAuthors, getTopicPageBySlug } from "../lib/api";
 import { SITE_BASE } from "../lib/constants";
 
 interface Props {
@@ -49,10 +49,11 @@ const {
 } = Astro.props;
 
 // Site-wide settings from API (eCatalogue)
-const [site, company, authors] = await Promise.all([
+const [site, company, authors, homePage] = await Promise.all([
   getSiteSettings("eCatalogue"),
   getCompanyInfo("AGE"),
   getAuthors(),
+  getTopicPageBySlug("home"),
 ]);
 
 const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
@@ -176,7 +177,7 @@ const schemaArray = schemaMarkup
     ))}
 
     <!-- Local Business / Organization Schema -->
-    <LocalBusinessSchema company={company} site={site} />
+    <LocalBusinessSchema company={company} site={site} homePage={homePage} />
 
     <!-- Breadcrumb Schema (skip on homepage) -->
     {breadcrumbs && breadcrumbs.length > 0 && (

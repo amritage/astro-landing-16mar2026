@@ -110,7 +110,6 @@ import { CAREERS_LEAD_CAPTURE_URL, ATTACHMENT_UPLOAD_URL } from "../../config/en
 <script define:vars={{ CAREERS_LEAD_CAPTURE_URL, ATTACHMENT_UPLOAD_URL }}>
   const ENDPOINT   = CAREERS_LEAD_CAPTURE_URL;
   const UPLOAD_URL = ATTACHMENT_UPLOAD_URL;
-  const API_KEY    = '517205fe58db736ea2438667b84df4d0';
   const FORM_ID    = 'jf';
   const STEP_COUNT = 3;
   const stepLabels = ['Personal', 'Experience', 'Resume'];
@@ -187,7 +186,7 @@ import { CAREERS_LEAD_CAPTURE_URL, ATTACHMENT_UPLOAD_URL } from "../../config/en
           });
           const uploadRes = await fetch(UPLOAD_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Api-Key': API_KEY },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: resumeFile.name, type: resumeFile.type, size: resumeFile.size, contents: fileData, relatedType: 'Lead', field: 'cResumeAttachment' }),
           });
           if (uploadRes.ok) { const j = await uploadRes.json(); resumeAttachmentId = j.id; }

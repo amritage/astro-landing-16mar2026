@@ -239,7 +239,7 @@ export interface ApiTopicPage {
 // B2 FIX: fetch remaining topic pages in parallel instead of sequentially
 async function getAllTopicPages(): Promise<ApiTopicPage[]> {
   try {
-    const firstRes = await fetch(`${BASE_URL}/api/topicpage?page=1&limit=20`, { cache: "force-cache" });
+    const firstRes = await fetch(`${BASE_URL}/api/topicpage?page=1&limit=100`, { cache: "force-cache" });
     if (!firstRes.ok) return [];
     const firstJson = await firstRes.json();
     const firstData: ApiTopicPage[] = firstJson.data ?? [];
@@ -247,7 +247,7 @@ async function getAllTopicPages(): Promise<ApiTopicPage[]> {
     if (totalPages <= 1) return firstData;
     const rest = await Promise.all(
       Array.from({ length: totalPages - 1 }, (_, i) =>
-        fetch(`${BASE_URL}/api/topicpage?page=${i + 2}&limit=20`, { cache: "force-cache" })
+        fetch(`${BASE_URL}/api/topicpage?page=${i + 2}&limit=100`, { cache: "force-cache" })
           .then((r) => (r.ok ? r.json() : { data: [] }))
           .then((j) => (j.data ?? []) as ApiTopicPage[])
       )

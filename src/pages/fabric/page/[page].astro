@@ -7,10 +7,13 @@ import ProductCTA from "../../../components/product/ProductCTA.astro";
 import ProductGuide from "../../../components/product/ProductGuide.astro";
 import ProductFAQ from "../../../components/product/ProductFAQ.astro";
 import { fetchProductsPage } from "../../../data/products";
-import { getProducts, getFilterValues } from "../../../lib/api";
+import { getFilterValues } from "../../../lib/api";
 
 export async function getStaticPaths() {
-  return [];
+  const { totalPages } = await fetchProductsPage(1);
+  return Array.from({ length: totalPages }, (_, i) => ({
+    params: { page: String(i + 1) },
+  }));
 }
 
 const pageNum = Number(Astro.params.page);

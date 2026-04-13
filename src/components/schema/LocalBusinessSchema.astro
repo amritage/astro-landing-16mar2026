@@ -1,17 +1,16 @@
 ---
-// B6 FIX: accept company + site as props — BaseLayout already fetches both,
+// B6 FIX: accept company + site + homePage as props — BaseLayout already fetches both,
 // so this component no longer makes duplicate API calls.
-import { getTopicPageBySlug, type ApiCompanyInfo, type ApiSiteSettings } from "../../lib/api";
+import { type ApiCompanyInfo, type ApiSiteSettings, type ApiTopicPage } from "../../lib/api";
 import { SITE_BASE } from "../../lib/constants";
 
 interface Props {
   company: ApiCompanyInfo | null;
   site: ApiSiteSettings | null;
+  homePage?: ApiTopicPage | null;
 }
 
-const { company, site } = Astro.props;
-
-const homePage = await getTopicPageBySlug("home");
+const { company, site, homePage } = Astro.props;
 
 const siteBase = SITE_BASE;
 
