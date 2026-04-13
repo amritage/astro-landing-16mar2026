@@ -196,13 +196,8 @@ const schemaArray = schemaMarkup
       `} />
     )}
     {site?.clarityId && (
-      <script type="text/partytown" set:html={`
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window,document,"clarity","script","${site.clarityId}");
-      `} />
+      <script type="text/partytown" set:html={`window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments)};`} />
+      <script type="text/partytown" src={`https://www.clarity.ms/tag/${site.clarityId}`} />
     )}
 
     <!-- Material Symbols — self-hosted for long cache TTL, subset to used icons only -->
