@@ -1,0 +1,235 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+interface Props { data: ApiProductLocation; }
+const { data } = Astro.props;
+const { product } = data;
+
+// Display name: productTitle > name
+const displayName = product.productTitle ?? product.name;
+// Tagline: productTagline > content+structure+color
+const displayTagline = product.productTagline ?? `${product.content.join(", ")} ${product.structure} — ${product.color.join(", ")}`;
+
+// Build gallery slides — same pattern as ProductDetailHero
+function getYouTubeId(url: string): string | null {
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+}
+
+type Slide =
+  | { type: "image"; src: string; alt: string }
+  | { type: "youtube"; embedSrc: string; thumbSrc: string; alt: string }
+  | { type: "video"; src: string; alt: string };
+
+const rawSlides: (Slide | null)[] = [
+  product.image1CloudUrl
+    ? { type: "image", src: product.image1CloudUrlHero ?? product.image1CloudUrl, alt: product.altTextImage1 ?? displayName }
+    : null,
+  product.image2CloudUrl
+    ? { type: "image", src: product.image2CloudUrl, alt: product.altTextImage2 ?? displayName }
+    : null,
+  product.image3CloudUrl
+    ? { type: "image", src: product.image3CloudUrl, alt: product.altTextImage3 ?? displayName }
+    : null,
+  product.collection?.collectionImage1CloudUrl
+    ? { type: "image", src: product.collection.collectionImage1CloudUrlHero ?? product.collection.collectionImage1CloudUrl, alt: product.collection.altTextCollectionImage1 ?? product.collectionName }
+    : null,
+  (() => {
+    const url = product.collection?.collectionvideoURL;
+    if (!url) return null;
+    const vid = getYouTubeId(url);
+    if (vid) return { type: "youtube" as const, embedSrc: `https://www.youtube.com/embed/${vid}?autoplay=0&rel=0`, thumbSrc: `https://img.youtube.com/vi/${vid}/mqdefault.jpg`, alt: "Collection Video" };
+    return { type: "video" as const, src: url, alt: "Collection Video" };
+  })(),
+];
+
+const slides = rawSlides.filter((s): s is Slide => s !== null);
+
+const specs = [
+  { label: "GSM",        value: String(product.gsm) },
+  { label: "Width (CM)", value: `${product.cm} cm` },
+  { label: "Design",     value: product.design },
+  { label: "Colour",     value: product.color.join(", ") },
+  { label: "Content",    value: product.content.join(", ") },
+  { label: "Structure",  value: product.structure },
+  { label: "Motif",      value: product.motif ?? "N/A" },
+  { label: "Sales MOQ",  value: `${product.salesMOQ} Meters` },
+  { label: "UM",         value: product.uM },
+];
+---
+
+<section class="py-12 md:py-24 bg-[#faf9ff]">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-start">
+
+      <!-- Visual Pillar — gallery with thumbnails -->
+      <div class="space-y-4">
+        <!-- Main slide -->
+        <div class="aspect-[4/5] bg-[#e8e7ed] rounded-lg overflow-hidden relative" id="pl-main-slide">
+          {slides.length === 0 && (
+            <div class="w-full h-full flex items-center justify-center">
+              <span class="material-symbols-outlined text-6xl text-[#747781]">texture</span>
+            </div>
+          )}
+          {slides.map((slide, i) => (
+            <div class:list={["pl-slide w-full h-full absolute inset-0 transition-opacity duration-300", i === 0 ? "opacity-100" : "opacity-0 pointer-events-none"]} data-slide={i}>
+              {slide.type === "image" && (
+                <img src={slide.src} alt={slide.alt} class="w-full h-full object-cover" loading={i === 0 ? "eager" : "lazy"} />
+              )}
+              {slide.type === "youtube" && (
+                <iframe src={slide.embedSrc} class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" title={slide.alt} />
+              )}
+              {slide.type === "video" && (
+                <video src={slide.src} class="w-full h-full object-cover" controls muted playsinline preload="metadata" />
+              )}
+            </div>
+          ))}
+        </div>
+
+        <!-- Thumbnails -->
+        {slides.length > 1 && (
+          <div class="flex gap-3 flex-wrap" id="pl-thumbs">
+            {slides.map((slide, i) => (
+              <button
+                class:list={["pl-thumb h-20 w-20 flex-shrink-0 overflow-hidden border-2 transition-colors cursor-pointer rounded-sm", i === 0 ? "border-[#385b99]" : "border-transparent"]}
+                data-thumb={i}
+                aria-label={`View slide ${i + 1}`}
+              >
+                {slide.type === "image" && (
+                  <img src={slide.src} alt={slide.alt} class="w-full h-full object-cover" loading="lazy" />
+                )}
+                {slide.type === "youtube" && (
+                  <div class="relative w-full h-full bg-[#e8e7ed]">
+                    <img src={slide.thumbSrc} alt={slide.alt} class="w-full h-full object-cover" loading="lazy" />
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+                    </div>
+                  </div>
+                )}
+                {slide.type === "video" && (
+                  <div class="w-full h-full bg-[#e8e7ed] flex items-center justify-center">
+                    <span class="material-symbols-outlined text-2xl text-[#434750]">play_circle</span>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Info Pillar -->
+      <div class="pt-4">
+        <!-- Stars + supply model -->
+        <div class="flex items-center gap-2 mb-4">
+          <div class="flex items-center text-[#755700]">
+            {[1,2,3,4].map(() => (
+              <span class="material-symbols-outlined text-xl leading-none" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">star</span>
+            ))}
+            <!-- Half star via SVG clip — no font glyph needed -->
+            <span class="relative inline-block w-5 h-5 text-xl leading-none" aria-hidden="true">
+              <span class="material-symbols-outlined absolute inset-0 text-[#c3c6d1] text-xl" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">star</span>
+              <span class="material-symbols-outlined absolute inset-0 text-xl overflow-hidden" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; clip-path: inset(0 50% 0 0);">star</span>
+            </span>
+          </div>
+          <span class="text-sm font-label text-[#747781]">{product.supplyModel}</span>
+        </div>
+
+        <h2 class="text-4xl md:text-5xl font-headline mb-4 text-[#1a1b20]">{displayName}</h2>
+        <p class="text-[#385b99] font-body font-medium text-xl mb-8 uppercase tracking-wide">{displayTagline}</p>
+
+        <!-- 3×3 Technical Matrix -->
+        <div class="overflow-x-auto -mx-4 md:mx-0 mb-8 md:mb-10">
+          <div class="grid grid-cols-3 gap-px bg-[#c3c6d1]/30 overflow-hidden border border-[#c3c6d1]/30 min-w-[320px] mx-4 md:mx-0">
+            {specs.map((spec, i) => (
+              <div class:list={["bg-[#faf9ff] p-3 md:p-4", i % 3 !== 0 && "border-l border-[#c3c6d1]/30", i >= 3 && "border-t border-[#c3c6d1]/30"]}>
+                <span class="block text-[9px] md:text-[10px] uppercase tracking-widest text-[#747781] mb-1 font-label font-bold">{spec.label}</span>
+                <span class="text-sm md:text-base font-semibold font-body">{spec.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Description with view more/less -->
+        {product.fullProductDescription && (
+          <div class="space-y-4 mb-0">
+            <h3 class="text-xl font-headline text-[#1a1b20] border-b border-[#385b99]/20 pb-2">Technical Product Summary</h3>
+            <div id="pl-desc-content" class="text-[#434750] leading-relaxed font-body space-y-4 overflow-hidden transition-all duration-500" style="max-height: 200px;" set:html={product.fullProductDescription} />
+            <button
+              id="pl-desc-toggle"
+              class="flex items-center gap-1.5 text-sm font-label font-bold text-[#385b99] hover:text-[#755700] transition-colors mt-2"
+              aria-expanded="false"
+            >
+              <span id="pl-desc-label">View More</span>
+              <span id="pl-desc-icon" class="material-symbols-outlined text-base transition-transform" style="font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;">expand_more</span>
+            </button>
+          </div>
+        )}
+
+        <!-- Finishes -->
+        {product.finish.length > 0 && (
+          <div class="mt-10">
+            <h4 class="text-sm font-bold uppercase tracking-widest mb-4 font-label">Premium Industrial Finishes</h4>
+            <div class="flex flex-wrap gap-2">
+              {product.finish.map((f) => (
+                <span class="px-3 py-1 bg-[#f4f3f9] text-[#385b99] text-xs font-bold rounded-full font-label">{f}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Quote -->
+        <div class="mt-10 p-6 bg-[#ffffff] border-l-4 border-[#755700]">
+          <p class="text-sm font-label italic text-[#434750]">
+            "Amrita Global Enterprises specializes in {product.content.join(", ")} {product.structure.toLowerCase()} fabric wholesale for global brands requiring bulk woven fabric supply with zero tolerance for color variance."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Gallery
+  const slides = document.querySelectorAll<HTMLElement>(".pl-slide");
+  const thumbs = document.querySelectorAll<HTMLButtonElement>(".pl-thumb");
+
+  function goTo(index: number) {
+    slides.forEach((s, i) => {
+      s.classList.toggle("opacity-100", i === index);
+      s.classList.toggle("opacity-0", i !== index);
+      s.classList.toggle("pointer-events-none", i !== index);
+    });
+    thumbs.forEach((t, i) => {
+      t.classList.toggle("border-[#385b99]", i === index);
+      t.classList.toggle("border-transparent", i !== index);
+    });
+  }
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => goTo(Number(thumb.dataset.thumb)));
+  });
+
+  // View more / less for description
+  const descContent = document.getElementById("pl-desc-content") as HTMLElement | null;
+  const descToggle  = document.getElementById("pl-desc-toggle") as HTMLButtonElement | null;
+  const descLabel   = document.getElementById("pl-desc-label");
+  const descIcon    = document.getElementById("pl-desc-icon");
+
+  if (descContent && descToggle) {
+    const fullHeight = descContent.scrollHeight;
+    const collapsed  = 200;
+    let expanded = false;
+
+    // Only show toggle if content is actually taller than collapsed height
+    if (fullHeight <= collapsed) {
+      descContent.style.maxHeight = "none";
+      descToggle.style.display = "none";
+    }
+
+    descToggle.addEventListener("click", () => {
+      expanded = !expanded;
+      descContent.style.maxHeight = expanded ? `${fullHeight}px` : `${collapsed}px`;
+      if (descLabel) descLabel.textContent = expanded ? "View Less" : "View More";
+      if (descIcon)  descIcon.style.transform = expanded ? "rotate(180deg)" : "rotate(0deg)";
+      descToggle.setAttribute("aria-expanded", String(expanded));
+    });
+  }
+</script>

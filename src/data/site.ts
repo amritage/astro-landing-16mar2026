@@ -26,6 +26,7 @@ export const siteConfig = {
       { label: "FAQ", href: "/faq" },
       { label: "Shipping", href: "/shipping" },
       { label: "Ahmedabad Hub", href: "/ahmedabad-hub" },
+      { label: "Product & Location", href: "/product-location" },
     ],
     products: [
       { label: "Apparel Industry", href: "/industry/apparel" },

@@ -1,0 +1,190 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PLHero from "../../components/productandlocation/PLHero.astro";
+import PLTrustMetrics from "../../components/productandlocation/PLTrustMetrics.astro";
+import PLProductDetail from "../../components/productandlocation/PLProductDetail.astro";
+import PLLocation from "../../components/productandlocation/PLLocation.astro";
+import PLSuitability from "../../components/productandlocation/PLSuitability.astro";
+import PLCollection from "../../components/productandlocation/PLCollection.astro";
+import PLInquiryForm from "../../components/productandlocation/PLInquiryForm.astro";
+import PLFAQ from "../../components/productandlocation/PLFAQ.astro";
+import { getAllProductLocations } from "../../lib/api";
+import type { ApiProductLocation } from "../../lib/api";
+import { SITE_BASE } from "../../lib/constants";
+
+const API_BASE = import.meta.env.API_BASE_URL ?? "https://espobackend.vercel.app";
+
+const all = await getAllProductLocations();
+let data: ApiProductLocation | null = all[0] ?? null;
+
+// Fallback: list endpoint is intermittently failing on the backend.
+// Fetch the first known record directly by ID.
+if (!data) {
+  try {
+    const res = await fetch(`${API_BASE}/api/productlocation/fieldname/id/69da0bbd590fe4412`, { cache: "no-store" });
+    const json = await res.json();
+    data = json?.data?.[0] ?? null;
+  } catch {
+    data = null;
+  }
+}
+
+const product = data?.product;
+const location = data?.location;
+
+// ── Metadata ──────────────────────────────────────────────────────────────────
+const stripHtml = (html: string | null | undefined) =>
+  html ? html.replace(/<[^>]*>/g, "").trim() : "";
+
+const pageTitle =
+  data?.title?.trim() ||
+  (product && location ? `${product.productTitle || product.name} in ${location.name}` : null) ||
+  "Product & Location";
+
+const metaTitle = `${pageTitle} | Amrita Global Enterprises`;
+
+const metaDescription =
+  stripHtml(data?.fulldescription).slice(0, 155) ||
+  stripHtml(product?.fullProductDescription).slice(0, 155) ||
+  (product && location
+    ? `${product.name} available in ${location.name} for bulk B2B fabric sourcing from Amrita Global Enterprises.`
+    : "B2B fabric supply by product and location. Amrita Global Enterprises.");
+
+const keywords = [
+  ...(data?.keywords ?? []),
+  ...(product?.keywords ?? []),
+  ...(product && location ? [
+    `${product.name} in ${location.name}`,
+    `${product.category || "fabric"} supplier in ${location.name}`,
+  ] : []),
+];
+
+const ogImage =
+  data?.image1CloudUrlHero ||
+  product?.image1CloudUrlHero ||
+  location?.image1CloudUrlHero ||
+  data?.image1CloudUrl ||
+  product?.image1CloudUrl ||
+  location?.image1CloudUrl ||
+  undefined;
+
+const canonicalUrl = `${SITE_BASE}/product-location`;
+
+// ── JSON-LD ───────────────────────────────────────────────────────────────────
+const breadcrumbs = [
+  { name: "Home", url: "/" },
+  { name: product?.category || "Fabric", url: `/category/${product?.categorySlug}` },
+  { name: product && location ? `${product.name} in ${location.name}` : pageTitle, url: `/product-location/${data?.slug}` },
+];
+
+const additionalProperties = data && product && location ? [
+  { name: "Structure",       value: product.structure },
+  { name: "GSM",             value: String(product.gsm) },
+  { name: "Width",           value: `${product.cm} cm / ${product.inch} inch` },
+  { name: "Design",          value: product.design },
+  { name: "Supply Model",    value: "Never-Out-of-Stock" },
+  { name: "Location Served", value: location.name },
+].filter((p) => p.value).map(({ name, value }) => ({
+  "@type": "PropertyValue",
+  name,
+  value,
+})) : [];
+
+const faqItems = data ? [
+  { q: data.productlocationQ1, a: data.productlocationA1 },
+  { q: data.productlocationQ2, a: data.productlocationA2 },
+  { q: data.productlocationQ3, a: data.productlocationA3 },
+  { q: data.productlocationQ4, a: data.productlocationA4 },
+  { q: data.productlocationQ5, a: data.productlocationA5 },
+].filter((f) => f.q && f.a) : [];
+
+const faqSchema = faqItems.length > 0
+  ? {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      mainEntity: faqItems.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+      })),
+    }
+  : null;
+
+const graphSchema = data ? {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: metaTitle,
+      description: metaDescription,
+      inLanguage: "en",
+      ...(ogImage ? { primaryImageOfPage: { "@type": "ImageObject", url: ogImage } } : {}),
+      about: { "@id": `${canonicalUrl}#product` },
+      isPartOf: { "@id": `${SITE_BASE}/#website` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${canonicalUrl}#breadcrumb`,
+      itemListElement: breadcrumbs.map((item, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: item.name,
+        ...(item.url ? { item: `${SITE_BASE}${item.url}` } : {}),
+      })),
+    },
+    {
+      "@type": "Product",
+      "@id": `${canonicalUrl}#product`,
+      name: product?.name,
+      description: metaDescription,
+      image: [ogImage].filter(Boolean),
+      brand: { "@type": "Brand", name: "Amrita Global Enterprises" },
+      category: product?.category,
+      material: Array.isArray(product?.content) ? product.content.join(", ") : product?.content,
+      color: Array.isArray(product?.colorNames) ? product.colorNames.join(", ") : product?.colorNames,
+      additionalProperty: additionalProperties,
+      offers: {
+        "@type": "Offer",
+        "@id": `${canonicalUrl}#offer`,
+        url: canonicalUrl,
+        availability: "https://schema.org/InStock",
+        priceCurrency: "INR",
+        seller: { "@type": "Organization", name: "Amrita Global Enterprises" },
+      },
+    },
+    ...(faqSchema ? [faqSchema] : []),
+  ],
+} : undefined;
+---
+
+<BaseLayout
+  title={metaTitle}
+  description={metaDescription}
+  canonical={canonicalUrl}
+  keywords={keywords}
+  ogImage={ogImage}
+  ogType="product"
+  schemaMarkup={graphSchema}
+  breadcrumbs={breadcrumbs}
+  preloadImage={ogImage}
+>
+  {data ? (
+    <>
+      <PLHero data={data} />
+      <PLTrustMetrics />
+      <PLProductDetail data={data} />
+      <PLLocation data={data} />
+      <PLSuitability data={data} />
+      <PLCollection data={data} />
+      <PLInquiryForm data={data} />
+      <PLFAQ data={data} />
+    </>
+  ) : (
+    <section class="py-40 text-center">
+      <p class="text-slate-500 font-body">No product-location data available yet.</p>
+      <a href="/fabric" class="mt-6 inline-block text-[#041632] font-bold underline">Browse Fabrics</a>
+    </section>
+  )}
+</BaseLayout>

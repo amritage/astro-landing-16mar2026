@@ -505,3 +505,116 @@ export async function getAuthors(): Promise<ApiAuthor[]> {
     return [];
   }
 }
+
+// ── Product Location ───────────────────────────────────────────────────────────
+
+export interface ApiProductLocation {
+  id: string;
+  name: string;
+  slug: string;
+  title: string | null;
+  tagline: string | null;
+  image1CloudUrl: string | null;
+  image1CloudUrlHero: string | null;
+  image1CloudUrlWeb: string | null;
+  altTextImage1: string | null;
+  fulldescription: string | null;
+  keywords: string[];
+  productlocationQ1: string | null;
+  productlocationA1: string | null;
+  productlocationQ2: string | null;
+  productlocationA2: string | null;
+  productlocationQ3: string | null;
+  productlocationA3: string | null;
+  productlocationQ4: string | null;
+  productlocationA4: string | null;
+  productlocationQ5: string | null;
+  productlocationA5: string | null;
+  productId: string;
+  productName: string;
+  locationId: string;
+  locationName: string;
+  product: {
+    id: string;
+    name: string;
+    productTitle: string | null;
+    productTagline: string | null;
+    category: string;
+    color: string[];
+    structure: string;
+    content: string[];
+    design: string;
+    motif: string | null;
+    finish: string[];
+    gsm: number;
+    ozs: number;
+    cm: number;
+    inch: number;
+    salesMOQ: number;
+    uM: string;
+    supplyModel: string;
+    suitability: string[];
+    keywords: string[];
+    fullProductDescription: string | null;
+    image1CloudUrl: string | null;
+    image1CloudUrlHero: string | null;
+    image1CloudUrlWeb: string | null;
+    image2CloudUrl: string | null;
+    image3CloudUrl: string | null;
+    altTextImage1: string | null;
+    altTextImage2: string | null;
+    altTextImage3: string | null;
+    videoURL: string | null;
+    collectionId: string;
+    collectionName: string;
+    collection: {
+      id: string;
+      name: string;
+      description: string;
+      collectionImage1CloudUrl: string | null;
+      collectionImage1CloudUrlHero: string | null;
+      altTextCollectionImage1: string | null;
+      collectionvideoURL: string | null;
+    };
+  };
+  location: {
+    id: string;
+    name: string;
+    description: string | null;
+    locationslug: string | null;
+    locationTagline: string | null;
+    pincode: string | null;
+    longitude: number | null;
+    latitude: number | null;
+    image1CloudUrl: string | null;
+    image1CloudUrlHero: string | null;
+    image1CloudUrlWeb: string | null;
+    altTextImage1: string | null;
+  };
+}
+
+export async function getAllProductLocations(): Promise<ApiProductLocation[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/productlocation?page=1&limit=500`, { cache: "no-store" });
+    const json = await res.json();
+    // Backend sometimes returns {success:false} with a non-200 status
+    if (!res.ok || json.success === false) return [];
+    return (json.data ?? []).filter((p: ApiProductLocation & { deleted?: boolean }) => p.deleted !== true);
+  } catch {
+    return [];
+  }
+}
+
+export async function getProductLocationBySlug(slug: string): Promise<ApiProductLocation | undefined> {
+  const all = await getAllProductLocations();
+  return all.find((p) => p.slug === slug);
+}
+
+export async function getProductsByCollectionId(collectionId: string, excludeProductId?: string): Promise<ApiProduct[]> {
+  try {
+    const all = await getAllProducts();
+    return all.filter((p) => p.collectionId === collectionId && p.id !== excludeProductId);
+  } catch {
+    return [];
+  }
+}

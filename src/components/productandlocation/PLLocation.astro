@@ -1,0 +1,61 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+interface Props { data: ApiProductLocation; }
+const { data } = Astro.props;
+const { location, product } = data;
+
+// Use location image — if it's the same fallback as product, prefer product image for context
+const locationImg = location.image1CloudUrlHero ?? location.image1CloudUrl ?? "";
+const locationAlt = location.altTextImage1 ?? `${location.name} textile hub`;
+
+const mapQuery = encodeURIComponent(`${location.name}${location.pincode ? " " + location.pincode : ""}`);
+const mapLink  = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+// Use location.description if available, otherwise a generic fallback
+const body = location.description && location.description.trim()
+  ? location.description
+  : `Our ${location.name} hub provides lightning-fast fulfillment to local manufacturers while serving as a gateway for international logistics. Every meter of ${product.productTitle ?? product.name} meets the rigorous standards of the modern weaver.`;
+---
+
+<section class="py-12 md:py-24 bg-[#f4f3f9] overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
+
+      <!-- Image -->
+      <div class="lg:col-span-7 relative">
+        {locationImg
+          ? <img src={locationImg} alt={locationAlt} class="w-full aspect-video object-cover rounded-lg shadow-xl" loading="lazy" />
+          : <div class="w-full aspect-video bg-[#e8e7ed] rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-6xl text-[#747781]">location_city</span>
+            </div>
+        }
+        {location.pincode && (
+          <div class="absolute bottom-0 left-0 bg-[#385b99] px-8 py-6 text-white hidden md:block" style="max-width: 220px;">
+            <span class="text-3xl font-headline block mb-1">{location.pincode}</span>
+            <p class="text-[10px] uppercase tracking-widest font-label opacity-80 leading-relaxed">
+              Strategic hub in {location.name}'s industrial heartland.
+            </p>
+          </div>
+        )}
+      </div>
+
+      <!-- Text -->
+      <div class="lg:col-span-5 mt-8 lg:mt-0">
+        <h3 class="text-2xl md:text-3xl lg:text-4xl font-headline mb-4 md:mb-6">
+          Textile Industry in {location.name}{location.pincode ? ` (${location.pincode})` : ""}
+        </h3>
+        <p class="text-[#434750] font-body leading-relaxed mb-8">{body}</p>
+        {location.locationTagline && (
+          <p class="font-body font-semibold italic mb-6">"{location.locationTagline}"</p>
+        )}
+        <div class="flex items-center gap-4">
+          <span class="material-symbols-outlined text-[#755700]" style="font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;">location_on</span>
+          <span class="font-label font-bold text-sm tracking-tight">
+            {location.name}{location.pincode ? `, Pincode ${location.pincode}` : ""} • Global Export Ready
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

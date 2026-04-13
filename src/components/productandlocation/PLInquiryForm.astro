@@ -1,0 +1,257 @@
+---
+import MultiStepContactForm from "../common/MultiStepContactForm.astro";
+import { LEAD_CAPTURE_URL } from "../../config/endpoints";
+import type { ApiProductLocation } from "../../lib/api";
+
+interface Props { data: ApiProductLocation; }
+const { data } = Astro.props;
+const { product, location } = data;
+
+const productName = product.productTitle ?? product.name;
+---
+
+<MultiStepContactForm
+  formId="plf"
+  badge="Technical Inquiry"
+  heading={`Inquire for ${productName}`}
+  subheading={`Our ${location.name} team will respond within 24 hours with pricing and availability.`}
+  steps={[
+    { label: "Personal" },
+    { label: "Company" },
+    { label: "Details" },
+  ]}
+  submitLabel="Submit Request"
+  successTitle="Inquiry Received"
+  successMessage="Thank you! Your inquiry has been received. Our team will be in touch shortly."
+>
+
+  <!-- STEP 1: Personal Info -->
+  <div id="plf-step-0" class="space-y-5">
+    <div>
+      <label for="plf-salutation" class="msf-label">Salutation</label>
+      <select id="plf-salutation" name="salutationName" class="msf-input">
+        <option value="">Select salutation</option>
+        <option value="Mr.">Mr.</option>
+        <option value="Ms.">Ms.</option>
+        <option value="Mrs.">Mrs.</option>
+        <option value="Dr.">Dr.</option>
+        <option value="Prof.">Prof.</option>
+      </select>
+    </div>
+    <div>
+      <label for="plf-firstName" class="msf-label">First Name <span class="text-[#775a19]">*</span></label>
+      <input id="plf-firstName" type="text" name="firstName" required class="msf-input" placeholder="Your first name" />
+    </div>
+    <div>
+      <label for="plf-lastName" class="msf-label">Last Name <span class="text-[#775a19]">*</span></label>
+      <input id="plf-lastName" type="text" name="lastName" required class="msf-input" placeholder="Your last name" />
+    </div>
+    <div>
+      <label for="plf-email" class="msf-label">Email Address <span class="text-[#775a19]">*</span></label>
+      <input id="plf-email" type="email" name="emailAddress" class="msf-input" placeholder="your@company.com" />
+    </div>
+    <div>
+      <label for="plf-phone" class="msf-label">Phone Number <span class="text-[#775a19]">*</span></label>
+      <input id="plf-phone" type="tel" name="phoneNumber" class="msf-input" placeholder="+91 00000 00000" />
+      <p class="text-xs text-[#5a6a85] mt-1">Please provide at least an email or phone number.</p>
+    </div>
+    <div class="flex justify-end pt-2">
+      <button type="button" id="plf-next-0" class="msf-btn-primary">Next Step</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Company & Address -->
+  <div id="plf-step-1" class="space-y-5 hidden">
+    <div>
+      <label for="plf-company" class="msf-label">Company Name</label>
+      <input id="plf-company" type="text" name="accountName" class="msf-input" placeholder="Your company name" />
+    </div>
+    <div>
+      <label for="plf-street" class="msf-label">Street Address</label>
+      <input id="plf-street" type="text" name="addressStreet" class="msf-input" placeholder="Street address" />
+    </div>
+    <div>
+      <label for="plf-city" class="msf-label">City</label>
+      <input id="plf-city" type="text" name="addressCity" class="msf-input" placeholder="City" />
+    </div>
+    <div>
+      <label for="plf-country" class="msf-label">Country</label>
+      <input id="plf-country" type="text" name="addressCountry" class="msf-input" placeholder="Country" />
+    </div>
+    <div class="flex justify-between pt-2">
+      <button type="button" id="plf-prev-1" class="msf-btn-secondary">Previous</button>
+      <button type="button" id="plf-next-1" class="msf-btn-primary">Next Step</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Product Details -->
+  <div id="plf-step-2" class="space-y-5 hidden">
+    <div>
+      <label for="plf-bizType" class="msf-label">Business Type</label>
+      <select id="plf-bizType" name="cBusinessType" class="msf-input">
+        <option value="">Select business type</option>
+        <option value="fabric-importer">Fabric Importer</option>
+        <option value="fabric-exporter">Fabric Exporter</option>
+        <option value="garment-manufacturer">Garment Manufacturer</option>
+        <option value="retailer">Retailer</option>
+        <option value="wholesaler">Wholesaler</option>
+        <option value="buying-agent">Buying Agent</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div>
+      <label for="plf-fabricCat" class="msf-label">Fabric Category</label>
+      <select id="plf-fabricCat" name="cFabricCategory" class="msf-input">
+        <option value="">Select fabric category</option>
+        <option value="cotton">Cotton</option>
+        <option value="denim">Denim</option>
+        <option value="polyester">Polyester</option>
+        <option value="knit">Knit</option>
+        <option value="woven">Woven</option>
+        <option value="blended">Blended</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div>
+      <label for="plf-amount" class="msf-label">Opportunity Amount</label>
+      <div class="flex gap-3">
+        <input id="plf-amount" type="number" name="opportunityAmount" class="msf-input flex-1" placeholder="0.00" min="0" step="0.01" />
+        <select id="plf-currency" name="opportunityAmountCurrency" class="msf-input w-28">
+          <option value="USD">USD</option>
+          <option value="INR">INR</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label for="plf-description" class="msf-label">Inquiry Details</label>
+      <textarea id="plf-description" name="description" rows="4" class="msf-input resize-none" placeholder={`Specify GSM, color codes, quantity needs for ${productName}...`}></textarea>
+    </div>
+    <div class="flex justify-between pt-2">
+      <button type="button" id="plf-prev-2" class="msf-btn-secondary">Previous</button>
+      <button type="submit" id="plf-submit" class="msf-btn-primary">
+        <span id="plf-submit-text">Submit Request</span>
+        <span id="plf-submit-spinner" class="material-symbols-outlined animate-spin text-base hidden">progress_activity</span>
+      </button>
+    </div>
+  </div>
+
+</MultiStepContactForm>
+
+<script define:vars={{ LEAD_CAPTURE_URL }}>
+  const FORM_ID    = 'plf';
+  const STEP_COUNT = 3;
+
+  const form      = document.getElementById(FORM_ID);
+  const stepLabel = document.getElementById(`${FORM_ID}-step-label`);
+  const stepLabels = ['Personal', 'Company', 'Details'];
+
+  let current = 0;
+
+  const g = (name) =>
+    form.querySelector(`[name="${name}"]`)?.value?.trim() ?? '';
+
+  function collectPayload() {
+    const payload = {};
+    const textFields = [
+      'salutationName','firstName','lastName',
+      'emailAddress','accountName',
+      'addressStreet','addressCity','addressCountry',
+      'description',
+    ];
+    for (const f of textFields) { const v = g(f); if (v) payload[f] = v; }
+    const rawPhone = g('phoneNumber');
+    if (rawPhone) {
+      const cleaned = rawPhone.startsWith('+')
+        ? '+' + rawPhone.slice(1).replace(/\D/g, '')
+        : rawPhone.replace(/\D/g, '');
+      if (cleaned.length > 3) payload.phoneNumber = cleaned;
+    }
+    const bt = g('cBusinessType');
+    const fc = g('cFabricCategory');
+    const am = g('opportunityAmount');
+    if (bt) payload.cBusinessType   = [bt];
+    if (fc) payload.cFabricCategory = [fc];
+    if (am) payload.opportunityAmount = parseFloat(am);
+    const cur = g('opportunityAmountCurrency');
+    if (cur) payload.opportunityAmountCurrency = cur;
+    return payload;
+  }
+
+  function goTo(n) {
+    document.getElementById(`${FORM_ID}-step-${current}`).classList.add('hidden');
+    current = n;
+    document.getElementById(`${FORM_ID}-step-${current}`).classList.remove('hidden');
+    if (stepLabel) stepLabel.textContent = stepLabels[current] ?? `Step ${current + 1} of ${STEP_COUNT}`;
+
+    for (let i = 0; i < STEP_COUNT; i++) {
+      const dot = document.getElementById(`${FORM_ID}-dot-${i}`);
+      if (!dot) continue;
+      if (i <= current) {
+        dot.classList.remove('border-2', 'border-[#d1d5db]', 'text-[#9ca3af]');
+        dot.classList.add('bg-[#041632]', 'text-white');
+      } else {
+        dot.classList.add('border-2', 'border-[#d1d5db]', 'text-[#9ca3af]');
+        dot.classList.remove('bg-[#041632]', 'text-white');
+      }
+    }
+    for (let i = 0; i < STEP_COUNT - 1; i++) {
+      const line = document.getElementById(`${FORM_ID}-line-${i}`);
+      if (!line) continue;
+      line.classList.toggle('bg-[#041632]', i < current);
+      line.classList.toggle('bg-[#d1d5db]', i >= current);
+    }
+  }
+
+  function validateStep0() {
+    if (!g('firstName') || !g('lastName')) { alert('Please enter your first and last name.'); return false; }
+    if (!g('emailAddress') && !g('phoneNumber')) { alert('Please provide at least an email or phone number.'); return false; }
+    return true;
+  }
+
+  document.getElementById(`${FORM_ID}-next-0`)?.addEventListener('click', () => { if (validateStep0()) goTo(1); });
+  document.getElementById(`${FORM_ID}-prev-1`)?.addEventListener('click', () => goTo(0));
+  document.getElementById(`${FORM_ID}-next-1`)?.addEventListener('click', () => goTo(2));
+  document.getElementById(`${FORM_ID}-prev-2`)?.addEventListener('click', () => goTo(1));
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (form.querySelector('[name="_hp"]')?.value) return;
+
+    const submitBtn  = document.getElementById(`${FORM_ID}-submit`);
+    const submitText = document.getElementById(`${FORM_ID}-submit-text`);
+    const spinner    = document.getElementById(`${FORM_ID}-submit-spinner`);
+    const errorEl    = document.getElementById(`${FORM_ID}-error`);
+    const successEl  = document.getElementById(`${FORM_ID}-success`);
+
+    submitBtn.disabled = true;
+    submitText.textContent = 'Sending...';
+    spinner?.classList.remove('hidden');
+    errorEl?.classList.add('hidden');
+
+    try {
+      const res = await fetch(LEAD_CAPTURE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(collectPayload()),
+      });
+      if (!res.ok) throw new Error(`${res.status}`);
+
+      form.reset();
+      document.getElementById(`${FORM_ID}-step-${current}`)?.classList.add('hidden');
+      document.getElementById(`${FORM_ID}-stepper`)?.classList.add('hidden');
+      stepLabel?.classList.add('hidden');
+      successEl?.classList.remove('hidden');
+    } catch {
+      if (errorEl) {
+        errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
+        errorEl.classList.remove('hidden');
+      }
+    } finally {
+      submitBtn.disabled = false;
+      submitText.textContent = 'Submit Request';
+      spinner?.classList.add('hidden');
+    }
+  });
+</script>

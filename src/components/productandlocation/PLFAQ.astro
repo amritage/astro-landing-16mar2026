@@ -1,0 +1,33 @@
+﻿---
+import type { ApiProductLocation } from "../../lib/api";
+interface Props { data: ApiProductLocation; }
+const { data } = Astro.props;
+const faqs = [
+  { q: data.productlocationQ1, a: data.productlocationA1 },
+  { q: data.productlocationQ2, a: data.productlocationA2 },
+  { q: data.productlocationQ3, a: data.productlocationA3 },
+  { q: data.productlocationQ4, a: data.productlocationA4 },
+  { q: data.productlocationQ5, a: data.productlocationA5 },
+].filter((f) => f.q && f.a);
+---
+
+{faqs.length > 0 && (
+  <section class="py-12 md:py-24 bg-[#faf9ff]">
+    <div class="max-w-4xl mx-auto px-4 md:px-8">
+      <h2 class="text-2xl md:text-3xl font-headline mb-8 md:mb-12 text-center">Technical Specifications FAQ</h2>
+      <div class="space-y-2 md:space-y-4">
+        {faqs.map(({ q, a }) => (
+          <div class="border-b border-[#c3c6d1]/30">
+            <details class="group">
+              <summary class="w-full py-4 md:py-6 flex justify-between items-center text-left cursor-pointer list-none gap-3 md:gap-4">
+                <span class="text-base md:text-lg font-headline group-hover:text-[#385b99] transition-colors">{q}</span>
+                <span class="material-symbols-outlined text-[#747781] group-open:rotate-45 transition-transform shrink-0 text-xl">add</span>
+              </summary>
+              <p class="pb-4 md:pb-6 text-sm text-[#434750] leading-relaxed font-body">{a}</p>
+            </details>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

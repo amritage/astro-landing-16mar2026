@@ -1,0 +1,34 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+interface Props { data: ApiProductLocation; }
+const { data } = Astro.props;
+
+const suitability = (data.product.suitability ?? []).map((s) => {
+  const parts = s.split("|").map((p) => p.trim());
+  return { label: parts.slice(0, 2).join(" | "), pct: parseInt(parts[2] ?? "0", 10) };
+});
+---
+
+{suitability.length > 0 && (
+  <section class="py-12 md:py-24 bg-[#e2e2e8]/30">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+      <div class="mb-8 md:mb-12">
+        <span class="text-[#385b99] font-label text-sm uppercase tracking-widest mb-2 block">Compatibility Index</span>
+        <h2 class="text-3xl md:text-4xl font-headline">Application Suitability</h2>
+        <p class="text-[#747781] mt-2 font-body text-sm md:text-base">Technical performance metrics across various apparel categories.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {suitability.map(({ label, pct }) => (
+          <div class="bg-[#faf9ff] p-6 rounded-lg border border-[#c3c6d1]/20 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-bold text-[#1a1b20] font-body">{label}</h4>
+            </div>
+            <div class="w-full bg-[#f4f3f9] h-2 rounded-full overflow-hidden">
+              <div class="bg-[#385b99] h-full rounded-full" style={`width: ${pct}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

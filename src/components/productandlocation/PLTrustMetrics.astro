@@ -1,0 +1,19 @@
+---
+// Trust metrics bento — MD3 surface-container-low bg
+---
+<section class="bg-[#f4f3f9] py-8 md:py-12">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-1 bg-[#c3c6d1]/20 rounded-lg overflow-hidden">
+      {[
+        { stat: "50+",   label: "Years of Heritage" },
+        { stat: "1200+", label: "Fabric Varieties" },
+        { stat: "400+",  label: "Countries Served" },
+      ].map(({ stat, label }) => (
+        <div class="bg-[#faf9ff] p-6 md:p-10 flex flex-col items-center text-center">
+          <span class="text-4xl md:text-5xl font-headline text-[#385b99] mb-2">{stat}</span>
+          <span class="text-[#747781] font-label uppercase tracking-widest text-xs">{label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
