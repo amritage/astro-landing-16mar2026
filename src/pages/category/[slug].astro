@@ -112,6 +112,11 @@ const introBody: string =
   canonical={page.canonicalUrl ? `https://${page.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={page.ogType ?? "website"}
   ogImage={page.image1CloudUrl ?? heroImageUrl ?? undefined}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Fabric", url: "/fabric" },
+    { name: page.name },
+  ]}
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout

@@ -45,7 +45,7 @@ const blogListSchema = {
     { name: "Blog" },
   ]}
 >
-  <BlogHero />
+  <BlogHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Blog" }]} />
   <BlogDynamicGrid featured={featured} posts={rest} />
   <BlogNewsletter />
 </BaseLayout>

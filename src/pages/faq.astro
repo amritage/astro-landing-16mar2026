@@ -19,8 +19,12 @@ const categories = apiCategories.length > 0 ? apiCategories : faqCategories;
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "website"}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "FAQ" },
+  ]}
 >
-  <FAQHero />
+  <FAQHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "FAQ" }]} />
   <FAQAccordion categories={categories} />
   <FAQCTA />
 </BaseLayout>

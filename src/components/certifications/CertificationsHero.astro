@@ -1,8 +1,11 @@
 ---
+import Breadcrumbs from "../common/Breadcrumbs.astro";
+
 interface Props {
   heroImage?: string;
+  breadcrumbs?: { name: string; href?: string }[];
 }
-const { heroImage } = Astro.props;
+const { heroImage, breadcrumbs } = Astro.props;
 const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80";
 ---
 <section class="relative h-[500px] md:h-[614px] flex items-center overflow-hidden bg-[#041632] px-4 md:px-8">
@@ -20,6 +23,11 @@ const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25
 
   <div class="relative z-10 max-w-7xl mx-auto w-full">
     <div class="max-w-3xl">
+      {breadcrumbs && breadcrumbs.length > 1 && (
+        <div class="mb-5">
+          <Breadcrumbs items={breadcrumbs} variant="dark" />
+        </div>
+      )}
       <span class="inline-block py-1 px-3 bg-[#775a19]/20 text-[#ffdea5] font-label text-xs uppercase tracking-[0.2em] mb-4 md:mb-6">
         Established 1971
       </span>

@@ -101,7 +101,11 @@ const schemas = [articleSchema, faqSchema].filter(Boolean);
     { name: post.title },
   ]}
 >
-  <BlogDynamicPostHero post={post} />
+  <BlogDynamicPostHero post={post} breadcrumbs={[
+    { name: "Home", href: "/" },
+    { name: "Blog", href: "/blog" },
+    { name: post.title },
+  ]} />
   <BlogDynamicPostBody post={post} />
   <BlogPostCTA whatsapp={company?.whatsappNumber} />
 </BaseLayout>

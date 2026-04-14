@@ -13,6 +13,7 @@ import ProductCTA from "./ProductCTA.astro";
 import ProductGuide from "./ProductGuide.astro";
 import ProductFAQ from "./ProductFAQ.astro";
 import { getCloudinaryUrl } from "../../data/products";
+import Breadcrumbs from "../common/Breadcrumbs.astro";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -174,11 +175,12 @@ const heroFallbackSrcset = hero.imageUrl
     <h1 class="font-headline italic text-3xl text-white tracking-tight md:text-5xl">
       {hero.title}
     </h1>
-    <nav class="mt-4 flex items-center gap-2 text-[10px] font-label font-medium uppercase tracking-widest text-white/80 md:text-sm">
-      <a href="/" class="transition hover:text-white">Home</a>
-      <span>/</span>
-      <a href={hero.breadcrumbHref} class="font-bold text-white">{hero.breadcrumbLabel}</a>
-    </nav>
+    <div class="mt-4">
+      <Breadcrumbs
+        items={[{ name: "Home", href: "/" }, { name: hero.breadcrumbLabel, href: hero.breadcrumbHref }]}
+        variant="dark"
+      />
+    </div>
   </div>
 </header>
 

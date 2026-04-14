@@ -16,8 +16,12 @@ const seo = await getTopicPageBySlug("shipping");
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "website"}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Shipping & Logistics" },
+  ]}
 >
-  <ShippingHero />
+  <ShippingHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Shipping & Logistics" }]} />
   <ShippingProtection />
   <ShippingPorts />
   <ShippingFAQ />

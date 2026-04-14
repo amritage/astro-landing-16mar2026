@@ -14,8 +14,12 @@ const seo = await getTopicPageBySlug("terms-and-conditions");
   keywords={seo?.keywords ?? undefined}
   canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
   ogType={seo?.ogType ?? "website"}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Terms & Conditions" },
+  ]}
 >
-  <TermsHero />
+  <TermsHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Terms & Conditions" }]} />
   <TermsNav />
   <TermsContent />
 </BaseLayout>

@@ -1,0 +1,58 @@
+---
+/**
+ * Breadcrumbs.astro — universal breadcrumb UI.
+ *
+ * variant="light"  → dark text on white/light backgrounds (default)
+ * variant="dark"   → white text for use inside dark hero sections
+ */
+
+interface BreadcrumbItem {
+  name: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  variant?: "light" | "dark";
+  class?: string;
+}
+
+const { items, variant = "light", class: className = "" } = Astro.props;
+
+const isDark = variant === "dark";
+
+const linkClass = isDark
+  ? "text-white/70 hover:text-white transition-colors"
+  : "text-[#44474d] hover:text-[#041632] transition-colors";
+
+const currentClass = isDark
+  ? "text-white font-semibold"
+  : "text-[#041632] font-semibold";
+
+const separatorClass = isDark
+  ? "text-white/40 mx-1"
+  : "text-[#c5c6ce] mx-1";
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class={`flex flex-wrap items-center gap-y-1 text-sm md:text-base font-sans tracking-wide overflow-x-auto whitespace-nowrap hide-scrollbar ${className}`}
+>
+  {items.map((item, i) => (
+    <span class="flex items-center">
+      {i > 0 && (
+        <span class={`select-none text-base ${separatorClass}`} aria-hidden="true">/</span>
+      )}
+      {item.href ? (
+        <a href={item.href} class={`${linkClass} px-1`}>{item.name}</a>
+      ) : (
+        <span class={`${currentClass} px-1`} aria-current="page">{item.name}</span>
+      )}
+    </span>
+  ))}
+</nav>
+
+<style>
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

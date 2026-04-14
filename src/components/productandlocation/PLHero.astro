@@ -1,7 +1,14 @@
 ---
+import Breadcrumbs from "../common/Breadcrumbs.astro";
 import type { ApiProductLocation } from "../../lib/api";
-interface Props { data: ApiProductLocation; }
-const { data } = Astro.props;
+import ProductInquiryModal from "../product/ProductInquiryModal.astro";
+import { WA_FALLBACK, PHONE_FALLBACK } from "../../lib/constants";
+
+interface Props {
+  data: ApiProductLocation;
+  breadcrumbs?: { name: string; href?: string }[];
+}
+const { data, breadcrumbs } = Astro.props;
 
 const heroImg = data.image1CloudUrlHero ?? data.image1CloudUrl ?? data.product.image1CloudUrlHero ?? data.product.image1CloudUrl ?? "";
 const heroAlt = data.altTextImage1 ?? `${data.product.name} supply in ${data.location.name}`;
@@ -12,27 +19,95 @@ const sub = data.tagline ?? `Reliable bulk supply of premium ${data.product.cont
 const eyebrow = data.keywords?.length
   ? data.keywords.slice(0, 3).join(" • ")
   : "Industrial Precision • Legacy Quality";
+
+const SALES_EMAIL = "sales@egport.com";
 ---
 
-<section class="relative min-h-[560px] md:min-h-[870px] flex items-center overflow-hidden">
+<section class="relative min-h-[520px] md:min-h-[780px] flex items-center overflow-hidden">
   <div class="absolute inset-0 z-0">
     {heroImg && <img src={heroImg} alt={heroAlt} title={headline} width="1600" height="900" class="w-full h-full object-cover grayscale-[0.3] contrast-[1.1]" loading="eager" fetchpriority="high" />}
     <div class="absolute inset-0 bg-gradient-to-r from-[#001a40]/90 to-[#001a40]/20"></div>
   </div>
-  <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full py-16 md:py-24">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 md:px-8 w-full py-10 md:py-16">
     <div class="max-w-3xl">
-      <span class="text-[#ecc15c] font-label text-xs md:text-sm tracking-[0.2em] uppercase mb-3 md:mb-4 block">{eyebrow}</span>
-      <h1 class="text-3xl sm:text-5xl md:text-7xl font-headline mb-4 md:mb-6 leading-[1.1] text-white">{headline}</h1>
-      <p class="text-[#d7e2ff] text-base md:text-xl mb-8 md:mb-10 max-w-xl font-body leading-relaxed">{sub}</p>
-      <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
-        <a href="/support" class="bg-[#385b99] hover:bg-[#755700] text-white px-6 md:px-8 py-3 md:py-4 rounded-[0.125rem] font-body font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base">
+      {breadcrumbs && breadcrumbs.length > 1 && (
+        <div class="mb-4">
+          <Breadcrumbs items={breadcrumbs} variant="dark" />
+        </div>
+      )}
+      <span class="text-[#ecc15c] font-label text-xs md:text-sm tracking-[0.2em] uppercase mb-2 md:mb-4 block">{eyebrow}</span>
+      <h1 class="text-2xl sm:text-5xl md:text-7xl font-headline mb-3 md:mb-6 leading-[1.1] text-white">{headline}</h1>
+      <p class="text-[#d7e2ff] text-sm md:text-xl mb-6 md:mb-10 max-w-xl font-body leading-relaxed">{sub}</p>
+
+      <!-- Primary CTAs -->
+      <div class="grid grid-cols-2 sm:flex gap-2 md:gap-4 mb-3">
+        <a href="/support" class="bg-[#385b99] hover:bg-[#755700] text-white px-4 md:px-8 py-3 md:py-4 rounded-[0.125rem] font-body font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 text-xs md:text-base col-span-2 sm:col-auto">
           Request Technical Sheet
           <span class="material-symbols-outlined text-sm">download</span>
         </a>
-        <a href="/support" class="border border-white/30 backdrop-blur-sm text-white px-6 md:px-8 py-3 md:py-4 rounded-[0.125rem] font-body font-semibold hover:bg-white/10 transition-all flex items-center justify-center text-sm md:text-base">
+        <button id="inquire-modal-open" data-product={data.product.name} class="border border-white/30 backdrop-blur-sm text-white px-4 md:px-8 py-3 md:py-4 rounded-[0.125rem] font-body font-semibold hover:bg-white/10 transition-all flex items-center justify-center text-xs md:text-base col-span-2 sm:col-auto">
           Consult with Expert
+        </button>
+      </div>
+
+      <!-- Secondary CTAs: WhatsApp, Call, Email — always 3 in a row -->
+      <div class="grid grid-cols-3 gap-2 md:flex md:gap-3">
+        <a
+          id="pl-whatsapp-btn"
+          href={WA_FALLBACK}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold"
+          data-product={data.product.name}
+        >
+          <span class="material-symbols-outlined text-green-400 text-base shrink-0" style="font-variation-settings: 'FILL' 1;">chat</span>
+          <span>WhatsApp</span>
+        </a>
+        <a
+          href={PHONE_FALLBACK}
+          class="flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold"
+        >
+          <span class="material-symbols-outlined text-base shrink-0">call</span>
+          <span>Call Us</span>
+        </a>
+        <a
+          id="pl-email-btn"
+          href="#"
+          class="flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold"
+          data-product={data.product.name}
+        >
+          <span class="material-symbols-outlined text-[#ecc15c] text-base shrink-0">mail</span>
+          <span>Email</span>
         </a>
       </div>
     </div>
   </div>
 </section>
+
+<ProductInquiryModal />
+
+<script>
+  const SALES_EMAIL = "sales@egport.com";
+
+  const emailBtn = document.getElementById("pl-email-btn") as HTMLAnchorElement | null;
+  const waBtn    = document.getElementById("pl-whatsapp-btn") as HTMLAnchorElement | null;
+
+  if (emailBtn) {
+    const productName = emailBtn.dataset.product ?? "Product";
+    const pageUrl     = window.location.href;
+    const subject     = encodeURIComponent(`Bulk Quote Inquiry — ${productName}`);
+    const body        = encodeURIComponent(
+      `Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nThank you.`
+    );
+    emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
+  if (waBtn) {
+    const pageUrl  = window.location.href;
+    const baseHref = waBtn.href.split("?")[0];
+    const message  = encodeURIComponent(
+      `Hi, I'm interested in a bulk quote for this product:\n${pageUrl}`
+    );
+    waBtn.href = `${baseHref}?text=${message}`;
+  }
+</script>

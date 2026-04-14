@@ -22,6 +22,11 @@ const { industry } = Astro.props;
 <BaseLayout
   title={`${industry.name} | Industries | Amrita Global`}
   description={industry.heroSubtitle}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Industries", url: "/industry" },
+    { name: industry.name },
+  ]}
 >
   <main class="bg-background text-on-surface">
     <IndustryHero
@@ -29,6 +34,11 @@ const { industry } = Astro.props;
       title={industry.heroTitle}
       subtitle={industry.heroSubtitle}
       image={industry.heroImage}
+      breadcrumbs={[
+        { name: "Home", href: "/" },
+        { name: "Industries", href: "/industry" },
+        { name: industry.name },
+      ]}
     />
     <IndustryOverview />
     <IndustryRequirements />

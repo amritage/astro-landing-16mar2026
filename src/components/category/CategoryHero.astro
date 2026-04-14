@@ -1,11 +1,14 @@
 ---
+import Breadcrumbs from "../common/Breadcrumbs.astro";
+
 interface Props {
   name: string;
   excerpt: string | null;
   imageUrl: string | null;
   altText: string | null;
+  breadcrumbs?: { name: string; href?: string }[];
 }
-const { name, excerpt, imageUrl, altText } = Astro.props;
+const { name, excerpt, imageUrl, altText, breadcrumbs } = Astro.props;
 ---
 
 <section class="relative flex items-center overflow-hidden -mt-[94px] md:-mt-[102px] pt-[94px] md:pt-[102px]" style="height: calc(560px + 94px);">
@@ -24,6 +27,11 @@ const { name, excerpt, imageUrl, altText } = Astro.props;
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
     <div class="max-w-2xl">
+      {breadcrumbs && breadcrumbs.length > 1 && (
+        <div class="mb-4">
+          <Breadcrumbs items={breadcrumbs} variant="dark" />
+        </div>
+      )}
       <span class="font-label text-[#ecc15c] uppercase tracking-[0.2em] text-sm mb-4 block">
         Fabric Category
       </span>

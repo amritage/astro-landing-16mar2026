@@ -12,9 +12,13 @@ import IndustryCTA from "../../components/industry/IndustryCTA.astro";
 <BaseLayout
   title="Industries Served | Amrita Global"
   description="Providing bespoke textile solutions to over 50+ countries across Apparel, Hospitality, Uniforms, and Export sectors with unparalleled craftsmanship since 1971."
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Industries" },
+  ]}
 >
   <main>
-    <IndustryHero />
+    <IndustryHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Industries" }]} />
     <IndustryOverview />
     <IndustryRequirements />
     <IndustryRecommendedProducts />

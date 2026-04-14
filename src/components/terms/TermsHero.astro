@@ -1,6 +1,17 @@
 ---
+import Breadcrumbs from "../common/Breadcrumbs.astro";
+
+interface Props {
+  breadcrumbs?: { name: string; href?: string }[];
+}
+const { breadcrumbs } = Astro.props;
 ---
 <header class="pt-28 md:pt-40 pb-16 md:pb-20 px-6 max-w-5xl mx-auto text-center">
+  {breadcrumbs && breadcrumbs.length > 1 && (
+    <div class="flex justify-center mb-6">
+      <Breadcrumbs items={breadcrumbs} variant="light" />
+    </div>
+  )}
   <span class="font-label text-[#775a19] font-bold uppercase tracking-[0.2em] text-xs mb-4 block">
     Compliance &amp; Integrity
   </span>

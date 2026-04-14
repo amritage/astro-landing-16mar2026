@@ -1,10 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
 ---
 
 <BaseLayout
   title="Ahmedabad Industrial Textiles | Amrita Global Enterprises"
   description="Precision-engineered textiles for the textile capital. From Majestica-767 to heavy-duty Industrial Twill, Amrita Global delivers legacy-grade quality to Ahmedabad's elite manufacturers."
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Industries", url: "/industry" },
+    { name: "Home Textile" },
+  ]}
 >
 
   <!-- Hero Section -->
@@ -20,6 +26,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <div class="absolute inset-0 bg-gradient-to-r from-[#041632] via-[#041632]/80 to-transparent z-10"></div>
     <div class="container mx-auto px-6 relative z-20 grid md:grid-cols-12 gap-12 py-24">
       <div class="md:col-span-8 lg:col-span-7">
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Industries", href: "/industry" }, { name: "Home Textile" }]} variant="dark" class="mb-5" />
         <span class="inline-block px-4 py-1 rounded-full bg-[#fed488] text-[#785a1a] font-label text-xs font-bold uppercase tracking-widest mb-6">
           Ahmedabad Regional Hub
         </span>

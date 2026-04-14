@@ -1,5 +1,6 @@
 ..---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
 import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
 import ProductDetailBody from "../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../components/product/ProductDetailRelated.astro";
@@ -155,19 +156,17 @@ const lcpImageHref = product.image1
   preloadImage={lcpImageHref}
   preloadImageSrcset={lcpImageSrcset}
 >
-  <!-- Breadcrumb UI -->
-  <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
-    <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">
-      <a href="/" class="hover:text-[#041632]">Home</a>
-      <span class="material-symbols-outlined text-xs">chevron_right</span>
-      <a href="/fabric" class="hover:text-[#041632]">Fabric</a>
-      <span class="material-symbols-outlined text-xs">chevron_right</span>
-      <a href={`/category/${product.categorySlug}`} class="hover:text-[#041632]">{product.category}</a>
-      <span class="material-symbols-outlined text-xs">chevron_right</span>
-      <span class="text-[#041632] font-semibold">{product.name.split(" ").slice(0, 2).join(" ")}</span>
-    </nav>
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 pt-4">
+    <Breadcrumbs
+      items={[
+        { name: "Home", href: "/" },
+        { name: "Fabric", href: "/fabric" },
+        { name: product.category, href: `/category/${product.categorySlug}` },
+        { name: product.name },
+      ]}
+      variant="light"
+    />
   </div>
-
   <ProductDetailHero product={product} />
   <ProductDetailBody product={product} />
   <ProductDetailRelated product={product} collectionProducts={collectionProducts} whatsapp={company?.whatsappNumber} phone={company?.phone1} />

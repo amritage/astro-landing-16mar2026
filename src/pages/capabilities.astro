@@ -31,7 +31,7 @@ const [company, seo] = await Promise.all([
   ]}
 >
   <main class="bg-[#f8f9fa] text-[#191c1d]">
-    <CapabilitiesHero />
+    <CapabilitiesHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Capabilities" }]} />
     <CapabilitiesPillars whatsapp={company?.whatsappNumber} phone={company?.phone1} image1={seo?.image1CloudUrl ?? undefined} />
     <CapabilitiesProcess />
     <CapabilitiesQualityHub image2={seo?.image2CloudUrl ?? undefined} />

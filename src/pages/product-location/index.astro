@@ -68,8 +68,7 @@ const canonicalUrl = `${SITE_BASE}/product-location`;
 // ── JSON-LD ───────────────────────────────────────────────────────────────────
 const breadcrumbs = [
   { name: "Home", url: "/" },
-  { name: product?.category || "Fabric", url: `/category/${product?.categorySlug}` },
-  { name: product && location ? `${product.name} in ${location.name}` : pageTitle, url: `/product-location/${data?.slug}` },
+  { name: "Product and Location", url: "/product-location" },
 ];
 
 const additionalProperties = data && product && location ? [
@@ -167,7 +166,7 @@ const graphSchema = data ? {
 >
   {data ? (
     <>
-      <PLHero data={data} />
+      <PLHero data={data} breadcrumbs={breadcrumbs.map(b => ({ name: b.name, href: b.url }))} />
       <PLTrustMetrics />
       <PLProductDetail data={data} />
       <PLLocation data={data} />

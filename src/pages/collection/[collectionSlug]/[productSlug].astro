@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/common/Breadcrumbs.astro";
 import ProductDetailHero from "../../../components/product/ProductDetailHero.astro";
 import ProductDetailBody from "../../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
@@ -62,18 +63,22 @@ const canonicalUrl = `${SITE_BASE}/collection/${collectionSlug}/${product.slug}`
   twitterTitle={`${product.name} | Amrita Global Enterprises`}
   twitterDescription={product.shortDesc}
   twitterImage={product.imageLarge || product.image1 || undefined}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: collectionName, url: `/collection/${collectionSlug}` },
+    { name: product.name },
+  ]}
 >
-  <!-- Breadcrumb — collection context -->
-  <div class="max-w-7xl mx-auto px-4 lg:px-8 py-4 overflow-x-auto whitespace-nowrap hide-scrollbar">
-    <nav class="flex items-center space-x-2 text-sm font-sans text-[#44474d]">
-      <a href="/" class="hover:text-[#041632]">Home</a>
-      <span class="material-symbols-outlined text-xs">chevron_right</span>
-      <a href={`/collection/${collectionSlug}`} class="hover:text-[#041632]">{collectionName}</a>
-      <span class="material-symbols-outlined text-xs">chevron_right</span>
-      <span class="text-[#041632] font-semibold">{product.name.split(" ").slice(0, 2).join(" ")}</span>
-    </nav>
+  <div class="max-w-7xl mx-auto px-4 lg:px-8 pt-4">
+    <Breadcrumbs
+      items={[
+        { name: "Home", href: "/" },
+        { name: collectionName, href: `/collection/${collectionSlug}` },
+        { name: product.name },
+      ]}
+      variant="light"
+    />
   </div>
-
   <ProductDetailHero product={product} />
   <ProductDetailBody product={product} />
   <ProductDetailRelated product={product} collectionProducts={collectionProducts} />

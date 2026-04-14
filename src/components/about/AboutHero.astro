@@ -1,8 +1,11 @@
 ---
+import Breadcrumbs from "../common/Breadcrumbs.astro";
+
 interface Props {
   image?: string | null;
+  breadcrumbs?: { name: string; href?: string }[];
 }
-const { image } = Astro.props;
+const { image, breadcrumbs } = Astro.props;
 
 function buildHeroUrl(
   url: string,
@@ -22,15 +25,12 @@ function buildHeroUrl(
     if (seg.includes(",") || /^[fqwchgbdeo]_/.test(seg)) { i++; } else break;
   }
   const publicPart = segments.slice(i).join("/");
-  // c_fill ensures exact dimensions; heavy overlay makes quality loss invisible
   return `${base}${format},${quality},w_${width},c_fill/${publicPart}`;
 }
 
 const FALLBACK_HERO = "https://res.cloudinary.com/age-fabric/image/upload/About1_j3mzld.jpg";
 const rawImage = image ?? FALLBACK_HERO;
 
-// Mobile gets q_30 (very aggressive) — image is under a 70% dark overlay + gradient
-// Desktop gets q_auto:eco — still aggressive but visually fine at larger sizes
 const mobileWidths = [400, 768];
 const desktopWidths = [1024, 1280];
 
@@ -84,6 +84,11 @@ const sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1280px";
   </div>
   <div class="relative z-10 max-w-7xl mx-auto px-8 w-full">
     <div class="max-w-3xl">
+      {breadcrumbs && breadcrumbs.length > 1 && (
+        <div class="mb-6">
+          <Breadcrumbs items={breadcrumbs} variant="dark" />
+        </div>
+      )}
       <span class="inline-block px-4 py-1 mb-6 border border-[#775a19] text-[#ffdea5] font-sans text-xs tracking-[0.2em] uppercase">
         Est. 1971 | Ahmedabad, India
       </span>
@@ -92,7 +97,7 @@ const sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1280px";
         <span class="italic gold-text">Textile Excellence</span><br/>
         <span class="text-white">Since 1971</span>
       </h1>
-      <p class="text-[#8393b5] text-xl md:text-2xl leading-relaxed font-light mb-10 max-w-2xl">
+      <p class="text-[#8393b5] text-xl md:text-2xl leading-relaxed font-light max-w-2xl">
         For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry.
       </p>
     </div>
