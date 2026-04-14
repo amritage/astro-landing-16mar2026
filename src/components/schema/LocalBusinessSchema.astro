@@ -2,7 +2,7 @@
 // B6 FIX: accept company + site + homePage as props — BaseLayout already fetches both,
 // so this component no longer makes duplicate API calls.
 import { type ApiCompanyInfo, type ApiSiteSettings, type ApiTopicPage } from "../../lib/api";
-import { SITE_BASE } from "../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 interface Props {
   company: ApiCompanyInfo | null;

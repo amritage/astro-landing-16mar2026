@@ -2,8 +2,11 @@
 import Breadcrumbs from "../common/Breadcrumbs.astro";
 import type { ApiProductLocation } from "../../lib/api";
 import ProductInquiryModal from "../product/ProductInquiryModal.astro";
-import { WA_FALLBACK, PHONE_FALLBACK } from "../../lib/constants";
-
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
+const company = await getCompanyInfo("AGE");
+const WA_FALLBACK = buildWaLink(company?.whatsappNumber);
+const PHONE_FALLBACK = buildPhoneHref(company?.phone1);
+const SALES_EMAIL = company?.salesEmail ?? null;
 interface Props {
   data: ApiProductLocation;
   breadcrumbs?: { name: string; href?: string }[];
@@ -19,8 +22,6 @@ const sub = data.tagline ?? `Reliable bulk supply of premium ${data.product.cont
 const eyebrow = data.keywords?.length
   ? data.keywords.slice(0, 3).join(" • ")
   : "Industrial Precision • Legacy Quality";
-
-const SALES_EMAIL = "sales@egport.com";
 ---
 
 <section class="relative min-h-[520px] md:min-h-[780px] flex items-center overflow-hidden">
@@ -54,18 +55,18 @@ const SALES_EMAIL = "sales@egport.com";
       <div class="grid grid-cols-3 gap-2 md:flex md:gap-3">
         <a
           id="pl-whatsapp-btn"
-          href={WA_FALLBACK}
+          href={WA_FALLBACK ?? "#"}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold"
+          class={`flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold${!WA_FALLBACK ? " hidden" : ""}`}
           data-product={data.product.name}
         >
           <span class="material-symbols-outlined text-green-400 text-base shrink-0" style="font-variation-settings: 'FILL' 1;">chat</span>
           <span>WhatsApp</span>
         </a>
         <a
-          href={PHONE_FALLBACK}
-          class="flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold"
+          href={PHONE_FALLBACK ?? "#"}
+          class={`flex items-center justify-center gap-1.5 md:gap-2 bg-white/10 border border-white/20 backdrop-blur-sm text-white px-2 md:px-4 py-2.5 rounded-[0.125rem] hover:bg-white/20 transition-all text-xs md:text-sm font-body font-semibold${!PHONE_FALLBACK ? " hidden" : ""}`}
         >
           <span class="material-symbols-outlined text-base shrink-0">call</span>
           <span>Call Us</span>
@@ -86,28 +87,21 @@ const SALES_EMAIL = "sales@egport.com";
 
 <ProductInquiryModal />
 
-<script>
-  const SALES_EMAIL = "sales@egport.com";
+<script define:vars={{ SALES_EMAIL, WA_FALLBACK }}>
+  const emailBtn = document.getElementById("pl-email-btn");
+  const waBtn    = document.getElementById("pl-whatsapp-btn");
 
-  const emailBtn = document.getElementById("pl-email-btn") as HTMLAnchorElement | null;
-  const waBtn    = document.getElementById("pl-whatsapp-btn") as HTMLAnchorElement | null;
-
-  if (emailBtn) {
+  if (emailBtn && SALES_EMAIL) {
     const productName = emailBtn.dataset.product ?? "Product";
     const pageUrl     = window.location.href;
     const subject     = encodeURIComponent(`Bulk Quote Inquiry — ${productName}`);
-    const body        = encodeURIComponent(
-      `Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nThank you.`
-    );
+    const body        = encodeURIComponent(`Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nThank you.`);
     emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
   }
 
-  if (waBtn) {
-    const pageUrl  = window.location.href;
-    const baseHref = waBtn.href.split("?")[0];
-    const message  = encodeURIComponent(
-      `Hi, I'm interested in a bulk quote for this product:\n${pageUrl}`
-    );
-    waBtn.href = `${baseHref}?text=${message}`;
+  if (waBtn && WA_FALLBACK) {
+    const pageUrl = window.location.href;
+    const message = encodeURIComponent(`Hi, I'm interested in a bulk quote for this product:\n${pageUrl}`);
+    waBtn.href = `${WA_FALLBACK}?text=${message}`;
   }
 </script>

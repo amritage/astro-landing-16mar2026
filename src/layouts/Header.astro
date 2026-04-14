@@ -11,9 +11,10 @@ const isActivePath = (href: string) => {
 };
 
 const company = await getCompanyInfo();
-const phoneHref = buildPhoneHref(company?.phone1, siteConfig.phoneHref);
-const whatsappHref = buildWaLink(company?.whatsappNumber ?? company?.phone1, siteConfig.whatsappHref)
-  + (company?.whatsappNumber || company?.phone1 ? "?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote" : "");
+const phoneHref = buildPhoneHref(company?.phone1);
+const whatsappHref = company?.whatsappNumber || company?.phone1
+  ? buildWaLink(company?.whatsappNumber ?? company?.phone1) + "?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote"
+  : null;
 ---
 
 <!-- Trust Strip -->
@@ -157,8 +158,8 @@ const whatsappHref = buildWaLink(company?.whatsappNumber ?? company?.phone1, sit
 
   <div class="mx-3 mt-4 p-4 rounded-2xl bg-slate-50 flex flex-col gap-[6px]">
     <p class="text-[10px] font-bold tracking-[0.16em] uppercase text-slate-500 mb-1">Quick Contact</p>
-    <a href={phoneHref} class="text-sm font-bold text-[#041632] no-underline hover:underline">{company?.phone1 ?? siteConfig.phone}</a>
-    <a href={`mailto:${company?.primaryEmail ?? siteConfig.email}`} class="text-[13px] text-slate-500 no-underline break-all hover:text-[#041632]">{company?.primaryEmail ?? siteConfig.email}</a>
+    {phoneHref && <a href={phoneHref} class="text-sm font-bold text-[#041632] no-underline hover:underline">{company?.phone1}</a>}
+    {company?.primaryEmail && <a href={`mailto:${company.primaryEmail}`} class="text-[13px] text-slate-500 no-underline break-all hover:text-[#041632]">{company.primaryEmail}</a>}
   </div>
 
   <div class="flex gap-[10px] px-3 pt-4 pb-6 mt-auto flex-shrink-0">

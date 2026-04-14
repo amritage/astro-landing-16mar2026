@@ -1,6 +1,7 @@
 ﻿---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
-import { CAREERS_LEAD_CAPTURE_URL, ATTACHMENT_UPLOAD_URL } from "../../config/endpoints";
+const CAREERS_LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_CAREERS_LEAD_CAPTURE_KEY;
+const ATTACHMENT_UPLOAD_URL = import.meta.env.PUBLIC_ESPO_BASE + "/Attachment";
 ---
 
 <MultiStepContactForm
@@ -194,18 +195,18 @@ import { CAREERS_LEAD_CAPTURE_URL, ATTACHMENT_UPLOAD_URL } from "../../config/en
       }
 
       const rawPhone = g('phoneNumber');
-      const cleanPhone = rawPhone
-        ? (rawPhone.startsWith('+') ? '+' + rawPhone.slice(1).replace(/\D/g, '') : rawPhone.replace(/\D/g, ''))
-        : '';
+      const descParts: string[] = [];
+      if (rawPhone) descParts.push(`Phone: ${rawPhone}`);
+      const descText = g('description');
+      if (descText) descParts.push(descText);
       const payload: Record<string, unknown> = {
         firstName: g('firstName'), lastName: g('lastName'), emailAddress: g('emailAddress'),
         title: g('title'),
         addressStreet: g('addressStreet'), addressCity: g('addressCity'),
         addressState: g('addressState'), addressCountry: g('addressCountry'),
         addressPostalCode: g('addressPostalCode'), cExperience: g('cExperience'),
-        description: g('description'),
       };
-      if (cleanPhone.length > 3) payload.phoneNumber = cleanPhone;
+      if (descParts.length) payload.description = descParts.join('\n');
       if (resumeAttachmentId) payload.cResumeAttachmentIds = resumeAttachmentId;
 
       const res = await fetch(ENDPOINT, {

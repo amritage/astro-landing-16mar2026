@@ -109,7 +109,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         q: "How can I get a custom quote for bulk fabric?",
-        a: "You can use our 'Request Quote' button, email sales@amrita-fashions.com, or contact our sales team directly at +91-9925155141.",
+        a: "You can use our 'Request Quote' button or contact our sales team directly via the Support page.",
       },
     ],
   },

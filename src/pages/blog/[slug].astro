@@ -5,7 +5,7 @@ import BlogDynamicPostHero from "../../components/blog/BlogDynamicPostHero.astro
 import BlogDynamicPostBody from "../../components/blog/BlogDynamicPostBody.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getCompanyInfo } from "../../lib/api";
-import { SITE_BASE } from "../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 export async function getStaticPaths() {
   const posts = await fetchBlogPosts();

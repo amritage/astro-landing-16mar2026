@@ -5,7 +5,7 @@ import BlogNewsletter from "../../components/blog/BlogNewsletter.astro";
 import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getTopicPageBySlug } from "../../lib/api";
-import { SITE_BASE } from "../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 const [posts, seo] = await Promise.all([
   fetchBlogPosts(),

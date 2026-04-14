@@ -4,7 +4,7 @@ import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProducts, getCloudinaryUrl } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
-import { SITE_BASE } from "../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 const FABRIC_HERO_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg";
 

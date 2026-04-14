@@ -1,6 +1,8 @@
-// C3 FIX: use shared constant instead of hardcoded URL
-// C1 FIX: cloudinary helpers now live in lib/cloudinary.ts — import from there
-import { API_BASE } from "./constants";
+// API base URL from environment variable
+const API_BASE =
+  (import.meta.env.API_BASE_URL as string | undefined) ??
+  (typeof process !== "undefined" ? process.env.API_BASE_URL : undefined) ??
+  "https://espobackend.vercel.app";
 export { cloudinarySrcset } from "./cloudinary";
 
 const API_URL = `${API_BASE}/api/blog`;

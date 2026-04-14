@@ -1,7 +1,7 @@
 ---
 import { siteConfig } from "../data/site";
 import { getCompanyInfo, getCategoryTopicPages, getDynamicTopicPages } from "../lib/api";
-import { LEAD_CAPTURE_URL } from "../config/endpoints";
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 
 const company = await getCompanyInfo("AGE");
 const categoryPages = await getCategoryTopicPages();
@@ -36,12 +36,12 @@ const addressLine1 = company?.legalName ?? "Amrita Global Enterprises";
 const addressLine2 = [company?.addressStreet].filter(Boolean).join(", ");
 const addressLine3 = [company?.addressCity, company?.addressState, company?.addressCountry, company?.addressPostalCode].filter(Boolean).join(", ");
 
-const phone1 = company?.phone1 ?? "+91-9925155141";
-const phone1Dept = company?.phone1Dept ?? "Sales";
-const phone2 = company?.phone2 ?? "+91-9824003484";
-const phone2Dept = company?.phone2Dept ?? "Director";
-const salesEmail = company?.salesEmail ?? "sales@amrita-fashions.com";
-const supportEmail = company?.supportEmail ?? "support@amrita-fashions.com";
+const phone1 = company?.phone1 ?? null;
+const phone1Dept = company?.phone1Dept ?? null;
+const phone2 = company?.phone2 ?? null;
+const phone2Dept = company?.phone2Dept ?? null;
+const salesEmail = company?.salesEmail ?? null;
+const supportEmail = company?.supportEmail ?? null;
 const foundingYear = company?.foundingYear ?? 1971;
 const recognitions = company?.recognitions ?? [];
 const recognition = recognitions.join(". ");

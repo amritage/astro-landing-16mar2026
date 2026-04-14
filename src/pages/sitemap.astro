@@ -4,7 +4,6 @@ import { getTopicPageBySlug, getDynamicTopicPages, getCategoryTopicPages, getCom
 import { fetchBlogPosts } from "../lib/blog";
 import { fetchProducts } from "../data/products";
 import CloudinaryImage from "../components/common/CloudinaryImage.astro";
-import { WA_FALLBACK } from "../lib/constants";
 
 const seo = await getTopicPageBySlug("sitemap");
 
@@ -16,7 +15,7 @@ const [collections, categoryPages, blogPosts, products, company] = await Promise
   getCompanyInfo("AGE"),
 ]);
 
-const whatsappHref = buildWaLink(company?.whatsappNumber, WA_FALLBACK);
+const whatsappHref = buildWaLink(company?.whatsappNumber);
 
 const realIndustries = [
   { label: "Apparel", href: "/industry/apparel" },
@@ -323,13 +322,17 @@ const dotClass = "w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0";
         <span class="material-symbols-outlined text-lg">mail</span>
         Contact Specialists
       </a>
-      <a
-        href={whatsappHref}
-        class="bg-white text-[#1B2B48] border border-slate-200 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
-      >
-        <span class="material-symbols-outlined text-lg text-green-600">chat</span>
-        WhatsApp Inquire
-      </a>
+      {whatsappHref && (
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-white text-[#1B2B48] border border-slate-200 px-8 py-4 rounded-lg font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined text-lg text-green-600">chat</span>
+          WhatsApp Inquire
+        </a>
+      )}
     </div>
   </section>
 

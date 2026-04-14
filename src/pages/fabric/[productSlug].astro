@@ -8,8 +8,7 @@ import { fetchProducts, buildCloudinarySrcset, type Product } from "../../data/p
 import { getCompanyInfo } from "../../lib/api";
 // C1 FIX: use shared utility instead of local buildOgImageUrl copy
 import { buildOgImageUrl } from "../../lib/cloudinary";
-// C5 FIX: use shared constant instead of repeated inline fallback
-import { SITE_BASE } from "../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 export async function getStaticPaths() {
   const products = await fetchProducts();

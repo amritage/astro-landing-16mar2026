@@ -1,7 +1,10 @@
 ---
 import ResponsiveImage from "../common/ResponsiveImage.astro";
-import { WA_FALLBACK, PHONE_FALLBACK } from "../../lib/constants";
-const SALES_EMAIL = "sales@egport.com";
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
+const company = await getCompanyInfo("AGE");
+const WA_HREF = buildWaLink(company?.whatsappNumber);
+const PHONE_HREF = buildPhoneHref(company?.phone1);
+const SALES_EMAIL = company?.salesEmail ?? null;
 ---
 
 <header class="relative flex h-[250px] items-center overflow-hidden md:h-[300px]">
@@ -29,52 +32,49 @@ const SALES_EMAIL = "sales@egport.com";
     <div class="flex flex-wrap gap-3 mt-5">
       <a
         id="product-hero-whatsapp-btn"
-        href={WA_FALLBACK}
+        href={WA_HREF ?? "#"}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2 bg-white/10 border border-white/30 backdrop-blur-sm text-white px-4 py-2 hover:bg-white/20 transition-all text-sm font-label font-semibold"
+        class={`flex items-center gap-2 bg-white/10 border border-white/30 backdrop-blur-sm text-white px-4 py-2 hover:bg-white/20 transition-all text-sm font-label font-semibold${!WA_HREF ? " hidden" : ""}`}
       >
         <span class="material-symbols-outlined text-green-400 text-base" style="font-variation-settings: 'FILL' 1;">chat</span>
         WhatsApp
       </a>
       <a
-        href={PHONE_FALLBACK}
-        class="flex items-center gap-2 bg-white/10 border border-white/30 backdrop-blur-sm text-white px-4 py-2 hover:bg-white/20 transition-all text-sm font-label font-semibold"
+        href={PHONE_HREF ?? "#"}
+        class={`flex items-center gap-2 bg-white/10 border border-white/30 backdrop-blur-sm text-white px-4 py-2 hover:bg-white/20 transition-all text-sm font-label font-semibold${!PHONE_HREF ? " hidden" : ""}`}
       >
         <span class="material-symbols-outlined text-base">call</span>
         Call Us
       </a>
-      <a
-        id="product-hero-email-btn"
-        href="#"
-        class="flex items-center gap-2 bg-white/10 border border-white/30 backdrop-blur-sm text-white px-4 py-2 hover:bg-white/20 transition-all text-sm font-label font-semibold"
-      >
-        <span class="material-symbols-outlined text-[#ecc15c] text-base">mail</span>
-        Email
-      </a>
+      {SALES_EMAIL && (
+        <a
+          id="product-hero-email-btn"
+          href="#"
+          class="flex items-center gap-2 bg-white/10 border border-white/30 backdrop-blur-sm text-white px-4 py-2 hover:bg-white/20 transition-all text-sm font-label font-semibold"
+        >
+          <span class="material-symbols-outlined text-[#ecc15c] text-base">mail</span>
+          Email
+        </a>
+      )}
     </div>
   </div>
 </header>
 
-<script>
-  const SALES_EMAIL = "sales@egport.com";
+<script define:vars={{ SALES_EMAIL, WA_HREF }}>
+  const emailBtn = document.getElementById("product-hero-email-btn");
+  const waBtn    = document.getElementById("product-hero-whatsapp-btn");
 
-  const emailBtn = document.getElementById("product-hero-email-btn") as HTMLAnchorElement | null;
-  const waBtn    = document.getElementById("product-hero-whatsapp-btn") as HTMLAnchorElement | null;
-
-  if (emailBtn) {
+  if (emailBtn && SALES_EMAIL) {
     const pageUrl = window.location.href;
     const subject = encodeURIComponent("Fabric Catalog Inquiry");
-    const body    = encodeURIComponent(
-      `Hi,\n\nI am interested in your fabric catalog.\n\n${pageUrl}\n\nPlease share more details.\n\nThank you.`
-    );
+    const body    = encodeURIComponent(`Hi,\n\nI am interested in your fabric catalog.\n\n${pageUrl}\n\nPlease share more details.\n\nThank you.`);
     emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
   }
 
-  if (waBtn) {
+  if (waBtn && WA_HREF) {
     const pageUrl  = window.location.href;
-    const baseHref = waBtn.href.split("?")[0];
     const message  = encodeURIComponent(`Hi, I'm browsing your fabric catalog:\n${pageUrl}`);
-    waBtn.href = `${baseHref}?text=${message}`;
+    waBtn.href = `${WA_HREF}?text=${message}`;
   }
 </script>

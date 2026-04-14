@@ -1,5 +1,8 @@
-// C3 FIX: single source of truth — no more hardcoded URL here
-import { API_BASE as BASE_URL } from "./constants";
+// API base URL from environment variable
+const BASE_URL =
+  (import.meta.env.API_BASE_URL as string | undefined) ??
+  (typeof process !== "undefined" ? process.env.API_BASE_URL : undefined) ??
+  "https://espobackend.vercel.app";
 
 // ── Raw API shape ──────────────────────────────────────────────────────────────
 
@@ -477,22 +480,22 @@ export interface ApiAuthor {
 
 /**
  * Build a correct wa.me link from any phone string like "+91-9925155141"
- * Always produces: https://wa.me/+919925155141
+ * Returns null if number is empty.
  */
-export function buildWaLink(number: string | null | undefined, fallback = ""): string {
-  if (!number) return fallback;
+export function buildWaLink(number: string | null | undefined): string | null {
+  if (!number) return null;
   const digits = String(number).replace(/[^\d]/g, "");
-  return digits ? `https://wa.me/+${digits}` : fallback;
+  return digits ? `https://wa.me/+${digits}` : null;
 }
 
 /**
  * Build a tel: href from any phone string like "+91-9925155141"
- * Always produces: tel:+919925155141
+ * Returns null if number is empty.
  */
-export function buildPhoneHref(number: string | null | undefined, fallback = ""): string {
-  if (!number) return fallback;
+export function buildPhoneHref(number: string | null | undefined): string | null {
+  if (!number) return null;
   const digits = String(number).replace(/[^\d]/g, "");
-  return digits ? `tel:+${digits}` : fallback;
+  return digits ? `tel:+${digits}` : null;
 }
 
 export async function getAuthors(): Promise<ApiAuthor[]> {

@@ -27,30 +27,30 @@ const svgIcons = {
 };
 
 const staticDepts = [
-  {
+  ...(supportEmail ? [{
     iconKey: "support_agent",
     designation: "Support",
     name: "Customer Support",
-    contactLabel: supportEmail ?? "support@amrita-fashions.com",
-    href: `mailto:${supportEmail ?? "support@amrita-fashions.com"}`,
+    contactLabel: supportEmail,
+    href: `mailto:${supportEmail}`,
     contactIconKey: "mail",
-  },
-  {
+  }] : []),
+  ...(salesEmail ? [{
     iconKey: "local_shipping",
     designation: "Logistics",
     name: "Shipping & Dispatch",
-    contactLabel: salesEmail ?? "sales@amrita-fashions.com",
-    href: `mailto:${salesEmail ?? "sales@amrita-fashions.com"}`,
+    contactLabel: salesEmail,
+    href: `mailto:${salesEmail}`,
     contactIconKey: "mail",
-  },
-  {
+  }] : []),
+  ...(phone1 ? [{
     iconKey: "inbox",
     designation: "Sales",
     name: "Bulk Orders & RFQ",
-    contactLabel: phone1 ?? "+91-9925155141",
-    href: `tel:${phone1 ?? "+91-9925155141"}`,
+    contactLabel: phone1,
+    href: `tel:${phone1}`,
     contactIconKey: "call",
-  },
+  }] : []),
 ];
 ---
 
@@ -93,7 +93,7 @@ const staticDepts = [
           )}
           <h3 class="font-serif text-lg text-[#041632] mb-4">{dynamicAuthor.name}</h3>
           <a
-            href={dynamicAuthor.authorLinkedinURL ?? `mailto:${salesEmail ?? "#"}`}
+            href={dynamicAuthor.authorLinkedinURL ?? (salesEmail ? `mailto:${salesEmail}` : "#")}
             target={dynamicAuthor.authorLinkedinURL ? "_blank" : undefined}
             rel={dynamicAuthor.authorLinkedinURL ? "noopener noreferrer" : undefined}
             class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors"
@@ -108,7 +108,7 @@ const staticDepts = [
           </div>
           <p class="font-sans text-xs uppercase tracking-widest text-[#775a19] mb-2">Director</p>
           <h3 class="font-serif text-lg text-[#041632] mb-4">Management</h3>
-          <a href={`mailto:${salesEmail ?? "#"}`} class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors">
+          <a href={salesEmail ? `mailto:${salesEmail}` : "#"} class="inline-flex items-center gap-1 text-[#1B2B48] text-xs font-bold font-sans uppercase tracking-widest hover:text-[#775a19] transition-colors">
             Contact <Fragment set:html={svgIcons.arrow_outward} />
           </a>
         </div>

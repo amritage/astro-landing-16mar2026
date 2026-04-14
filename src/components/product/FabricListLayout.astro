@@ -192,9 +192,7 @@ const heroFallbackSrcset = hero.imageUrl
         {intro.heading || <span class="text-slate-300 italic">Content coming soon</span>}
       </h2>
       {intro.p1Html ? (
-        <div class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 rich-content">
-          <div set:html={intro.p1Html} />
-        </div>
+        <div class="mt-5 max-w-2xl rich-content" set:html={intro.p1Html} />
       ) : (
         <p class="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
           {intro.body || <span class="text-slate-400 italic">Description not yet available.</span>}

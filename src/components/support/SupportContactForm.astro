@@ -1,6 +1,6 @@
 ---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
-import { LEAD_CAPTURE_URL } from "../../config/endpoints";
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 ---
 
 <MultiStepContactForm
@@ -52,7 +52,7 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
       <input id="scf-phone" type="tel" name="phoneNumber" class="msf-input" placeholder="+91 00000 00000" />
       <p class="text-xs text-[#5a6a85] mt-1">Please provide at least an email or phone number.</p>
     </div>
-    <div class="flex justify-end pt-2">
+    <div class="msf-nav-row end">
       <button type="button" id="scf-next-0" class="msf-btn-primary">Next Step</button>
     </div>
   </div>
@@ -83,7 +83,7 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
       <label for="scf-postal" class="msf-label">Postal Code</label>
       <input id="scf-postal" type="text" name="addressPostalCode" class="msf-input" placeholder="Postal / ZIP code" />
     </div>
-    <div class="flex justify-between pt-2">
+    <div class="msf-nav-row">
       <button type="button" id="scf-prev-1" class="msf-btn-secondary">Previous</button>
       <button type="button" id="scf-next-1" class="msf-btn-primary">Next Step</button>
     </div>
@@ -119,10 +119,10 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
     </div>
     <div>
       <label for="scf-amount" class="msf-label">Opportunity Amount</label>
-      <div class="flex gap-3">
+      <div class="flex flex-col sm:flex-row gap-3">
         <input id="scf-amount" type="number" name="opportunityAmount" class="msf-input flex-1" placeholder="0.00" min="0" step="0.01" />
         <label for="scf-currency" class="sr-only">Currency</label>
-        <select id="scf-currency" name="opportunityAmountCurrency" class="msf-input w-28">
+        <select id="scf-currency" name="opportunityAmountCurrency" class="msf-input sm:w-28">
           <option value="USD">USD</option>
           <option value="INR">INR</option>
           <option value="EUR">EUR</option>
@@ -134,7 +134,7 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
       <label for="scf-description" class="msf-label">Description</label>
       <textarea id="scf-description" name="description" rows="4" class="msf-input resize-none" placeholder="Describe your requirements or any additional information"></textarea>
     </div>
-    <div class="flex justify-between pt-2">
+    <div class="msf-nav-row">
       <button type="button" id="scf-prev-2" class="msf-btn-secondary">Previous</button>
       <button type="submit" id="scf-submit" class="msf-btn-primary">
         <span id="scf-submit-text">Submit Request</span>
@@ -164,16 +164,8 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
       'salutationName','firstName','lastName','middleName',
       'emailAddress','accountName',
       'addressStreet','addressCity','addressState','addressCountry','addressPostalCode',
-      'description',
     ];
     for (const f of textFields) { const v = g(f); if (v) payload[f] = v; }
-    const rawPhone = g('phoneNumber');
-    if (rawPhone) {
-      const cleaned = rawPhone.startsWith('+')
-        ? '+' + rawPhone.slice(1).replace(/\D/g, '')
-        : rawPhone.replace(/\D/g, '');
-      if (cleaned.length > 3) payload.phoneNumber = cleaned;
-    }
     const bt = g('cBusinessType');
     const fc = g('cFabricCategory');
     const am = g('opportunityAmount');
@@ -182,6 +174,13 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
     if (am) payload.opportunityAmount = parseFloat(am);
     const cur = g('opportunityAmountCurrency');
     if (cur) payload.opportunityAmountCurrency = cur;
+    // Phone goes into description to avoid CRM phone field validation
+    const parts = [];
+    const rawPhone = g('phoneNumber');
+    if (rawPhone) parts.push(`Phone: ${rawPhone}`);
+    const desc = g('description');
+    if (desc) parts.push(desc);
+    if (parts.length) payload.description = parts.join('\n');
     return payload;
   }
 

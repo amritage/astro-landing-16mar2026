@@ -1,5 +1,5 @@
 ---
-import { LEAD_CAPTURE_URL } from "../../config/endpoints";
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 ---
 <section class="px-8 py-20 bg-[#e7e8e9] relative overflow-hidden">
   <div class="max-w-4xl mx-auto text-center relative z-10">

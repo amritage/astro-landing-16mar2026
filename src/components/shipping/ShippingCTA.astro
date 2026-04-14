@@ -1,9 +1,8 @@
 ---
-import { getCompanyInfo } from "../../lib/api";
+import { getCompanyInfo, buildPhoneHref } from "../../lib/api";
 
 const companyInfo = await getCompanyInfo();
-const phone = companyInfo?.phone1 ?? companyInfo?.phone2 ?? null;
-const phoneHref = phone ? `tel:${phone.replace(/\s+/g, "")}` : null;
+const phoneHref = buildPhoneHref(companyInfo?.phone1 ?? companyInfo?.phone2);
 ---
 <section class="px-6 py-16 bg-white">
   <div class="max-w-7xl mx-auto">

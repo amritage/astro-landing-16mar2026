@@ -3,8 +3,7 @@ import { getAllProducts, getProducts, getCompanyInfo, buildWaLink, buildPhoneHre
 // Import for local use; also re-exported below so existing consumers don't need import changes
 import { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
 export { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset };
-// C4 FIX: fallback constants from single source of truth
-import { WA_FALLBACK, PHONE_FALLBACK } from "../lib/constants";
+// C4 FIX: fallback constants from single source of truth — now using null (no hardcoded fallback)
 
 // ── Type used by all product components ───────────────────────────────────────
 
@@ -151,8 +150,8 @@ function sanitizeSecondaryImage(url: string | null | undefined): string | null {
 
 export function mapApiProduct(p: ApiProduct, whatsappNumber?: string, phone1?: string): Product {
   // C4 FIX: fallbacks come from constants, not hardcoded strings
-  const waNumber = buildWaLink(whatsappNumber, WA_FALLBACK);
-  const phoneHref = buildPhoneHref(phone1, PHONE_FALLBACK);
+  const waNumber = buildWaLink(whatsappNumber) ?? "";
+  const phoneHref = buildPhoneHref(phone1) ?? "";
   return {
     id: p.id,
     slug: p.productslug,

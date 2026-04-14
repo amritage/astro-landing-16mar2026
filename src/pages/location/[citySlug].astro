@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
 import { locations } from "../../data/locations";
 import { fetchProducts } from "../../data/products";
-import { WA_FALLBACK, PHONE_FALLBACK } from "../../lib/constants";
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
 
 export async function getStaticPaths() {
   const products = await fetchProducts();
@@ -14,7 +14,10 @@ export async function getStaticPaths() {
 }
 
 const { location, products } = Astro.props;
-const SALES_EMAIL = "sales@egport.com";
+const company = await getCompanyInfo("AGE");
+const WA_FALLBACK = buildWaLink(company?.whatsappNumber);
+const PHONE_FALLBACK = buildPhoneHref(company?.phone1);
+const SALES_EMAIL = company?.salesEmail ?? null;
 ---
 
 <BaseLayout
@@ -37,17 +40,17 @@ const SALES_EMAIL = "sales@egport.com";
         <div class="flex flex-wrap gap-3">
           <a
             id="location-hero-whatsapp-btn"
-            href={WA_FALLBACK}
+            href={WA_FALLBACK ?? "#"}
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold"
+            class={`flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold${!WA_FALLBACK ? " hidden" : ""}`}
           >
             <span class="material-symbols-outlined text-green-400 text-base" style="font-variation-settings: 'FILL' 1;">chat</span>
             WhatsApp
           </a>
           <a
-            href={PHONE_FALLBACK}
-            class="flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold"
+            href={PHONE_FALLBACK ?? "#"}
+            class={`flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold${!PHONE_FALLBACK ? " hidden" : ""}`}
           >
             <span class="material-symbols-outlined text-base">call</span>
             Call Us
@@ -81,26 +84,21 @@ const SALES_EMAIL = "sales@egport.com";
   </main>
 </BaseLayout>
 
-<script>
-  const SALES_EMAIL = "sales@egport.com";
+<script define:vars={{ SALES_EMAIL, WA_FALLBACK }}>
+  const emailBtn = document.getElementById("location-hero-email-btn");
+  const waBtn    = document.getElementById("location-hero-whatsapp-btn");
 
-  const emailBtn = document.getElementById("location-hero-email-btn") as HTMLAnchorElement | null;
-  const waBtn    = document.getElementById("location-hero-whatsapp-btn") as HTMLAnchorElement | null;
-
-  if (emailBtn) {
+  if (emailBtn && SALES_EMAIL) {
     const city    = emailBtn.dataset.city ?? "your city";
     const pageUrl = window.location.href;
     const subject = encodeURIComponent(`Fabric Supply Inquiry — ${city}`);
-    const body    = encodeURIComponent(
-      `Hi,\n\nI am interested in fabric supply in ${city}.\n\n${pageUrl}\n\nPlease share more details.\n\nThank you.`
-    );
+    const body    = encodeURIComponent(`Hi,\n\nI am interested in fabric supply in ${city}.\n\n${pageUrl}\n\nPlease share more details.\n\nThank you.`);
     emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
   }
 
-  if (waBtn) {
-    const pageUrl  = window.location.href;
-    const baseHref = waBtn.href.split("?")[0];
-    const message  = encodeURIComponent(`Hi, I'm looking for fabric supply in this location:\n${pageUrl}`);
-    waBtn.href = `${baseHref}?text=${message}`;
+  if (waBtn && WA_FALLBACK) {
+    const pageUrl = window.location.href;
+    const message = encodeURIComponent(`Hi, I'm looking for fabric supply in this location:\n${pageUrl}`);
+    waBtn.href = `${WA_FALLBACK}?text=${message}`;
   }
 </script>

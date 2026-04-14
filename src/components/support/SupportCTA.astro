@@ -2,8 +2,8 @@
 import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
 
 const company = await getCompanyInfo("AGE");
-const whatsappHref = buildWaLink(company?.whatsappNumber, "https://wa.me/+919925155141");
-const supportEmail = company?.supportEmail ?? "support@amrita-fashions.com";
+const whatsappHref = buildWaLink(company?.whatsappNumber);
+const supportEmail = company?.supportEmail ?? null;
 ---
 <section class="py-20 md:py-28 px-8 bg-[#f3f4f5]">
   <div class="max-w-7xl mx-auto bg-[#041632] rounded-lg p-12 md:p-20 text-center relative overflow-hidden">
@@ -22,20 +22,26 @@ const supportEmail = company?.supportEmail ?? "support@amrita-fashions.com";
         Integrated digital support desk with manufacturing floor updates. Our team is standing by.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href={whatsappHref}
-          class="inline-flex items-center justify-center gap-2 bg-[#775a19] text-white px-8 py-4 font-sans uppercase tracking-widest text-sm hover:bg-[#ffdea5] hover:text-[#041632] transition-all"
-        >
-          WhatsApp Now
-          <span class="material-symbols-outlined text-sm">chat_bubble</span>
-        </a>
-        <a
-          href={`mailto:${supportEmail}`}
-          class="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-8 py-4 font-sans uppercase tracking-widest text-sm hover:border-[#775a19] hover:text-[#ffdea5] transition-all"
-        >
-          Send Email
-          <span class="material-symbols-outlined text-sm">mail</span>
-        </a>
+        {whatsappHref && (
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 bg-[#775a19] text-white px-8 py-4 font-sans uppercase tracking-widest text-sm hover:bg-[#ffdea5] hover:text-[#041632] transition-all"
+          >
+            WhatsApp Now
+            <span class="material-symbols-outlined text-sm">chat_bubble</span>
+          </a>
+        )}
+        {supportEmail && (
+          <a
+            href={`mailto:${supportEmail}`}
+            class="inline-flex items-center justify-center gap-2 border border-white/30 text-white px-8 py-4 font-sans uppercase tracking-widest text-sm hover:border-[#775a19] hover:text-[#ffdea5] transition-all"
+          >
+            Send Email
+            <span class="material-symbols-outlined text-sm">mail</span>
+          </a>
+        )}
       </div>
     </div>
   </div>

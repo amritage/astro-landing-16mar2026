@@ -7,7 +7,7 @@ import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro"
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 
 import { getSiteSettings, getCompanyInfo, getAuthors, getTopicPageBySlug } from "../lib/api";
-import { SITE_BASE } from "../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 interface Props {
   title?: string;

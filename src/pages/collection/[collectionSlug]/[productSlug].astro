@@ -6,7 +6,7 @@ import ProductDetailBody from "../../../components/product/ProductDetailBody.ast
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../../data/products";
 import { getDynamicTopicPages } from "../../../lib/api";
-import { SITE_BASE } from "../../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 export async function getStaticPaths() {
   const [products, topics] = await Promise.all([

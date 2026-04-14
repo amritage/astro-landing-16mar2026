@@ -1,6 +1,6 @@
 ---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
-import { LEAD_CAPTURE_URL } from "../../config/endpoints";
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 ---
 
 <div
@@ -97,10 +97,10 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
             </div>
             <div class="iqm-field">
               <input id="iqf-phone" type="tel" name="phoneNumber" placeholder=" " class="iqm-input peer" />
-              <label for="iqf-phone" class="iqm-label">Phone Number <span class="text-[#775a19]">*</span></label>
+              <label for="iqf-phone" class="iqm-label">Phone Number (e.g. +91 98765 43210)</label>
               <p class="text-[11px] text-[#9ca3af] mt-1.5 ml-1">Provide at least an email or phone number.</p>
             </div>
-            <div class="flex justify-end pt-2">
+            <div class="msf-nav-row end pt-2">
               <button type="button" id="iqf-next-0" class="msf-btn-primary">
                 Continue
                 <span class="material-symbols-outlined text-base">arrow_forward</span>
@@ -132,7 +132,7 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
                 <label for="iqf-country" class="iqm-label">Country</label>
               </div>
             </div>
-            <div class="flex justify-between pt-2">
+            <div class="msf-nav-row pt-2">
               <button type="button" id="iqf-prev-1" class="msf-btn-secondary">Back</button>
               <button type="button" id="iqf-next-1" class="msf-btn-primary">
                 Continue
@@ -162,9 +162,9 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
             </div>
             <div>
               <label class="msf-label">Estimated Order Value</label>
-              <div class="flex gap-2">
+              <div class="flex flex-col sm:flex-row gap-2">
                 <input id="iqf-amount" type="number" name="opportunityAmount" class="msf-input flex-1" placeholder="0.00" min="0" step="0.01" />
-                <select id="iqf-currency" name="opportunityAmountCurrency" class="msf-input w-24">
+                <select id="iqf-currency" name="opportunityAmountCurrency" class="msf-input sm:w-24">
                   <option value="USD">USD</option>
                   <option value="INR">INR</option>
                   <option value="EUR">EUR</option>
@@ -176,7 +176,7 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
               <label for="iqf-description" class="msf-label">Requirements</label>
               <textarea id="iqf-description" name="description" rows="4" class="msf-input resize-none" placeholder="Quantity, colour, finish, delivery timeline…"></textarea>
             </div>
-            <div class="flex justify-between pt-2">
+            <div class="msf-nav-row pt-2">
               <button type="button" id="iqf-prev-2" class="msf-btn-secondary">Back</button>
               <button type="submit" id="iqf-submit" class="msf-btn-primary">
                 <span id="iqf-submit-text">Send Inquiry</span>
@@ -292,24 +292,22 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
   function collectPayload(): Record<string, unknown> {
     const payload: Record<string, unknown> = {};
     ['firstName','lastName','emailAddress','accountName',
-     'addressCity','addressState','addressCountry','description'].forEach(f => {
+     'addressCity','addressState','addressCountry'].forEach(f => {
       const v = g(f); if (v) payload[f] = v;
     });
-    const rawPhone = g('phoneNumber');
-    if (rawPhone) {
-      const cleaned = rawPhone.startsWith('+')
-        ? '+' + rawPhone.slice(1).replace(/\D/g, '')
-        : rawPhone.replace(/\D/g, '');
-      if (cleaned.length > 3) payload.phoneNumber = cleaned;
-    }
     const bt = g('cBusinessType'), am = g('opportunityAmount'), cur = g('opportunityAmountCurrency');
     if (bt)  payload.cBusinessType = [bt];
     if (am)  payload.opportunityAmount = parseFloat(am);
     if (cur) payload.opportunityAmountCurrency = cur;
+    // Build description — include phone and product name here to avoid CRM field validation
+    const parts: string[] = [];
     const pn = (openBtn as HTMLButtonElement).dataset.product ?? '';
-    if (pn) payload.description = payload.description
-      ? `[Product: ${pn}]\n${payload.description}`
-      : `[Product: ${pn}]`;
+    if (pn) parts.push(`Product: ${pn}`);
+    const rawPhone = g('phoneNumber');
+    if (rawPhone) parts.push(`Phone: ${rawPhone}`);
+    const desc = g('description');
+    if (desc) parts.push(desc);
+    if (parts.length) payload.description = parts.join('\n');
     return payload;
   }
 
@@ -406,7 +404,12 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
         clearTimeout(timer);
       }
 
-      if (!res!.ok) throw new Error(`${res!.status}`);
+      if (!res!.ok) {
+        let detail = '';
+        try { detail = await res!.text(); } catch { /* ignore */ }
+        console.error('[IQM] API error', res!.status, detail);
+        throw new Error(`API error ${res!.status}${detail ? ': ' + detail : ''}`);
+      }
 
       form.reset();
       (document.getElementById(`${FORM_ID}-step-${current}`) as HTMLElement).classList.add('hidden');
@@ -416,9 +419,12 @@ import { LEAD_CAPTURE_URL } from "../../config/endpoints";
       successEl.classList.remove('hidden');
       progressBar.style.width = '100%';
     } catch (err: unknown) {
-      const msg = err instanceof Error && err.name === 'AbortError'
-        ? 'Request timed out. Please try again.'
-        : 'Something went wrong. Please try again.';
+      let msg = 'Something went wrong. Please try again.';
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') msg = 'Request timed out. Please try again.';
+        else if (err.message) msg = err.message;
+      }
+      console.error('[IQM] Submit error:', err);
       errorEl.textContent = msg;
       errorEl.classList.remove('hidden');
       resetBtn();

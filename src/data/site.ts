@@ -9,13 +9,6 @@ export const siteConfig = {
     "Cotton • Denim • Knit • Woven",
     "Bulk Orders • Global Supply • Inquiry Support",
   ],
-  email: "hello@amritafashions.com",
-  phone: "+91 99251 55141",
-  phoneHref: "tel:+919925155141",
-  whatsappHref: "https://wa.me/+919925155141?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote",
-  emailHref: "mailto:hello@amritafashions.com",
-  address: "Surat, Gujarat, India",
-  hours: "Mon - Sat · 10:00 AM to 7:00 PM",
   footerLinks: {
     quick: [
       { label: "Home", href: "/" },

@@ -10,7 +10,7 @@ import PLInquiryForm from "../../components/productandlocation/PLInquiryForm.ast
 import PLFAQ from "../../components/productandlocation/PLFAQ.astro";
 import { getAllProductLocations } from "../../lib/api";
 import type { ApiProductLocation } from "../../lib/api";
-import { SITE_BASE } from "../../lib/constants";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 const API_BASE = import.meta.env.API_BASE_URL ?? "https://espobackend.vercel.app";
 

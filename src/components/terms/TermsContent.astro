@@ -1,4 +1,7 @@
 ---
+import { getCompanyInfo } from "../../lib/api";
+const company = await getCompanyInfo("AGE");
+const legalEmail = company?.supportEmail ?? company?.primaryEmail ?? null;
 ---
 <div class="px-6 max-w-5xl mx-auto pb-24 space-y-24 md:space-y-32">
 
@@ -125,12 +128,12 @@
   <!-- Legal Contact -->
   <footer class="pt-8 border-t border-[#c5c6ce]/30 text-center">
     <a
-      href="mailto:legal@amrita-fashions.com"
+      href={legalEmail ? `mailto:${legalEmail}` : "/support"}
       class="inline-flex flex-col md:flex-row items-center gap-3 px-8 py-4 bg-[#041632] text-white hover:bg-[#775a19] transition-all"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 7H9.83L7.83 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-5 8H9v-2h6v2zm2-4H7v-2h10v2z"/></svg>
       <span class="font-label text-sm font-medium">
-        For legal inquiries, contact <span class="font-bold underline">legal@amrita-fashions.com</span>
+        {legalEmail ? <>For legal inquiries, contact <span class="font-bold underline">{legalEmail}</span></> : "Contact our legal team"}
       </span>
     </a>
     <p class="mt-8 text-[#44474d] text-xs font-label uppercase tracking-widest">

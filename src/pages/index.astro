@@ -6,10 +6,10 @@ import TrustSignals from "../components/home/TrustSignals.astro";
 import FeaturedCategories from "../components/home/FeaturedCategories.astro";
 import IndustriesSection from "../components/home/IndustriesSection.astro";
 import DynamicTopicSections from "../components/home/DynamicTopicSections.astro";
-import CapabilitiesPreview from "../components/home/CapabilitiesPreview.astro";
-import CertificationsPreview from "../components/home/CertificationsPreview.astro";
+import CapabilitiesPreview from "../components/home/CapabilitiesPreview.astro";import CertificationsPreview from "../components/home/CertificationsPreview.astro";
 import KnowledgePreview from "../components/home/KnowledgePreview.astro";
 import HomepageFAQ from "../components/home/HomepageFAQ.astro";
+import TestimonialsSection from "../components/home/TestimonialsSection.astro";
 import LocationsSection from "../components/home/LocationsSection.astro";
 import { getTopicPageBySlug, getCompanyInfo } from "../lib/api";
 // C1 FIX: use shared Cloudinary utility instead of local copy
@@ -46,11 +46,42 @@ const heroPreloadSrcset = heroImageUrl
   <HeroSection />
   <TrustSignals />
   <FeaturedCategories />
-  <IndustriesSection />
+  <IndustriesSection p1={seo?.p1} />
   <DynamicTopicSections />
+  {seo?.p2 && seo.p2.trim() && (
+    <section class="py-12 md:py-16 bg-white">
+      <div class="container mx-auto px-4 md:px-8">
+        <div class="p2-rich-content text-[#44474d]" set:html={seo.p2} />
+      </div>
+    </section>
+  )}
   <CapabilitiesPreview />
   <CertificationsPreview />
   <KnowledgePreview />
   <HomepageFAQ />
+  <TestimonialsSection />
   <LocationsSection />
 </BaseLayout>
+
+<style is:global>
+  .p2-rich-content { color: #44474d; font-size: 1rem; line-height: 1.75; }
+  .p2-rich-content h2,
+  .p2-rich-content h3,
+  .p2-rich-content h4 {
+    font-family: var(--font-headline, Georgia, serif);
+    color: #041632;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .p2-rich-content h2 { font-size: 1.5rem; }
+  .p2-rich-content h3 { font-size: 1.25rem; }
+  .p2-rich-content p { margin-top: 0.75rem; }
+  .p2-rich-content ul,
+  .p2-rich-content ol { margin-top: 0.75rem; padding-left: 1.5rem; }
+  .p2-rich-content ul { list-style-type: disc; }
+  .p2-rich-content ol { list-style-type: decimal; }
+  .p2-rich-content li { margin-bottom: 0.4rem; }
+  .p2-rich-content strong { color: #041632; font-weight: 600; }
+  .p2-rich-content a { color: #775a19; text-decoration: underline; }
+</style>
