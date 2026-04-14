@@ -46,16 +46,9 @@ const heroPreloadSrcset = heroImageUrl
   <HeroSection />
   <TrustSignals />
   <FeaturedCategories />
-  <IndustriesSection p1={seo?.p1} />
+  <IndustriesSection />
   <DynamicTopicSections />
-  {seo?.p2 && seo.p2.trim() && (
-    <section class="py-12 md:py-16 bg-white">
-      <div class="container mx-auto px-4 md:px-8">
-        <div class="p2-rich-content text-[#44474d]" set:html={seo.p2} />
-      </div>
-    </section>
-  )}
-  <CapabilitiesPreview />
+  <CapabilitiesPreview p1={seo?.p1} p2={seo?.p2} />
   <CertificationsPreview />
   <KnowledgePreview />
   <HomepageFAQ />
