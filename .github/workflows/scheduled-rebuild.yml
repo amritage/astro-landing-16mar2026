@@ -1,0 +1,37 @@
+name: Scheduled Rebuild - Vercel
+
+on:
+  schedule:
+    - cron: '0 5-14 * * 1-6'  # Every hour, 10:30 AM to 7:30 PM IST, Mon-Sat
+  workflow_dispatch:             # Manual trigger from GitHub Actions UI
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Pull your latest code from GitHub main branch
+      - name: Checkout latest code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js (matching your project requirement >=22.12.0)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Build the project (Astro fetches fresh data from your API here)
+      - name: Build project
+        run: npm run build
+
+      # Step 5: Deploy built /dist folder to Vercel
+      - name: Deploy to Vercel
+        run: npx vercel --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
