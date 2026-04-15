@@ -3,6 +3,7 @@ import { industries } from "../data/industries";
 import { fetchBlogPosts } from "../lib/blog";
 import { getDynamicTopicPages, getCategoryTopicPages } from "../lib/api";
 import { fetchProducts } from "../data/products";
+import { getAllProductLocations } from "../lib/api";
 
 const SITE = import.meta.env.PUBLIC_SITE_URL ?? "https://astro-geo-project.vercel.app";
 
@@ -26,11 +27,12 @@ async function safeFetch<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
 export const GET: APIRoute = async () => {
   const today = new Date().toISOString().split("T")[0];
 
-  const [blogPosts, collections, categoryPages, products] = await Promise.all([
+  const [blogPosts, collections, categoryPages, products, productLocations] = await Promise.all([
     safeFetch(fetchBlogPosts, []),
     safeFetch(getDynamicTopicPages, []),
     safeFetch(getCategoryTopicPages, []),
     safeFetch(fetchProducts, []),
+    safeFetch(getAllProductLocations, []),
   ]);
 
   const lines: string[] = [
@@ -61,6 +63,10 @@ export const GET: APIRoute = async () => {
     ``,
     `  <!-- All Products -->`,
     ...products.map((p) => url(`/fabric/${p.slug}`, today, "0.7", "weekly")),
+    ``,
+    `  <!-- Product + Location Pages -->`,
+    url("/product-location", today, "0.8", "weekly"),
+    ...productLocations.map((pl) => url(`/product-location/${pl.slug}`, today, "0.8", "weekly")),
     ``,
     `  <!-- Industries -->`,
     url("/industry", today, "0.8", "monthly"),

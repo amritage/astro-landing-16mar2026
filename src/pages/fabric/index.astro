@@ -16,7 +16,6 @@ const [allProducts, filters, seo, faqData] = await Promise.all([
 ]);
 
 const total = allProducts.length;
-const totalPages = 1;
 const rawProducts = allProducts;
 
 const products = rawProducts.map((p) => ({
@@ -133,8 +132,6 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
         finishes: filters.finish,
       }}
       total={total}
-      currentPage={1}
-      totalPages={totalPages}
       faqItems={faqItems}
       guideImageUrl={seo?.image2CloudUrl ?? null}
       guideImageAlt={seo?.altTextImage2 ?? "How to choose the right fabric for your brand"}

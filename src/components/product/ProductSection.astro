@@ -32,14 +32,12 @@ interface Props {
   contents: string[];
   designs: string[];
   finishes: string[];
-  currentPage: number;
-  totalPages: number;
   total: number;
   pageCount: number;
   preSelectedCategory?: string;
 }
 
-const { products, categories, colors, structures, contents, designs, finishes, currentPage, totalPages, total, pageCount, preSelectedCategory } = Astro.props;
+const { products, categories, colors, structures, contents, designs, finishes, total, pageCount, preSelectedCategory } = Astro.props;
 ---
 
 <!-- Mobile filter open button -->
@@ -99,7 +97,7 @@ const { products, categories, colors, structures, contents, designs, finishes, c
       <div class="min-w-0 flex-1">
         <ProductToolbar total={total} />
         {products.length > 0 ? (
-          <ProductGrid products={products} currentPage={currentPage} totalPages={totalPages} />
+          <ProductGrid products={products} />
         ) : (
           <div class="flex flex-col items-center justify-center py-24 text-center">
             <span class="material-symbols-outlined text-5xl text-slate-300 mb-4">inbox</span>

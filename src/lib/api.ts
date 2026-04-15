@@ -598,9 +598,8 @@ export interface ApiProductLocation {
 
 export async function getAllProductLocations(): Promise<ApiProductLocation[]> {
   try {
-    const res = await fetch(`${BASE_URL}/api/productlocation?page=1&limit=500`, { cache: "no-store" });
+    const res = await fetch(`${BASE_URL}/api/productlocation`, { cache: "force-cache" });
     const json = await res.json();
-    // Backend sometimes returns {success:false} with a non-200 status
     if (!res.ok || json.success === false) return [];
     return (json.data ?? []).filter((p: ApiProductLocation & { deleted?: boolean }) => p.deleted !== true);
   } catch {

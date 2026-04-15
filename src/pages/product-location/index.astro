@@ -12,22 +12,8 @@ import { getAllProductLocations } from "../../lib/api";
 import type { ApiProductLocation } from "../../lib/api";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
-const API_BASE = import.meta.env.API_BASE_URL ?? "https://espobackend.vercel.app";
-
 const all = await getAllProductLocations();
-let data: ApiProductLocation | null = all[0] ?? null;
-
-// Fallback: list endpoint is intermittently failing on the backend.
-// Fetch the first known record directly by ID.
-if (!data) {
-  try {
-    const res = await fetch(`${API_BASE}/api/productlocation/fieldname/id/69da0bbd590fe4412`, { cache: "no-store" });
-    const json = await res.json();
-    data = json?.data?.[0] ?? null;
-  } catch {
-    data = null;
-  }
-}
+const data: ApiProductLocation | null = all[0] ?? null;
 
 const product = data?.product;
 const location = data?.location;
@@ -137,7 +123,7 @@ const graphSchema = data ? {
       brand: { "@type": "Brand", name: "Amrita Global Enterprises" },
       category: product?.category,
       material: Array.isArray(product?.content) ? product.content.join(", ") : product?.content,
-      color: Array.isArray(product?.colorNames) ? product.colorNames.join(", ") : product?.colorNames,
+      color: Array.isArray(product?.color) ? product.color.join(", ") : product?.color,
       additionalProperty: additionalProperties,
       offers: {
         "@type": "Offer",

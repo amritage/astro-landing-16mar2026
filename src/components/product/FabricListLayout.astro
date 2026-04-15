@@ -81,8 +81,6 @@ interface Props {
   filters: FabricFilterValues;
   /** Total product count from API (may differ from products.length due to pagination) */
   total: number;
-  currentPage: number;
-  totalPages: number;
   faqItems?: FAQItem[];
   /** Pre-select a category filter (e.g. "Denim Fabrics") — checked server-side */
   preSelectedCategory?: string;
@@ -104,8 +102,6 @@ const {
   products,
   filters,
   total,
-  currentPage,
-  totalPages,
   faqItems = [],
   preSelectedCategory,
   showGuide = true,
@@ -221,8 +217,6 @@ const heroFallbackSrcset = hero.imageUrl
   contents={filters.contents}
   designs={filters.designs}
   finishes={filters.finishes}
-  currentPage={currentPage}
-  totalPages={totalPages}
   total={total}
   pageCount={pageCount}
   preSelectedCategory={preSelectedCategory}

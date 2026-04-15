@@ -1,4 +1,4 @@
-import { getAllProducts, getProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
+import { getAllProducts, getCompanyInfo, buildWaLink, buildPhoneHref, type ApiProduct } from "../lib/api";
 // C1 FIX: Cloudinary utils now live in lib/cloudinary — import from there, no local copies
 // Import for local use; also re-exported below so existing consumers don't need import changes
 import { rebuildCloudinaryUrl, getCloudinaryUrl, buildCloudinarySrcset } from "../lib/cloudinary";
@@ -247,17 +247,3 @@ export async function fetchProducts(): Promise<Product[]> {
   return raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
 }
 
-const PAGE_SIZE = 20;
-
-export async function fetchProductsPage(page = 1): Promise<{ products: Product[]; total: number; totalPages: number; currentPage: number }> {
-  const [raw, company] = await Promise.all([getProducts(page, PAGE_SIZE), getCompanyInfo("AGE")]);
-  const wa = company?.whatsappNumber ?? undefined;
-  const ph = company?.phone1 ?? undefined;
-  const products = raw.data.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
-  return {
-    products,
-    total: raw.total,
-    totalPages: raw.totalPages,
-    currentPage: raw.page,
-  };
-}
