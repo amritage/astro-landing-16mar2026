@@ -60,9 +60,11 @@ const { p1, p2 } = Astro.props;
 
         <!-- RIGHT: scrollable text -->
         <div class="cap-right">
-          <div id="cap-content">
-            {p1 && <div set:html={p1} />}
-            {p2 && <div class="mt-6" set:html={p2} />}
+          <div class="cap-right-content">
+            <div id="cap-content">
+              {p1 && <div set:html={p1} />}
+              {p2 && <div class="mt-6" set:html={p2} />}
+            </div>
           </div>
           <button id="cap-toggle">
             <span id="cap-toggle-label">View More</span>
@@ -191,25 +193,22 @@ const { p1, p2 } = Astro.props;
 
   /* RIGHT text column */
   .cap-right {
-    padding-top: 0.5rem;
+    padding-top: 0;
   }
 
-  /* Collapsed clamp */
+  .cap-right-content {
+    /* no extra styles needed */
+  }
+
+  /* Collapsed clamp — mobile only */
   #cap-content {
-    max-height: 420px;
     overflow: hidden;
     position: relative;
     transition: max-height 0.5s ease;
     color: rgba(255,255,255,0.82);
     font-size: 1rem;
     line-height: 1.8;
-  }
-  #cap-content:not(.expanded)::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, #041632);
+    max-height: 220px; /* collapsed on mobile */
   }
   #cap-content.expanded { max-height: 9999px; }
 
@@ -232,9 +231,10 @@ const { p1, p2 } = Astro.props;
   #cap-content strong { color: #ffdea5; font-weight: 600; }
   #cap-content a { color: #ffdea5; text-decoration: underline; }
 
-  /* Toggle button */
+  /* Toggle button — mobile only */
   #cap-toggle {
     margin-top: 1.5rem;
+    align-self: flex-start;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -252,6 +252,12 @@ const { p1, p2 } = Astro.props;
   }
   #cap-toggle:hover { color: #fff; border-color: #fff; }
   #cap-toggle-icon { transition: transform 0.3s ease; flex-shrink: 0; }
+
+  /* On md+ screens: always show full content, hide the toggle */
+  @media (min-width: 768px) {
+    #cap-toggle { display: none !important; }
+    #cap-content { max-height: none !important; overflow: visible !important; }
+  }
 </style>
 
 <script>

@@ -1,0 +1,231 @@
+---
+interface Props {
+  cols?: { mobile?: number; tablet?: number; desktop?: number };
+  gap?: string;
+  showArrows?: boolean;
+  variant?: "default" | "compact" | "wide";
+  peekMobile?: boolean;
+  id?: string;
+  arrowStyle?: "default" | "outline";
+}
+
+const {
+  cols = { mobile: 1, tablet: 2, desktop: 3 },
+  gap = "gap-6",
+  showArrows = true,
+  variant = "default",
+  peekMobile = false,
+  id = `carousel-${Math.random().toString(36).slice(2, 9)}`,
+  arrowStyle = "default",
+} = Astro.props;
+
+const variantConfigs = {
+  default: { mobile: 1, tablet: 2, desktop: 3 },
+  compact: { mobile: 1, tablet: 2, desktop: 4 },
+  wide:    { mobile: 1, tablet: 1, desktop: 3 },
+};
+
+const finalCols = variant !== "default" ? variantConfigs[variant] : cols;
+const trackId = `${id}-track`;
+
+const gapMap: Record<string, string> = {
+  "gap-0": "0px", "gap-1": "4px", "gap-2": "8px", "gap-3": "12px",
+  "gap-4": "16px", "gap-5": "20px", "gap-6": "24px", "gap-7": "28px",
+  "gap-8": "32px", "gap-10": "40px", "gap-12": "48px",
+};
+const gapTokens = gap.split(" ").map(t => t.replace(/^(sm:|md:|lg:|xl:)/, ""));
+const gapPx = gapTokens.reduce<string>((max, token) => {
+  const px = parseInt(gapMap[token] ?? "0");
+  return px > parseInt(max) ? (gapMap[token] ?? max) : max;
+}, "0px");
+
+const btnBase = arrowStyle === "outline"
+  ? "w-9 h-9 rounded-full border border-[#c3c6d1] bg-white text-[#041632] hover:bg-[#385b99] hover:text-white hover:border-[#385b99]"
+  : "w-9 h-9 rounded-full bg-white text-[#041632] hover:bg-[#f0f0f0]";
+---
+
+<div
+  class="carousel-root"
+  data-carousel-outer={id}
+  style={`--cols-mobile:${finalCols.mobile ?? 1};--cols-tablet:${finalCols.tablet ?? 2};--cols-desktop:${finalCols.desktop ?? 3};--gap-px:${gapPx};`}
+>
+  <!-- Mobile: arrows float top-right above the track -->
+  {showArrows && (
+    <div class="c-mobile-arrows">
+      <button class:list={["c-arrow", btnBase]} aria-label="Previous" data-carousel-prev={trackId}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <button class:list={["c-arrow", btnBase]} aria-label="Next" data-carousel-next={trackId}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </div>
+  )}
+
+  <!-- Scrollable track -->
+  <div id={trackId} class:list={["carousel-track", gap]} data-carousel-track={id}>
+    <slot />
+  </div>
+
+  <!-- Desktop: arrows sit outside left/right of track -->
+  {showArrows && (
+    <>
+      <button class:list={["c-arrow c-desktop-prev", btnBase]} aria-label="Previous" data-carousel-prev={trackId}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+      <button class:list={["c-arrow c-desktop-next", btnBase]} aria-label="Next" data-carousel-next={trackId}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </>
+  )}
+</div>
+
+<style define:vars={{
+  "cols-mobile":  String(finalCols.mobile  ?? 1),
+  "cols-tablet":  String(finalCols.tablet  ?? 2),
+  "cols-desktop": String(finalCols.desktop ?? 3),
+  "gap-px": gapPx,
+}}>
+  .carousel-root {
+    position: relative;
+  }
+  @media (min-width: 1024px) {
+    .carousel-root {
+      margin-left: 3rem;
+      margin-right: 3rem;
+    }
+  }
+
+  /* Track */
+  .carousel-track {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+
+  /* Cards */
+  .carousel-track > :global(*) {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    width: calc((100% - var(--gap-px) * (var(--cols-mobile) - 1)) / var(--cols-mobile));
+    min-width: calc((100% - var(--gap-px) * (var(--cols-mobile) - 1)) / var(--cols-mobile));
+  }
+  @media (min-width: 640px) {
+    .carousel-track > :global(*) {
+      width: calc((100% - var(--gap-px) * (var(--cols-tablet) - 1)) / var(--cols-tablet));
+      min-width: calc((100% - var(--gap-px) * (var(--cols-tablet) - 1)) / var(--cols-tablet));
+    }
+  }
+  @media (min-width: 1024px) {
+    .carousel-track > :global(*) {
+      width: calc((100% - var(--gap-px) * (var(--cols-desktop) - 1)) / var(--cols-desktop));
+      min-width: calc((100% - var(--gap-px) * (var(--cols-desktop) - 1)) / var(--cols-desktop));
+    }
+  }
+
+  /* Shared arrow style */
+  .c-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.18s, color 0.18s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .c-arrow svg { display: block; pointer-events: none; }
+
+  /* ── Mobile arrow row ─────────────────────────────────────────────────────
+     Positioned absolute at top-right corner of the carousel-root.
+     Sits above the track (negative top offset = half button height = 18px).
+     Hidden on desktop.
+  ───────────────────────────────────────────────────────────────────────── */
+  .c-mobile-arrows {
+    position: absolute;
+    top: -2.75rem;   /* float above the track, aligned with last line of title */
+    right: 0;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+  @media (min-width: 1024px) {
+    .c-mobile-arrows { display: none; }
+  }
+
+  /* ── Desktop arrows ───────────────────────────────────────────────────────
+     Absolute, outside the track. Hidden on mobile.
+  ───────────────────────────────────────────────────────────────────────── */
+  .c-desktop-prev,
+  .c-desktop-next {
+    display: none;
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
+  @media (min-width: 1024px) {
+    .c-desktop-prev { display: flex; left: -3rem; }
+    .c-desktop-next { display: flex; right: -3rem; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel-prev], [data-carousel-next]').forEach((btn) => {
+    const isPrev = btn.hasAttribute('data-carousel-prev');
+    const trackId = btn.getAttribute(isPrev ? 'data-carousel-prev' : 'data-carousel-next')!;
+    const track = document.getElementById(trackId);
+    if (!track) return;
+
+    const getStep = () => {
+      const card = track.querySelector<HTMLElement>(':scope > *');
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      return (card?.offsetWidth ?? track.clientWidth) + gap;
+    };
+
+    btn.addEventListener('click', () => {
+      track.scrollBy({ left: isPrev ? -getStep() : getStep(), behavior: 'smooth' });
+    });
+  });
+
+  // Hide arrows when all cards fit without scrolling
+  document.querySelectorAll<HTMLElement>('[data-carousel-outer]').forEach((outer) => {
+    const track = outer.querySelector<HTMLElement>('[data-carousel-track]');
+    if (!track) return;
+
+    const update = () => {
+      const cardCount = track.querySelectorAll(':scope > *').length;
+      const w = window.innerWidth;
+      const cols = w >= 1024
+        ? (parseInt(outer.style.getPropertyValue('--cols-desktop')) || 3)
+        : w >= 640
+        ? (parseInt(outer.style.getPropertyValue('--cols-tablet'))  || 2)
+        : (parseInt(outer.style.getPropertyValue('--cols-mobile'))  || 1);
+      const hide = cardCount <= cols;
+
+      const mobileRow = outer.querySelector<HTMLElement>('.c-mobile-arrows');
+      if (mobileRow) mobileRow.style.display = (hide || w >= 1024) ? 'none' : 'flex';
+
+      outer.querySelectorAll<HTMLElement>('.c-desktop-prev, .c-desktop-next').forEach(a => {
+        a.style.display = (hide || w < 1024) ? 'none' : 'flex';
+      });
+    };
+    update();
+    window.addEventListener('resize', update, { passive: true });
+  });
+</script>
