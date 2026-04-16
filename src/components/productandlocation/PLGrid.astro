@@ -1,0 +1,183 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+import CloudinaryImage from "../common/CloudinaryImage.astro";
+
+interface Props {
+  items: ApiProductLocation[];
+}
+const { items } = Astro.props;
+
+function getCardImage(item: ApiProductLocation): string {
+  return (
+    item.image1CloudUrl ??
+    item.product?.image1CloudUrlCard ??
+    item.product?.image1CloudUrl ??
+    item.location?.image1CloudUrl ??
+    ""
+  );
+}
+---
+
+<section id="grid" class="py-16 md:py-24" style="background:var(--color-background)">
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+
+    <!-- Section header -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+      <div>
+        <span class="font-label text-xs font-bold uppercase tracking-widest mb-2 block" style="color:var(--color-secondary)">All Combinations</span>
+        <h2 class="font-headline text-3xl md:text-5xl leading-tight" style="color:var(--color-primary)">
+          Browse by Product &amp; City
+        </h2>
+      </div>
+      {items.length > 0 && (
+        <p class="font-body text-sm" style="color:var(--color-text-muted)">
+          {items.length} product–location {items.length === 1 ? "combination" : "combinations"} available.
+        </p>
+      )}
+    </div>
+
+    {items.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {items.map((item) => {
+          const img = getCardImage(item);
+          const title = item.title ?? `${item.product?.name ?? item.productName} in ${item.location?.name ?? item.locationName}`;
+          const tagline = item.tagline ?? "";
+          const category = item.product?.category ?? "";
+          const city = item.location?.name ?? item.locationName ?? "";
+          const gsm = item.product?.gsm ? `${item.product.gsm} GSM` : null;
+          const structure = item.product?.structure ?? null;
+          const content = Array.isArray(item.product?.content)
+            ? item.product.content.join(", ")
+            : (item.product?.content ?? null);
+          return (
+            <a
+              href={`/product-location/${item.slug}`}
+              class="group overflow-hidden rounded-lg flex flex-col transition-all duration-500 hover:-translate-y-1"
+              style="background:var(--color-surface); box-shadow:var(--shadow-soft); border:1px solid var(--color-border);"
+            >
+              <!-- Image -->
+              <div class="relative overflow-hidden" style="aspect-ratio:4/3; background:var(--color-pl-surface-container-high)">
+                {img ? (
+                  <CloudinaryImage
+                    src={img}
+                    alt={item.altTextImage1 ?? title}
+                    title={title}
+                    width={480}
+                    height={360}
+                    widths={[320, 480, 640]}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                    crop="fill"
+                    loading="lazy"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                ) : (
+                  <div class="w-full h-full flex flex-col items-center justify-center gap-3"
+                    style="background:var(--color-pl-surface-container)">
+                    <span class="material-symbols-outlined" style="font-size:3rem;color:var(--color-pl-outline)">texture</span>
+                    <span class="font-label text-xs uppercase tracking-widest" style="color:var(--color-pl-outline)">Image Coming Soon</span>
+                  </div>
+                )}
+
+                <!-- Hover overlay -->
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style="background:linear-gradient(to top, rgba(4,22,50,0.75) 0%, rgba(4,22,50,0.15) 50%, transparent 100%)"></div>
+
+                <!-- Category badge -->
+                {category && (
+                  <span class="absolute top-3 left-3 z-10 font-label text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                    style="background:var(--color-primary); color:var(--color-text-inverse)">
+                    {category}
+                  </span>
+                )}
+
+                <!-- City badge -->
+                {city && (
+                  <span class="absolute top-3 right-3 z-10 font-label text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                    style="background:var(--color-secondary); color:var(--color-text-inverse)">
+                    {city}
+                  </span>
+                )}
+
+                <!-- Hover CTA bar -->
+                <div class="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-between px-4 py-3
+                  opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  <span class="font-label text-sm font-bold tracking-wide" style="color:var(--color-text-inverse)">View Details</span>
+                  <span class="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                    style="background:var(--color-secondary-light)">
+                    <span class="material-symbols-outlined" style="font-size:1.1rem;color:var(--color-primary)">arrow_forward</span>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Card body -->
+              <div class="p-5 flex flex-col flex-1">
+                <h2 class="font-headline italic text-base md:text-lg leading-snug mb-2 line-clamp-2 transition-colors duration-300"
+                  style="color:var(--color-primary)">
+                  {title}
+                </h2>
+
+                {(tagline || content) && (
+                  <p class="font-body text-sm line-clamp-2 leading-relaxed mb-4 flex-1"
+                    style="color:var(--color-text-secondary)">
+                    {tagline || content}
+                  </p>
+                )}
+                {!tagline && !content && <div class="flex-1 mb-4" />}
+
+                <!-- Spec pills -->
+                <div class="flex flex-wrap gap-2 pt-4" style="border-top:1px solid var(--color-border)">
+                  {gsm && (
+                    <span class="font-label text-xs font-semibold px-3 py-1 rounded-full"
+                      style="background:var(--color-amber-warm); color:var(--color-secondary)">
+                      {gsm}
+                    </span>
+                  )}
+                  {structure && (
+                    <span class="font-label text-xs font-semibold px-3 py-1 rounded-full"
+                      style="background:var(--color-surface-soft); color:var(--color-text-secondary); border:1px solid var(--color-border)">
+                      {structure}
+                    </span>
+                  )}
+                  {content && (
+                    <span class="font-label text-xs font-semibold px-3 py-1 rounded-full max-w-[160px] truncate"
+                      style="background:var(--color-surface-soft); color:var(--color-text-secondary); border:1px solid var(--color-border)">
+                      {content}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="text-center py-32 rounded-2xl" style="background:var(--color-surface-soft); border:1px solid var(--color-border)">
+        <span class="material-symbols-outlined mb-4 block" style="font-size:4rem;color:var(--color-pl-outline)">inventory_2</span>
+        <p class="font-body text-lg mb-6" style="color:var(--color-text-muted)">No product-location combinations available yet.</p>
+        <a href="/fabric" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-label font-semibold transition-colors"
+          style="background:var(--color-primary); color:var(--color-text-inverse)">
+          Browse Fabrics
+          <span class="material-symbols-outlined" style="font-size:1.1rem">arrow_forward</span>
+        </a>
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- Bottom CTA -->
+<section class="py-20 text-center" style="background:var(--color-primary)">
+  <div class="max-w-2xl mx-auto px-6">
+    <h2 class="font-headline text-4xl mb-4" style="color:var(--color-text-inverse)">Ready to Source in Bulk?</h2>
+    <p class="font-body mb-8" style="color:var(--color-navy-dim)">Connect with our team for bulk inquiries, samples, or technical consultations.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/support" class="px-8 py-4 rounded-md font-label font-bold transition-colors"
+        style="background:var(--color-secondary); color:var(--color-text-inverse)">
+        Get in Touch
+      </a>
+      <a href="/fabric" class="px-8 py-4 rounded-md font-label font-bold transition-colors"
+        style="background:rgba(255,255,255,0.08); color:var(--color-text-inverse); border:1px solid rgba(255,255,255,0.2)">
+        Browse All Fabrics
+      </a>
+    </div>
+  </div>
+</section>

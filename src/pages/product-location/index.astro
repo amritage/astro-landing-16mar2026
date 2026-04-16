@@ -1,170 +1,49 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PLHero from "../../components/productandlocation/PLHero.astro";
-import PLTrustMetrics from "../../components/productandlocation/PLTrustMetrics.astro";
-import PLProductDetail from "../../components/productandlocation/PLProductDetail.astro";
-import PLLocation from "../../components/productandlocation/PLLocation.astro";
-import PLSuitability from "../../components/productandlocation/PLSuitability.astro";
-import PLCollection from "../../components/productandlocation/PLCollection.astro";
-import PLInquiryForm from "../../components/productandlocation/PLInquiryForm.astro";
-import PLFAQ from "../../components/productandlocation/PLFAQ.astro";
-import { getAllProductLocations } from "../../lib/api";
-import type { ApiProductLocation } from "../../lib/api";
+import PLListingHero from "../../components/productandlocation/PLListingHero.astro";
+import PLGrid from "../../components/productandlocation/PLGrid.astro";
+import { getAllProductLocations, getTopicPageBySlug } from "../../lib/api";
+
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
-const all = await getAllProductLocations();
-const data: ApiProductLocation | null = all[0] ?? null;
+const [items, seo] = await Promise.all([
+  getAllProductLocations(),
+  getTopicPageBySlug("product-location"),
+]);
 
-const product = data?.product;
-const location = data?.location;
-
-// ── Metadata ──────────────────────────────────────────────────────────────────
-const stripHtml = (html: string | null | undefined) =>
-  html ? html.replace(/<[^>]*>/g, "").trim() : "";
-
-const pageTitle =
-  data?.title?.trim() ||
-  (product && location ? `${product.productTitle || product.name} in ${location.name}` : null) ||
-  "Product & Location";
-
-const metaTitle = `${pageTitle}`;
-
-const metaDescription =
-  stripHtml(data?.fulldescription).slice(0, 155) ||
-  stripHtml(product?.fullProductDescription).slice(0, 155) ||
-  (product && location
-    ? `${product.name} available in ${location.name} for bulk B2B fabric sourcing from Amrita Global Enterprises.`
-    : "B2B fabric supply by product and location. Amrita Global Enterprises.");
-
-const keywords = [
-  ...(data?.keywords ?? []),
-];
-
-const ogImage =
-  data?.image1CloudUrlHero ||
-  product?.image1CloudUrlHero ||
-  location?.image1CloudUrlHero ||
-  data?.image1CloudUrl ||
-  product?.image1CloudUrl ||
-  location?.image1CloudUrl ||
-  undefined;
-
-const canonicalUrl = `${SITE_BASE}/product-location`;
-
-// ── JSON-LD ───────────────────────────────────────────────────────────────────
 const breadcrumbs = [
   { name: "Home", url: "/" },
-  { name: "Product and Location", url: "/product-location" },
+  { name: "Product & Location" },
 ];
 
-const additionalProperties = data && product && location ? [
-  { name: "Structure",       value: product.structure },
-  { name: "GSM",             value: String(product.gsm) },
-  { name: "Width",           value: `${product.cm} cm / ${product.inch} inch` },
-  { name: "Design",          value: product.design },
-  { name: "Supply Model",    value: "Never-Out-of-Stock" },
-  { name: "Location Served", value: location.name },
-].filter((p) => p.value).map(({ name, value }) => ({
-  "@type": "PropertyValue",
-  name,
-  value,
-})) : [];
-
-const faqItems = data ? [
-  { q: data.productlocationQ1, a: data.productlocationA1 },
-  { q: data.productlocationQ2, a: data.productlocationA2 },
-  { q: data.productlocationQ3, a: data.productlocationA3 },
-  { q: data.productlocationQ4, a: data.productlocationA4 },
-  { q: data.productlocationQ5, a: data.productlocationA5 },
-].filter((f) => f.q && f.a) : [];
-
-const faqSchema = faqItems.length > 0
-  ? {
-      "@type": "FAQPage",
-      "@id": `${canonicalUrl}#faq`,
-      mainEntity: faqItems.map(({ q, a }) => ({
-        "@type": "Question",
-        name: q,
-        acceptedAnswer: { "@type": "Answer", text: a },
-      })),
-    }
-  : null;
-
-const graphSchema = data ? {
+const listSchema = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebPage",
-      "@id": `${canonicalUrl}#webpage`,
-      url: canonicalUrl,
-      name: metaTitle,
-      description: metaDescription,
-      inLanguage: "en",
-      ...(ogImage ? { primaryImageOfPage: { "@type": "ImageObject", url: ogImage } } : {}),
-      about: { "@id": `${canonicalUrl}#product` },
-      isPartOf: { "@id": `${SITE_BASE}/#website` },
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${canonicalUrl}#breadcrumb`,
-      itemListElement: breadcrumbs.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.name,
-        ...(item.url ? { item: `${SITE_BASE}${item.url}` } : {}),
-      })),
-    },
-    {
-      "@type": "Product",
-      "@id": `${canonicalUrl}#product`,
-      name: product?.name,
-      description: metaDescription,
-      image: [ogImage].filter(Boolean),
-      brand: { "@type": "Brand", name: "Amrita Global Enterprises" },
-      category: product?.category,
-      material: Array.isArray(product?.content) ? product.content.join(", ") : product?.content,
-      color: Array.isArray(product?.color) ? product.color.join(", ") : product?.color,
-      additionalProperty: additionalProperties,
-      offers: {
-        "@type": "Offer",
-        "@id": `${canonicalUrl}#offer`,
-        url: canonicalUrl,
-        availability: "https://schema.org/InStock",
-        priceCurrency: "INR",
-        seller: { "@type": "Organization", name: "Amrita Global Enterprises" },
-      },
-    },
-    ...(faqSchema ? [faqSchema] : []),
-  ],
-} : undefined;
+  "@type": "ItemList",
+  name: "Product & Location Combinations — Amrita Global Enterprises",
+  url: `${SITE_BASE}/product-location`,
+  numberOfItems: items.length,
+  itemListElement: items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: `${SITE_BASE}/product-location/${item.slug}`,
+    name: item.title ?? `${item.productName} in ${item.locationName}`,
+  })),
+};
 ---
 
 <BaseLayout
-  title={metaTitle}
-  description={metaDescription}
-  canonical={canonicalUrl}
-  keywords={keywords}
-  ogImage={ogImage}
-  ogType="product"
-  schemaMarkup={graphSchema}
+  title={seo?.metaTitle ?? "Products & Locations | Amrita Global Enterprises"}
+  description={seo?.description ?? "Browse all fabric supply combinations by product and city. Bulk B2B sourcing from Amrita Global Enterprises."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={`${SITE_BASE}/product-location`}
+  ogType="website"
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
+  schemaMarkup={[listSchema]}
   breadcrumbs={breadcrumbs}
-  preloadImage={ogImage}
 >
-  {data ? (
-    <>
-      <PLHero data={data} breadcrumbs={breadcrumbs.map(b => ({ name: b.name, href: b.url }))} />
-      <PLTrustMetrics />
-      <PLProductDetail data={data} />
-      <PLLocation data={data} />
-      <PLSuitability data={data} />
-      <PLCollection data={data} />
-      <PLInquiryForm data={data} />
-      <PLFAQ data={data} />
-    </>
-  ) : (
-    <section class="py-40 text-center">
-      <p class="text-slate-500 font-body">No product-location data available yet.</p>
-      <a href="/fabric" class="mt-6 inline-block text-[#041632] font-bold underline">Browse Fabrics</a>
-    </section>
-  )}
+  <PLListingHero
+    total={items.length}
+    breadcrumbs={[{ name: "Home", href: "/" }, { name: "Product & Location" }]}
+  />
+  <PLGrid items={items} />
 </BaseLayout>

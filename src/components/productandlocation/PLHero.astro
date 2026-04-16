@@ -13,7 +13,7 @@ interface Props {
 }
 const { data, breadcrumbs } = Astro.props;
 
-const heroImg = data.image1CloudUrlHero ?? data.image1CloudUrl ?? data.product.image1CloudUrlHero ?? data.product.image1CloudUrl ?? "";
+const heroImg =  data.image1CloudUrl ?? data.product.image1CloudUrlHero ?? data.product.image1CloudUrl ?? "";
 const heroAlt = data.altTextImage1 ?? `${data.product.name} supply in ${data.location.name}`;
 const headline = data.title ?? `${data.product.name} Supply in ${data.location.name}`;
 const sub = data.tagline ?? `Reliable bulk supply of premium ${data.product.content.join(", ")} ${data.product.structure.toLowerCase()} fabric for global markets. Engineered for durability, finished for luxury.`;

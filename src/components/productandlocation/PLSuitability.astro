@@ -7,6 +7,8 @@ const suitability = (data.product.suitability ?? []).map((s) => {
   const parts = s.split("|").map((p) => p.trim());
   return { label: parts.slice(0, 2).join(" | "), pct: parseInt(parts[2] ?? "0", 10) };
 });
+
+const description = data.fulldescription ?? data.location?.description ?? "";
 ---
 
 {suitability.length > 0 && (
@@ -17,18 +19,29 @@ const suitability = (data.product.suitability ?? []).map((s) => {
         <h2 class="text-3xl md:text-4xl font-headline">Application Suitability</h2>
         <p class="text-[#747781] mt-2 font-body text-sm md:text-base">Technical performance metrics across various apparel categories.</p>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {suitability.map(({ label, pct }) => (
-          <div class="bg-[#faf9ff] p-6 rounded-lg border border-[#c3c6d1]/20 shadow-sm">
-            <div class="flex justify-between items-center mb-4">
-              <h4 class="font-bold text-[#1a1b20] font-body">{label}</h4>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+        <!-- Left: full description using rich-content global styles -->
+        {description && (
+          <div class="rich-content" set:html={description} />
+        )}
+
+        <!-- Right: suitability bars -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {suitability.map(({ label, pct }) => (
+            <div class="bg-[#faf9ff] p-6 rounded-xl border border-[#c3c6d1]/20 shadow-sm">
+              <div class="flex justify-between items-center mb-4">
+                <h4 class="font-bold text-[#1a1b20] font-body text-base">{label}</h4>
+                <span class="text-sm font-bold text-[#385b99] font-body">{pct}%</span>
+              </div>
+              <div class="w-full bg-[#f4f3f9] h-3 rounded-full overflow-hidden">
+                <div class="bg-[#385b99] h-full rounded-full" style={`width: ${pct}%`}></div>
+              </div>
             </div>
-            <div class="w-full bg-[#f4f3f9] h-2 rounded-full overflow-hidden">
-              <div class="bg-[#385b99] h-full rounded-full" style={`width: ${pct}%`}></div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+
     </div>
   </section>
 )}
