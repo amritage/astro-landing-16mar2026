@@ -6,7 +6,7 @@ import ProductDetailBody from "../../../components/product/ProductDetailBody.ast
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../../data/products";
 import { getDynamicTopicPages } from "../../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 export async function getStaticPaths() {
   const [products, topics] = await Promise.all([
@@ -43,7 +43,7 @@ const { product, collectionProducts, collectionName } = Astro.props as {
 const { collectionSlug } = Astro.params;
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
-const canonicalUrl = `${SITE_BASE}/collection/${collectionSlug}/${product.slug}`;
+const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}/`;
 ---
 
 <style>

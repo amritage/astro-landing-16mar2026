@@ -4,6 +4,7 @@ import FAQHero from "../components/faq/FAQHero.astro";
 import FAQAccordion from "../components/faq/FAQAccordion.astro";
 import FAQCTA from "../components/faq/FAQCTA.astro";
 import { getWebsiteFAQCategories, getTopicPageBySlug } from "../lib/api";
+import { resolveCanonical } from "../lib/seo/canonical";
 import { faqCategories } from "../data/faqs";
 
 const [apiCategories, seo] = await Promise.all([
@@ -17,7 +18,7 @@ const categories = apiCategories.length > 0 ? apiCategories : faqCategories;
   title={seo?.metaTitle ?? "FAQ | Amrita Global Enterprises"}
   description={seo?.description ?? "Expert answers for fabric buyers — sourcing, manufacturing, logistics, pricing, and MOQ questions answered by Amrita Global Enterprises."}
   keywords={seo?.keywords ?? undefined}
-  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
   breadcrumbs={[
     { name: "Home", url: "/" },

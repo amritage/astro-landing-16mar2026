@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getTopicPageBySlug, getDynamicTopicPages, getCategoryTopicPages, getCompanyInfo, buildWaLink, getAllProductLocations } from "../lib/api";
+import { resolveCanonical } from "../lib/seo/canonical";
 import { fetchBlogPosts } from "../lib/blog";
 import { fetchProducts } from "../data/products";
 import CloudinaryImage from "../components/common/CloudinaryImage.astro";
@@ -18,12 +19,8 @@ const [collections, categoryPages, blogPosts, products, productLocations, compan
 
 const whatsappHref = buildWaLink(company?.whatsappNumber);
 
-const realIndustries = [
-  { label: "Apparel", href: "/industry/apparel" },
-  { label: "Home Textile", href: "/industry/home-textile" },
-];
 
-// Show first 4, rest hidden behind "View More"
+
 const PREVIEW = 4;
 
 const linkClass = "flex items-center gap-3 hover:text-[#775a19] transition-colors";
@@ -34,7 +31,7 @@ const dotClass = "w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0";
   title={seo?.metaTitle ?? "Sitemap | Amrita Global Enterprises (AGE)"}
   description={seo?.description ?? "Navigate through our comprehensive directory of textile manufacturing solutions, technical capabilities, and global trade infrastructures."}
   keywords={seo?.keywords ?? undefined}
-  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
   ogImage={seo?.image1CloudUrl ?? undefined}
 >
@@ -203,25 +200,6 @@ const dotClass = "w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0";
         )}
       </div>
 
-      <!-- Industries -->
-      <div class="md:col-span-4 bg-slate-100 p-6 md:p-8 rounded-xl">        <h2 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Industries</h2>
-        <ul class="space-y-4 text-slate-700">
-          <li>
-            <a class={linkClass} href="/industry">
-              <span class={dotClass}></span>
-              All Industries
-            </a>
-          </li>
-          {realIndustries.map(({ label, href }) => (
-            <li>
-              <a class={linkClass} href={href}>
-                <span class={dotClass}></span>
-                {label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
 
       <!-- Knowledge Center -->
       <div class="md:col-span-8 bg-slate-50 p-6 md:p-8 rounded-xl">

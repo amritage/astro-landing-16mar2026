@@ -5,7 +5,8 @@ import BlogNewsletter from "../../components/blog/BlogNewsletter.astro";
 import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getTopicPageBySlug } from "../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+import { resolveCanonical } from "../../lib/seo/canonical";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 const [posts, seo] = await Promise.all([
   fetchBlogPosts(),
@@ -36,7 +37,7 @@ const blogListSchema = {
   title={seo?.metaTitle ?? "Insights & Textile Mastery | Amrita Global"}
   description={seo?.description ?? "Industry insights, technical guides, and manufacturing breakthroughs from Amrita Global Enterprises."}
   keywords={seo?.keywords ?? undefined}
-  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "blog"}
   ogImage={BLOG_OG_IMAGE}
   schemaMarkup={[blogListSchema]}

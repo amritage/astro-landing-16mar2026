@@ -8,6 +8,7 @@ import {
   getProductsByMerchTag,
   getFilterValues,
 } from "../../lib/api";
+import { resolveCanonical } from "../../lib/seo/canonical";
 import type { ApiTopicPage } from "../../lib/api";
 
 export async function getStaticPaths() {
@@ -86,7 +87,7 @@ const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudU
   title={page.metaTitle ?? `${page.name} | Amrita Global Enterprises`}
   description={page.description ?? page.excerpt ?? ""}
   keywords={page.keywords ?? undefined}
-  canonical={page.canonicalUrl ? `https://${page.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(page.canonicalUrl)}
   ogType={page.ogType ?? "website"}
   ogImage={heroImageUrl ?? undefined}
   breadcrumbs={[

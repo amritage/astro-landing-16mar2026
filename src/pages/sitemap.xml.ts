@@ -2,9 +2,8 @@ import type { APIRoute } from "astro";
 import { fetchBlogPosts } from "../lib/blog";
 import { getDynamicTopicPages, getCategoryTopicPages, getAllProductLocations } from "../lib/api";
 import { fetchProducts } from "../data/products";
-import { industries } from "../data/industries";
 
-const SITE = import.meta.env.PUBLIC_SITE_URL ?? "https://astro-geo-project.vercel.app";
+const SITE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
 
 // Pages to exclude from auto-discovery
 const EXCLUDE = new Set([
@@ -26,7 +25,6 @@ const PAGE_META: Record<string, { priority: string; changefreq: string }> = {
   "/capabilities":          { priority: "0.8", changefreq: "monthly" },
   "/certifications":        { priority: "0.8", changefreq: "monthly" },
   "/support":               { priority: "0.8", changefreq: "monthly" },
-  "/industry":              { priority: "0.8", changefreq: "monthly" },
   "/careers":               { priority: "0.7", changefreq: "monthly" },
   "/faq":                   { priority: "0.7", changefreq: "monthly" },
   "/shipping":              { priority: "0.7", changefreq: "monthly" },
@@ -125,10 +123,7 @@ export const GET: APIRoute = async () => {
     ...productLocations
       .filter((pl) => pl.name?.toLowerCase() !== "test")
       .map((pl) => url(`/product-location/${pl.slug}`, today, "0.8", "weekly")),
-    ``,
-    `  <!-- Industries (data-driven) -->`,
-    ...industries.map((i) => url(`/industry/${i.slug}`, today, "0.8", "monthly")),
-    ``,
+
     `  <!-- Blog Posts (API-driven) -->`,
     ...blogPosts.map((p) =>
       url(`/blog/${p.slug}`, p.publishedAt ? p.publishedAt.split("T")[0] : today, "0.7", "weekly")

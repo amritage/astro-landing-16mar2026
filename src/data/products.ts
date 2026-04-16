@@ -111,7 +111,7 @@ function buildFaq(p: ApiProduct): { q: string; a: string }[] {
 
 
 /** Strip HTML tags and return plain text, or null if nothing meaningful remains */
-function stripHtml(html: string | null | undefined): string {
+export function stripHtml(html: string | null | undefined): string {
   if (!html) return "";
   const plain = html.replace(/<[^>]*>/g, "").trim();
   return plain;

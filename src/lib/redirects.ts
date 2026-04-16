@@ -12,7 +12,7 @@ export interface RedirectRule {
 export async function fetchRedirects(): Promise<RedirectRule[]> {
   try {
     const res = await fetch(
-      `${process.env.API_BASE_URL ?? 'https://espobackend.vercel.app'}/api/redirect`
+      `${process.env.PUBLIC_API_BASE_URL}/api/redirect`
     );
     if (!res.ok) {
       console.warn(`[redirects] API returned ${res.status}, skipping redirects`);

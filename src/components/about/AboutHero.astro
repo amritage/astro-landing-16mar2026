@@ -62,7 +62,7 @@ const sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1280px";
     color: transparent;
   }
 </style>
-<header class="relative h-[870px] flex items-center overflow-hidden bg-[#041632] pt-16">
+<header class="relative h-[calc(100vh-30px)] max-h-[870px] flex items-center overflow-hidden bg-[#041632] pt-[64px] md:pt-[62px]">
   <div class="absolute inset-0 opacity-70">
     <picture>
       <source type="image/avif" srcset={avifSrcset} sizes={sizes} />

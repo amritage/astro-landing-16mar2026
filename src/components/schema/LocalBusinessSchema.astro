@@ -1,16 +1,18 @@
 ---
-// B6 FIX: accept company + site + homePage as props — BaseLayout already fetches both,
-// so this component no longer makes duplicate API calls.
-import { type ApiCompanyInfo, type ApiSiteSettings, type ApiTopicPage } from "../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+// LocalBusinessSchema fetches homePage itself — BaseLayout no longer needs to.
+import { type ApiCompanyInfo, type ApiSiteSettings, type ApiTopicPage, getTopicPageBySlug } from "../../lib/api";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 interface Props {
   company: ApiCompanyInfo | null;
   site: ApiSiteSettings | null;
-  homePage?: ApiTopicPage | null;
 }
 
-const { company, site, homePage } = Astro.props;
+const { company, site } = Astro.props;
+
+// Fetch homePage here — Astro deduplicates identical fetch calls at build time,
+// so this won't cause extra HTTP requests even though it's inside a shared layout component.
+const homePage: ApiTopicPage | null = await getTopicPageBySlug("home");
 
 const siteBase = SITE_BASE;
 

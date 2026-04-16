@@ -10,9 +10,6 @@ const redirects = await buildAstroRedirects();
 export default defineConfig({
   trailingSlash: 'never',
   output: 'static',
-  build: {
-    format: 'file',
-  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'viewport',
@@ -25,11 +22,5 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
-
-    define: {
-      'import.meta.env.API_BASE_URL': JSON.stringify(
-        process.env.API_BASE_URL ?? 'https://espobackend.vercel.app'
-      ),
-    },
   },
 });

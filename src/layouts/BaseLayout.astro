@@ -6,8 +6,8 @@ import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 
-import { getSiteSettings, getCompanyInfo, getAuthors, getTopicPageBySlug } from "../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+import { getSiteSettings, getCompanyInfo } from "../lib/api";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 interface Props {
   title?: string;
@@ -28,6 +28,9 @@ interface Props {
   // LCP image preload
   preloadImage?: string;
   preloadImageSrcset?: string;
+  // Pass author name from pages that already fetch authors (about, support, blog, etc.)
+  // Falls back to company name if not provided — avoids a redundant getAuthors() call in BaseLayout
+  authorName?: string;
 }
 
 const {
@@ -47,21 +50,22 @@ const {
   breadcrumbs,
   preloadImage,
   preloadImageSrcset,
+  authorName: authorNameProp,
 } = Astro.props;
 
 // Site-wide settings from API (eCatalogue)
-const [site, company, authors, homePage] = await Promise.all([
+const [site, company] = await Promise.all([
   getSiteSettings("eCatalogue"),
   getCompanyInfo("AGE"),
-  getAuthors(),
-  getTopicPageBySlug("home"),
 ]);
 
 const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
-const authorName = authors[0]?.name ?? companyName;
+// Use prop if passed (pages that already fetched authors), otherwise fall back to company name
+const authorName = authorNameProp ?? companyName;
 
 const siteBase = SITE_BASE;
-const resolvedCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
+const rawCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
+const resolvedCanonical = rawCanonical.endsWith("/") ? rawCanonical : `${rawCanonical}/`;
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDesc = ogDescription ?? description;
 const resolvedTwitterTitle = twitterTitle ?? resolvedOgTitle;
@@ -178,7 +182,7 @@ const schemaArray = schemaMarkup
     ))}
 
     <!-- Local Business / Organization Schema -->
-    <LocalBusinessSchema company={company} site={site} homePage={homePage} />
+    <LocalBusinessSchema company={company} site={site} />
 
     <!-- Breadcrumb Schema (skip on homepage) -->
     {breadcrumbs && breadcrumbs.length > 0 && (

@@ -1,8 +1,4 @@
-// API base URL from environment variable
-const API_BASE =
-  (import.meta.env.API_BASE_URL as string | undefined) ??
-  (typeof process !== "undefined" ? process.env.API_BASE_URL : undefined) ??
-  "https://espobackend.vercel.app";
+const API_BASE = import.meta.env.PUBLIC_API_BASE_URL as string;
 export { cloudinarySrcset } from "./cloudinary";
 
 const API_URL = `${API_BASE}/api/blog`;

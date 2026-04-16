@@ -6,7 +6,7 @@ interface Props {
 }
 const { breadcrumbs } = Astro.props;
 ---
-<header class="pt-28 md:pt-40 pb-16 md:pb-20 px-6 max-w-5xl mx-auto text-center">
+<header class="pt-16 md:pt-24 pb-16 md:pb-20 px-6 max-w-5xl mx-auto text-center">
   {breadcrumbs && breadcrumbs.length > 1 && (
     <div class="flex justify-center mb-6">
       <Breadcrumbs items={breadcrumbs} variant="light" />

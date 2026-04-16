@@ -6,6 +6,7 @@ import ShippingPorts from "../components/shipping/ShippingPorts.astro";
 import ShippingFAQ from "../components/shipping/ShippingFAQ.astro";
 import ShippingCTA from "../components/shipping/ShippingCTA.astro";
 import { getTopicPageBySlug } from "../lib/api";
+import { resolveCanonical } from "../lib/seo/canonical";
 
 const seo = await getTopicPageBySlug("shipping");
 ---
@@ -14,7 +15,7 @@ const seo = await getTopicPageBySlug("shipping");
   title={seo?.metaTitle ?? "Shipping & Logistics | Amrita Global Enterprises"}
   description={seo?.description ?? "Global textile logistics from Ahmedabad. FOB, CIF, DAP incoterms. Port Mundra and Kolkata connectivity. 50+ countries served since 1971."}
   keywords={seo?.keywords ?? undefined}
-  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
   breadcrumbs={[
     { name: "Home", url: "/" },

@@ -4,7 +4,8 @@ import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProducts, getCloudinaryUrl } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+import { resolveCanonical } from "../../lib/seo/canonical";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 const FABRIC_HERO_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg";
 
@@ -102,7 +103,7 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
   title={seo?.metaTitle ?? "Shop Fabric Catalog | Amrita Global Enterprises"}
   description={seo?.description ?? "Browse our full fabric catalog including cotton twill, woven fabrics, and performance textiles."}
   keywords={seo?.keywords ?? undefined}
-  canonical={seo?.canonicalUrl ? `https://${seo.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "product"}
   ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? FABRIC_HERO_IMAGE}
   schemaMarkup={[itemListSchema]}

@@ -12,17 +12,11 @@ const categories = await getCategoryTopicPages();
   <section class="py-16 md:py-24 bg-[#f8f9fa]">
     <div class="container mx-auto px-4 md:px-8">
 
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 gap-6">
+      <div class="flex flex-col items-center text-center mb-12 md:mb-16 gap-6">
         <div class="max-w-2xl">
           <h2 class="font-headline text-4xl md:text-5xl text-[#041632] mb-4">The Material Core</h2>
           <p class="font-body text-base md:text-lg text-[#44474d]">Our signature fabrics are engineered for durability, hand-feel, and consistent quality.</p>
         </div>
-        <a
-          class="font-label text-xs md:text-sm font-bold text-[#775a19] uppercase tracking-widest flex items-center gap-2 border-b-2 border-[#775a19] pb-1"
-          href="/fabric"
-        >
-          Explore Full Library
-        </a>
       </div>
 
       <Carousel
@@ -57,6 +51,15 @@ const categories = await getCategoryTopicPages();
           </a>
         ))}
       </Carousel>
+
+      <div class="flex justify-center mt-10 md:mt-12">
+        <a
+          class="font-label text-xs md:text-sm font-bold text-[#775a19] uppercase tracking-widest flex items-center gap-2 border-b-2 border-[#775a19] pb-1"
+          href="/fabric"
+        >
+          Explore Full Library
+        </a>
+      </div>
 
     </div>
   </section>

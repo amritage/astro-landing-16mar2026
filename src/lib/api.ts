@@ -1,8 +1,4 @@
-// API base URL from environment variable
-const BASE_URL =
-  (import.meta.env.API_BASE_URL as string | undefined) ??
-  (typeof process !== "undefined" ? process.env.API_BASE_URL : undefined) ??
-  "https://espobackend.vercel.app";
+const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL as string;
 
 // ── Raw API shape ──────────────────────────────────────────────────────────────
 
@@ -616,6 +612,34 @@ export async function getProductsByCollectionId(collectionId: string, excludePro
   try {
     const all = await getAllProducts();
     return all.filter((p) => p.collectionId === collectionId && p.id !== excludeProductId);
+  } catch {
+    return [];
+  }
+}
+
+// ── Locations ──────────────────────────────────────────────────────────────────
+
+export interface ApiLocation {
+  id: string;
+  name: string;
+  deleted: boolean;
+  description: string | null;
+  locationslug: string;
+  locationTagline: string | null;
+  longitude: number | null;
+  latitude: number | null;
+  altTextImage1: string | null;
+  image1CloudUrl: string | null;
+  image1CloudUrlCard: string | null;
+  image1CloudUrlHero: string | null;
+}
+
+export async function getLocations(): Promise<ApiLocation[]> {
+  try {
+    const res = await fetch(`${BASE_URL}/api/location`, { cache: "force-cache" });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return (json.data ?? []).filter((l: ApiLocation) => !l.deleted);
   } catch {
     return [];
   }

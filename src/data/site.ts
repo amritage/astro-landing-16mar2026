@@ -22,8 +22,6 @@ export const siteConfig = {
       { label: "Product & Location", href: "/product-location" },
     ],
     products: [
-      { label: "Apparel Industry", href: "/industry/apparel" },
-      { label: "Textile Industry", href: "/industry/home-textile" },
       { label: "Terms & Conditions", href: "/terms-and-conditions" },
       { label: "Careers", href: "/careers" },
       { label: "Sitemap", href: "/sitemap" },

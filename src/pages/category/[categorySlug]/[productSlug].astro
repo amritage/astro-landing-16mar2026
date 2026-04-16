@@ -6,6 +6,7 @@ import ProductDetailBody from "../../../components/product/ProductDetailBody.ast
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../../data/products";
 import { getCategoryTopicPages } from "../../../lib/api";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 export async function getStaticPaths() {
   const [products, categories] = await Promise.all([
@@ -43,6 +44,7 @@ const { product, collectionProducts, categoryName } = Astro.props as {
 };
 
 const { categorySlug } = Astro.params;
+const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}/`;
 ---
 
 <style>
@@ -53,6 +55,7 @@ const { categorySlug } = Astro.params;
 <BaseLayout
   title={`${product.name} | Amrita Global Enterprises`}
   description={product.shortDesc}
+  canonical={canonicalUrl}
   breadcrumbs={[
     { name: "Home", url: "/" },
     { name: categoryName, url: `/category/${categorySlug}` },

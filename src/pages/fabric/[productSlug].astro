@@ -8,7 +8,7 @@ import { fetchProducts, buildCloudinarySrcset, type Product } from "../../data/p
 import { getCompanyInfo } from "../../lib/api";
 // C1 FIX: use shared utility instead of local buildOgImageUrl copy
 import { buildOgImageUrl } from "../../lib/cloudinary";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com";
+const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 export async function getStaticPaths() {
   const products = await fetchProducts();
@@ -29,7 +29,7 @@ const { product, collectionProducts } = Astro.props as { product: Product; colle
 const company = await getCompanyInfo("AGE");
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
-const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
+const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}/`;
 
 // ── JSON-LD: Product schema ────────────────────────────────────────────────────
 

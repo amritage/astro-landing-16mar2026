@@ -4,8 +4,11 @@ import { getCloudinaryUrl } from "../../data/products";
 import ProductShareButton from "./ProductShareButton.astro";
 import ResponsiveImage from "../common/ResponsiveImage.astro";
 import ProductInquiryModal from "./ProductInquiryModal.astro";
+import { getCompanyInfo } from "../../lib/api";
 interface Props { product: Product }
 const { product } = Astro.props;
+const company = await getCompanyInfo("AGE");
+const SALES_EMAIL = company?.salesEmail ?? null;
 
 // Extract YouTube video ID for thumbnail
 function getYouTubeId(url: string): string | null {
@@ -260,12 +263,10 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
 
 <ProductInquiryModal />
 
-<script>
+<script define:vars={{ SALES_EMAIL }}>
   // ── Email & WhatsApp dynamic URLs ─────────────────────────────────────────────
-  const SALES_EMAIL = 'sales@egport.com';
-
-  const emailBtn   = document.getElementById('product-email-btn') as HTMLAnchorElement | null;
-  const waBtn      = document.getElementById('product-whatsapp-btn') as HTMLAnchorElement | null;
+  const emailBtn   = document.getElementById('product-email-btn');
+  const waBtn      = document.getElementById('product-whatsapp-btn');
 
   if (emailBtn) {
     const productName = emailBtn.dataset.product ?? 'Product';

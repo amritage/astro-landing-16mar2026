@@ -1,4 +1,6 @@
 ---
+let _carouselCount = 0;
+
 interface Props {
   cols?: { mobile?: number; tablet?: number; desktop?: number };
   gap?: string;
@@ -15,7 +17,7 @@ const {
   showArrows = true,
   variant = "default",
   peekMobile = false,
-  id = `carousel-${Math.random().toString(36).slice(2, 9)}`,
+  id = `carousel-${_carouselCount++}`,
   arrowStyle = "default",
 } = Astro.props;
 
@@ -106,6 +108,7 @@ const btnBase = arrowStyle === "outline"
   /* Track */
   .carousel-track {
     display: flex;
+    align-items: stretch;
     overflow-x: auto;
     overflow-y: visible;
     scroll-snap-type: x mandatory;
@@ -121,6 +124,9 @@ const btnBase = arrowStyle === "outline"
     scroll-snap-stop: always;
     flex-shrink: 0;
     box-sizing: border-box;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
     width: calc((100% - var(--gap-px) * (var(--cols-mobile) - 1)) / var(--cols-mobile));
     min-width: calc((100% - var(--gap-px) * (var(--cols-mobile) - 1)) / var(--cols-mobile));
   }

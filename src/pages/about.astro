@@ -8,6 +8,7 @@ import AboutManufacturing from "../components/about/AboutManufacturing.astro";
 import AboutLeadership from "../components/about/AboutLeadership.astro";
 import AboutCTA from "../components/about/AboutCTA.astro";
 import { getTopicPageBySlug, getAuthors, getCompanyInfo } from "../lib/api";
+import { resolveCanonical } from "../lib/seo/canonical";
 
 const ABOUT_OG_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuB5rYWttbh6XITEOcBeURyt6qklLANwbPMgW8KAaSwC8g9iy78YJK_krbGLU41JN_Yu2nEohurOBCXQkaPvEDBXJG0Lw5ISGIDhR4vJhX5i6KEaRVD-sNd5KEpV5al1UXeoambztbcu5rhFcFo7R68Hcwe2vBDlFgZ9NcPpCHBxjrK2kQ6TccQLz504xGgx-f74-rmrGkNSaDamGvVIS8VVzLhT2eEwj9EVYJxLa8WK3QdrRaitaijNIHu9-rn8RD0vbfYse5ijTzlm";
 
@@ -22,9 +23,10 @@ const [aboutData, authors, company] = await Promise.all([
   title={aboutData?.metaTitle ?? "About Us | Amrita Global Enterprises"}
   description={aboutData?.description ?? "For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry."}
   keywords={aboutData?.keywords ?? undefined}
-  canonical={aboutData?.canonicalUrl ? `https://${aboutData.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(aboutData?.canonicalUrl)}
   ogType={aboutData?.ogType ?? "website"}
   ogImage={aboutData?.image1CloudUrlHero ?? aboutData?.image1CloudUrl ?? ABOUT_OG_IMAGE}
+  authorName={authors[0]?.name}
   breadcrumbs={[
     { name: "Home", url: "/" },
     { name: "About Us" },

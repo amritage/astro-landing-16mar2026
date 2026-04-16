@@ -1,7 +1,5 @@
 ---
-const BASE_URL =
-  import.meta.env.API_BASE_URL ??
-  "https://espobackend.vercel.app";
+const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL as string;
 
 interface ApiCareer {
   id: string;

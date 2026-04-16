@@ -9,6 +9,7 @@ import {
   getProductsByCategory,
   getFilterValues,
 } from "../../lib/api";
+import { resolveCanonical } from "../../lib/seo/canonical";
 
 export async function getStaticPaths() {
   const pages = await getCategoryTopicPages();
@@ -109,7 +110,7 @@ const introBody: string =
   title={page.metaTitle ?? `${page.name} Fabrics | Amrita Global Enterprises`}
   description={page.description ?? page.excerpt ?? ""}
   keywords={page.keywords ?? undefined}
-  canonical={page.canonicalUrl ? `https://${page.canonicalUrl.replace(/^https?:\/\//, "")}` : undefined}
+  canonical={resolveCanonical(page.canonicalUrl)}
   ogType={page.ogType ?? "website"}
   ogImage={page.image1CloudUrl ?? heroImageUrl ?? undefined}
   breadcrumbs={[
