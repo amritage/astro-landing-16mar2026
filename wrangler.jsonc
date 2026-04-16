@@ -1,5 +1,6 @@
 {
-  "name": "astro-ssg-amrita-fashions.com",
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "astro-landing-16mar2026",
   "compatibility_date": "2026-04-16",
   "assets": {
     "directory": "./dist"
