@@ -10,6 +10,9 @@ const redirects = await buildAstroRedirects();
 export default defineConfig({
   trailingSlash: 'never',
   output: 'static',
+  build: {
+    format: 'file'
+  },
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'viewport',
