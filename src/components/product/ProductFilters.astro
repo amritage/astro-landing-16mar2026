@@ -22,7 +22,7 @@ function isPreSelected(value: string): boolean {
 }
 ---
 
-<div class="space-y-3 sticky top-[90px] max-h-[calc(100vh-110px)] overflow-y-auto">
+<div class="filter-outer space-y-3 sticky top-[90px] max-h-[calc(100vh-110px)] overflow-y-auto">
 
   <!-- Clear All — medium, polished -->
   <button
@@ -182,12 +182,17 @@ function isPreSelected(value: string): boolean {
 
     // Notify grid about filter state so it can reveal/hide scroll-batched wrappers
     const filterActive = hasActiveFilters();
+    const searchQuery: string = typeof (window as any).__getSearchQuery === "function"
+      ? ((window as any).__getSearchQuery() as string).trim().toLowerCase()
+      : "";
+    const anyActive = filterActive || searchQuery.length > 0;
+
     if (typeof (window as any).__onFilterStateChange === "function") {
-      (window as any).__onFilterStateChange(filterActive);
+      (window as any).__onFilterStateChange(anyActive);
     }
 
     document.querySelectorAll<HTMLElement>(".product-card").forEach((card) => {
-      const passes =
+      const passesFilters =
         matchField("category", card.dataset.category ?? "") &&
         matchField("color",    card.dataset.color ?? "") &&
         matchField("structure",card.dataset.structure ?? "") &&
@@ -195,6 +200,19 @@ function isPreSelected(value: string): boolean {
         matchField("design",   card.dataset.design ?? "") &&
         matchField("finish",   card.dataset.finish ?? "") &&
         parseInt(card.dataset.gsm ?? "0", 10) <= maxGsm;
+
+      const passesSearch = !searchQuery || [
+        card.dataset.name ?? "",
+        card.dataset.slug ?? "",
+        card.dataset.category ?? "",
+        card.dataset.structure ?? "",
+        card.dataset.content ?? "",
+        card.dataset.design ?? "",
+        card.dataset.finish ?? "",
+      ].some((v) => v.toLowerCase().includes(searchQuery));
+
+      const passes = passesFilters && passesSearch;
+
       // Hide/show the wrapper so empty grid cells don't create gaps
       const wrapper = card.closest<HTMLElement>(".product-card-wrapper");
       if (wrapper) {
@@ -204,6 +222,9 @@ function isPreSelected(value: string): boolean {
       }
     });
   }
+
+  // Expose so search bar can trigger a combined re-filter
+  (window as any).__applyCheckboxFilters = () => applyFilters(false);
 
   function matchField(field: string, value: string): boolean {
     const set = active.get(field);
@@ -288,23 +309,31 @@ function isPreSelected(value: string): boolean {
     maxGsm = 500;
     if (gsmRange) gsmRange.value = "500";
     if (gsmLabel) gsmLabel.textContent = "500 GSM";
+    // Also clear the search bar if present
+    if (typeof (window as any).__clearSearch === "function") {
+      (window as any).__clearSearch();
+    }
     applyFilters(true);
     updateClearBtn();
   });
 </script>
 
 <style>
+  .filter-outer::-webkit-scrollbar,
   .filter-panel::-webkit-scrollbar {
     width: 3px;
   }
+  .filter-outer::-webkit-scrollbar-track,
   .filter-panel::-webkit-scrollbar-track {
     background: transparent;
   }
+  .filter-outer::-webkit-scrollbar-thumb,
   .filter-panel::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
     border-radius: 999px;
   }
   /* Firefox */
+  .filter-outer,
   .filter-panel {
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;

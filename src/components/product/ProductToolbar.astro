@@ -6,17 +6,74 @@ interface Props {
 const { total } = Astro.props;
 ---
 
-<div class="mb-8 flex flex-col gap-4 rounded bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-  <span class="text-sm font-label text-slate-600">
-    {total} textiles
-  </span>
+<div class="mb-8 flex flex-col gap-4 rounded bg-white p-4 shadow-sm">
+  <!-- Row 1: count + sort -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <span class="text-sm font-label text-slate-600" id="toolbar-count">
+      {total} textiles
+    </span>
 
-  <div class="flex w-full items-center justify-between gap-4 sm:w-auto">
-    <span class="text-xs font-label uppercase tracking-widest text-slate-500" id="sort-label">Sort By:</span>
-    <select aria-labelledby="sort-label" class="border-none bg-transparent text-sm font-bold text-[#041632] focus:ring-0 cursor-pointer">
-      <option>Latest Arrivals</option>
-      <option>GSM: High to Low</option>
-      <option>GSM: Low to High</option>
-    </select>
+    <div class="flex w-full items-center justify-between gap-4 sm:w-auto">
+      <span class="text-xs font-label uppercase tracking-widest text-slate-500" id="sort-label">Sort By:</span>
+      <select aria-labelledby="sort-label" class="border-none bg-transparent text-sm font-bold text-[#041632] focus:ring-0 cursor-pointer">
+        <option>Latest Arrivals</option>
+        <option>GSM: High to Low</option>
+        <option>GSM: Low to High</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Row 2: search bar -->
+  <div class="relative">
+    <label for="fabric-search" class="sr-only">Search fabrics</label>
+    <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" style="font-size:18px" aria-hidden="true">search</span>
+    <input
+      id="fabric-search"
+      type="search"
+      placeholder="Search by name, category, structure…"
+      autocomplete="off"
+      class="w-full rounded border border-slate-200 bg-slate-50 py-2 pl-9 pr-10 text-sm text-[#041632] placeholder-slate-400 focus:border-[#775a19] focus:outline-none focus:ring-1 focus:ring-[#775a19] [&::-webkit-search-cancel-button]:hidden"
+    />
+    <button
+      id="fabric-search-clear"
+      type="button"
+      aria-label="Clear search"
+      class="absolute right-3 top-1/2 -translate-y-1/2 hidden text-slate-400 hover:text-[#041632]"
+    >
+      <span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">close</span>
+    </button>
   </div>
 </div>
+
+<script>
+  const searchInput = document.getElementById("fabric-search") as HTMLInputElement | null;
+  const clearBtn = document.getElementById("fabric-search-clear") as HTMLButtonElement | null;
+
+  let searchQuery = "";
+
+  // Expose getter and setter so other scripts can read/reset the query
+  (window as any).__getSearchQuery = () => searchQuery;
+  (window as any).__clearSearch = () => {
+    searchQuery = "";
+    if (searchInput) searchInput.value = "";
+    if (clearBtn) clearBtn.classList.add("hidden");
+  };
+
+  function triggerFilter(): void {
+    // Delegate to the combined filter+search function in ProductFilters
+    if (typeof (window as any).__applyCheckboxFilters === "function") {
+      (window as any).__applyCheckboxFilters();
+    }
+  }
+
+  searchInput?.addEventListener("input", () => {
+    searchQuery = searchInput.value;
+    if (clearBtn) clearBtn.classList.toggle("hidden", !searchQuery);
+    triggerFilter();
+  });
+
+  clearBtn?.addEventListener("click", () => {
+    (window as any).__clearSearch();
+    triggerFilter();
+  });
+</script>

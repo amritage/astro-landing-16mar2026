@@ -29,6 +29,8 @@ const { product } = Astro.props;
 
 <article
   class="product-card group cursor-pointer overflow-hidden rounded bg-white shadow-sm transition-all hover:shadow-xl"
+  data-name={product.name}
+  data-slug={product.href ? product.href.split("/").pop() : ""}
   data-category={product.filterCategory ?? product.category}
   data-color={product.filterColor ?? ""}
   data-structure={product.filterStructure ?? ""}
