@@ -68,6 +68,10 @@ export interface Product {
   collectionId: string;
   collectionName: string;
   collectionDescription: string;
+  // tech spec search fields
+  fabricCode: string;
+  vendorCode: string;
+  salesMOQ: string;
 }
 
 // ── Map API shape → Product ────────────────────────────────────────────────────
@@ -208,6 +212,9 @@ export function mapApiProduct(p: ApiProduct, whatsappNumber?: string, phone1?: s
     collectionId: p.collectionId,
     collectionName: p.collectionName,
     collectionDescription: p.collection?.description ?? "",
+    fabricCode: p.fabricCode,
+    vendorCode: p.vendorFabricCode,
+    salesMOQ: `${p.salesMOQ} ${p.uM}`,
     image1: nullIfEmpty(p.image1CloudUrl) ?? "",
     image1Card: nullIfEmpty(p.image1CloudUrlCard),
     image1Web: nullIfEmpty(p.image1CloudUrlWeb),

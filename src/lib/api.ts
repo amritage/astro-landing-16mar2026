@@ -1,4 +1,7 @@
-const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL as string;
+const BASE_URL = (import.meta.env.PUBLIC_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
+if (!BASE_URL) {
+  throw new Error('[api] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
+}
 
 // ── Raw API shape ──────────────────────────────────────────────────────────────
 
@@ -288,10 +291,28 @@ export async function getProductsByCategory(categoryName: string): Promise<ApiPr
 }
 
 export async function getProductsByMerchTag(tag: string, limit = 4): Promise<ApiProduct[]> {
-  const res = await fetch(`${BASE_URL}/api/product?merchtag=${encodeURIComponent(tag)}&limit=100`, { cache: "force-cache" });
-  if (!res.ok) return [];
-  const json: ApiResponse = await res.json();
-  const exact = (json.data ?? []).filter((p) => p.merchTags?.includes(tag));
+  const pageSize = 500;
+  const encodedTag = encodeURIComponent(tag);
+
+  const firstRes = await fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=1&limit=${pageSize}`, { cache: "force-cache" });
+  if (!firstRes.ok) return [];
+  const firstJson: ApiResponse = await firstRes.json();
+  const totalPages = firstJson.pagination?.totalPages ?? 1;
+
+  let allData = firstJson.data ?? [];
+
+  if (totalPages > 1) {
+    const rest = await Promise.all(
+      Array.from({ length: totalPages - 1 }, (_, i) =>
+        fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=${i + 2}&limit=${pageSize}`, { cache: "force-cache" })
+          .then((r) => (r.ok ? r.json() : { data: [] }))
+          .then((j) => (j.data ?? []) as ApiProduct[])
+      )
+    );
+    allData = [allData, ...rest].flat();
+  }
+
+  const exact = allData.filter((p) => p.merchTags?.includes(tag));
   return limit > 0 ? exact.slice(0, limit) : exact;
 }
 
@@ -478,10 +499,10 @@ export interface ApiAuthor {
  * Build a correct wa.me link from any phone string like "+91-9925155141"
  * Returns null if number is empty.
  */
-export function buildWaLink(number: string | null | undefined): string | null {
-  if (!number) return null;
+export function buildWaLink(number: string | null | undefined, fallback: string | null = null): string | null {
+  if (!number) return fallback;
   const digits = String(number).replace(/[^\d]/g, "");
-  return digits ? `https://wa.me/+${digits}` : null;
+  return digits ? `https://wa.me/${digits}` : fallback;
 }
 
 /**

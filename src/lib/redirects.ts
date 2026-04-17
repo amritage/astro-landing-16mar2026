@@ -11,9 +11,12 @@ export interface RedirectRule {
 
 export async function fetchRedirects(): Promise<RedirectRule[]> {
   try {
-    const res = await fetch(
-      `${process.env.PUBLIC_API_BASE_URL}/api/redirect`
-    );
+    const apiBase = (process.env.PUBLIC_API_BASE_URL ?? (import.meta as any).env?.PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '');
+    if (!apiBase) {
+      console.warn('[redirects] PUBLIC_API_BASE_URL is not set, skipping redirects');
+      return [];
+    }
+    const res = await fetch(`${apiBase}/api/redirect`);
     if (!res.ok) {
       console.warn(`[redirects] API returned ${res.status}, skipping redirects`);
       return [];

@@ -9,7 +9,7 @@ interface Props {
 }
 const { post, breadcrumbs } = Astro.props;
 ---
-<header class="max-w-5xl mx-auto px-4 md:px-8 pt-28 md:pt-32 pb-10 md:pb-12">
+<header class="max-w-5xl mx-auto px-4 md:px-8 pt-3 md:pt-3 pb-10 md:pb-12">
   {breadcrumbs && breadcrumbs.length > 1 ? (
     <div class="mb-8">
       <Breadcrumbs items={breadcrumbs} variant="light" />

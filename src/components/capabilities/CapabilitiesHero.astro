@@ -6,7 +6,15 @@ interface Props {
 }
 const { breadcrumbs } = Astro.props;
 ---
-<section class="relative overflow-hidden bg-[#f8f9fa] pt-[70px] pb-16 md:pt-[80px] md:pb-24">
+<section class="capabilities-hero relative overflow-hidden bg-[#f8f9fa] pt-[12px] pb-16 md:pt-[12px] md:pb-24">
+  <style>
+    .capabilities-hero {
+      min-height: calc(100dvh - 94px);
+    }
+    @media (min-width: 768px) {
+      .capabilities-hero { min-height: calc(100dvh - 102px); }
+    }
+  </style>
   <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl">
       {breadcrumbs && breadcrumbs.length > 1 && (

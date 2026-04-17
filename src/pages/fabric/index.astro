@@ -36,6 +36,19 @@ const products = rawProducts.map((p) => ({
   filterGsm: String(p.gsm),
   filterDesign: p.design,
   filterFinish: p.finish.join("|"),
+  // extra search fields
+  searchSlug: p.slug,
+  searchOzs: String(p.ozs),
+  searchCm: String(p.cm),
+  searchInch: String(p.inch),
+  searchMotif: p.motif ?? "",
+  searchKeywords: p.keywords.join("|"),
+  searchMerchTags: p.merchTags.join("|"),
+  searchCollection: p.collectionName,
+  searchSupply: p.supplyStatus,
+  searchFabricCode: p.fabricCode,
+  searchVendorCode: p.vendorCode,
+  searchMOQ: p.salesMOQ,
 }));
 
 const heroImageUrl = seo?.image1CloudUrl ?? null;

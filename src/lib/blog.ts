@@ -1,4 +1,7 @@
-const API_BASE = import.meta.env.PUBLIC_API_BASE_URL as string;
+const API_BASE = (import.meta.env.PUBLIC_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
+if (!API_BASE) {
+  throw new Error('[blog] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
+}
 export { cloudinarySrcset } from "./cloudinary";
 
 const API_URL = `${API_BASE}/api/blog`;

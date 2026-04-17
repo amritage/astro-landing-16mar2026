@@ -201,7 +201,9 @@ function isPreSelected(value: string): boolean {
         matchField("finish",   card.dataset.finish ?? "") &&
         parseInt(card.dataset.gsm ?? "0", 10) <= maxGsm;
 
-      const passesSearch = !searchQuery || [
+      // Split query into words — every word must appear somewhere across all fields
+      const searchWords = searchQuery ? searchQuery.split(/\s+/).filter(Boolean) : [];
+      const searchableText = [
         card.dataset.name ?? "",
         card.dataset.slug ?? "",
         card.dataset.category ?? "",
@@ -209,7 +211,23 @@ function isPreSelected(value: string): boolean {
         card.dataset.content ?? "",
         card.dataset.design ?? "",
         card.dataset.finish ?? "",
-      ].some((v) => v.toLowerCase().includes(searchQuery));
+        card.dataset.gsm ?? "",
+        card.dataset.ozs ?? "",
+        card.dataset.cm ?? "",
+        card.dataset.inch ?? "",
+        card.dataset.motif ?? "",
+        card.dataset.keywords ?? "",
+        card.dataset.merch ?? "",
+        card.dataset.collection ?? "",
+        card.dataset.supply ?? "",
+        card.dataset.color ?? "",
+        card.dataset.fabriccode ?? "",
+        card.dataset.vendorcode ?? "",
+        card.dataset.moq ?? "",
+      ].join(" ").toLowerCase();
+
+      const passesSearch = searchWords.length === 0 ||
+        searchWords.every((word) => searchableText.includes(word));
 
       const passes = passesFilters && passesSearch;
 

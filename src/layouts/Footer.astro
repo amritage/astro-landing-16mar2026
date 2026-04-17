@@ -267,7 +267,7 @@ const socialLinks = [
       <p class="font-body text-sm text-on-surface-variant">Subscribe to our newsletter to get the latest news and offers.</p>
 
       <!-- Newsletter -->
-      <form id="footer-newsletter-form" class="relative">
+      <form id="footer-newsletter-form" class="relative" action="javascript:void(0)">
         <label for="footer-newsletter-email" class="sr-only">Email address</label>
         <input
           id="footer-newsletter-email"
@@ -333,40 +333,42 @@ const socialLinks = [
   const ESPO_URL = LEAD_CAPTURE_URL;
 
   const form = document.getElementById('footer-newsletter-form');
-  const emailInput = document.getElementById('footer-newsletter-email') as HTMLInputElement;
-  const btn = document.getElementById('footer-newsletter-btn') as HTMLButtonElement;
-  const successMsg = document.getElementById('footer-newsletter-success')!;
-  const errorMsg = document.getElementById('footer-newsletter-error')!;
+  const emailInput = document.getElementById('footer-newsletter-email');
+  const btn = document.getElementById('footer-newsletter-btn');
+  const successMsg = document.getElementById('footer-newsletter-success');
+  const errorMsg = document.getElementById('footer-newsletter-error');
 
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = emailInput.value.trim();
-    if (!email) return;
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      if (!email) return;
 
-    btn.disabled = true;
-    successMsg.classList.add('hidden');
-    errorMsg.classList.add('hidden');
+      btn.disabled = true;
+      successMsg.classList.add('hidden');
+      errorMsg.classList.add('hidden');
 
-    try {
-      const res = await fetch(ESPO_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          emailAddress: email,
-          description: 'Subscribed via Footer Newsletter',
-        }),
-      });
+      try {
+        const res = await fetch(ESPO_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            emailAddress: email,
+            description: 'Subscribed via Footer Newsletter',
+          }),
+        });
 
-      if (res.ok) {
-        form.reset();
-        successMsg.classList.remove('hidden');
-      } else {
+        if (res.ok) {
+          form.reset();
+          successMsg.classList.remove('hidden');
+        } else {
+          errorMsg.classList.remove('hidden');
+        }
+      } catch {
         errorMsg.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
       }
-    } catch {
-      errorMsg.classList.remove('hidden');
-    } finally {
-      btn.disabled = false;
-    }
-  });
+    });
+  }
 </script>
