@@ -1,8 +1,7 @@
 ﻿---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
-// Submission proxied through /api/careers (server-side).
-// Resume file upload still goes directly to EspoCRM /Attachment (binary stream).
-const ATTACHMENT_UPLOAD_URL = (import.meta.env.ESPO_BASE ?? import.meta.env.PUBLIC_ESPO_BASE ?? "") + "/Attachment";
+const CAREERS_LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_CAREERS_LEAD_CAPTURE_KEY;
+const ATTACHMENT_UPLOAD_URL = import.meta.env.PUBLIC_ESPO_BASE + "/Attachment";
 ---
 
 <MultiStepContactForm
@@ -109,8 +108,8 @@ const ATTACHMENT_UPLOAD_URL = (import.meta.env.ESPO_BASE ?? import.meta.env.PUBL
 
 </MultiStepContactForm>
 
-<script define:vars={{ ATTACHMENT_UPLOAD_URL }}>
-  const ENDPOINT   = '/api/careers';
+<script define:vars={{ CAREERS_LEAD_CAPTURE_URL, ATTACHMENT_UPLOAD_URL }}>
+  const ENDPOINT   = CAREERS_LEAD_CAPTURE_URL;
   const UPLOAD_URL = ATTACHMENT_UPLOAD_URL;
   const FORM_ID    = 'jf';
   const STEP_COUNT = 3;
@@ -215,10 +214,7 @@ const ATTACHMENT_UPLOAD_URL = (import.meta.env.ESPO_BASE ?? import.meta.env.PUBL
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const d = await res.json().catch(() => ({}));
-        throw new Error(d.error ?? (await res.text()) || `Error ${res.status}`);
-      }
+      if (!res.ok) throw new Error((await res.text()) || `Error ${res.status}`);
 
       form.reset();
       document.getElementById(`${FORM_ID}-step-${current}`)!.classList.add('hidden');

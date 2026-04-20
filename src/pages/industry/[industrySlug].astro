@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import IndustryHero from "../../components/industry/IndustryHero.astro";
+import IndustryOverview from "../../components/industry/IndustryOverview.astro";
+import IndustryRequirements from "../../components/industry/IndustryRequirements.astro";
+import IndustryRecommendedProducts from "../../components/industry/IndustryRecommendedProducts.astro";
+import IndustryComparisonTable from "../../components/industry/IndustryComparisonTable.astro";
+import IndustryFAQ from "../../components/industry/IndustryFAQ.astro";
+import IndustryCTA from "../../components/industry/IndustryCTA.astro";
+import { industries } from "../../data/industries";
+
+export async function getStaticPaths() {
+  return industries.map((industry) => ({
+    params: { industrySlug: industry.slug },
+    props: { industry },
+  }));
+}
+
+const { industry } = Astro.props;
+---
+
+<BaseLayout
+  title={`${industry.name} | Industries | Amrita Global`}
+  description={industry.heroSubtitle}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Industries", url: "/industry" },
+    { name: industry.name },
+  ]}
+>
+  <main class="bg-background text-on-surface">
+    <IndustryHero
+      badge={industry.badge}
+      title={industry.heroTitle}
+      subtitle={industry.heroSubtitle}
+      image={industry.heroImage}
+      breadcrumbs={[
+        { name: "Home", href: "/" },
+        { name: "Industries", href: "/industry" },
+        { name: industry.name },
+      ]}
+    />
+    <IndustryOverview />
+    <IndustryRequirements />
+    <IndustryRecommendedProducts />
+    <IndustryComparisonTable />
+    <IndustryFAQ />
+    <IndustryCTA />
+  </main>
+</BaseLayout>

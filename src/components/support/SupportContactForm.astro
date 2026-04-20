@@ -1,6 +1,6 @@
 ---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
-// No env vars needed — submission proxied through /api/contact (server-side)
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 ---
 
 <MultiStepContactForm
@@ -234,21 +234,20 @@ import MultiStepContactForm from "../common/MultiStepContactForm.astro";
     errorEl.classList.add('hidden');
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch(LEAD_CAPTURE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(collectPayload()),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error ?? `${res.status}`);
+      if (!res.ok) throw new Error(`${res.status}`);
 
       form.reset();
       document.getElementById(`${FORM_ID}-step-${current}`).classList.add('hidden');
       document.getElementById(`${FORM_ID}-stepper`).classList.add('hidden');
       stepLabel.classList.add('hidden');
       successEl.classList.remove('hidden');
-    } catch (err) {
-      errorEl.textContent = err?.message ?? 'Something went wrong. Please try again or email us directly.';
+    } catch {
+      errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
       errorEl.classList.remove('hidden');
     } finally {
       submitBtn.disabled = false;

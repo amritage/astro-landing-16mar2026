@@ -1,5 +1,4 @@
 ---
-export const prerender = true;
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../components/common/Breadcrumbs.astro";
 import ProductDetailHero from "../../../components/product/ProductDetailHero.astro";
@@ -45,7 +44,7 @@ const { product, collectionProducts, categoryName } = Astro.props as {
 };
 
 const { categorySlug } = Astro.params;
-const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}/`;
+const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
 ---
 
 <style>

@@ -65,8 +65,7 @@ const authorName = authorNameProp ?? companyName;
 
 const siteBase = SITE_BASE;
 const rawCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
-// Remove all trailing slashes from canonical URLs
-const resolvedCanonical = rawCanonical.replace(/\/+$/, '') || siteBase;
+const resolvedCanonical = rawCanonical.replace(/\/$/, "");
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDesc = ogDescription ?? description;
 const resolvedTwitterTitle = twitterTitle ?? resolvedOgTitle;
@@ -151,7 +150,6 @@ const schemaArray = schemaMarkup
       <meta name="keywords" content={keywords.join(", ")} />
     )}
     <link rel="canonical" href={resolvedCanonical} />
-    <link rel="alternate" hreflang="en" href="https://www.amrita-fashions.com/" />
 
     <!-- Site Verification -->
     {site?.googleVerification && (

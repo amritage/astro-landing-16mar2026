@@ -1,6 +1,6 @@
 ---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
-// No env vars needed — submission proxied through /api/inquiry (server-side)
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 ---
 
 <div
@@ -242,8 +242,13 @@ import MultiStepContactForm from "../common/MultiStepContactForm.astro";
   }
 </style>
 
-<!-- No window.__IQM_LEAD_URL__ needed — fetch goes to /api/inquiry -->
+<!-- Expose LEAD_CAPTURE_URL to window so the TS script below can read it -->
+<script define:vars={{ LEAD_CAPTURE_URL }}>
+  window.__IQM_LEAD_URL__ = LEAD_CAPTURE_URL;
+</script>
+
 <script>
+  const LEAD_CAPTURE_URL = (window as any).__IQM_LEAD_URL__ as string;
   const FORM_ID    = 'iqf';
   const STEP_COUNT = 3;
   const stepMeta   = [
@@ -396,7 +401,7 @@ import MultiStepContactForm from "../common/MultiStepContactForm.astro";
       const timer = setTimeout(() => ctrl.abort(), 8000);
       let res: Response;
       try {
-        res = await fetch('/api/inquiry', {
+        res = await fetch(LEAD_CAPTURE_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -408,9 +413,9 @@ import MultiStepContactForm from "../common/MultiStepContactForm.astro";
 
       if (!res!.ok) {
         let detail = '';
-        try { const d = await res!.json(); detail = d.error ?? ''; } catch { /* ignore */ }
+        try { detail = await res!.text(); } catch { /* ignore */ }
         console.error('[IQM] API error', res!.status, detail);
-        throw new Error(`Submission failed${detail ? ': ' + detail : ''}. Please try again.`);
+        throw new Error(`API error ${res!.status}${detail ? ': ' + detail : ''}`);
       }
 
       form.reset();

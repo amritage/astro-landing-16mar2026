@@ -1,6 +1,7 @@
 ---
 import { siteConfig } from "../data/site";
 import { getCompanyInfo, getCategoryTopicPages, getDynamicTopicPages } from "../lib/api";
+const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
 
 const company = await getCompanyInfo("AGE");
 const categoryPages = await getCategoryTopicPages();
@@ -328,7 +329,9 @@ const socialLinks = [
   </div>
 </footer>
 
-<script>
+<script define:vars={{ LEAD_CAPTURE_URL }}>
+  const ESPO_URL = LEAD_CAPTURE_URL;
+
   const form = document.getElementById('footer-newsletter-form');
   const emailInput = document.getElementById('footer-newsletter-email');
   const btn = document.getElementById('footer-newsletter-btn');
@@ -346,7 +349,7 @@ const socialLinks = [
       errorMsg.classList.add('hidden');
 
       try {
-        const res = await fetch('/api/newsletter', {
+        const res = await fetch(ESPO_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -359,8 +362,6 @@ const socialLinks = [
           form.reset();
           successMsg.classList.remove('hidden');
         } else {
-          const data = await res.json().catch(() => ({}));
-          errorMsg.textContent = data.error ?? 'Something went wrong. Please try again.';
           errorMsg.classList.remove('hidden');
         }
       } catch {

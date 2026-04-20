@@ -1,6 +1,6 @@
 const BASE_URL = (import.meta.env.PUBLIC_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
 if (!BASE_URL) {
-  console.warn('[api] PUBLIC_API_BASE_URL is not set. All API calls will return empty data. Add it to your .env file or Cloudflare Pages environment variables.');
+  throw new Error('[api] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
 }
 
 // ── Raw API shape ──────────────────────────────────────────────────────────────
@@ -99,34 +99,28 @@ export interface ProductsPage {
 // ── Fetch helpers ──────────────────────────────────────────────────────────────
 
 export async function getProducts(page = 1, limit = 20): Promise<ProductsPage> {
-  if (!BASE_URL) return { data: [], total: 0, page, totalPages: 0, limit };
-  try {
-    const res = await fetch(`${BASE_URL}/api/product?page=${page}&limit=${limit}`, { cache: "force-cache" });
-    if (!res.ok) return { data: [], total: 0, page, totalPages: 0, limit };
-    const json: ApiResponse = await res.json();
-    return {
-      data: json.data,
-      total: json.total,
-      page: json.pagination.page,
-      totalPages: json.pagination.totalPages,
-      limit: json.pagination.limit,
-    };
-  } catch {
-    return { data: [], total: 0, page, totalPages: 0, limit };
-  }
+  // D2 FIX: force-cache avoids redundant network hits when the same URL is
+  // requested multiple times during a single SSG build run.
+  const res = await fetch(`${BASE_URL}/api/product?page=${page}&limit=${limit}`, { cache: "force-cache" });
+  if (!res.ok) return { data: [], total: 0, page, totalPages: 0, limit };
+  const json: ApiResponse = await res.json();
+  return {
+    data: json.data,
+    total: json.total,
+    page: json.pagination.page,
+    totalPages: json.pagination.totalPages,
+    limit: json.pagination.limit,
+  };
 }
 
 export async function getAllProducts(): Promise<ApiProduct[]> {
-  try {
-    const first = await getProducts(1, 500);
-    if (first.totalPages <= 1) return first.data;
-    const rest = await Promise.all(
-      Array.from({ length: first.totalPages - 1 }, (_, i) => getProducts(i + 2, 500))
-    );
-    return [first.data, ...rest.map((p) => p.data)].flat();
-  } catch {
-    return [];
-  }
+  // B1 FIX: use large page size to minimise round-trips (ideally one request)
+  const first = await getProducts(1, 500);
+  if (first.totalPages <= 1) return first.data;
+  const rest = await Promise.all(
+    Array.from({ length: first.totalPages - 1 }, (_, i) => getProducts(i + 2, 500))
+  );
+  return [first.data, ...rest.map((p) => p.data)].flat();
 }
 
 export interface FilterValues {
@@ -146,36 +140,34 @@ async function fetchField(field: string): Promise<string[]> {
 }
 
 export async function getFilterValues(): Promise<FilterValues> {
-  try {
-    const [category, colorNames, structure, content, design, finish, allProducts] = await Promise.all([
-      fetchField("category"),
-      fetchField("color"),
-      fetchField("structure"),
-      fetchField("content"),
-      fetchField("design"),
-      fetchField("finish"),
-      getAllProducts(),
-    ]);
+  // Fetch field lists + all products in parallel to build color→hex map
+  const [category, colorNames, structure, content, design, finish, allProducts] = await Promise.all([
+    fetchField("category"),
+    fetchField("color"),
+    fetchField("structure"),
+    fetchField("content"),
+    fetchField("design"),
+    fetchField("finish"),
+    getAllProducts(),
+  ]);
 
-    const colorHexMap = new Map<string, string>();
-    for (const p of allProducts) {
-      if (!p.color || !p.hex) continue;
-      p.color.forEach((name, i) => {
-        if (name && p.hex[i] && !colorHexMap.has(name)) {
-          colorHexMap.set(name, p.hex[i]);
-        }
-      });
-    }
-
-    const color = colorNames.map((name) => ({
-      name,
-      hex: colorHexMap.get(name) ?? "#cccccc",
-    }));
-
-    return { category, color, structure, content, design, finish };
-  } catch {
-    return { category: [], color: [], structure: [], content: [], design: [], finish: [] };
+  // Build color name → hex from product data (color[] and hex[] are parallel arrays)
+  const colorHexMap = new Map<string, string>();
+  for (const p of allProducts) {
+    if (!p.color || !p.hex) continue;
+    p.color.forEach((name, i) => {
+      if (name && p.hex[i] && !colorHexMap.has(name)) {
+        colorHexMap.set(name, p.hex[i]);
+      }
+    });
   }
+
+  const color = colorNames.map((name) => ({
+    name,
+    hex: colorHexMap.get(name) ?? "#cccccc",
+  }));
+
+  return { category, color, structure, content, design, finish };
 }
 
 // D3 FIX: no longer downloads the full catalogue to find one product.
@@ -299,33 +291,29 @@ export async function getProductsByCategory(categoryName: string): Promise<ApiPr
 }
 
 export async function getProductsByMerchTag(tag: string, limit = 4): Promise<ApiProduct[]> {
-  try {
-    const pageSize = 500;
-    const encodedTag = encodeURIComponent(tag);
+  const pageSize = 500;
+  const encodedTag = encodeURIComponent(tag);
 
-    const firstRes = await fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=1&limit=${pageSize}`, { cache: "force-cache" });
-    if (!firstRes.ok) return [];
-    const firstJson: ApiResponse = await firstRes.json();
-    const totalPages = firstJson.pagination?.totalPages ?? 1;
+  const firstRes = await fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=1&limit=${pageSize}`, { cache: "force-cache" });
+  if (!firstRes.ok) return [];
+  const firstJson: ApiResponse = await firstRes.json();
+  const totalPages = firstJson.pagination?.totalPages ?? 1;
 
-    let allData = firstJson.data ?? [];
+  let allData = firstJson.data ?? [];
 
-    if (totalPages > 1) {
-      const rest = await Promise.all(
-        Array.from({ length: totalPages - 1 }, (_, i) =>
-          fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=${i + 2}&limit=${pageSize}`, { cache: "force-cache" })
-            .then((r) => (r.ok ? r.json() : { data: [] }))
-            .then((j) => (j.data ?? []) as ApiProduct[])
-        )
-      );
-      allData = [allData, ...rest].flat();
-    }
-
-    const exact = allData.filter((p) => p.merchTags?.includes(tag));
-    return limit > 0 ? exact.slice(0, limit) : exact;
-  } catch {
-    return [];
+  if (totalPages > 1) {
+    const rest = await Promise.all(
+      Array.from({ length: totalPages - 1 }, (_, i) =>
+        fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=${i + 2}&limit=${pageSize}`, { cache: "force-cache" })
+          .then((r) => (r.ok ? r.json() : { data: [] }))
+          .then((j) => (j.data ?? []) as ApiProduct[])
+      )
+    );
+    allData = [allData, ...rest].flat();
   }
+
+  const exact = allData.filter((p) => p.merchTags?.includes(tag));
+  return limit > 0 ? exact.slice(0, limit) : exact;
 }
 
 // ── Website FAQ ────────────────────────────────────────────────────────────────
