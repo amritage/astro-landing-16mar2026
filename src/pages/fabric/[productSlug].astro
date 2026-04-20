@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
 import ProductDetailHero from "../../components/product/ProductDetailHero.astro";
@@ -29,7 +30,7 @@ const { product, collectionProducts } = Astro.props as { product: Product; colle
 const company = await getCompanyInfo("AGE");
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
-const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}/`;
+const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
 
 // ── JSON-LD: Product schema ────────────────────────────────────────────────────
 

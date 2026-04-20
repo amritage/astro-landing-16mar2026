@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PLHero from "../../components/productandlocation/PLHero.astro";
 import PLTrustMetrics from "../../components/productandlocation/PLTrustMetrics.astro";
@@ -49,7 +50,7 @@ const ogImage =
   location?.image1CloudUrl ||
   undefined;
 
-const canonicalUrl = `${SITE_BASE}/product-location/${data.slug}/`;
+const canonicalUrl = `${SITE_BASE}/product-location/${data.slug}`;
 
 // ── JSON-LD ───────────────────────────────────────────────────────────────────
 const breadcrumbs = [

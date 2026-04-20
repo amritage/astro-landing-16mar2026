@@ -1,5 +1,5 @@
 ---
-const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
+// No env vars needed — submission goes through /api/newsletter (server-side proxy)
 ---
 <section class="px-8 py-20 bg-[#e7e8e9] relative overflow-hidden">
   <div class="max-w-4xl mx-auto text-center relative z-10">
@@ -37,10 +37,8 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
   <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#041632]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 </section>
 
-<script define:vars={{ LEAD_CAPTURE_URL }}>
-  const ESPO_URL = LEAD_CAPTURE_URL;
-
-  const form = document.getElementById('newsletter-form');
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
   const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
   const btn = document.getElementById('newsletter-btn') as HTMLButtonElement;
   const successMsg = document.getElementById('newsletter-success')!;
@@ -57,7 +55,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     errorMsg.classList.add('hidden');
 
     try {
-      const res = await fetch(ESPO_URL, {
+      const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -70,6 +68,8 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
         form.reset();
         successMsg.classList.remove('hidden');
       } else {
+        const data = await res.json().catch(() => ({}));
+        errorMsg.textContent = data.error ?? 'Something went wrong. Please try again.';
         errorMsg.classList.remove('hidden');
       }
     } catch {

@@ -1,7 +1,7 @@
 ---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
 import type { ApiProductLocation } from "../../lib/api";
-const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
+// No env vars needed — submission proxied through /api/inquiry (server-side)
 
 interface Props { data: ApiProductLocation; }
 const { data } = Astro.props;
@@ -139,7 +139,7 @@ const productName = product.productTitle ?? product.name;
 
 </MultiStepContactForm>
 
-<script define:vars={{ LEAD_CAPTURE_URL }}>
+<script define:vars={{ productName }}>
   const FORM_ID    = 'plf';
   const STEP_COUNT = 3;
 
@@ -230,12 +230,15 @@ const productName = product.productTitle ?? product.name;
     errorEl?.classList.add('hidden');
 
     try {
-      const res = await fetch(LEAD_CAPTURE_URL, {
+      const res = await fetch('/api/inquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(collectPayload()),
       });
-      if (!res.ok) throw new Error(`${res.status}`);
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error ?? `${res.status}`);
+      }
 
       form.reset();
       document.getElementById(`${FORM_ID}-step-${current}`)?.classList.add('hidden');

@@ -1,10 +1,7 @@
 const API_BASE = (import.meta.env.PUBLIC_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
-if (!API_BASE) {
-  throw new Error('[blog] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
-}
 export { cloudinarySrcset } from "./cloudinary";
 
-const API_URL = `${API_BASE}/api/blog`;
+const API_URL = API_BASE ? `${API_BASE}/api/blog` : '';
 const FALLBACK_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1773744244/BlogFallBackImage_snbkg6.jpg";
 
 export interface ApiBlogPost {
@@ -37,6 +34,10 @@ export interface ApiBlogPost {
 }
 
 export async function fetchBlogPosts(): Promise<ApiBlogPost[]> {
+  if (!API_URL) {
+    console.warn('[blog] PUBLIC_API_BASE_URL is not set. Blog posts will be empty.');
+    return [];
+  }
   try {
     const res = await fetch(API_URL, { cache: "force-cache" });
     const json = await res.json();

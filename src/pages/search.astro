@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Read query param at build time for SSG — client JS handles live filtering
+const query = Astro.url.searchParams.get("q") ?? "";
+---
+
+<BaseLayout
+  title="Search Fabrics | Amrita Global Enterprises"
+  description="Search our full catalogue of cotton, denim, knit, and woven fabrics."
+  noindex={true}
+>
+  <section class="min-h-[70vh] px-6 py-20 bg-[#f3f4f5]">
+    <div class="max-w-2xl mx-auto space-y-8">
+
+      <div class="text-center space-y-3">
+        <span class="inline-block px-4 py-1 border border-[#775a19] text-[#775a19] text-xs tracking-[0.2em] uppercase">Search</span>
+        <h1 class="font-serif text-3xl md:text-4xl text-[#041632] italic">Find a Fabric</h1>
+        <p class="text-[#5a6a85] text-sm">Search by name, category, or material — then browse the full catalogue.</p>
+      </div>
+
+      <form id="search-form" action="/fabric" method="get" class="flex gap-2">
+        <label for="search-input" class="sr-only">Search fabrics</label>
+        <input
+          id="search-input"
+          name="q"
+          type="search"
+          value={query}
+          placeholder="e.g. cotton twill, denim, GSM 200…"
+          autocomplete="off"
+          class="flex-1 border border-[#d1d5db] bg-white px-5 py-3 text-sm text-[#041632] outline-none focus:border-[#775a19] focus:ring-1 focus:ring-[#775a19] transition"
+        />
+        <button
+          type="submit"
+          class="px-6 py-3 bg-[#041632] text-white text-sm font-bold uppercase tracking-wide hover:bg-[#775a19] transition-colors"
+        >
+          Search
+        </button>
+      </form>
+
+      <div class="text-center pt-4">
+        <p class="text-xs text-[#9ca3af] mb-4">Or browse by category</p>
+        <div class="flex flex-wrap justify-center gap-2">
+          {["Cotton", "Denim", "Knit", "Woven", "Shirting", "Suiting"].map((cat) => (
+            <a
+              href={`/fabric?q=${cat.toLowerCase()}`}
+              class="px-4 py-2 border border-[#d1d5db] text-xs font-semibold text-[#041632] uppercase tracking-wide hover:border-[#041632] hover:bg-white transition-colors"
+            >
+              {cat}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {query && (
+        <p class="text-center text-sm text-[#5a6a85]">
+          Showing results for <strong class="text-[#041632]">"{query}"</strong> in the fabric catalogue.
+        </p>
+      )}
+
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Auto-submit on Enter, focus input on load
+  const input = document.getElementById("search-input") as HTMLInputElement;
+  input?.focus();
+</script>

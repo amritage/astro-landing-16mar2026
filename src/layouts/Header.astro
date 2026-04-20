@@ -102,8 +102,8 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
 
     <!-- Desktop CTA -->
     <div class="hidden md:flex items-center gap-2 flex-shrink-0">
-      <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>
-      <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>
+      {phoneHref && <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>}
+      {whatsappHref && <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>}
     </div>
 
     <!-- Mobile Hamburger -->
@@ -163,8 +163,8 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   </div>
 
   <div class="flex gap-[10px] px-3 pt-4 pb-6 mt-auto flex-shrink-0">
-    <a href={whatsappHref} class="flex-1 flex items-center justify-center py-[14px] rounded-2xl bg-[#041632] text-white text-[13px] font-bold tracking-[0.06em] uppercase no-underline transition-colors duration-200 hover:bg-[#775a19]" target="_blank" rel="noopener noreferrer">Get a Quote</a>
-    <a href={phoneHref} class="flex items-center justify-center px-[18px] py-[14px] rounded-2xl border-[1.5px] border-slate-200 bg-white text-[#041632] text-[13px] font-bold no-underline transition-colors duration-200 hover:border-[#041632]">Call Now</a>
+    {whatsappHref && <a href={whatsappHref} class="flex-1 flex items-center justify-center py-[14px] rounded-2xl bg-[#041632] text-white text-[13px] font-bold tracking-[0.06em] uppercase no-underline transition-colors duration-200 hover:bg-[#775a19]" target="_blank" rel="noopener noreferrer">Get a Quote</a>}
+    {phoneHref && <a href={phoneHref} class="flex items-center justify-center px-[18px] py-[14px] rounded-2xl border-[1.5px] border-slate-200 bg-white text-[#041632] text-[13px] font-bold no-underline transition-colors duration-200 hover:border-[#041632]">Call Now</a>}
   </div>
 </aside>
 
