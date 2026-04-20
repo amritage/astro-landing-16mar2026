@@ -1,0 +1,104 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+import { locations } from "../../data/locations";
+import { fetchProducts } from "../../data/products";
+import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
+
+export async function getStaticPaths() {
+  const products = await fetchProducts();
+  return locations.map((location) => ({
+    params: { citySlug: location.slug },
+    props: { location, products },
+  }));
+}
+
+const { location, products } = Astro.props;
+const company = await getCompanyInfo("AGE");
+const WA_FALLBACK = buildWaLink(company?.whatsappNumber);
+const PHONE_FALLBACK = buildPhoneHref(company?.phone1);
+const SALES_EMAIL = company?.salesEmail ?? null;
+---
+
+<BaseLayout
+  title={`Fabric Supplier in ${location.city} | Amrita Global Enterprises`}
+  description={location.heroSubtitle}
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: location.city },
+  ]}
+>
+  <main class="bg-white text-slate-900">
+    <!-- Hero section with CTA buttons -->
+    <section class="relative bg-[#041632] py-16 overflow-hidden">
+      <div class="absolute inset-0 bg-[#041632]/80 z-0"></div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8">
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: location.city }]} variant="dark" class="mb-5" />
+        <h1 class="text-4xl font-bold text-white mb-4">{location.heroTitle}</h1>
+        <p class="text-lg text-white/70 mb-8 max-w-2xl">{location.heroSubtitle}</p>
+        <!-- CTA buttons: WhatsApp, Call, Email -->
+        <div class="flex flex-wrap gap-3">
+          <a
+            id="location-hero-whatsapp-btn"
+            href={WA_FALLBACK ?? "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold${!WA_FALLBACK ? " hidden" : ""}`}
+          >
+            <span class="material-symbols-outlined text-green-400 text-base" style="font-variation-settings: 'FILL' 1;">chat</span>
+            WhatsApp
+          </a>
+          <a
+            href={PHONE_FALLBACK ?? "#"}
+            class={`flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold${!PHONE_FALLBACK ? " hidden" : ""}`}
+          >
+            <span class="material-symbols-outlined text-base">call</span>
+            Call Us
+          </a>
+          <a
+            id="location-hero-email-btn"
+            href="#"
+            class="flex items-center gap-2 bg-white/10 border border-white/30 text-white px-4 py-2.5 hover:bg-white/20 transition-all text-sm font-semibold"
+            data-city={location.city}
+          >
+            <span class="material-symbols-outlined text-yellow-400 text-base">mail</span>
+            Email
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 lg:px-8 py-16">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {products.map((product) => (
+          <a href={`/fabric/${product.slug}`} class="block border rounded-xl overflow-hidden hover:shadow-lg transition-shadow">
+            <img src={product.image} alt={product.imageAlt} class="w-full h-48 object-cover" width="400" height="192" loading="lazy" />
+            <div class="p-4">
+              <h2 class="font-semibold text-[#041632] text-lg mb-1">{product.name}</h2>
+              <p class="text-sm text-slate-500">{product.specs.material} · {product.specs.weight}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script define:vars={{ SALES_EMAIL, WA_FALLBACK }}>
+  const emailBtn = document.getElementById("location-hero-email-btn");
+  const waBtn    = document.getElementById("location-hero-whatsapp-btn");
+
+  if (emailBtn && SALES_EMAIL) {
+    const city    = emailBtn.dataset.city ?? "your city";
+    const pageUrl = window.location.href;
+    const subject = encodeURIComponent(`Fabric Supply Inquiry — ${city}`);
+    const body    = encodeURIComponent(`Hi,\n\nI am interested in fabric supply in ${city}.\n\n${pageUrl}\n\nPlease share more details.\n\nThank you.`);
+    emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
+  if (waBtn && WA_FALLBACK) {
+    const pageUrl = window.location.href;
+    const message = encodeURIComponent(`Hi, I'm looking for fabric supply in this location:\n${pageUrl}`);
+    waBtn.href = `${WA_FALLBACK}?text=${message}`;
+  }
+</script>

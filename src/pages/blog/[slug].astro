@@ -19,7 +19,7 @@ const { post } = Astro.props;
 const company = await getCompanyInfo("AGE");
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
-const canonicalUrl = `${SITE_BASE}/blog/${post.slug}/`;
+const canonicalUrl = `${SITE_BASE}/blog/${post.slug}`;
 const heroImage = getPostImage(post);
 
 // JSON-LD: Article schema

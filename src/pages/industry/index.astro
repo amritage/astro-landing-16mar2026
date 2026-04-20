@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import IndustryHero from "../../components/industry/IndustryHero.astro";
+import IndustryOverview from "../../components/industry/IndustryOverview.astro";
+import IndustryRequirements from "../../components/industry/IndustryRequirements.astro";
+import IndustryRecommendedProducts from "../../components/industry/IndustryRecommendedProducts.astro";
+import IndustryComparisonTable from "../../components/industry/IndustryComparisonTable.astro";
+import IndustryFAQ from "../../components/industry/IndustryFAQ.astro";
+import IndustryCTA from "../../components/industry/IndustryCTA.astro";
+---
+
+<BaseLayout
+  title="Industries Served | Amrita Global"
+  description="Providing bespoke textile solutions to over 50+ countries across Apparel, Hospitality, Uniforms, and Export sectors with unparalleled craftsmanship since 1971."
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Industries" },
+  ]}
+>
+  <main>
+    <IndustryHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Industries" }]} />
+    <IndustryOverview />
+    <IndustryRequirements />
+    <IndustryRecommendedProducts />
+    <IndustryComparisonTable />
+    <IndustryFAQ />
+    <IndustryCTA />
+  </main>
+</BaseLayout>

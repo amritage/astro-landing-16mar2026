@@ -1,0 +1,46 @@
+---
+import Breadcrumbs from "../common/Breadcrumbs.astro";
+
+interface Props {
+  name: string;
+  excerpt: string | null;
+  imageUrl: string | null;
+  altText: string | null;
+  breadcrumbs?: { name: string; href?: string }[];
+}
+const { name, excerpt, imageUrl, altText, breadcrumbs } = Astro.props;
+---
+
+<section class="relative flex items-center overflow-hidden -mt-[94px] md:-mt-[102px] pt-[94px] md:pt-[102px]" style="height: calc(560px + 94px);">
+  <div class="absolute inset-0 z-0">
+    {imageUrl ? (
+      <img
+        class="w-full h-full object-cover"
+        src={imageUrl}
+        alt={altText ?? name}
+      />
+    ) : (
+      <div class="w-full h-full bg-[#041632]" />
+    )}
+    <div class="absolute inset-0 bg-gradient-to-r from-[#041632]/85 to-transparent"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
+    <div class="max-w-2xl">
+      {breadcrumbs && breadcrumbs.length > 1 && (
+        <div class="mb-4">
+          <Breadcrumbs items={breadcrumbs} variant="dark" />
+        </div>
+      )}
+      <span class="font-label text-[#ecc15c] uppercase tracking-[0.2em] text-sm mb-4 block">
+        Fabric Category
+      </span>
+      <h1 class="font-headline text-6xl md:text-7xl text-white mb-6 leading-tight">{name}</h1>
+      {excerpt && (
+        <p class="text-[#bac6e4] text-lg md:text-xl font-light leading-relaxed max-w-lg">
+          {excerpt}
+        </p>
+      )}
+    </div>
+  </div>
+</section>

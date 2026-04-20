@@ -1,0 +1,408 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/common/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="Ahmedabad Industrial Textiles | Amrita Global Enterprises"
+  description="Precision-engineered textiles for the textile capital. From Majestica-767 to heavy-duty Industrial Twill, Amrita Global delivers legacy-grade quality to Ahmedabad's elite manufacturers."
+  breadcrumbs={[
+    { name: "Home", url: "/" },
+    { name: "Industries", url: "/industry" },
+    { name: "Home Textile" },
+  ]}
+>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[707px] flex items-center overflow-hidden bg-[#041632]">
+    <div class="absolute inset-0 z-0 opacity-40">
+      <img
+        class="w-full h-full object-cover"
+        src="https://res.cloudinary.com/age-fabric/image/upload/v1775650985/1_kgn4so.jpg
+"
+        alt="Close up of high speed industrial loom weaving navy fabric"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-r from-[#041632] via-[#041632]/80 to-transparent z-10"></div>
+    <div class="container mx-auto px-6 relative z-20 grid md:grid-cols-12 gap-12 py-24">
+      <div class="md:col-span-8 lg:col-span-7">
+        <Breadcrumbs items={[{ name: "Home", href: "/" }, { name: "Industries", href: "/industry" }, { name: "Home Textile" }]} variant="dark" class="mb-5" />
+        <span class="inline-block px-4 py-1 rounded-full bg-[#fed488] text-[#785a1a] font-label text-xs font-bold uppercase tracking-widest mb-6">
+          Ahmedabad Regional Hub
+        </span>
+        <h1 class="font-headline text-5xl md:text-7xl text-white leading-tight font-light mb-8 italic">
+          The Fabric of <span class="font-bold not-italic">Ahmedabad's</span> Industrial Future.
+        </h1>
+        <p class="text-[#8393b5] text-lg md:text-xl max-w-xl mb-10 font-body leading-relaxed">
+          Precision-engineered textiles for the textile capital. From Majestica-767 to heavy-duty Industrial Twill, Amrita Global delivers legacy-grade quality to Ahmedabad's elite manufacturers.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="#inquiry-form"
+            class="px-8 py-4 bg-[#775a19] text-white font-bold rounded-md hover:bg-[#8d6708] transition-all flex items-center justify-center gap-2 font-body"
+          >
+            Request Local Quote
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+          <button class="px-8 py-4 border border-white/30 text-white font-bold rounded-md hover:bg-white/10 transition-all font-body">
+            Technical Data Sheets
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges -->
+  <section class="bg-[#f3f4f5] py-12">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-wrap justify-between items-center gap-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+        {[
+          { icon: "verified", label: "ISO 9001:2015" },
+          { icon: "factory", label: "Gujarat OE Certified" },
+          { icon: "eco", label: "OEKO-TEX Standard" },
+          { icon: "history", label: "Est. 1971" },
+        ].map(({ icon, label }) => (
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-3xl text-[#041632]">{icon}</span>
+            <span class="font-label text-sm font-bold tracking-tighter uppercase text-[#191c1d]">{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Bento Grid -->
+  <section class="py-24 bg-[#f8f9fa]">
+    <div class="container mx-auto px-6">
+      <div class="mb-16">
+        <h2 class="font-headline text-4xl font-bold text-[#041632] mb-4">Core Textile Solutions</h2>
+        <div class="h-1 w-20 bg-[#775a19]"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Featured Product 1 -->
+        <div class="md:col-span-2 bg-white p-8 rounded-xl shadow-sm border border-[#c5c6ce]/10 group hover:shadow-xl transition-all">
+          <div class="flex flex-col md:flex-row gap-8">
+            <div class="w-full md:w-1/2 overflow-hidden rounded-lg">
+              <img
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                src="https://res.cloudinary.com/age-fabric/image/upload/v1775652244/15_zlts4h.jpg"
+                alt="High quality white textile weave pattern for luxury shirts"
+              />
+            </div>
+            <div class="w-full md:w-1/2 flex flex-col justify-center">
+              <span class="text-[#775a19] font-bold font-label text-xs tracking-widest mb-2 uppercase">Premium Series</span>
+              <h3 class="font-headline text-3xl font-bold text-[#041632] mb-4">Majestica-767</h3>
+              <p class="font-body text-[#44474d] mb-6 leading-relaxed">
+                The pinnacle of weave density. Engineered for high-end corporate uniform manufacturing with a proprietary non-crease finish.
+              </p>
+              <ul class="space-y-2 mb-8 font-label text-sm font-medium">
+                {["240 GSM High Density", "Superior Tensile Strength", "Ahmedabad Stock Ready"].map((item) => (
+                  <li class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#775a19] text-sm">check_circle</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <button class="text-[#041632] font-bold flex items-center gap-2 hover:gap-4 transition-all font-body">
+                View Specifications
+                <span class="material-symbols-outlined">arrow_right_alt</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Product 2 -->
+        <div class="bg-[#041632] p-8 rounded-xl flex flex-col justify-between text-white relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="text-[#e9c176] font-bold font-label text-xs tracking-widest mb-2 block uppercase">Workwear</span>
+            <h3 class="font-headline text-3xl font-bold mb-4">Industrial Twill</h3>
+            <p class="font-body text-[#8393b5] text-sm mb-6">
+              Engineered for the harshest environments. Acid-resistant and fire-retardant options available for local chemical hubs.
+            </p>
+          </div>
+          <img
+            class="absolute bottom-0 right-0 w-3/4 opacity-30 rotate-12"
+            src="https://res.cloudinary.com/age-fabric/image/upload/v1775651586/3_ptvdom.jpg"
+            alt="Technical navy blue twill fabric texture close up"
+          />
+          <button class="mt-auto py-3 bg-white text-[#041632] font-bold rounded-md relative z-10 font-body">
+            Get Sample
+          </button>
+        </div>
+
+        <!-- Highlight Cards -->
+        {[
+          { icon: "speed", title: "Rapid Fulfillment", desc: "Same-day dispatch for Ahmedabad Central Warehouse orders placed before 12 PM." },
+          { icon: "precision_manufacturing", title: "Custom Weaves", desc: "Tailored GSM and color matching services for bulk local procurement contracts." },
+          { icon: "public", title: "Global Standards", desc: "Local Ahmedabad expertise backed by international quality assurance protocols." },
+        ].map(({ icon, title, desc }) => (
+          <div class="bg-[#e7e8e9] p-8 rounded-xl border border-[#c5c6ce]/10">
+            <span class="material-symbols-outlined text-[#775a19] text-4xl mb-4 block">{icon}</span>
+            <h4 class="font-body font-bold text-xl mb-2 text-[#191c1d]">{title}</h4>
+            <p class="font-body text-[#44474d] text-sm">{desc}</p>
+          </div>
+        ))}
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Multi-Step Inquiry Form -->
+  <section class="py-24 bg-[#1b2b48] text-white" id="inquiry-form">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="text-center mb-16">
+        <span class="font-label text-xs font-bold uppercase tracking-[0.3em] text-[#e9c176]">Procurement Gateway</span>
+        <h2 class="font-headline text-4xl md:text-5xl font-bold mt-4 mb-6 text-white">Industrial Inquiry Portal</h2>
+        <p class="font-body text-[#8393b5] max-w-2xl mx-auto">
+          Streamlined specifications for Ahmedabad's manufacturing sector. Connect with our technical experts for custom textile solutions.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 text-[#191c1d] border border-[#c5c6ce]/10">
+        <!-- Step Indicators -->
+        <div class="flex items-center justify-between mb-12 relative">
+          <div class="absolute top-5 left-0 w-full h-0.5 bg-[#e1e3e4] z-0"></div>
+          {[
+            { num: 1, label: "Contact" },
+            { num: 2, label: "Technical" },
+            { num: 3, label: "Scale" },
+          ].map(({ num, label }) => (
+            <div class="relative z-10 flex flex-col items-center gap-2">
+              <div
+                class={`step-indicator w-10 h-10 rounded-full border-2 bg-white flex items-center justify-center font-bold font-label transition-colors duration-300 ${num === 1 ? "active border-[#775a19] text-[#775a19]" : "border-[#c5c6ce] text-[#75777e]"}`}
+                id={`ind-${num}`}
+              >
+                {num}
+              </div>
+              <span class="text-[10px] uppercase tracking-wider font-bold text-[#75777e]">{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <form id="multiStepInquiry" class="space-y-8">
+          <!-- Step 1 -->
+          <div class="step-content active" id="step-1">
+            <div class="grid md:grid-cols-2 gap-6">
+              {[
+                { label: "Company Name", placeholder: "Ahmedabad Textiles Ltd.", type: "text" },
+                { label: "Procurement Contact", placeholder: "Full Name", type: "text" },
+                { label: "Corporate Email", placeholder: "name@company.com", type: "email" },
+                { label: "Direct Line", placeholder: "+91 XXXX XXXX", type: "tel" },
+              ].map(({ label, placeholder, type }) => (
+                <div class="space-y-2">
+                  <label class="block font-label text-xs font-bold uppercase tracking-wider text-[#75777e]">{label}</label>
+                  <input
+                    type={type}
+                    placeholder={placeholder}
+                    required
+                    class="w-full bg-[#edeeef] border-0 border-b-2 border-[#c5c6ce] focus:border-[#775a19] focus:ring-0 font-body py-3 px-0 outline-none"
+                  />
+                </div>
+              ))}
+            </div>
+            <div class="mt-10 flex justify-end">
+              <button
+                type="button"
+                onclick="nextStep(2)"
+                class="px-10 py-4 bg-[#041632] text-white font-bold rounded-md flex items-center gap-3 hover:bg-[#1b2b48] transition-all font-body"
+              >
+                Next: Specifications
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-content" id="step-2">
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="space-y-2">
+                <label class="block font-label text-xs font-bold uppercase tracking-wider text-[#75777e]">Fabric Solution</label>
+                <select class="w-full bg-[#edeeef] border-0 border-b-2 border-[#c5c6ce] focus:border-[#775a19] focus:ring-0 font-body py-3 outline-none">
+                  <option>Majestica-767 (Premium)</option>
+                  <option>Industrial Twill (Heavy Duty)</option>
+                  <option>Canvas Duck (Commercial)</option>
+                  <option>Custom Weave (Consultation)</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="block font-label text-xs font-bold uppercase tracking-wider text-[#75777e]">Target GSM Range</label>
+                <input
+                  type="text"
+                  placeholder="e.g., 220 - 260 GSM"
+                  class="w-full bg-[#edeeef] border-0 border-b-2 border-[#c5c6ce] focus:border-[#775a19] focus:ring-0 font-body py-3 px-0 outline-none"
+                />
+              </div>
+              <div class="md:col-span-2 space-y-2">
+                <label class="block font-label text-xs font-bold uppercase tracking-wider text-[#75777e]">Primary Use Case</label>
+                <textarea
+                  rows="3"
+                  placeholder="Describe the industrial application or specific environment performance requirements..."
+                  class="w-full bg-[#edeeef] border-0 border-b-2 border-[#c5c6ce] focus:border-[#775a19] focus:ring-0 font-body py-3 px-0 outline-none resize-none"
+                ></textarea>
+              </div>
+            </div>
+            <div class="mt-10 flex justify-between">
+              <button type="button" onclick="nextStep(1)" class="px-8 py-4 border border-[#75777e] text-[#041632] font-bold rounded-md transition-all font-body">Previous</button>
+              <button type="button" onclick="nextStep(3)" class="px-10 py-4 bg-[#041632] text-white font-bold rounded-md flex items-center gap-3 hover:bg-[#1b2b48] transition-all font-body">
+                Next: Quantity &amp; Timeline
+                <span class="material-symbols-outlined">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-content" id="step-3">
+            <div class="grid md:grid-cols-2 gap-8">
+              <div class="space-y-2">
+                <label class="block font-label text-xs font-bold uppercase tracking-wider text-[#75777e]">Inquiry Volume (Meters)</label>
+                <input
+                  type="number"
+                  placeholder="Min. 500m for Ahmedabad Hub"
+                  required
+                  class="w-full bg-[#edeeef] border-0 border-b-2 border-[#c5c6ce] focus:border-[#775a19] focus:ring-0 font-body py-3 px-0 outline-none"
+                />
+              </div>
+              <div class="space-y-2">
+                <label class="block font-label text-xs font-bold uppercase tracking-wider text-[#75777e]">Project Deadline</label>
+                <select class="w-full bg-[#edeeef] border-0 border-b-2 border-[#c5c6ce] focus:border-[#775a19] focus:ring-0 font-body py-3 outline-none">
+                  <option>Immediate Supply (Stock items)</option>
+                  <option>Within 30 Days</option>
+                  <option>Quarterly Contract</option>
+                  <option>Annual Supply Agreement</option>
+                </select>
+              </div>
+              <div class="md:col-span-2 flex items-center gap-3 p-4 bg-[#f3f4f5] rounded-lg border border-[#c5c6ce]/10">
+                <input id="sample-req" type="checkbox" class="w-5 h-5 text-[#775a19] border-[#75777e] rounded" />
+                <label for="sample-req" class="font-body text-sm font-medium">Request technical sample swatches to Ahmedabad address</label>
+              </div>
+            </div>
+            <div class="mt-10 flex justify-between">
+              <button type="button" onclick="nextStep(2)" class="px-8 py-4 border border-[#75777e] text-[#041632] font-bold rounded-md transition-all font-body">Previous</button>
+              <button type="submit" class="px-10 py-4 bg-[#775a19] text-white font-bold rounded-md flex items-center gap-3 shadow-lg hover:shadow-xl transition-all font-body">
+                Generate Official Quote
+                <span class="material-symbols-outlined">description</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location & Map -->
+  <section class="py-24 bg-[#f3f4f5] overflow-hidden">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div>
+          <h2 class="font-headline text-4xl font-bold text-[#041632] mb-6">Visit Our Ahmedabad HQ</h2>
+          <div class="space-y-8 mb-10">
+            {[
+              { icon: "location_on", title: "Central Business District", desc: "Sarkhej-Gandhinagar Highway, Ahmedabad, Gujarat 380054" },
+              { icon: "schedule", title: "Operational Hours", desc: "Mon - Sat: 09:00 AM - 07:00 PM" },
+              { icon: "support_agent", title: "Direct Local Line", desc: "+91 79 XXXX XXXX" },
+            ].map(({ icon, title, desc }) => (
+              <div class="flex gap-4">
+                <span class="material-symbols-outlined text-[#775a19]">{icon}</span>
+                <div>
+                  <h4 class="font-bold font-body text-[#191c1d]">{title}</h4>
+                  <p class="text-[#44474d] font-body">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <button class="px-8 py-4 bg-[#041632] text-white font-bold rounded-md hover:bg-[#1b2b48] transition-all font-body">
+            Book a Warehouse Tour
+          </button>
+        </div>
+
+        <div class="relative">
+          <div class="aspect-square bg-[#d9dadb] rounded-2xl overflow-hidden shadow-2xl relative">
+            <img
+              class="w-full h-full object-cover"
+              src="https://res.cloudinary.com/age-fabric/image/upload/v1775652246/16_ank94j.jpg"
+              alt="City map of Ahmedabad industrial district"
+            />
+            <div class="absolute inset-0 bg-[#041632]/10 flex items-center justify-center">
+              <div class="bg-white p-4 rounded-full shadow-lg">
+                <span class="material-symbols-outlined text-[#775a19] text-4xl" style="font-variation-settings: 'FILL' 1;">location_pin</span>
+              </div>
+            </div>
+          </div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#775a19]/10 rounded-full blur-3xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-24 bg-[#f8f9fa]">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="text-center mb-16">
+        <h2 class="font-headline text-4xl font-bold text-[#041632] mb-4">Regional Buyer FAQ</h2>
+        <p class="text-[#44474d] font-body">Specific answers for our Ahmedabad textile partners.</p>
+      </div>
+      <div class="space-y-4">
+        {[
+          {
+            q: "What is the minimum order quantity (MOQ) for local pickup?",
+            a: "For our Ahmedabad-based partners, we offer a reduced MOQ of 500 meters for stock items like Majestica-767 when collected directly from our central warehouse.",
+            open: true,
+          },
+          {
+            q: "Do you provide GST-compliant invoicing for Gujarat businesses?",
+            a: "Absolutely. We provide full GST documentation and are registered under Gujarat state regulations, ensuring seamless input tax credit for our local clients.",
+            open: false,
+          },
+          {
+            q: "Can we request custom dyeing for industrial twill?",
+            a: "Yes, our manufacturing unit near Ahmedabad is equipped for custom Pantone matching. Lead times for custom dyeing typically range from 10-14 business days.",
+            open: false,
+          },
+        ].map(({ q, a, open }) => (
+          <details class="group bg-white p-6 rounded-xl border border-[#c5c6ce]/10 cursor-pointer" open={open}>
+            <summary class="flex justify-between items-center font-bold font-body list-none text-[#191c1d]">
+              {q}
+              <span class="material-symbols-outlined group-open:rotate-180 transition-transform text-[#44474d]">expand_more</span>
+            </summary>
+            <p class="mt-4 text-[#44474d] font-body leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function nextStep(step: number) {
+      document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+      const stepEl = document.getElementById('step-' + step);
+      if (stepEl) stepEl.classList.add('active');
+
+      const indicators = document.querySelectorAll('.step-indicator');
+      indicators.forEach((ind, index) => {
+        const currentIdx = index + 1;
+        ind.classList.remove('active', 'completed');
+        ind.classList.remove('border-[#775a19]', 'text-[#775a19]', 'border-[#041632]', 'bg-[#d7e2ff]', 'text-[#041632]', 'border-[#c5c6ce]', 'text-[#75777e]');
+        if (currentIdx < step) {
+          ind.classList.add('border-[#041632]', 'bg-[#d7e2ff]', 'text-[#041632]');
+          ind.innerHTML = '<span class="material-symbols-outlined text-sm">check</span>';
+        } else if (currentIdx === step) {
+          ind.classList.add('border-[#775a19]', 'text-[#775a19]');
+          ind.innerHTML = String(currentIdx);
+        } else {
+          ind.classList.add('border-[#c5c6ce]', 'text-[#75777e]');
+          ind.innerHTML = String(currentIdx);
+        }
+      });
+
+      document.getElementById('inquiry-form')?.scrollIntoView({ behavior: 'smooth' });
+    }
+    (window as any).nextStep = nextStep;
+  </script>
+
+  <style>
+    .step-content { display: none; }
+    .step-content.active { display: block; }
+  </style>
+
+</BaseLayout>
