@@ -21,7 +21,8 @@ export default defineConfig({
   trailingSlash: 'never',
   output: 'static',
   build: {
-    format: 'file'
+    format: 'file',
+    inlineStylesheets: 'always',
   },
   prefetch: {
     prefetchAll: true,
@@ -29,10 +30,11 @@ export default defineConfig({
   },
   redirects,
   site: process.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
-  integrations: [mdx(), cloudinaryPicture(), partytown({ config: { forward: ['dataLayer.push', 'gtag', 'clarity'] } })],
-  build: {
-    inlineStylesheets: 'always',
-  },
+  integrations: [
+    mdx(),
+    cloudinaryPicture(),
+    partytown({ config: { forward: ['dataLayer.push', 'gtag', 'clarity'] } }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
