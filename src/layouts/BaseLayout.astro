@@ -65,7 +65,9 @@ const authorName = authorNameProp ?? companyName;
 
 const siteBase = SITE_BASE;
 const rawCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
-const resolvedCanonical = rawCanonical.replace(/\/$/, "");
+const resolvedCanonical = rawCanonical.endsWith("/") && rawCanonical !== `${siteBase}/`
+  ? rawCanonical.slice(0, -1)
+  : rawCanonical;
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDesc = ogDescription ?? description;
 const resolvedTwitterTitle = twitterTitle ?? resolvedOgTitle;
