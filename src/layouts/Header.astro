@@ -13,7 +13,7 @@ const isActivePath = (href: string) => {
 const company = await getCompanyInfo();
 const phoneHref = buildPhoneHref(company?.phone1);
 const whatsappHref = company?.whatsappNumber || company?.phone1
-  ? buildWaLink(company?.whatsappNumber ?? company?.phone1) + "?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote"
+  ? buildWaLink(company?.whatsappNumber ?? company?.phone1) + "?text=Hi+AGE+Team%2C+I%27m+a+bulk+fabric+buyer.+Can+I+get+pricing+and+a+free+sample%3F"
   : null;
 ---
 
@@ -102,6 +102,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
 
     <!-- Desktop CTA -->
     <div class="hidden md:flex items-center gap-2 flex-shrink-0">
+      <a href="/request-sample" class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-[#775a19] text-xs font-bold text-[#775a19] no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:bg-[#775a19] hover:text-white">Free Sample</a>
       <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>
       <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>
     </div>

@@ -12,7 +12,7 @@ export const siteConfig = {
   footerLinks: {
     quick: [
       { label: "Home", href: "/" },
-      { label: "About Us", href: "/about" },
+      { label: "About Amrita Global Enterprises", href: "/about" },
       { label: "Capabilities", href: "/capabilities" },
       { label: "Blog", href: "/blog" },
       { label: "Support & Contact", href: "/support" },
