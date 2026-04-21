@@ -64,10 +64,7 @@ const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterp
 const authorName = authorNameProp ?? companyName;
 
 const siteBase = SITE_BASE;
-const rawCanonical = canonical ?? `${siteBase}${Astro.url.pathname}`;
-const resolvedCanonical = rawCanonical.endsWith("/") && rawCanonical !== `${siteBase}/`
-  ? rawCanonical.slice(0, -1)
-  : rawCanonical;
+const resolvedCanonical = canonical ?? undefined;
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDesc = ogDescription ?? description;
 const resolvedTwitterTitle = twitterTitle ?? resolvedOgTitle;
@@ -151,7 +148,7 @@ const schemaArray = schemaMarkup
     {keywords && keywords.length > 0 && (
       <meta name="keywords" content={keywords.join(", ")} />
     )}
-    <link rel="canonical" href={resolvedCanonical} />
+    {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
 
     <!-- Site Verification -->
     {site?.googleVerification && (
@@ -165,7 +162,7 @@ const schemaArray = schemaMarkup
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDesc} />
-    <meta property="og:url" content={resolvedCanonical} />
+    <meta property="og:url" content={resolvedCanonical ?? ""} />
     <meta property="og:site_name" content="Amrita Global Enterprises" />
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:image:width" content="1200" />

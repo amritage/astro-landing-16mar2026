@@ -315,16 +315,21 @@ const socialLinks = [
   </div>
 
   <!-- Sub Footer -->
-  <div class="max-w-screen-2xl mx-auto mt-16 pt-8 pb-32 md:pb-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-1 md:gap-4 text-center md:text-left text-xs font-label">
-    <p class="text-on-surface-variant leading-relaxed">
-      © {foundingYear}–{new Date().getFullYear()} {company?.legalName ?? siteConfig.brandName}.
-      {fullAddress && <span class="block md:inline"> {fullAddress}.</span>}
-      {recognition && <span class="block md:inline"> {recognition}.</span>}
-    </p>
-    <div class="flex space-x-6 uppercase tracking-widest text-on-surface-variant shrink-0">
-      {siteConfig.footerLinks.legal.map((item) => (
-        <a class="hover:text-on-surface transition-colors" href={item.href}>{item.label}</a>
-      ))}
+  <div class="max-w-screen-2xl mx-auto mt-16 pt-8 pb-32 md:pb-8 border-t border-outline-variant/30 text-center text-sm font-label">
+    <div class="text-on-surface-variant flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-y-2 md:gap-y-1 md:gap-x-3">
+      <span>© {foundingYear}–{new Date().getFullYear()} {company?.legalName ?? siteConfig.brandName}</span>
+      {fullAddress && (
+        <>
+          <span class="hidden md:inline text-outline-variant text-base">|</span>
+          <span>{fullAddress}</span>
+        </>
+      )}
+      {recognition && (
+        <>
+          <span class="hidden md:inline text-outline-variant text-base">|</span>
+          <span>{recognition}</span>
+        </>
+      )}
     </div>
   </div>
 </footer>
