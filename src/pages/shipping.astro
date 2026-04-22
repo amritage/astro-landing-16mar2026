@@ -12,7 +12,7 @@ const seo = await getTopicPageBySlug("shipping");
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "Shipping & Logistics | Amrita Global Enterprises"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "Global textile logistics from Ahmedabad. FOB, CIF, DAP incoterms. Port Mundra and Kolkata connectivity. 50+ countries served since 1971."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}

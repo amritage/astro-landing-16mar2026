@@ -61,11 +61,6 @@ const resolveUrl = (url: string | null | undefined): string | undefined => {
   return decoded || undefined;
 };
 
-const geo =
-  company.latitude != null && company.longitude != null
-    ? { "@type": "GeoCoordinates", latitude: company.latitude, longitude: company.longitude }
-    : undefined;
-
 const hasCredential = company.recognitions?.length
   ? company.recognitions.map((r) => ({ "@type": "EducationalOccupationalCredential", name: r }))
   : undefined;
@@ -95,7 +90,6 @@ const schema = {
     ? { numberOfEmployees: { "@type": "QuantitativeValue", description: company.employeeRange } }
     : {}),
   ...(company.gstin ? { taxID: company.gstin } : {}),
-  ...(geo ? { geo } : {}),
   ...(hasCredential ? { hasCredential } : {}),
   address: {
     "@type": "PostalAddress",

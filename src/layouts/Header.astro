@@ -2,6 +2,7 @@
 import { navItems, mobileQuickLinks } from "../data/navigation";
 import { siteConfig } from "../data/site";
 import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../lib/api";
+import ProductInquiryModal from "../components/product/ProductInquiryModal.astro";
 
 const pathname = Astro.url.pathname;
 
@@ -27,7 +28,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   ))}
   <span class="hidden sm:contents" aria-hidden="true">
     {siteConfig.topbarItems.map((_, index) => (
-      index < siteConfig.topbarItems.length - 1 && <span class="text-white/25 text-[10px]">|</span>
+      index < siteConfig.topbarItems.length - 1 && <span class="text-white/25 text-[10px]"></span>
     ))}
   </span>
 </div>
@@ -102,7 +103,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
 
     <!-- Desktop CTA -->
     <div class="hidden md:flex items-center gap-2 flex-shrink-0">
-      <a href="/request-sample" class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-[#775a19] text-xs font-bold text-[#775a19] no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:bg-[#775a19] hover:text-white">Free Sample</a>
+      <button id="header-free-sample-btn" type="button" class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-[#775a19] text-xs font-bold text-[#775a19] bg-transparent tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:bg-[#775a19] hover:text-white cursor-pointer">Free Sample</button>
       <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>
       <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>
     </div>
@@ -168,6 +169,9 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
     <a href={phoneHref} class="flex items-center justify-center px-[18px] py-[14px] rounded-2xl border-[1.5px] border-slate-200 bg-white text-[#041632] text-[13px] font-bold no-underline transition-colors duration-200 hover:border-[#041632]">Call Now</a>
   </div>
 </aside>
+
+<!-- Inquiry Modal (for Free Sample button) -->
+<ProductInquiryModal />
 
 <style>
   /* Hamburger open animation */
@@ -238,6 +242,11 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   window.addEventListener("scroll", () => {
     header.classList.toggle("scrolled", window.scrollY > 10);
   }, { passive: true });
+
+  // Free Sample button → open inquiry modal via global event
+  document.getElementById("header-free-sample-btn")?.addEventListener("click", () => {
+    window.dispatchEvent(new CustomEvent("iqm:open", { detail: { product: "" } }));
+  });
 
   // Trust strip ticker on mobile
   const trustItems = document.querySelectorAll<HTMLElement>("[data-trust-item]");

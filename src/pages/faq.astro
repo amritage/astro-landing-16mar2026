@@ -15,7 +15,7 @@ const categories = apiCategories.length > 0 ? apiCategories : faqCategories;
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "FAQ | Amrita Global Enterprises"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "Expert answers for fabric buyers — sourcing, manufacturing, logistics, pricing, and MOQ questions answered by Amrita Global Enterprises."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}

@@ -82,7 +82,7 @@ const schemas = [articleSchema, faqSchema].filter(Boolean);
 ---
 
 <BaseLayout
-  title={`${post.title} | Amrita Global`}
+  title={`${post.title}`}
   description={post.excerpt ?? undefined}
   canonical={canonicalUrl}
   keywords={post.tags?.length ? post.tags : undefined}

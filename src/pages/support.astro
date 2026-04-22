@@ -14,12 +14,12 @@ const SUPPORT_OG_IMAGE = "https://images.unsplash.com/photo-1521737604893-d14cc2
 const [company, authors, seo] = await Promise.all([
   getCompanyInfo("AGE"),
   getAuthors(),
-  getTopicPageBySlug("contact"),
+  getTopicPageBySlug("support"),
 ]);
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "Support & Contact | Amrita Global Enterprises"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "24/7 B2B support and escalation for Amrita Global Enterprises. Direct access to technical experts, logistics leads, and supply chain coordinators."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}

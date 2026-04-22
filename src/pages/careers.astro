@@ -11,7 +11,7 @@ const seo = await getTopicPageBySlug("careers");
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "Careers | Amrita Global Enterprises"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "Join the Best Textile Supplier Award 2023 winner. Explore open roles in operations, global sales, and supply chain at Amrita Global Enterprises."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}

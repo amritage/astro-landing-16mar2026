@@ -8,7 +8,6 @@ const SITE = import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com
 // Pages to exclude from auto-discovery
 const EXCLUDE = new Set([
   "404",
-  "sitemap",
   "sitemap.xml",
   "thank-you",
   "ai-feed.json",

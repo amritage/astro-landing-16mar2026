@@ -14,7 +14,7 @@ const [company, seo] = await Promise.all([
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "Certifications | Amrita Global Enterprises"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "ISO 9001, OEKO-TEX, GOTS, and SA 8000 certified. Amrita Global Enterprises upholds the highest international standards for quality, safety, and ethical manufacturing."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}

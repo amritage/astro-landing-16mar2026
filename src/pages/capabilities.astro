@@ -20,7 +20,7 @@ const [company, seo] = await Promise.all([
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "Capabilities | Amrita Fashions"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "Explore the manufacturing, quality, logistics, compliance, and technical capabilities of Amrita Fashions."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}

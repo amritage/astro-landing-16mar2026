@@ -10,7 +10,7 @@ const seo = await getTopicPageBySlug("terms-and-conditions");
 ---
 
 <BaseLayout
-  title={seo?.metaTitle ?? "Wholesale Terms & Legal Policies | Amrita Global Enterprises"}
+  title={seo?.metaTitle}
   description={seo?.description ?? "Terms of service, privacy policy, cookie policy, and wholesale rules for Amrita Global Enterprises — B2B fabric manufacturer and exporter."}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
