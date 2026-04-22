@@ -64,6 +64,7 @@ const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterp
 const authorName = authorNameProp ?? companyName;
 
 const siteBase = SITE_BASE;
+const cleanPath = Astro.url.pathname.replace(/\.html$/, '');
 const resolvedCanonical = canonical ?? undefined;
 const resolvedOgTitle = ogTitle ?? title;
 const resolvedOgDesc = ogDescription ?? description;
@@ -149,8 +150,8 @@ const schemaArray = schemaMarkup
       <meta name="keywords" content={keywords.join(", ")} />
     )}
     {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
-    <link rel="alternate" hreflang="en" href={`https://www.amrita-fashions.com${Astro.url.pathname}`} />
-    <link rel="alternate" hreflang="x-default" href={`https://www.amrita-fashions.com${Astro.url.pathname}`} />
+    <link rel="alternate" hreflang="en" href={`${siteBase}${cleanPath}`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteBase}${cleanPath}`} />
 
     <!-- Site Verification -->
     {site?.googleVerification && (

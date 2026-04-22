@@ -31,7 +31,7 @@ const [company, seo] = await Promise.all([
     { name: "Capabilities" },
   ]}
 >
-  <main class="bg-[#f8f9fa] text-[#191c1d]">
+  <div class="bg-[#f8f9fa] text-[#191c1d]">
     <CapabilitiesHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Capabilities" }]} />
     <CapabilitiesPillars whatsapp={company?.whatsappNumber} phone={company?.phone1} image1={seo?.image1CloudUrl ?? undefined} />
     <CapabilitiesProcess />
@@ -39,5 +39,5 @@ const [company, seo] = await Promise.all([
     <CapabilitiesExportReadiness />
     <CapabilitiesCertifications />
     <CapabilitiesBottomCTA whatsapp={company?.whatsappNumber} phone={company?.phone1} />
-  </main>
+  </div>
 </BaseLayout>

@@ -28,10 +28,10 @@ export async function getStaticPaths() {
 const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
 const company = await getCompanyInfo("AGE");
 
-// F2 FIX: use SITE_BASE directly — no local alias needed
+// F2 FIX: use SITE_BASE directly - no local alias needed
 const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
 
-// ── JSON-LD: Product schema ────────────────────────────────────────────────────
+// -- JSON-LD: Product schema --------------------------------------------------
 
 // Build additionalProperty array for all fabric-specific specs
 const additionalProperties = [
@@ -92,7 +92,7 @@ const productSchema = {
   },
 };
 
-// ── JSON-LD: BreadcrumbList schema ─────────────────────────────────────────────
+// -- JSON-LD: BreadcrumbList schema -------------------------------------------
 const breadcrumbItems = [
   { name: "Home", url: "/" },
   { name: "Fabric", url: "/fabric" },
@@ -100,7 +100,7 @@ const breadcrumbItems = [
   { name: product.name },
 ];
 
-// ── JSON-LD: FAQPage schema ────────────────────────────────────────────────────
+// -- JSON-LD: FAQPage schema --------------------------------------------------
 const faqSchema = product.faq.length > 0
   ? {
       "@context": "https://schema.org",
@@ -120,7 +120,7 @@ const schemas = [productSchema, faqSchema].filter(Boolean);
 
 const ogImageUrl = buildOgImageUrl(product.imageLarge || product.image1 || null);
 
-// LCP image preload — first product image at display-appropriate sizes
+// LCP image preload - first product image at display-appropriate sizes
 const lcpImageSrcset = product.image1
   ? buildCloudinarySrcset(product.image1, [400, 700, 1200]).replace(/f_auto/g, "f_webp")
   : undefined;
