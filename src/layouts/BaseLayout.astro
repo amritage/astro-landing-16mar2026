@@ -151,8 +151,8 @@ const schemaArray = schemaMarkup
       <meta name="keywords" content={keywords.join(", ")} />
     )}
     {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
-    <link rel="alternate" hreflang="en" href={`${siteBase}${cleanPath}`} />
-    <link rel="alternate" hreflang="x-default" href={`${siteBase}${cleanPath}`} />
+    <link rel="alternate" hreflang="en" href={resolvedCanonical ?? `${siteBase}${cleanPath}`} />
+    <link rel="alternate" hreflang="x-default" href={resolvedCanonical ?? `${siteBase}${cleanPath}`} />
 
     <!-- Site Verification -->
     {site?.googleVerification && (
