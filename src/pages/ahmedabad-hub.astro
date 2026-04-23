@@ -1,11 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/common/Breadcrumbs.astro";
+import { getTopicPageBySlug } from "../lib/api";
+import { resolveCanonical } from "../lib/seo/canonical";
+
+const seo = await getTopicPageBySlug("ahmedabad-hub");
 ---
 
 <BaseLayout
-  title="Ahmedabad Industrial Hub | Amrita Global Enterprises"
-  description="Amrita Global Enterprises anchors its textile legacy in Ahmedabad — the Manchester of the East. Explore our manufacturing, warehouse, and logistics capabilities from Gujarat's industrial heart."
+  title={seo?.metaTitle ?? "Ahmedabad Industrial Hub | Amrita Global Enterprises"}
+  description={seo?.description ?? "Amrita Global Enterprises anchors its textile legacy in Ahmedabad — the Manchester of the East. Explore our manufacturing, warehouse, and logistics capabilities from Gujarat's industrial heart."}
+  keywords={seo?.keywords ?? undefined}
+  canonical={resolveCanonical(seo?.canonicalUrl)}
+  ogType={seo?.ogType ?? "website"}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
   breadcrumbs={[
     { name: "Home", url: "/" },
     { name: "Ahmedabad Hub" },

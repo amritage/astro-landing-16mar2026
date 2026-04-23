@@ -68,10 +68,10 @@ const hasCredential = company.recognitions?.length
 const schema = {
   "@context": "https://schema.org",
   "@type": "Corporation",
-  "@id": `${siteBase}/#org`,
+  "@id": `${siteBase}#org`,
   name: company.legalName,
   alternateName: company.alternateName ?? [],
-  url: `${siteBase}/`,
+  url: `${siteBase}`,
   logo: {
     "@type": "ImageObject",
     url: resolveUrl(company.logoUrl) ?? resolveUrl(company.defaultOgImage),
