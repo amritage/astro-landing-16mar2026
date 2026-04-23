@@ -1,0 +1,15 @@
+name: Hourly Cloudflare Pages Redeploy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"   # every hour at minute 17 (UTC)
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        run: curl -X POST "$CF_PAGES_DEPLOY_HOOK_URL"
+        env:
+          CF_PAGES_DEPLOY_HOOK_URL: ${{ secrets.CF_PAGES_DEPLOY_HOOK_URL }}
