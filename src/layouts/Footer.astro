@@ -334,7 +334,12 @@ const socialLinks = [
       {whatsappHref && (
         <>
           <span class="hidden md:inline text-outline-variant text-base">|</span>
-          <a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="text-on-surface-variant hover:text-on-surface transition-colors">WhatsApp Us</a>
+          <button
+              type="button"
+              data-wa-link={whatsappHref}
+              aria-label="WhatsApp Us"
+              class="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer"
+            >WhatsApp Us</button>
         </>
       )}
     </div>
