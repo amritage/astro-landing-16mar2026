@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Cloudflare Pages Deploy Hook
-        run: curl -X POST "$CF_PAGES_DEPLOY_HOOK_URL"
+        run: curl -fX POST "$CF_PAGES_DEPLOY_HOOK_URL"
         env:
           CF_PAGES_DEPLOY_HOOK_URL: ${{ secrets.CF_PAGES_DEPLOY_HOOK_URL }}
