@@ -38,7 +38,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   <div class="max-w-[1400px] mx-auto px-4 md:px-8 h-16 md:h-[72px] flex items-center justify-between gap-3">
 
     <!-- Logo -->
-    <a href="/" class="flex items-center gap-3 no-underline flex-shrink-0" aria-label={siteConfig.brandName}>
+    <a href="/" class="flex items-center gap-3 no-underline flex-shrink-0" aria-label={company?.legalName}>
       <div class="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center flex-shrink-0">
         {(() => {
           const logoSrc = company?.logoUrl ?? "/images/icons/my_logo.png";
@@ -53,8 +53,8 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
                   src={`${base}w_72,f_auto,q_auto/${pub}`}
                   srcset={`${base}w_36,f_auto,q_auto/${pub} 1x, ${base}w_72,f_auto,q_auto/${pub} 2x`}
                   sizes="36px"
-                  alt={`${siteConfig.brandName} logo`}
-                  title={siteConfig.brandName}
+                  alt={`${company?.legalName} logo`}
+                  title={company?.legalName}
                   width="36"
                   height="36"
                   class="w-full h-full object-contain"
@@ -67,8 +67,8 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
           return (
             <img
               src={logoSrc}
-              alt={`${siteConfig.brandName} logo`}
-              title={siteConfig.brandName}
+              alt={`${company?.legalName} logo`}
+              title={company?.legalName}
               width="36"
               height="36"
               class="w-full h-full object-contain"
@@ -79,7 +79,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
         })()}
       </div>
       <div class="flex flex-col gap-0 min-w-0">
-        <span class="text-[15px] sm:text-base md:text-lg font-extrabold leading-tight whitespace-nowrap overflow-hidden text-ellipsis text-[#041632]">{siteConfig.brandName}</span>
+        <span class="text-[15px] sm:text-base md:text-lg font-extrabold leading-tight whitespace-nowrap overflow-hidden text-ellipsis text-[#041632]">{company?.legalName}</span>
         <span class="hidden sm:block text-[9px] md:text-[10px] font-semibold text-slate-500 tracking-[0.18em] uppercase whitespace-nowrap">{siteConfig.tagline}</span>
       </div>
     </a>
@@ -131,7 +131,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
 <aside class="mobile-drawer fixed top-0 right-0 bottom-0 z-[80] w-screen sm:w-[min(85vw,380px)] bg-white flex flex-col overflow-y-auto shadow-[-8px_0_40px_rgba(4,22,50,0.15)] lg:hidden" id="mobile-drawer" aria-label="Mobile navigation" aria-hidden="true" inert>
   <div class="flex items-center justify-between px-5 pt-5 pb-4 bg-[#041632] flex-shrink-0">
     <div class="flex flex-col gap-[2px]">
-      <span class="text-white text-[17px] font-extrabold">{siteConfig.brandName}</span>
+      <span class="text-white text-[17px] font-extrabold">{company?.legalName}</span>
       <span class="text-white/60 text-[9px] tracking-[0.2em] uppercase">{siteConfig.tagline}</span>
     </div>
     <button class="drawer-close w-9 h-9 rounded-[10px] border-[1.5px] border-white/20 bg-white/10 text-white flex items-center justify-center cursor-pointer flex-shrink-0 transition-colors duration-200 hover:bg-white/20" id="drawer-close" aria-label="Close navigation menu">

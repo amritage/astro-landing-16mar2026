@@ -14,7 +14,7 @@ export const locations: Location[] = [
     state: "Gujarat",
     country: "India",
     heroTitle: "Fabric Supplier in Surat — Direct from the Textile Hub.",
-    heroSubtitle: "Amrita Global supplies premium fabrics to garment manufacturers and exporters in Surat.",
+    heroSubtitle: "Premium fabrics supplied to garment manufacturers and exporters in Surat.",
   },
   {
     slug: "mumbai",

@@ -17,6 +17,7 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
 const canonicalUrl = `${SITE_BASE}/blog/${post.slug}`;
@@ -42,12 +43,12 @@ const articleSchema = {
   ...(post.readingTimeMin ? { timeRequired: `PT${post.readingTimeMin}M` } : {}),
   author: {
     "@type": "Organization",
-    name: company?.legalName ?? "Amrita Global Enterprises",
+    name: company?.legalName ?? companyName,
     url: SITE_BASE,
   },
   publisher: {
     "@type": "Organization",
-    name: company?.legalName ?? "Amrita Global Enterprises",
+    name: company?.legalName ?? companyName,
     logo: {
       "@type": "ImageObject",
       url: company?.logoUrl ? decodeURIComponent(company.logoUrl) : `${SITE_BASE}/favicon.svg`,
@@ -100,6 +101,7 @@ const schemas = [articleSchema, faqSchema].filter(Boolean);
     { name: "Blog", url: "/blog" },
     { name: post.title },
   ]}
+  waMessage={`Hi, I just read your article "${post.title}" and would like to know more about your fabrics.`}
 >
   <BlogDynamicPostHero post={post} breadcrumbs={[
     { name: "Home", href: "/" },

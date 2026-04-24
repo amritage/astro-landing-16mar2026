@@ -1,9 +1,18 @@
 ---
 import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
 
+interface Props {
+  waMessage?: string;
+}
+
+const { waMessage } = Astro.props;
+
 const company = await getCompanyInfo("AGE");
 
-const whatsappHref = buildWaLink(company?.whatsappNumber);
+const baseWaLink = buildWaLink(company?.whatsappNumber);
+const whatsappHref = baseWaLink && waMessage
+  ? `${baseWaLink}?text=${encodeURIComponent(waMessage)}`
+  : baseWaLink;
 const phoneHref = buildPhoneHref(company?.phone1 ?? company?.phone2);
 const emailHref = company?.primaryEmail
   ? `mailto:${company.primaryEmail}`

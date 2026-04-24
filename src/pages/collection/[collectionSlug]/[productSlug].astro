@@ -5,7 +5,7 @@ import ProductDetailHero from "../../../components/product/ProductDetailHero.ast
 import ProductDetailBody from "../../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../../data/products";
-import { getDynamicTopicPages } from "../../../lib/api";
+import { getDynamicTopicPages, getCompanyInfo } from "../../../lib/api";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 export async function getStaticPaths() {
@@ -43,6 +43,8 @@ const { product, collectionProducts, collectionName } = Astro.props as {
 const { collectionSlug } = Astro.params;
 
 const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 
 <style>
@@ -51,15 +53,15 @@ const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
 </style>
 
 <BaseLayout
-  title={`${product.name} | Amrita Global Enterprises`}
+  title={`${product.name}`}
   description={product.shortDesc}
   canonical={canonicalUrl}
   keywords={product.keywords}
-  ogTitle={`${product.name} | Amrita Global Enterprises`}
+  ogTitle={`${product.name} | ${companyName}`}
   ogDescription={product.shortDesc}
   ogImage={product.imageLarge || product.image1 || undefined}
   ogType="product"
-  twitterTitle={`${product.name} | Amrita Global Enterprises`}
+  twitterTitle={`${product.name} | ${companyName}`}
   twitterDescription={product.shortDesc}
   twitterImage={product.imageLarge || product.image1 || undefined}
   breadcrumbs={[
@@ -67,6 +69,7 @@ const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
     { name: collectionName, url: `/collection/${collectionSlug}` },
     { name: product.name },
   ]}
+  waMessage={`Hi, I'm interested in "${product.name}". Can you share more details about this fabric?`}
 >
   <div class="max-w-7xl mx-auto px-4 lg:px-8 pt-4">
     <Breadcrumbs

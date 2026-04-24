@@ -7,6 +7,7 @@ import {
   getDynamicTopicPages,
   getProductsByMerchTag,
   getFilterValues,
+  getCompanyInfo,
 } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
 import type { ApiTopicPage } from "../../lib/api";
@@ -24,10 +25,12 @@ const page: ApiTopicPage | undefined = allTopics.find((p) => p.slug === slug);
 if (!page) return Astro.redirect("/404");
 
 // Fetch all products for this merchtag (slug1 is the merchtag value) + filters in parallel
-const [rawProducts, filters] = await Promise.all([
-  getProductsByMerchTag(page.slug1, 0), // 0 = no limit, return all
+const [rawProducts, filters, company] = await Promise.all([
+  getProductsByMerchTag(page.slug1, 0),
   getFilterValues(),
+  getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 
 // Map to FabricProduct shape (skip pending slugs)
 const products: FabricProduct[] = rawProducts
@@ -84,7 +87,7 @@ const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudU
 ---
 
 <BaseLayout
-  title={page.metaTitle ?? `${page.name} | Amrita Global Enterprises`}
+  title={page.metaTitle ?? `${page.name}`}
   description={page.description ?? page.excerpt ?? ""}
   keywords={page.keywords ?? undefined}
   canonical={resolveCanonical(page.canonicalUrl)}
@@ -94,6 +97,7 @@ const heroImageUrl: string | null = page.image1CloudUrlHero ?? page.image1CloudU
     { name: "Home", url: "/" },
     { name: page.name },
   ]}
+  waMessage={`Hi, I'm interested in the ${page.name} collection. Can you share more details?`}
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout

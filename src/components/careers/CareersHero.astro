@@ -1,5 +1,6 @@
 ---
 import Breadcrumbs from "../common/Breadcrumbs.astro";
+import { getCompanyInfo } from "../../lib/api";
 
 interface Props {
   heroImage?: string;
@@ -7,6 +8,8 @@ interface Props {
 }
 const { heroImage, breadcrumbs } = Astro.props;
 const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80";
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 <style>
   .gold-text {
@@ -30,7 +33,7 @@ const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25
     <img
       src={bgImage}
       alt="Textile manufacturing floor"
-      title="Careers at Amrita Global Enterprises"
+      title={`Careers at ${companyName}`}
       width="1600"
       height="900"
       loading="eager"

@@ -1,6 +1,9 @@
 ---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
+import { getCompanyInfo } from "../../lib/api";
 const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 
 <div
@@ -24,14 +27,14 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
             <img
               src="/images/icons/my_logo.webp"
               srcset="/images/icons/my_logo.webp 1x, /images/icons/my_logo@2x.webp 2x"
-              alt="Amrita Global Enterprises"
+              alt={companyName}
               width="40"
               height="40"
               class="h-10 w-10 object-contain flex-shrink-0"
             />
             <div class="flex flex-col">
-              <span class="font-serif text-white text-[17px] italic leading-tight">Amrita Global</span>
-              <span class="font-serif text-[#ffdea5] text-[16px] italic tracking-wide">Enterprises</span>
+              <span class="font-serif text-white text-[17px] italic leading-tight">{companyName}</span>
+              <span class="font-serif text-[#ffdea5] text-[16px] italic tracking-wide"></span>
             </div>
           </div>
           <div class="mt-5 h-px bg-white/10"></div>

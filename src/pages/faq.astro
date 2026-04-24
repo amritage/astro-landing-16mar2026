@@ -3,20 +3,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import FAQHero from "../components/faq/FAQHero.astro";
 import FAQAccordion from "../components/faq/FAQAccordion.astro";
 import FAQCTA from "../components/faq/FAQCTA.astro";
-import { getWebsiteFAQCategories, getTopicPageBySlug } from "../lib/api";
+import { getWebsiteFAQCategories, getTopicPageBySlug, getCompanyInfo } from "../lib/api";
 import { resolveCanonical } from "../lib/seo/canonical";
 import { faqCategories } from "../data/faqs";
 
-const [apiCategories, seo] = await Promise.all([
+const [apiCategories, seo, company] = await Promise.all([
   getWebsiteFAQCategories(),
   getTopicPageBySlug("faq"),
+  getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 const categories = apiCategories.length > 0 ? apiCategories : faqCategories;
 ---
 
 <BaseLayout
   title={seo?.metaTitle}
-  description={seo?.description ?? "Expert answers for fabric buyers — sourcing, manufacturing, logistics, pricing, and MOQ questions answered by Amrita Global Enterprises."}
+  description={seo?.description ?? `Expert answers for fabric buyers — sourcing, manufacturing, logistics, pricing, and MOQ questions answered by ${companyName}.`}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
@@ -24,6 +26,7 @@ const categories = apiCategories.length > 0 ? apiCategories : faqCategories;
     { name: "Home", url: "/" },
     { name: "FAQ" },
   ]}
+  waMessage="Hi, I have some questions about your fabrics, MOQ, and ordering process. Can you help?"
 >
   <FAQHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "FAQ" }]} />
   <FAQAccordion categories={categories} />

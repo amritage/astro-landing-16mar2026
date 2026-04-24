@@ -1,5 +1,5 @@
 export const siteConfig = {
-  brandName: "Amrita Global Enterprises",
+  brandName: "",
   brandShort: "AGE",
   tagline: "Fabrics & Export Solutions",
   shortDescription:
@@ -12,7 +12,7 @@ export const siteConfig = {
   footerLinks: {
     quick: [
       { label: "Home", href: "/" },
-      { label: "About Amrita Global Enterprises", href: "/about" },
+      { label: "About Us", href: "/about" },
       { label: "Capabilities", href: "/capabilities" },
       { label: "Blog", href: "/blog" },
       { label: "Support & Contact", href: "/support" },

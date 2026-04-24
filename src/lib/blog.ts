@@ -38,12 +38,21 @@ export interface ApiBlogPost {
 
 export async function fetchBlogPosts(): Promise<ApiBlogPost[]> {
   try {
-    const res = await fetch(API_URL, { cache: "force-cache" });
-    const json = await res.json();
-    if (json.success && Array.isArray(json.data)) {
-      return json.data.filter((p: ApiBlogPost) => p.status === "Approved");
-    }
-    return [];
+    const allPosts: ApiBlogPost[] = [];
+    let page = 1;
+    let totalPages = 1;
+
+    do {
+      const res = await fetch(`${API_URL}?page=${page}&limit=100`, { cache: "force-cache" });
+      const json = await res.json();
+      if (!json.success || !Array.isArray(json.data)) break;
+      const approved = json.data.filter((p: ApiBlogPost) => p.status === "Approved");
+      allPosts.push(...approved);
+      totalPages = json.pagination?.totalPages ?? 1;
+      page++;
+    } while (page <= totalPages);
+
+    return allPosts;
   } catch {
     return [];
   }

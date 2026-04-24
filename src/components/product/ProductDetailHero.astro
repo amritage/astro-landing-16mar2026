@@ -179,84 +179,66 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
             {product.rating} <span class="font-normal text-[#44474d]">({product.ratingCount} ratings)</span>
           </span>
         </div>
-        <div class="text-xs font-sans text-[#44474d] flex items-center">
-          <span class="uppercase tracking-wider font-semibold">Category:</span>
-          <a href={`/category/${product.categorySlug}`} class="ml-1 hover:text-[#775a19] cursor-pointer transition-colors">{product.category}</a>
+        <div class="font-sans text-[#44474d] flex items-center">
+          <a href={`/category/${product.categorySlug}`} class="text-sm font-semibold hover:text-[#775a19] cursor-pointer transition-colors">{product.category}</a>
         </div>
       </div>
       <h1 class="font-serif text-3xl lg:text-5xl font-extrabold mt-2 text-[#041632] leading-tight">{product.name}</h1>
       <p class="mt-4 text-[#44474d] text-sm lg:text-base leading-relaxed border-l-4 border-[#775a19] pl-4">{product.shortDesc}</p>
     </div>
 
-    <div class="bg-[#f3f4f5] p-6 lg:p-8 space-y-6">
-      <div class="flex items-center justify-between border-b border-[#c5c6ce]/20 pb-4">
-        <span class="text-sm font-sans uppercase">Supply Status</span>
-        <span class="flex items-center text-[#775a19] font-bold text-sm">
-          <span class="bg-[#775a19]/10 text-[#775a19] px-3 py-1 rounded-full flex items-center">
-            <span class="material-symbols-outlined text-sm mr-1.5" style="font-variation-settings: 'FILL' 1;">verified_user</span>
-            {product.supplyStatus}
-          </span>
+    <div class="bg-[#f3f4f5] p-4 lg:p-8 space-y-4 lg:space-y-6">
+      <!-- Supply Status — single line on all screens -->
+      <div class="flex items-center justify-between border-b border-[#c5c6ce]/20 pb-3">
+        <span class="text-xs font-sans uppercase tracking-wider whitespace-nowrap">Supply Status</span>
+        <span class="bg-[#775a19]/10 text-[#775a19] px-2.5 py-1 rounded-full flex items-center gap-1 whitespace-nowrap ml-2">
+          <span class="material-symbols-outlined text-sm leading-none" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+          <span class="font-bold text-xs">{product.supplyStatus}</span>
         </span>
       </div>
-      <div class="space-y-4">
+      <div class="space-y-3">
+        <!-- Main CTA — single line -->
         <button
           id="inquire-modal-open"
           type="button"
           data-product={product.name}
-          class="w-full bg-[#041632] text-white py-4 px-6 font-bold flex items-center justify-center space-x-3 hover:bg-[#775a19] transition-colors cursor-pointer"
+          class="w-full bg-[#041632] text-white py-3 lg:py-4 px-4 font-bold flex items-center justify-center gap-2 hover:bg-[#775a19] transition-colors cursor-pointer text-sm lg:text-base whitespace-nowrap"
         >
-          <span class="material-symbols-outlined">mail</span>
+          <span class="material-symbols-outlined text-[18px]">mail</span>
           <span>INQUIRE FOR BULK QUOTE</span>
         </button>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <!-- 4 action buttons — always one row -->
+        <div class="grid grid-cols-4 gap-1.5">
           <button
             id="product-whatsapp-btn"
             type="button"
             aria-label="Get quote on WhatsApp"
-            class="flex items-center justify-center gap-2 border border-[#c5c6ce] py-3 px-3 hover:bg-[#e7e8e9] transition-colors cursor-pointer"
+            class="flex flex-col items-center justify-center gap-1 border border-[#c5c6ce] py-2.5 px-1 hover:bg-[#e7e8e9] transition-colors cursor-pointer"
           >
-            <svg class="shrink-0 w-7 h-7" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg class="shrink-0 w-5 h-5" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            <span class="text-sm font-bold"></span>
+            <span class="text-[10px] font-semibold">WhatsApp</span>
           </button>
-          <a href={product.phone} class="flex items-center justify-center gap-2 border border-[#c5c6ce] py-3 px-3 hover:bg-[#e7e8e9] transition-colors">
-            <span class="material-symbols-outlined shrink-0 text-[20px]">call</span>
-            <span class="text-sm font-bold">Call Us</span>
+          <a href={product.phone} class="flex flex-col items-center justify-center gap-1 border border-[#c5c6ce] py-2.5 px-1 hover:bg-[#e7e8e9] transition-colors">
+            <span class="material-symbols-outlined text-[20px]">call</span>
+            <span class="text-[10px] font-semibold">Call</span>
           </a>
           <a
             id="product-email-btn"
             href="#"
-            class="flex items-center justify-center gap-2 border border-[#c5c6ce] py-3 px-3 hover:bg-[#e7e8e9] transition-colors"
+            class="flex flex-col items-center justify-center gap-1 border border-[#c5c6ce] py-2.5 px-1 hover:bg-[#e7e8e9] transition-colors"
             data-product={product.name}
           >
-            <span class="material-symbols-outlined shrink-0 text-[#775a19] text-[20px]">mail</span>
-            <span class="text-sm font-bold">Email</span>
+            <span class="material-symbols-outlined text-[#775a19] text-[20px]">mail</span>
+            <span class="text-[10px] font-semibold">Email</span>
           </a>
           <ProductShareButton product={product} />
         </div>
       </div>
     </div>
 
-    <!-- Quick Specs Strip -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-[#c5c6ce]/20 border border-[#c5c6ce]/20 overflow-hidden">
-      <div class="bg-white p-4 text-center">
-        <p class="text-[10px] uppercase font-sans text-[#44474d]">Material</p>
-        <p class="font-bold text-sm">{product.specs.material}</p>
-      </div>
-      <div class="bg-white p-4 text-center">
-        <p class="text-[10px] uppercase font-sans text-[#44474d]">Weight</p>
-        <p class="font-bold text-sm">{product.specs.weight}</p>
-      </div>
-      <div class="bg-white p-4 text-center">
-        <p class="text-[10px] uppercase font-sans text-[#44474d]">Width</p>
-        <p class="font-bold text-sm">{product.specs.width}</p>
-      </div>
-      <div class="bg-white p-4 text-center">
-        <p class="text-[10px] uppercase font-sans text-[#44474d]">Weave</p>
-        <p class="font-bold text-sm">{product.specs.weave}</p>
-      </div>
-    </div>
+    <!-- Quick Specs Strip removed — specs are now in the Technical Specifications table -->
   </div>
 </section>
 

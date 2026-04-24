@@ -1,9 +1,13 @@
 ---
+import { getCompanyInfo } from "../../lib/api";
+
 interface Props {
   phone?: string | null;
 }
 const { phone } = Astro.props;
 const phoneHref = phone ? `tel:${phone.replace(/\s/g, '')}` : 'tel:';
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 
 <section class="py-24 bg-[#041632] text-white">
@@ -20,7 +24,7 @@ const phoneHref = phone ? `tel:${phone.replace(/\s/g, '')}` : 'tel:';
         href={phoneHref}
         class="bg-[#775a19] text-white px-10 py-4 rounded-sm font-sans uppercase tracking-widest hover:bg-[#ffdea5] hover:text-[#041632] transition-all"
       >
-        Partner with Amrita Global
+        Partner with {companyName}
       </a>
       <a
         href="/fabric"

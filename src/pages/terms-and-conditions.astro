@@ -3,15 +3,19 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import TermsHero from "../components/terms/TermsHero.astro";
 import TermsNav from "../components/terms/TermsNav.astro";
 import TermsContent from "../components/terms/TermsContent.astro";
-import { getTopicPageBySlug } from "../lib/api";
+import { getTopicPageBySlug, getCompanyInfo } from "../lib/api";
 import { resolveCanonical } from "../lib/seo/canonical";
 
-const seo = await getTopicPageBySlug("terms-and-conditions");
+const [seo, company] = await Promise.all([
+  getTopicPageBySlug("terms-and-conditions"),
+  getCompanyInfo("AGE"),
+]);
+const companyName = company?.legalName ?? "";
 ---
 
 <BaseLayout
   title={seo?.metaTitle}
-  description={seo?.description ?? "Terms of service, privacy policy, cookie policy, and wholesale rules for Amrita Global Enterprises — B2B fabric manufacturer and exporter."}
+  description={seo?.description ?? `Terms of service, privacy policy, cookie policy, and wholesale rules for ${companyName} — B2B fabric manufacturer and exporter.`}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
@@ -19,6 +23,7 @@ const seo = await getTopicPageBySlug("terms-and-conditions");
     { name: "Home", url: "/" },
     { name: "Terms & Conditions" },
   ]}
+  waMessage="Hi, I have a question about your terms and conditions. Can you help clarify something for me?"
 >
   <TermsHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Terms & Conditions" }]} />
   <TermsNav />

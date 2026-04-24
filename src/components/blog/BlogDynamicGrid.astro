@@ -12,7 +12,14 @@ const { featured, posts } = Astro.props;
 
 <!-- Featured Post -->
 {featured && (
-  <section class="px-4 md:px-8 mb-16 md:mb-20 max-w-7xl mx-auto">
+  <section
+    id="blog-featured"
+    class="px-4 md:px-8 mb-16 md:mb-20 max-w-7xl mx-auto"
+    data-title={featured.title.toLowerCase()}
+    data-excerpt={(featured.excerpt ?? "").toLowerCase()}
+    data-category={(featured.category ?? "").toLowerCase()}
+    data-tags={(featured.tags ?? []).join(" ").toLowerCase()}
+  >
     <div class="relative flex flex-col md:flex-row gap-0 group">
       <div class="md:w-2/3 h-[400px] md:h-[550px] overflow-hidden rounded-xl shadow-2xl relative">
         <img
@@ -51,10 +58,19 @@ const { featured, posts } = Astro.props;
 <!-- Posts Grid -->
 {posts.length > 0 && (
   <section class="px-4 md:px-8 mb-24 max-w-7xl mx-auto">
-    <h3 class="font-serif text-3xl text-[#041632] mb-10 border-b border-[#c5c6ce] pb-4">Latest Articles</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <h3 class="font-serif text-3xl text-[#041632] mb-10 border-b border-[#c5c6ce] pb-4">
+      Latest Articles <span id="blog-count" class="font-sans text-base font-normal text-[#75777e] ml-2"></span>
+    </h3>
+    <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
-        <a href={`/blog/${post.slug}`} class="bg-[#f3f4f5] rounded-xl overflow-hidden group block hover:shadow-md transition-shadow">
+        <a
+          href={`/blog/${post.slug}`}
+          class="blog-card bg-[#f3f4f5] rounded-xl overflow-hidden group block hover:shadow-md transition-shadow"
+          data-title={post.title.toLowerCase()}
+          data-excerpt={(post.excerpt ?? "").toLowerCase()}
+          data-category={(post.category ?? "").toLowerCase()}
+          data-tags={(post.tags ?? []).join(" ").toLowerCase()}
+        >
           <div class="aspect-video overflow-hidden bg-slate-200">
             <img
               src={getPostImage(post)}
@@ -83,6 +99,11 @@ const { featured, posts } = Astro.props;
         </a>
       ))}
     </div>
+    <!-- No results message -->
+    <div id="blog-no-results" class="hidden text-center py-20">
+      <span class="material-symbols-outlined text-5xl text-[#c5c6ce] mb-4 block">search_off</span>
+      <p class="text-[#5a5c63] font-sans text-lg">No articles found. Try a different search term.</p>
+    </div>
   </section>
 )}
 
@@ -91,3 +112,104 @@ const { featured, posts } = Astro.props;
     <p class="text-[#5a5c63] font-sans text-lg">No articles available at the moment.</p>
   </section>
 )}
+
+<script>
+  const searchInput = document.getElementById("blog-search") as HTMLInputElement | null;
+  const clearBtn = document.getElementById("blog-search-clear") as HTMLButtonElement | null;
+  const catButtons = document.querySelectorAll<HTMLButtonElement>(".blog-cat-btn");
+  const cards = document.querySelectorAll<HTMLElement>(".blog-card");
+  const featured = document.getElementById("blog-featured");
+  const noResults = document.getElementById("blog-no-results");
+  const countEl = document.getElementById("blog-count");
+
+  const totalCards = cards.length;
+
+  let activeCategory = "all";
+  let searchQuery = "";
+
+  function normalize(str: string) {
+    return str.toLowerCase().trim();
+  }
+
+  function matchesSearch(el: HTMLElement, query: string) {
+    if (!query) return true;
+    const title = el.dataset.title ?? "";
+    const excerpt = el.dataset.excerpt ?? "";
+    const tags = el.dataset.tags ?? "";
+    return title.includes(query) || excerpt.includes(query) || tags.includes(query);
+  }
+
+  function matchesCategory(el: HTMLElement, category: string) {
+    if (category === "all") return true;
+    return (el.dataset.category ?? "") === normalize(category);
+  }
+
+  function updateClearBtn() {
+    if (clearBtn) {
+      clearBtn.classList.toggle("hidden", !searchQuery);
+    }
+  }
+
+  function applyFilters() {
+    const query = normalize(searchQuery);
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const show = matchesSearch(card, query) && matchesCategory(card, activeCategory);
+      card.style.display = show ? "" : "none";
+      if (show) visibleCount++;
+    });
+
+    if (featured) {
+      const showFeatured = matchesSearch(featured, query) && matchesCategory(featured, activeCategory);
+      featured.style.display = showFeatured ? "" : "none";
+    }
+
+    if (noResults) {
+      noResults.classList.toggle("hidden", visibleCount > 0);
+    }
+
+    if (countEl) {
+      countEl.textContent = visibleCount === totalCards ? `(${totalCards})` : `(${visibleCount} of ${totalCards})`;
+    }
+  }
+
+  // Init count
+  if (countEl) countEl.textContent = `(${totalCards})`;
+
+  // Search input
+  searchInput?.addEventListener("input", (e) => {
+    searchQuery = (e.target as HTMLInputElement).value;
+    updateClearBtn();
+    applyFilters();
+  });
+
+  // Clear button
+  clearBtn?.addEventListener("click", () => {
+    searchQuery = "";
+    if (searchInput) searchInput.value = "";
+    updateClearBtn();
+    applyFilters();
+    searchInput?.focus();
+  });
+
+  // Category buttons
+  catButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeCategory = btn.dataset.category ?? "all";
+
+      catButtons.forEach((b) => {
+        const isActive = b === btn;
+        // Remove all state classes first
+        b.classList.remove("bg-[#041632]", "text-white", "bg-[#e7e8e9]", "text-[#44474d]");
+        if (isActive) {
+          b.classList.add("bg-[#041632]", "text-white");
+        } else {
+          b.classList.add("bg-[#e7e8e9]", "text-[#44474d]");
+        }
+      });
+
+      applyFilters();
+    });
+  });
+</script>

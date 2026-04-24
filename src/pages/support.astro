@@ -16,11 +16,12 @@ const [company, authors, seo] = await Promise.all([
   getAuthors(),
   getTopicPageBySlug("support"),
 ]);
+const companyName = company?.legalName ?? "";
 ---
 
 <BaseLayout
   title={seo?.metaTitle}
-  description={seo?.description ?? "24/7 B2B support and escalation for Amrita Global Enterprises. Direct access to technical experts, logistics leads, and supply chain coordinators."}
+  description={seo?.description ?? `24/7 B2B support and escalation for ${companyName}. Direct access to technical experts, logistics leads, and supply chain coordinators.`}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
@@ -30,6 +31,7 @@ const [company, authors, seo] = await Promise.all([
     { name: "Home", url: "/" },
     { name: "Support" },
   ]}
+  waMessage="Hi, I need some support with my fabric order. Can someone from your team assist me?"
 >
   <SupportHero image={seo?.image1CloudUrl ?? null} breadcrumbs={[{ name: "Home", href: "/" }, { name: "Support" }]} />
   <SupportChannels

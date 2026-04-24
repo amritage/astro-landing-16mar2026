@@ -33,7 +33,7 @@ const mapQuery = encodeURIComponent(fullAddress);
 const mapLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
 // Structured address lines for display
-const addressLine1 = company?.legalName ?? "Amrita Global Enterprises";
+const addressLine1 = company?.legalName;
 const addressLine2 = [company?.addressStreet].filter(Boolean).join(", ");
 const addressLine3 = [company?.addressCity, company?.addressState, company?.addressCountry, company?.addressPostalCode].filter(Boolean).join(", ");
 
@@ -318,7 +318,7 @@ const socialLinks = [
   <!-- Sub Footer -->
   <div class="max-w-screen-2xl mx-auto mt-16 pt-8 pb-32 md:pb-8 border-t border-outline-variant/30 text-center text-sm font-label">
     <div class="text-on-surface-variant flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-y-2 md:gap-y-1 md:gap-x-3">
-      <span>© {foundingYear}–{new Date().getFullYear()} {company?.legalName ?? siteConfig.brandName}</span>
+      <span>© {foundingYear}–{new Date().getFullYear()} {company?.legalName}</span>
       {fullAddress && (
         <>
           <span class="hidden md:inline text-outline-variant text-base">|</span>

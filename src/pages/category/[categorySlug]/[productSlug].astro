@@ -5,7 +5,7 @@ import ProductDetailHero from "../../../components/product/ProductDetailHero.ast
 import ProductDetailBody from "../../../components/product/ProductDetailBody.astro";
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../../data/products";
-import { getCategoryTopicPages } from "../../../lib/api";
+import { getCategoryTopicPages, getCompanyInfo } from "../../../lib/api";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 export async function getStaticPaths() {
@@ -45,6 +45,8 @@ const { product, collectionProducts, categoryName } = Astro.props as {
 
 const { categorySlug } = Astro.params;
 const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 
 <style>
@@ -53,7 +55,7 @@ const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
 </style>
 
 <BaseLayout
-  title={`${product.name} | Amrita Global Enterprises`}
+  title={`${product.name}`}
   description={product.shortDesc}
   canonical={canonicalUrl}
   breadcrumbs={[
@@ -61,6 +63,7 @@ const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
     { name: categoryName, url: `/category/${categorySlug}` },
     { name: product.name },
   ]}
+  waMessage={`Hi, I'm interested in "${product.name}". Can you share more details about this fabric?`}
 >
   <div class="max-w-7xl mx-auto px-4 lg:px-8 pt-4">
     <Breadcrumbs

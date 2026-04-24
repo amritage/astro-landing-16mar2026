@@ -8,7 +8,7 @@ import PLSuitability from "../../components/productandlocation/PLSuitability.ast
 import PLCollection from "../../components/productandlocation/PLCollection.astro";
 import PLInquiryForm from "../../components/productandlocation/PLInquiryForm.astro";
 import PLFAQ from "../../components/productandlocation/PLFAQ.astro";
-import { getAllProductLocations } from "../../lib/api";
+import { getAllProductLocations, getCompanyInfo } from "../../lib/api";
 import type { ApiProductLocation } from "../../lib/api";
 import { stripHtml } from "../../data/products";
 
@@ -25,6 +25,8 @@ export async function getStaticPaths() {
 }
 
 const { data } = Astro.props as { data: ApiProductLocation };
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 const product = data.product;
 const location = data.location;
 
@@ -37,8 +39,8 @@ const metaDescription =
   stripHtml(data.fulldescription).slice(0, 155) ||
   stripHtml(product?.fullProductDescription).slice(0, 155) ||
   (product && location
-    ? `${product.name} available in ${location.name} for bulk B2B fabric sourcing from Amrita Global Enterprises.`
-    : "B2B fabric supply by product and location. Amrita Global Enterprises.");
+    ? `${product.name} available in ${location.name} for bulk B2B fabric sourcing from ${companyName}.`
+    : `B2B fabric supply by product and location. ${companyName}.`);
 
 const ogImage =
   data.image1CloudUrlHero ||
@@ -121,7 +123,7 @@ const graphSchema = {
       name: product?.name,
       description: metaDescription,
       image: [ogImage].filter(Boolean),
-      brand: { "@type": "Brand", name: "Amrita Global Enterprises" },
+      brand: { "@type": "Brand", name: companyName },
       category: product?.category,
       material: Array.isArray(product?.content) ? product.content.join(", ") : product?.content,
       color: Array.isArray(product?.color) ? product.color.join(", ") : product?.color,
@@ -132,7 +134,7 @@ const graphSchema = {
         url: canonicalUrl,
         availability: "https://schema.org/InStock",
         priceCurrency: "INR",
-        seller: { "@type": "Organization", name: "Amrita Global Enterprises" },
+        seller: { "@type": "Organization", name: companyName },
       },
     },
     ...(faqSchema ? [faqSchema] : []),
@@ -141,7 +143,7 @@ const graphSchema = {
 ---
 
 <BaseLayout
-  title={`${pageTitle} | Amrita Global`}
+  title={`${pageTitle}`}
   description={metaDescription}
   canonical={canonicalUrl}
   keywords={data.keywords?.length ? data.keywords : undefined}
@@ -150,6 +152,9 @@ const graphSchema = {
   schemaMarkup={graphSchema}
   breadcrumbs={breadcrumbs}
   preloadImage={ogImage}
+  waMessage={product && location
+    ? `Hi, I'm interested in ${product.name} available in ${location.name}. Can you share more details?`
+    : `Hi, I'm interested in ${pageTitle}. Can you share more details?`}
 >
   <PLHero
     data={data}

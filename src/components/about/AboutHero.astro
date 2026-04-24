@@ -1,11 +1,14 @@
 ---
 import Breadcrumbs from "../common/Breadcrumbs.astro";
+import { getCompanyInfo } from "../../lib/api";
 
 interface Props {
   image?: string | null;
   breadcrumbs?: { name: string; href?: string }[];
 }
 const { image, breadcrumbs } = Astro.props;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 
 function buildHeroUrl(
   url: string,
@@ -106,7 +109,7 @@ const sizes = "(max-width: 768px) 100vw, (max-width: 1280px) 1024px, 1280px";
         <span class="text-white">Since 1971</span>
       </h1>
       <p class="text-[#8393b5] text-xl md:text-2xl leading-relaxed font-light max-w-2xl">
-        For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry.
+        For over five decades, {companyName} has defined the intersection of technical precision and artistic mastery in the global fabric industry.
       </p>
     </div>
   </div>

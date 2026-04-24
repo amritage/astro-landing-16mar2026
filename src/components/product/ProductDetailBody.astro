@@ -4,17 +4,6 @@ interface Props { product: Product }
 const { product } = Astro.props;
 ---
 
-<!-- Long Description -->
-<section class="max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-16">
-  <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 flex items-center">
-    <span class="w-10 h-px bg-[#775a19] mr-4"></span>About this Fabric
-  </h2>
-  <div
-    class="text-[#44474d] font-sans leading-relaxed text-sm lg:text-base max-w-none prose prose-sm"
-    set:html={product.longDescription}
-  />
-</section>
-
 <!-- Technical Specs & Applications -->
 <section class="bg-[#f3f4f5] py-12 lg:py-20">
   <div class="max-w-7xl mx-auto px-4 lg:px-8">
@@ -28,6 +17,24 @@ const { product } = Astro.props;
         <div class="overflow-x-auto shadow-sm">
           <table class="w-full text-left font-sans min-w-[300px]">
             <tbody>
+              <!-- Quick specs first -->
+              <tr class="border-b border-[#edeeef]">
+                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Material</td>
+                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.material}</td>
+              </tr>
+              <tr class="border-b border-[#edeeef]">
+                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Weight</td>
+                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.weight}</td>
+              </tr>
+              <tr class="border-b border-[#edeeef]">
+                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Width</td>
+                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.width}</td>
+              </tr>
+              <tr class="border-b border-[#edeeef]">
+                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Weave</td>
+                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.weave}</td>
+              </tr>
+              <!-- Detailed tech specs below -->
               {product.techSpecs.map((row) => (
                 <tr class="border-b border-[#edeeef]">
                   <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">{row.label}</td>
@@ -93,6 +100,27 @@ const { product } = Astro.props;
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- Long Description -->
+<section class="max-w-7xl mx-auto px-4 lg:px-8 py-12 lg:py-16">
+  <h2 class="font-serif text-2xl lg:text-3xl font-bold mb-6 flex items-center">
+    <span class="w-10 h-px bg-[#775a19] mr-4"></span>About this Fabric
+  </h2>
+  <div class="relative">
+    <div
+      id="long-desc-wrap"
+      class="desc-collapsed text-[#44474d] font-sans leading-relaxed text-sm lg:text-base max-w-none prose prose-sm"
+      set:html={product.longDescription}
+    />
+    <button
+      id="desc-toggle-btn"
+      class="mt-3 flex items-center gap-1 text-sm font-semibold text-[#041632] hover:text-[#775a19] transition-colors"
+    >
+      <span id="desc-toggle-label">View more</span>
+      <span id="desc-toggle-icon" class="material-symbols-outlined text-base transition-transform">expand_more</span>
+    </button>
   </div>
 </section>
 
@@ -167,7 +195,20 @@ const { product } = Astro.props;
   </div>
 </section>
 
+<style>
+  .desc-collapsed {
+    max-height: 6.5rem; /* ~4 lines at 1.625 line-height */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .desc-expanded {
+    max-height: 9999px;
+    transition: max-height 0.5s ease;
+  }
+</style>
+
 <script>
+  // Apps toggle
   const btn = document.getElementById("toggle-apps-btn");
   const extra = document.getElementById("extra-apps");
   const label = document.getElementById("toggle-apps-label");
@@ -179,6 +220,23 @@ const { product } = Astro.props;
       extra.classList.toggle("hidden", !isHidden);
       label.textContent = isHidden ? "View less" : `View more (${count})`;
       icon.style.transform = isHidden ? "rotate(180deg)" : "";
+    });
+  }
+
+  // Description toggle
+  const descWrap = document.getElementById("long-desc-wrap");
+  const descBtn = document.getElementById("desc-toggle-btn");
+  const descLabel = document.getElementById("desc-toggle-label");
+  const descIcon = document.getElementById("desc-toggle-icon");
+
+  if (descWrap && descBtn && descLabel && descIcon) {
+    let expanded = false;
+    descBtn.addEventListener("click", () => {
+      expanded = !expanded;
+      descWrap.classList.toggle("desc-collapsed", !expanded);
+      descWrap.classList.toggle("desc-expanded", expanded);
+      descLabel.textContent = expanded ? "View less" : "View more";
+      descIcon.style.transform = expanded ? "rotate(180deg)" : "";
     });
   }
 </script>

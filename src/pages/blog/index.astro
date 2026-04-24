@@ -4,23 +4,28 @@ import BlogHero from "../../components/blog/BlogHero.astro";
 import BlogNewsletter from "../../components/blog/BlogNewsletter.astro";
 import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
-import { getTopicPageBySlug } from "../../lib/api";
+import { getTopicPageBySlug, getCompanyInfo } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
-const [posts, seo] = await Promise.all([
+const [posts, seo, company] = await Promise.all([
   fetchBlogPosts(),
   getTopicPageBySlug("blog"),
+  getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 const featured = posts.find((p) => p.isFeatured) ?? posts[0];
 const rest = posts.filter((p) => p !== featured);
+
+// Extract unique non-null categories, sorted alphabetically
+const categories = [...new Set(posts.map((p) => p.category).filter(Boolean) as string[])].sort();
 const BLOG_OG_IMAGE = seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? (featured ? getPostImage(featured) : undefined);
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
 const blogListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Blog Articles – Amrita Global Enterprises",
+  name: `Blog Articles – ${companyName}`,
   url: `${SITE_BASE}/blog`,
   itemListElement: posts.map((post, index) => ({
     "@type": "ListItem",
@@ -35,7 +40,7 @@ const blogListSchema = {
 
 <BaseLayout
   title={seo?.metaTitle}
-  description={seo?.description ?? "Industry insights, technical guides, and manufacturing breakthroughs from Amrita Global Enterprises."}
+  description={seo?.description ?? `Industry insights, technical guides, and manufacturing breakthroughs from ${companyName}.`}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "blog"}
@@ -45,8 +50,9 @@ const blogListSchema = {
     { name: "Home", url: "/" },
     { name: "Blog" },
   ]}
+  waMessage="Hi, I read one of your blog articles and would like to know more about your fabrics."
 >
-  <BlogHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Blog" }]} />
+  <BlogHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Blog" }]} categories={categories} />
   <BlogDynamicGrid featured={featured} posts={rest} />
   <BlogNewsletter />
 </BaseLayout>

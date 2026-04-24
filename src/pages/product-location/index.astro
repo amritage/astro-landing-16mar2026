@@ -2,14 +2,16 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PLListingHero from "../../components/productandlocation/PLListingHero.astro";
 import PLGrid from "../../components/productandlocation/PLGrid.astro";
-import { getAllProductLocations, getTopicPageBySlug } from "../../lib/api";
+import { getAllProductLocations, getTopicPageBySlug, getCompanyInfo } from "../../lib/api";
 
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
-const [items, seo] = await Promise.all([
+const [items, seo, company] = await Promise.all([
   getAllProductLocations(),
   getTopicPageBySlug("product-location"),
+  getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 
 const breadcrumbs = [
   { name: "Home", url: "/" },
@@ -19,7 +21,7 @@ const breadcrumbs = [
 const listSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Product & Location Combinations — Amrita Global Enterprises",
+  name: `Product & Location Combinations — ${companyName}`,
   url: `${SITE_BASE}/product-location`,
   numberOfItems: items.length,
   itemListElement: items.map((item, index) => ({
@@ -33,13 +35,14 @@ const listSchema = {
 
 <BaseLayout
   title={seo?.metaTitle}
-  description={seo?.description ?? "Browse all fabric supply combinations by product and city. Bulk B2B sourcing from Amrita Global Enterprises."}
+  description={seo?.description ?? `Browse all fabric supply combinations by product and city. Bulk B2B sourcing from ${companyName}.`}
   keywords={seo?.keywords ?? undefined}
   canonical={`${SITE_BASE}/product-location`}
   ogType="website"
   ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
   schemaMarkup={[listSchema]}
   breadcrumbs={breadcrumbs}
+  waMessage="Hi, I'm looking for fabric supply in a specific city. Can you help me find the right option?"
 >
   <PLListingHero
     total={items.length}

@@ -1,8 +1,11 @@
 ---
 import type { ApiProductLocation } from "../../lib/api";
+import { getCompanyInfo } from "../../lib/api";
 interface Props { data: ApiProductLocation; }
 const { data } = Astro.props;
 const { product } = data;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 
 // Display name: productTitle > name
 const displayName = product.productTitle ?? product.name;
@@ -179,7 +182,7 @@ const specs = [
         <!-- Quote -->
         <div class="mt-10 p-6 bg-[#ffffff] border-l-4 border-[#755700]">
           <p class="text-sm font-label italic text-[#434750]">
-            "Amrita Global Enterprises specializes in {product.content.join(", ")} {product.structure.toLowerCase()} fabric wholesale for global brands requiring bulk woven fabric supply with zero tolerance for color variance."
+            "{companyName} specializes in {product.content.join(", ")} {product.structure.toLowerCase()} fabric wholesale for global brands requiring bulk woven fabric supply with zero tolerance for color variance."
           </p>
         </div>
       </div>

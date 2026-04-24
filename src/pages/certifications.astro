@@ -11,11 +11,12 @@ const [company, seo] = await Promise.all([
   getCompanyInfo("AGE"),
   getTopicPageBySlug("certifications"),
 ]);
+const companyName = company?.legalName ?? "";
 ---
 
 <BaseLayout
   title={seo?.metaTitle}
-  description={seo?.description ?? "ISO 9001, OEKO-TEX, GOTS, and SA 8000 certified. Amrita Global Enterprises upholds the highest international standards for quality, safety, and ethical manufacturing."}
+  description={seo?.description ?? `ISO 9001, OEKO-TEX, GOTS, and SA 8000 certified. ${companyName} upholds the highest international standards for quality, safety, and ethical manufacturing.`}
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "website"}
@@ -24,6 +25,7 @@ const [company, seo] = await Promise.all([
     { name: "Home", url: "/" },
     { name: "Certifications" },
   ]}
+  waMessage="Hi, I'd like to know more about your certifications and quality standards for fabric manufacturing."
 >
   <CertificationsHero heroImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined} breadcrumbs={[{ name: "Home", href: "/" }, { name: "Certifications" }]} />
   <CertificationsGrid />

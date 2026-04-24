@@ -8,6 +8,7 @@ import {
   getCategoryTopicPageBySlug,
   getProductsByCategory,
   getFilterValues,
+  getCompanyInfo,
 } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
 
@@ -23,10 +24,12 @@ const page = await getCategoryTopicPageBySlug(slug);
 if (!page) return Astro.redirect("/404");
 
 // Now fetch products + filters in parallel using the resolved category name
-const [rawProducts, filters] = await Promise.all([
+const [rawProducts, filters, company] = await Promise.all([
   getProductsByCategory(page.name),
   getFilterValues(),
+  getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 
 // Only show categories that actually exist in this page's products
 const pageCategories = [...new Set(rawProducts.map((p) => p.category).filter(Boolean))];
@@ -107,7 +110,7 @@ const introBody: string =
 ---
 
 <BaseLayout
-  title={page.metaTitle ?? `${page.name} Fabrics | Amrita Global Enterprises`}
+  title={page.metaTitle ?? `${page.name}`}
   description={page.description ?? page.excerpt ?? ""}
   keywords={page.keywords ?? undefined}
   canonical={resolveCanonical(page.canonicalUrl)}
@@ -118,6 +121,7 @@ const introBody: string =
     { name: "Fabric", url: "/fabric" },
     { name: page.name },
   ]}
+  waMessage={`Hi, I'm looking for ${page.name} fabrics. Can you tell me more about what's available?`}
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout

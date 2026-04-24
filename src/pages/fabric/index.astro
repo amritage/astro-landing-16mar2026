@@ -3,18 +3,20 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProducts, getCloudinaryUrl } from "../../data/products";
-import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ } from "../../lib/api";
+import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ, getCompanyInfo } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
 
 const FABRIC_HERO_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg";
 
-const [allProducts, filters, seo, faqData] = await Promise.all([
+const [allProducts, filters, seo, faqData, company] = await Promise.all([
   fetchProducts(),
   getFilterValues(),
   getTopicPageBySlug("fabric"),
   getWebsiteFAQ(),
+  getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 
 const total = allProducts.length;
 const rawProducts = allProducts;
@@ -58,7 +60,7 @@ const heroImageUrl = seo?.image1CloudUrl ?? null;
 const itemListSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "Fabric Catalog — Amrita Global Enterprises",
+  name: `Fabric Catalog — ${companyName}`,
   url: `${SITE_BASE}/fabric`,
   numberOfItems: total,
   itemListElement: rawProducts.map((p, index) => ({
@@ -74,7 +76,7 @@ const itemListSchema = {
       sku: p.slug,
       brand: {
         "@type": "Brand",
-        name: "Amrita Global Enterprises",
+        name: companyName,
       },
       ...(p.ratingCount > 0 ? {
         aggregateRating: {
@@ -94,7 +96,7 @@ const itemListSchema = {
         availability: "https://schema.org/InStock",
         seller: {
           "@type": "Organization",
-          name: "Amrita Global Enterprises",
+          name: companyName,
         },
       },
     },
@@ -121,6 +123,7 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
   ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? FABRIC_HERO_IMAGE}
   schemaMarkup={[itemListSchema]}
   breadcrumbs={breadcrumbItems}
+  waMessage="Hi, I'm looking for fabrics. Can you help me find the right one for my needs?"
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout

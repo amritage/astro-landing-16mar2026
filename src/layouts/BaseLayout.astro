@@ -31,10 +31,20 @@ interface Props {
   // Pass author name from pages that already fetch authors (about, support, blog, etc.)
   // Falls back to company name if not provided — avoids a redundant getAuthors() call in BaseLayout
   authorName?: string;
+  // Page-specific WhatsApp pre-filled message for the floating button
+  waMessage?: string;
 }
 
+// Site-wide settings from API (eCatalogue) — fetched before props destructuring so companyName is available as default
+const [site, company] = await Promise.all([
+  getSiteSettings("eCatalogue"),
+  getCompanyInfo("AGE"),
+]);
+
+const companyName = company?.legalName ?? company?.name ?? "";
+
 const {
-  title = "Amrita Global Enterprises",
+  title = companyName,
   description = "B2B fabric manufacturer and exporter.",
   canonical,
   keywords,
@@ -51,15 +61,8 @@ const {
   preloadImage,
   preloadImageSrcset,
   authorName: authorNameProp,
+  waMessage,
 } = Astro.props;
-
-// Site-wide settings from API (eCatalogue)
-const [site, company] = await Promise.all([
-  getSiteSettings("eCatalogue"),
-  getCompanyInfo("AGE"),
-]);
-
-const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
 // Use prop if passed (pages that already fetched authors), otherwise fall back to company name
 const authorName = authorNameProp ?? companyName;
 
@@ -167,7 +170,7 @@ const schemaArray = schemaMarkup
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDesc} />
     <meta property="og:url" content={resolvedCanonical ?? ""} />
-    <meta property="og:site_name" content="Amrita Global Enterprises" />
+    <meta property="og:site_name" content={companyName} />
     <meta property="og:image" content={resolvedOgImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -243,7 +246,7 @@ const schemaArray = schemaMarkup
       <slot />
     </main>
     <Footer />
-    <FloatingActions />
+    <FloatingActions waMessage={waMessage} />
     <!-- WhatsApp delegated click handler: opens data-wa-link URLs in a new tab -->
     <script is:inline>
       document.addEventListener('click', (e) => {

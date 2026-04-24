@@ -1,10 +1,13 @@
 ---
 import Breadcrumbs from "../common/Breadcrumbs.astro";
+import { getCompanyInfo } from "../../lib/api";
 
 interface Props {
   breadcrumbs?: { name: string; href?: string }[];
 }
 const { breadcrumbs } = Astro.props;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 <section class="capabilities-hero relative overflow-hidden bg-[#f8f9fa] pt-[12px] pb-16 md:pt-[12px] md:pb-24">
   <style>
@@ -33,7 +36,7 @@ const { breadcrumbs } = Astro.props;
       </h1>
 
       <p class="mt-8 max-w-2xl text-xl leading-relaxed text-[#44474d]">
-        Amrita Global Enterprises combines five decades of heritage with cutting-edge manufacturing
+        {companyName} combines five decades of heritage with cutting-edge manufacturing
         technology to deliver textile solutions that define industry standards across the globe.
       </p>
 

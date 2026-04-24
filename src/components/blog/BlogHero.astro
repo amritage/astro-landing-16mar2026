@@ -3,8 +3,9 @@ import Breadcrumbs from "../common/Breadcrumbs.astro";
 
 interface Props {
   breadcrumbs?: { name: string; href?: string }[];
+  categories?: string[];
 }
-const { breadcrumbs } = Astro.props;
+const { breadcrumbs, categories = [] } = Astro.props;
 ---
 <section class="pt-3 md:pt-3 pb-10 md:pb-12 px-4 md:px-8 max-w-7xl mx-auto">
   {breadcrumbs && breadcrumbs.length > 1 && (
@@ -24,16 +25,25 @@ const { breadcrumbs } = Astro.props;
     <div class="relative group max-w-2xl">
       <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#75777e] group-focus-within:text-[#775a19] transition-colors">search</span>
       <input
+        id="blog-search"
         type="text"
         placeholder="Search technical guides or trends..."
-        class="w-full pl-12 pr-4 py-4 bg-[#f3f4f5] border-none focus:outline-none focus:ring-2 focus:ring-[#775a19]/20 rounded-lg font-sans text-sm transition-all"
+        class="w-full pl-12 pr-10 py-4 bg-[#f3f4f5] border-none focus:outline-none focus:ring-2 focus:ring-[#775a19]/20 rounded-lg font-sans text-sm transition-all"
+        autocomplete="off"
       />
+      <button
+        id="blog-search-clear"
+        class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-[#75777e] hover:text-[#041632] transition-colors"
+        aria-label="Clear search"
+      >
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
     </div>
-    <div class="flex gap-2 overflow-x-auto pb-2">
-      <button class="whitespace-nowrap px-6 py-2 bg-[#041632] text-white rounded-full font-sans text-xs font-bold uppercase tracking-wider">All Insights</button>
-      <button class="whitespace-nowrap px-6 py-2 bg-[#e7e8e9] text-[#44474d] rounded-full font-sans text-xs font-bold uppercase tracking-wider hover:bg-[#e1e3e4] transition-colors">Market Trends</button>
-      <button class="whitespace-nowrap px-6 py-2 bg-[#e7e8e9] text-[#44474d] rounded-full font-sans text-xs font-bold uppercase tracking-wider hover:bg-[#e1e3e4] transition-colors">Technology</button>
-      <button class="whitespace-nowrap px-6 py-2 bg-[#e7e8e9] text-[#44474d] rounded-full font-sans text-xs font-bold uppercase tracking-wider hover:bg-[#e1e3e4] transition-colors">Sustainability</button>
+    <div id="blog-category-filters" class="flex gap-2 overflow-x-auto pb-2">
+      <button data-category="all" class="blog-cat-btn whitespace-nowrap px-6 py-2 bg-[#041632] text-white rounded-full font-sans text-xs font-bold uppercase tracking-wider">All Insights</button>
+      {categories.map((cat) => (
+        <button data-category={cat} class="blog-cat-btn whitespace-nowrap px-6 py-2 bg-[#e7e8e9] text-[#44474d] rounded-full font-sans text-xs font-bold uppercase tracking-wider transition-colors">{cat}</button>
+      ))}
     </div>
   </div>
 </section>

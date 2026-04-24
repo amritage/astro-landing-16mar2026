@@ -1,4 +1,7 @@
 ---
+import { getCompanyInfo } from "../../lib/api";
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 const certs = [
   {
     name: "ISO 9001:2015",
@@ -48,7 +51,7 @@ const certs = [
         Our Quality <br class="hidden md:block" />Framework
       </h2>
       <p class="text-[#44474d] mb-8 font-body leading-relaxed">
-        Every thread produced at Amrita Global Enterprises undergoes rigorous testing. Our certifications reflect our commitment to the planet and the people who power our looms.
+        Every thread produced at {companyName} undergoes rigorous testing. Our certifications reflect our commitment to the planet and the people who power our looms.
       </p>
       <div class="p-6 bg-[#f3f4f5] border-l-4 border-[#775a19]">
         <span class="material-symbols-outlined text-[#775a19] mb-2 block" style="font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;">verified</span>

@@ -1,5 +1,5 @@
 ---
-import { buildWaLink } from "../../lib/api";
+import { buildWaLink, getCompanyInfo } from "../../lib/api";
 
 interface Props {
   whatsapp?: string | null;
@@ -8,6 +8,8 @@ interface Props {
 const { whatsapp } = Astro.props;
 
 const whatsappHref = buildWaLink(whatsapp, "https://wa.me/");
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 
 <section class="max-w-5xl mx-auto px-8 pb-24">
@@ -15,7 +17,7 @@ const whatsappHref = buildWaLink(whatsapp, "https://wa.me/");
     <div class="relative z-10">
       <h2 class="font-serif text-3xl md:text-4xl text-white mb-6">Ready to Elevate Your Supply Chain?</h2>
       <p class="text-[#8393b5] max-w-2xl mx-auto mb-10 text-base md:text-lg">
-        Partner with Amrita Global Enterprises for technical superiority and logistical excellence since 1971.
+        Partner with {companyName} for technical superiority and logistical excellence since 1971.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a

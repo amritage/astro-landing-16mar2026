@@ -2,6 +2,7 @@
 import { getCompanyInfo } from "../../lib/api";
 const company = await getCompanyInfo("AGE");
 const legalEmail = company?.supportEmail ?? company?.primaryEmail ?? null;
+const companyName = company?.legalName ?? "";
 ---
 <div class="px-6 max-w-5xl mx-auto pb-24 space-y-24 md:space-y-32">
 
@@ -15,7 +16,7 @@ const legalEmail = company?.supportEmail ?? company?.primaryEmail ?? null;
       </div>
       <div class="md:w-2/3 space-y-6 text-[#44474d] leading-relaxed">
         <p class="text-lg text-[#191c1d] font-medium">
-          By accessing the Amrita Global Enterprises (AGE) platform, you agree to abide by the following terms of manufacturing and supply engagement.
+          By accessing the {companyName} (AGE) platform, you agree to abide by the following terms of manufacturing and supply engagement.
         </p>
         <div>
           <h3 class="font-headline text-xl text-[#041632] italic mt-8 mb-3">1. General Engagement</h3>
@@ -23,7 +24,7 @@ const legalEmail = company?.supportEmail ?? company?.primaryEmail ?? null;
         </div>
         <div>
           <h3 class="font-headline text-xl text-[#041632] italic mt-8 mb-3">2. Intellectual Property</h3>
-          <p>All designs, loom patterns, and textile specifications provided by AGE remain the proprietary intellectual property of Amrita Global Enterprises unless explicitly transferred via a signed Intellectual Property Assignment agreement.</p>
+          <p>All designs, loom patterns, and textile specifications provided by AGE remain the proprietary intellectual property of {companyName} unless explicitly transferred via a signed Intellectual Property Assignment agreement.</p>
         </div>
         <div>
           <h3 class="font-headline text-xl text-[#041632] italic mt-8 mb-3">3. Limitation of Liability</h3>
@@ -137,7 +138,7 @@ const legalEmail = company?.supportEmail ?? company?.primaryEmail ?? null;
       </span>
     </a>
     <p class="mt-8 text-[#44474d] text-xs font-label uppercase tracking-widest">
-      Amrita Global Enterprises &bull; Compliance Division
+      {companyName} &bull; Compliance Division
     </p>
   </footer>
 

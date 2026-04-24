@@ -17,11 +17,12 @@ const [aboutData, authors, company] = await Promise.all([
   getAuthors(),
   getCompanyInfo("AGE"),
 ]);
+const companyName = company?.legalName ?? "";
 ---
 
 <BaseLayout
-  title={aboutData?.metaTitle ?? "About Us | Amrita Global Enterprises"}
-  description={aboutData?.description ?? "For over five decades, Amrita Global Enterprises has defined the intersection of technical precision and artistic mastery in the global fabric industry."}
+  title={aboutData?.metaTitle ?? `About Us`}
+  description={aboutData?.description ?? `For over five decades, ${companyName} has defined the intersection of technical precision and artistic mastery in the global fabric industry.`}
   keywords={aboutData?.keywords ?? undefined}
   canonical={resolveCanonical(aboutData?.canonicalUrl)}
   ogType={aboutData?.ogType ?? "website"}
@@ -31,6 +32,7 @@ const [aboutData, authors, company] = await Promise.all([
     { name: "Home", url: "/" },
     { name: "About Us" },
   ]}
+  waMessage="Hi, I'd like to know more about your company and your fabric manufacturing story."
 >
   <AboutHero image={aboutData?.image1CloudUrlHero ?? aboutData?.image1CloudUrl ?? null} breadcrumbs={[{ name: "Home", href: "/" }, { name: "About Us" }]} />
   <AboutTrustNumbers />

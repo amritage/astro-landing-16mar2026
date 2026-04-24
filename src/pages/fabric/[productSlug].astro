@@ -27,6 +27,7 @@ export async function getStaticPaths() {
 
 const { product, collectionProducts } = Astro.props as { product: Product; collectionProducts: Product[] };
 const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 
 // F2 FIX: use SITE_BASE directly - no local alias needed
 const canonicalUrl = `${SITE_BASE}/fabric/${product.slug}`;
@@ -63,7 +64,7 @@ const productSchema = {
   sku: product.slug,
   brand: {
     "@type": "Brand",
-    name: "Amrita Global Enterprises",
+    name: companyName,
   },
   material: product.content,
   color: product.colorNames.join(", "),
@@ -87,7 +88,7 @@ const productSchema = {
     availability: "https://schema.org/InStock",
     seller: {
       "@type": "Organization",
-      name: "Amrita Global Enterprises",
+      name: companyName,
     },
   },
 };
@@ -154,6 +155,7 @@ const lcpImageHref = product.image1
   breadcrumbs={breadcrumbItems}
   preloadImage={lcpImageHref}
   preloadImageSrcset={lcpImageSrcset}
+  waMessage={`Hi, I'm interested in "${product.name}". Can you share more details about this fabric?`}
 >
   <div class="max-w-7xl mx-auto px-4 lg:px-8 pt-4">
     <Breadcrumbs

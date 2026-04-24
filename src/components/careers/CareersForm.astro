@@ -1,7 +1,10 @@
 ﻿---
 import MultiStepContactForm from "../common/MultiStepContactForm.astro";
+import { getCompanyInfo } from "../../lib/api";
 const CAREERS_LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_CAREERS_LEAD_CAPTURE_KEY;
 const ATTACHMENT_UPLOAD_URL = import.meta.env.PUBLIC_ESPO_BASE + "/Attachment";
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? "";
 ---
 
 <MultiStepContactForm
@@ -9,7 +12,7 @@ const ATTACHMENT_UPLOAD_URL = import.meta.env.PUBLIC_ESPO_BASE + "/Attachment";
   sectionIcon="work"
   badge="Join the Team"
   heading="Apply Now"
-  subheading="Begin your journey with Amrita Global."
+  subheading={`Begin your journey with ${companyName}.`}
   steps={[{ label: "Personal" }, { label: "Experience" }, { label: "Resume" }]}
   submitLabel="Submit Application"
   successTitle="Application Submitted"

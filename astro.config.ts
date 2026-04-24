@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import tailwindcss from '@tailwindcss/vite';
 import { loadEnv } from 'vite';
@@ -27,7 +26,6 @@ export default defineConfig({
   redirects,
   site: process.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
   integrations: [
-    mdx(),
     cloudinaryPicture(),
     partytown({ config: { forward: ['dataLayer.push', 'gtag', 'clarity'] } }),
   ],
