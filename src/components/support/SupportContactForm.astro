@@ -119,10 +119,10 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     </div>
     <div>
       <label for="scf-amount" class="msf-label">Opportunity Amount</label>
-      <div class="flex flex-col sm:flex-row gap-3">
-        <input id="scf-amount" type="number" name="opportunityAmount" class="msf-input flex-1" placeholder="0.00" min="0" step="0.01" />
+      <div class="flex gap-2">
+        <input id="scf-amount" type="number" name="opportunityAmount" class="msf-input flex-1 min-w-0" placeholder="0.00" min="0" step="0.01" />
         <label for="scf-currency" class="sr-only">Currency</label>
-        <select id="scf-currency" name="opportunityAmountCurrency" class="msf-input sm:w-28">
+        <select id="scf-currency" name="opportunityAmountCurrency" class="msf-input flex-1">
           <option value="USD">USD</option>
           <option value="INR">INR</option>
           <option value="EUR">EUR</option>
@@ -136,9 +136,9 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     </div>
     <div class="msf-nav-row">
       <button type="button" id="scf-prev-2" class="msf-btn-secondary">Previous</button>
-      <button type="submit" id="scf-submit" class="msf-btn-primary">
+      <button type="submit" id="scf-submit" class="msf-btn-primary" disabled>
         <span id="scf-submit-text">Submit Request</span>
-        <span id="scf-submit-spinner" class="material-symbols-outlined animate-spin text-base hidden">progress_activity</span>
+        <span id="scf-submit-spinner" class="material-symbols-outlined animate-spin text-base" style="display:none">progress_activity</span>
       </button>
     </div>
   </div>
@@ -190,6 +190,10 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     document.getElementById(`${FORM_ID}-step-${current}`).classList.remove('hidden');
     stepLabel.textContent = stepLabels[current] ?? `Step ${current + 1} of ${STEP_COUNT}`;
 
+    // Enable submit only on the final step to prevent accidental submission
+    const submitBtn = document.getElementById(`${FORM_ID}-submit`);
+    submitBtn.disabled = current < STEP_COUNT - 1;
+
     for (let i = 0; i < STEP_COUNT; i++) {
       const dot = document.getElementById(`${FORM_ID}-dot-${i}`);
       if (i <= current) {
@@ -218,6 +222,11 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
   document.getElementById(`${FORM_ID}-next-1`).addEventListener('click', () => goTo(2));
   document.getElementById(`${FORM_ID}-prev-2`).addEventListener('click', () => goTo(1));
 
+  // Prevent Enter key from submitting the form unless on the final step
+  form.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && current < STEP_COUNT - 1) e.preventDefault();
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (form.querySelector('[name="_hp"]').value) return;
@@ -230,7 +239,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
 
     submitBtn.disabled = true;
     submitText.textContent = 'Sending...';
-    spinner.classList.remove('hidden');
+    spinner.style.display = 'inline-block';
     errorEl.classList.add('hidden');
 
     try {
@@ -252,7 +261,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     } finally {
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Request';
-      spinner.classList.add('hidden');
+      spinner.style.display = 'none';
     }
   });
 </script>

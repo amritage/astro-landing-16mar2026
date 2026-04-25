@@ -40,7 +40,17 @@ const single = authors.length === 1 ? authors[0] : null;
           )}
           <div class="h-px bg-[#c5c6ce] w-16 mb-6"></div>
           {single.description && (
-            <p class="text-[#44474d] text-lg leading-relaxed mb-8">{single.description}</p>
+            <div class="mb-8">
+              <p
+                id="leader-desc"
+                class="text-[#44474d] text-lg leading-relaxed md:line-clamp-none line-clamp-4 transition-all duration-300"
+              >{single.description}</p>
+              <button
+                id="leader-desc-toggle"
+                class="md:hidden mt-2 text-[#775a19] text-sm font-sans underline"
+                aria-expanded="false"
+              >View More</button>
+            </div>
           )}
           {single.authorLinkedinURL && (
             <a
@@ -105,4 +115,22 @@ const single = authors.length === 1 ? authors[0] : null;
     )}
   </div>
 </section>
-M
+
+<script>
+  const btn = document.getElementById("leader-desc-toggle");
+  const desc = document.getElementById("leader-desc");
+  if (btn && desc) {
+    btn.addEventListener("click", () => {
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      if (expanded) {
+        desc.classList.add("line-clamp-4");
+        btn.textContent = "View More";
+        btn.setAttribute("aria-expanded", "false");
+      } else {
+        desc.classList.remove("line-clamp-4");
+        btn.textContent = "View Less";
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  }
+</script>

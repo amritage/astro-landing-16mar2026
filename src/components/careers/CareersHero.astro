@@ -5,8 +5,9 @@ import { getCompanyInfo } from "../../lib/api";
 interface Props {
   heroImage?: string;
   breadcrumbs?: { name: string; href?: string }[];
+  keywords?: string[];
 }
-const { heroImage, breadcrumbs } = Astro.props;
+const { heroImage, breadcrumbs, keywords } = Astro.props;
 const bgImage = heroImage ?? "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80";
 const company = await getCompanyInfo("AGE");
 const companyName = company?.legalName ?? "";
@@ -51,7 +52,7 @@ const companyName = company?.legalName ?? "";
         </div>
       )}
       <span class="inline-block px-4 py-1 mb-6 border border-[#775a19] text-[#ffdea5] font-sans text-xs tracking-[0.2em] uppercase">
-        Established 1971 · Ahmedabad, India
+        {keywords && keywords.length > 0 ? keywords.join(" · ") : "Established 1971 · Ahmedabad, India"}
       </span>
       <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl leading-tight mb-6 !text-white">
         <span>Forge the Future of</span><br/>

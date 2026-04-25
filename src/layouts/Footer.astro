@@ -20,6 +20,14 @@ const collectionLinks = dynamicTopicPages.map((p) => ({
   href: `/collection/${p.slug}`,
 }));
 
+// Build dynamic quick links — replace "About Us" label with "About {alternateName[0]}"
+const alternateName0 = company?.alternateName?.[0] ?? null;
+const quickLinks = siteConfig.footerLinks.quick.map((item) =>
+  item.href === "/about" && alternateName0
+    ? { ...item, label: `About ${alternateName0}`, displayLabel: "About" }
+    : item
+);
+
 // Build full address string + Google Maps link
 const addressParts = [
   company?.addressStreet,
@@ -50,32 +58,32 @@ const gstin = company?.gstin ?? null;
 
 const socialLinks = [
   {
-    label: "Facebook",
+    label: "Visit Amrita Global Enterprises on Facebook",
     href: company?.facebookUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>`,
   },
   {
-    label: "Instagram",
+    label: "Follow Amrita Global Enterprises on Instagram",
     href: company?.instagramUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
   },
   {
-    label: "LinkedIn",
+    label: "Connect with Amrita Global Enterprises on LinkedIn",
     href: company?.linkedinUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>`,
   },
   {
-    label: "X",
+    label: "Follow Amrita Global Enterprises on X",
     href: company?.xUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
   },
   {
-    label: "YouTube",
+    label: "Watch Amrita Global Enterprises on YouTube",
     href: company?.youtubeUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>`,
   },
   {
-    label: "Pinterest",
+    label: "Follow Amrita Global Enterprises on Pinterest",
     href: company?.pinterestUrl ?? "#",
     svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>`,
   },
@@ -148,9 +156,12 @@ const socialLinks = [
       <div>
         <h3 id="footer-nav-quick" class="font-label text-sm font-semibold uppercase tracking-widest mb-6 md:mb-8 text-on-surface">Quick Links</h3>
         <ul aria-labelledby="footer-nav-quick" class="grid grid-cols-2 md:grid-cols-1 gap-4 text-sm font-body">
-          {siteConfig.footerLinks.quick.map((item) => (
+          {quickLinks.map((item) => (
             <li>
-              <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 ease-in-out" href={item.href}>{item.label}</a>
+              <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 ease-in-out" href={item.href}>
+                {item.displayLabel || item.label}
+                {item.displayLabel && <span class="seo-only">{item.label.replace(item.displayLabel, '').trim()}</span>}
+              </a>
             </li>
           ))}
         </ul>
@@ -300,15 +311,15 @@ const socialLinks = [
    
 
       <!-- Social Icons -->
-      <div class="flex flex-wrap gap-3 mt-4" role="list" aria-label="Social media links">
+      <div class="flex flex-wrap gap-5" role="list" aria-label="Social media links">
         {socialLinks.filter(s => s.href && s.href !== "#").map((s) => (
           <a
             href={s.href}
             aria-label={s.label}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary transition-colors text-primary hover:text-white"
-            set:html={`<span class="flex items-center justify-center">${s.svg}</span>`}
+            class="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary transition-colors text-primary hover:text-white [&_svg]:w-4 [&_svg]:h-4"
+            set:html={`<span class="flex items-center justify-center">${s.svg}</span><span class="sr-only">${s.label}</span>`}
           />
         ))}
       </div>
@@ -316,7 +327,7 @@ const socialLinks = [
   </div>
 
   <!-- Sub Footer -->
-  <div class="max-w-screen-2xl mx-auto mt-16 pt-8 pb-32 md:pb-8 border-t border-outline-variant/30 text-center text-sm font-label">
+  <div class="max-w-screen-2xl mx-auto mt-8 md:mt-16 pt-8 pb-16 md:pb-8 border-t border-outline-variant/30 text-center text-sm font-label">
     <div class="text-on-surface-variant flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-y-2 md:gap-y-1 md:gap-x-3">
       <span>© {foundingYear}–{new Date().getFullYear()} {company?.legalName}</span>
       {fullAddress && (
@@ -365,6 +376,13 @@ const socialLinks = [
       successMsg.classList.add('hidden');
       errorMsg.classList.add('hidden');
 
+      const gaEvent = (name) => {
+        window.dataLayer = window.dataLayer || [];
+        if (typeof window.gtag === 'function') window.gtag('event', name, { page_path: window.location.pathname });
+        else window.dataLayer.push({ event: name, page_path: window.location.pathname });
+      };
+      gaEvent('footer_newsletter_subscribe_attempt');
+
       try {
         const res = await fetch(ESPO_URL, {
           method: 'POST',
@@ -378,14 +396,46 @@ const socialLinks = [
         if (res.ok) {
           form.reset();
           successMsg.classList.remove('hidden');
+          gaEvent('footer_newsletter_subscribe_success');
         } else {
           errorMsg.classList.remove('hidden');
+          gaEvent('footer_newsletter_subscribe_error');
         }
       } catch {
         errorMsg.classList.remove('hidden');
+        gaEvent('footer_newsletter_subscribe_error');
       } finally {
         btn.disabled = false;
       }
     });
   }
+
+  // Social media icon tracking
+  function gaEvent(name) {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === 'function') window.gtag('event', name, { page_path: window.location.pathname });
+    else window.dataLayer.push({ event: name, page_path: window.location.pathname });
+  }
+  document.querySelectorAll('[aria-label="Social media links"] a').forEach((el) => {
+    el.addEventListener('mousedown', () => {
+      const label = el.getAttribute('aria-label') ?? 'social';
+      gaEvent(`footer_social_${label.toLowerCase()}_click`);
+    });
+  });
+
+  // Footer WhatsApp Us button
+  document.querySelector('[aria-label="WhatsApp Us"]')?.addEventListener('mousedown', () => {
+    gaEvent('footer_whatsapp_us_click');
+  });
+
+  // Footer phone & email clicks
+  document.querySelectorAll('footer a[href^="tel:"]').forEach((el) => {
+    el.addEventListener('mousedown', () => gaEvent('footer_phone_click'));
+  });
+  document.querySelectorAll('footer a[href^="mailto:"]').forEach((el) => {
+    el.addEventListener('mousedown', () => {
+      const label = el.textContent?.trim().includes('sales') ? 'footer_sales_email_click' : 'footer_support_email_click';
+      gaEvent(label);
+    });
+  });
 </script>

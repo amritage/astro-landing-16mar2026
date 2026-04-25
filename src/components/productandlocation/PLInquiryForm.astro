@@ -114,9 +114,9 @@ const productName = product.productTitle ?? product.name;
     </div>
     <div>
       <label for="plf-amount" class="msf-label">Opportunity Amount</label>
-      <div class="flex flex-col sm:flex-row gap-3">
-        <input id="plf-amount" type="number" name="opportunityAmount" class="msf-input flex-1" placeholder="0.00" min="0" step="0.01" />
-        <select id="plf-currency" name="opportunityAmountCurrency" class="msf-input sm:w-28">
+      <div class="flex gap-2">
+        <input id="plf-amount" type="number" name="opportunityAmount" class="msf-input flex-1 min-w-0" placeholder="0.00" min="0" step="0.01" />
+        <select id="plf-currency" name="opportunityAmountCurrency" class="msf-input flex-1">
           <option value="USD">USD</option>
           <option value="INR">INR</option>
           <option value="EUR">EUR</option>
@@ -132,7 +132,7 @@ const productName = product.productTitle ?? product.name;
       <button type="button" id="plf-prev-2" class="msf-btn-secondary">Previous</button>
       <button type="submit" id="plf-submit" class="msf-btn-primary">
         <span id="plf-submit-text">Submit Request</span>
-        <span id="plf-submit-spinner" class="material-symbols-outlined animate-spin text-base hidden">progress_activity</span>
+        <span id="plf-submit-spinner" class="material-symbols-outlined animate-spin text-base" style="display:none">progress_activity</span>
       </button>
     </div>
   </div>
@@ -209,9 +209,16 @@ const productName = product.productTitle ?? product.name;
     return true;
   }
 
-  document.getElementById(`${FORM_ID}-next-0`)?.addEventListener('click', () => { if (validateStep0()) goTo(1); });
+  const _gaPage = () => window.location.pathname;
+  const _gaForm = 'Product & Location Inquiry Form';
+
+  document.getElementById(`${FORM_ID}-next-0`)?.addEventListener('click', () => {
+    if (validateStep0()) { goTo(1); window.gtag?.('event', `pl_inquiry_step2_company__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() }); }
+  });
   document.getElementById(`${FORM_ID}-prev-1`)?.addEventListener('click', () => goTo(0));
-  document.getElementById(`${FORM_ID}-next-1`)?.addEventListener('click', () => goTo(2));
+  document.getElementById(`${FORM_ID}-next-1`)?.addEventListener('click', () => {
+    goTo(2); window.gtag?.('event', `pl_inquiry_step3_details__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
+  });
   document.getElementById(`${FORM_ID}-prev-2`)?.addEventListener('click', () => goTo(1));
 
   form?.addEventListener('submit', async (e) => {
@@ -226,8 +233,9 @@ const productName = product.productTitle ?? product.name;
 
     submitBtn.disabled = true;
     submitText.textContent = 'Sending...';
-    spinner?.classList.remove('hidden');
+    spinner.style.display = 'inline-block';
     errorEl?.classList.add('hidden');
+    window.gtag?.('event', `pl_inquiry_submitted__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
 
     try {
       const res = await fetch(LEAD_CAPTURE_URL, {
@@ -242,15 +250,17 @@ const productName = product.productTitle ?? product.name;
       document.getElementById(`${FORM_ID}-stepper`)?.classList.add('hidden');
       stepLabel?.classList.add('hidden');
       successEl?.classList.remove('hidden');
+      window.gtag?.('event', `pl_inquiry_success__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
     } catch {
       if (errorEl) {
         errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
         errorEl.classList.remove('hidden');
       }
+      window.gtag?.('event', `pl_inquiry_error__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
     } finally {
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Request';
-      spinner?.classList.add('hidden');
+      spinner.style.display = 'none';
     }
   });
 </script>

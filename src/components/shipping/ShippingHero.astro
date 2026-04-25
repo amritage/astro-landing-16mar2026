@@ -1,10 +1,12 @@
 ---
 import Breadcrumbs from "../common/Breadcrumbs.astro";
+import CloudinaryImage from "../common/CloudinaryImage.astro";
 
 interface Props {
   breadcrumbs?: { name: string; href?: string }[];
+  image?: string | null;
 }
-const { breadcrumbs } = Astro.props;
+const { breadcrumbs, image } = Astro.props;
 ---
 <section class="relative px-6 py-10 md:py-16 bg-[#041632] text-white overflow-hidden">
   <div class="relative z-10 max-w-7xl mx-auto">
@@ -36,4 +38,16 @@ const { breadcrumbs } = Astro.props;
   <div class="absolute -right-20 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none">
     <div class="w-96 h-96 bg-[#775a19] blur-3xl"></div>
   </div>
+  {image && (
+    <div class="absolute inset-0 z-0">
+      <CloudinaryImage
+        src={image}
+        alt="Shipping and logistics"
+        width={1920}
+        height={600}
+        class="w-full h-full object-cover opacity-20"
+        loading="eager"
+      />
+    </div>
+  )}
 </section>

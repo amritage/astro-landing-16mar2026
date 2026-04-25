@@ -171,11 +171,13 @@ function getCardImage(item: ApiProductLocation): string {
     <p class="font-body mb-8" style="color:var(--color-navy-dim)">Connect with our team for bulk inquiries, samples, or technical consultations.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="/support" class="px-8 py-4 rounded-md font-label font-bold transition-colors"
-        style="background:var(--color-secondary); color:var(--color-text-inverse)">
+        style="background:var(--color-secondary); color:var(--color-text-inverse)"
+        onclick="window.gtag?.('event','pl_grid_cta_get_in_touch',{page_path:window.location.pathname})">
         Get in Touch
       </a>
       <a href="/fabric" class="px-8 py-4 rounded-md font-label font-bold transition-colors"
-        style="background:rgba(255,255,255,0.08); color:var(--color-text-inverse); border:1px solid rgba(255,255,255,0.2)">
+        style="background:rgba(255,255,255,0.08); color:var(--color-text-inverse); border:1px solid rgba(255,255,255,0.2)"
+        onclick="window.gtag?.('event','pl_grid_cta_browse_fabrics',{page_path:window.location.pathname})">
         Browse All Fabrics
       </a>
     </div>

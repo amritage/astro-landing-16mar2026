@@ -27,6 +27,7 @@ const phoneHref = buildPhoneHref(phone, "tel:");
         target="_blank"
         rel="noopener noreferrer"
         class="inline-flex items-center justify-center gap-3 rounded-lg bg-[#775a19] px-8 py-4 text-lg font-bold text-white transition hover:opacity-90"
+        onclick="window.gtag?.('event','capabilities_cta_technical_consultation',{page_path:window.location.pathname})"
       >
         <span class="material-symbols-outlined">mail</span>
         Request a Technical Consultation
@@ -35,6 +36,7 @@ const phoneHref = buildPhoneHref(phone, "tel:");
       <a
         href={phoneHref}
         class="inline-flex items-center justify-center gap-3 rounded-lg border border-white/20 bg-white/10 px-8 py-4 text-lg font-bold text-white transition hover:bg-white/20"
+        onclick="window.gtag?.('event','capabilities_cta_download_deck',{page_path:window.location.pathname})"
       >
         <span class="material-symbols-outlined">description</span>
         Download Capacity Deck

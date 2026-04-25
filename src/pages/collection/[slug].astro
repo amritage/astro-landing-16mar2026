@@ -57,6 +57,18 @@ const products: FabricProduct[] = rawProducts
     filterGsm: String(p.gsm),
     filterDesign: p.design,
     filterFinish: p.finish.join("|"),
+    searchSlug: p.slug,
+    searchOzs: String(p.ozs),
+    searchCm: String(p.cm),
+    searchInch: String(p.inch),
+    searchMotif: p.motif ?? "",
+    searchKeywords: p.keywords.join("|"),
+    searchMerchTags: p.merchTags.join("|"),
+    searchCollection: p.collectionName,
+    searchSupply: p.supplyStatus,
+    searchFabricCode: p.fabricCode,
+    searchVendorCode: p.vendorCode,
+    searchMOQ: p.salesMOQ,
   };
 });
 

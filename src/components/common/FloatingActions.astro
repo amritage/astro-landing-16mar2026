@@ -84,4 +84,20 @@ const emailHref = company?.primaryEmail
 
   window.addEventListener('scroll', updateVisibility, { passive: true });
   updateVisibility();
+
+  // GA tracking — use dataLayer fallback in case gtag (Partytown) isn't ready yet
+  function gaEvent(name: string) {
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === 'function') {
+      w.gtag('event', name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  // Use mousedown so event fires before the delegated click handler navigates away
+  document.querySelector('[aria-label="Chat on WhatsApp"]')?.addEventListener('mousedown', () => gaEvent('floating_whatsapp_click'));
+  document.querySelector('[aria-label="Call us"]')?.addEventListener('mousedown', () => gaEvent('floating_call_click'));
+  document.querySelector('[aria-label="Email us"]')?.addEventListener('mousedown', () => gaEvent('floating_email_click'));
 </script>

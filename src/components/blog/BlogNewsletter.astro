@@ -8,7 +8,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     <p class="text-[#44474d] text-lg mb-10 max-w-xl mx-auto">
       Receive our monthly intelligence report on textile engineering, market shifts, and manufacturing breakthroughs.
     </p>
-    <form id="newsletter-form" class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto" novalidate>
+    <form id="newsletter-form" data-url={LEAD_CAPTURE_URL} class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto" novalidate>
       <label for="newsletter-email" class="sr-only">Corporate Email Address</label>
       <input
         id="newsletter-email"
@@ -37,24 +37,35 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
   <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#041632]/5 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
 </section>
 
-<script define:vars={{ LEAD_CAPTURE_URL }}>
-  const ESPO_URL = LEAD_CAPTURE_URL;
-
-  const form = document.getElementById('newsletter-form');
+<script>
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
   const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
   const btn = document.getElementById('newsletter-btn') as HTMLButtonElement;
   const successMsg = document.getElementById('newsletter-success')!;
   const errorMsg = document.getElementById('newsletter-error')!;
 
-  form.addEventListener('submit', async (e) => {
+  function gaEvent(name: string) {
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === 'function') {
+      w.gtag('event', name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = emailInput.value.trim();
     if (!email) return;
+
+    const ESPO_URL = form.dataset.url!;
 
     btn.disabled = true;
     btn.textContent = 'Subscribing...';
     successMsg.classList.add('hidden');
     errorMsg.classList.add('hidden');
+    gaEvent('blog_newsletter_subscribe_attempt');
 
     try {
       const res = await fetch(ESPO_URL, {
@@ -69,11 +80,14 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
       if (res.ok) {
         form.reset();
         successMsg.classList.remove('hidden');
+        gaEvent('blog_newsletter_subscribe_success');
       } else {
         errorMsg.classList.remove('hidden');
+        gaEvent('blog_newsletter_subscribe_error');
       }
     } catch {
       errorMsg.classList.remove('hidden');
+      gaEvent('blog_newsletter_subscribe_error');
     } finally {
       btn.disabled = false;
       btn.textContent = 'Subscribe';

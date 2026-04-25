@@ -23,7 +23,7 @@ const seo = await getTopicPageBySlug("shipping");
   ]}
   waMessage="Hi, I'd like to know more about your shipping and logistics options for bulk fabric orders."
 >
-  <ShippingHero breadcrumbs={[{ name: "Home", href: "/" }, { name: "Shipping & Logistics" }]} />
+  <ShippingHero image={seo?.image1CloudUrl ?? null} breadcrumbs={[{ name: "Home", href: "/" }, { name: "Shipping & Logistics" }]} />
   <ShippingProtection />
   <ShippingPorts />
   <ShippingFAQ />

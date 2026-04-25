@@ -56,12 +56,14 @@ const { total, breadcrumbs } = Astro.props;
       </p>
       <div class="flex flex-col sm:flex-row gap-4 mb-14">
         <a href="#grid" class="px-8 py-4 rounded-md font-label font-bold flex items-center justify-center gap-3 transition-all duration-300 shadow-xl"
-          style="background:var(--color-secondary); color:var(--color-text-inverse)">
+          style="background:var(--color-secondary); color:var(--color-text-inverse)"
+          onclick="window.gtag?.('event','pl_hero_cta_browse_combinations',{page_path:window.location.pathname})">
           Browse All Combinations
           <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
         <a href="/support" class="px-8 py-4 rounded-md font-label font-bold flex items-center justify-center gap-3 transition-all"
-          style="background:rgba(255,255,255,0.06); color:var(--color-text-inverse); border:1px solid rgba(255,255,255,0.2)">
+          style="background:rgba(255,255,255,0.06); color:var(--color-text-inverse); border:1px solid rgba(255,255,255,0.2)"
+          onclick="window.gtag?.('event','pl_hero_cta_request_quote',{page_path:window.location.pathname})">
           Request a Quote
         </a>
       </div>

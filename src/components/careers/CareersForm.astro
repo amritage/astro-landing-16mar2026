@@ -9,6 +9,7 @@ const companyName = company?.legalName ?? "";
 
 <MultiStepContactForm
   formId="jf"
+  sectionId="apply-now"
   sectionIcon="work"
   badge="Join the Team"
   heading="Apply Now"
@@ -104,7 +105,7 @@ const companyName = company?.legalName ?? "";
       <button type="button" id="jf-prev-2" class="msf-btn-secondary">Previous</button>
       <button type="submit" id="jf-submit" class="msf-btn-primary">
         <span id="jf-submit-text">Submit Application</span>
-        <span id="jf-submit-spinner" class="material-symbols-outlined animate-spin text-base hidden">progress_activity</span>
+        <span id="jf-submit-spinner" class="material-symbols-outlined animate-spin text-base" style="display:none">progress_activity</span>
       </button>
     </div>
   </div>
@@ -118,20 +119,20 @@ const companyName = company?.legalName ?? "";
   const STEP_COUNT = 3;
   const stepLabels = ['Personal', 'Experience', 'Resume'];
 
-  const form      = document.getElementById(FORM_ID) as HTMLFormElement;
-  const stepLabel = document.getElementById(`${FORM_ID}-step-label`)!;
+  const form      = document.getElementById(FORM_ID);
+  const stepLabel = document.getElementById(`${FORM_ID}-step-label`);
   let current = 0;
 
-  const g = (name: string): string =>
-    (form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value?.trim() ?? '';
+  const g = (name) =>
+    form.querySelector(`[name="${name}"]`)?.value?.trim() ?? '';
 
-  function goTo(n: number) {
-    document.getElementById(`${FORM_ID}-step-${current}`)!.classList.add('hidden');
+  function goTo(n) {
+    document.getElementById(`${FORM_ID}-step-${current}`).classList.add('hidden');
     current = n;
-    document.getElementById(`${FORM_ID}-step-${current}`)!.classList.remove('hidden');
+    document.getElementById(`${FORM_ID}-step-${current}`).classList.remove('hidden');
     stepLabel.textContent = stepLabels[current] ?? `Step ${current + 1} of ${STEP_COUNT}`;
     for (let i = 0; i < STEP_COUNT; i++) {
-      const dot = document.getElementById(`${FORM_ID}-dot-${i}`)!;
+      const dot = document.getElementById(`${FORM_ID}-dot-${i}`);
       if (i <= current) {
         dot.classList.remove('border-2', 'border-[#d1d5db]', 'text-[#9ca3af]');
         dot.classList.add('bg-[#041632]', 'text-white');
@@ -141,50 +142,57 @@ const companyName = company?.legalName ?? "";
       }
     }
     for (let i = 0; i < STEP_COUNT - 1; i++) {
-      const line = document.getElementById(`${FORM_ID}-line-${i}`)!;
+      const line = document.getElementById(`${FORM_ID}-line-${i}`);
       line.classList.toggle('bg-[#041632]', i < current);
       line.classList.toggle('bg-[#d1d5db]', i >= current);
     }
   }
 
+  const _gaPage = () => window.location.pathname;
+  const _gaForm = 'Careers Application Form';
+
   document.getElementById(`${FORM_ID}-resume`)?.addEventListener('change', (e) => {
-    const file = (e.target as HTMLInputElement).files?.[0];
+    const file = e.target.files?.[0];
     const nameEl = document.getElementById(`${FORM_ID}-resume-name`);
     if (nameEl) { nameEl.textContent = file ? `Selected: ${file.name}` : ''; nameEl.classList.toggle('hidden', !file); }
+    if (file) window.gtag?.('event', 'careers_resume_uploaded', { file_name: file.name, page_path: _gaPage() });
   });
 
-  document.getElementById(`${FORM_ID}-next-0`)!.addEventListener('click', () => {
+  document.getElementById(`${FORM_ID}-next-0`).addEventListener('click', () => {
     if (!g('firstName') || !g('lastName') || !g('emailAddress')) { alert('Please fill in First Name, Last Name and Email.'); return; }
     goTo(1);
+    window.gtag?.('event', 'careers_form_step2_experience', { page_path: _gaPage() });
   });
-  document.getElementById(`${FORM_ID}-prev-1`)!.addEventListener('click', () => goTo(0));
-  document.getElementById(`${FORM_ID}-next-1`)!.addEventListener('click', () => {
+  document.getElementById(`${FORM_ID}-prev-1`).addEventListener('click', () => goTo(0));
+  document.getElementById(`${FORM_ID}-next-1`).addEventListener('click', () => {
     if (!g('title')) { alert('Please enter the position you are applying for.'); return; }
     goTo(2);
+    window.gtag?.('event', 'careers_form_step3_resume', { page_path: _gaPage() });
   });
-  document.getElementById(`${FORM_ID}-prev-2`)!.addEventListener('click', () => goTo(1));
+  document.getElementById(`${FORM_ID}-prev-2`).addEventListener('click', () => goTo(1));
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const submitBtn  = document.getElementById(`${FORM_ID}-submit`) as HTMLButtonElement;
-    const submitText = document.getElementById(`${FORM_ID}-submit-text`)!;
-    const spinner    = document.getElementById(`${FORM_ID}-submit-spinner`)!;
-    const errorEl    = document.getElementById(`${FORM_ID}-error`)!;
-    const successEl  = document.getElementById(`${FORM_ID}-success`)!;
+    const submitBtn  = document.getElementById(`${FORM_ID}-submit`);
+    const submitText = document.getElementById(`${FORM_ID}-submit-text`);
+    const spinner    = document.getElementById(`${FORM_ID}-submit-spinner`);
+    const errorEl    = document.getElementById(`${FORM_ID}-error`);
+    const successEl  = document.getElementById(`${FORM_ID}-success`);
 
     submitBtn.disabled = true;
     submitText.textContent = 'Submitting...';
-    spinner.classList.remove('hidden');
+    spinner.style.display = 'inline-block';
     errorEl.classList.add('hidden');
+    window.gtag?.('event', 'careers_application_submitted', { position: g('title'), page_path: _gaPage() });
 
     try {
-      let resumeAttachmentId: string | undefined;
-      const resumeFile = (document.getElementById(`${FORM_ID}-resume`) as HTMLInputElement)?.files?.[0];
+      let resumeAttachmentId;
+      const resumeFile = document.getElementById(`${FORM_ID}-resume`)?.files?.[0];
       if (resumeFile) {
         try {
-          const fileData = await new Promise<string>((resolve, reject) => {
+          const fileData = await new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = () => resolve((reader.result as string).split(',')[1]);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
             reader.onerror = reject;
             reader.readAsDataURL(resumeFile);
           });
@@ -198,11 +206,11 @@ const companyName = company?.legalName ?? "";
       }
 
       const rawPhone = g('phoneNumber');
-      const descParts: string[] = [];
+      const descParts = [];
       if (rawPhone) descParts.push(`Phone: ${rawPhone}`);
       const descText = g('description');
       if (descText) descParts.push(descText);
-      const payload: Record<string, unknown> = {
+      const payload = {
         firstName: g('firstName'), lastName: g('lastName'), emailAddress: g('emailAddress'),
         title: g('title'),
         addressStreet: g('addressStreet'), addressCity: g('addressCity'),
@@ -220,16 +228,18 @@ const companyName = company?.legalName ?? "";
       if (!res.ok) throw new Error((await res.text()) || `Error ${res.status}`);
 
       form.reset();
-      document.getElementById(`${FORM_ID}-step-${current}`)!.classList.add('hidden');
-      document.getElementById(`${FORM_ID}-stepper`)!.classList.add('hidden');
+      document.getElementById(`${FORM_ID}-step-${current}`).classList.add('hidden');
+      document.getElementById(`${FORM_ID}-stepper`).classList.add('hidden');
       stepLabel.classList.add('hidden');
       successEl.classList.remove('hidden');
-    } catch (err: unknown) {
+      window.gtag?.('event', 'careers_application_success', { page_path: _gaPage() });
+    } catch (err) {
       errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       errorEl.classList.remove('hidden');
+      window.gtag?.('event', 'careers_application_error', { page_path: _gaPage() });
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Application';
-      spinner.classList.add('hidden');
+      spinner.style.display = 'none';
     }
   });
 </script>

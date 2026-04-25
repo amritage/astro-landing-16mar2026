@@ -184,6 +184,19 @@ const { featured, posts } = Astro.props;
     applyFilters();
   });
 
+  // GA: fire blog search event 1s after user stops typing
+  let _blogSearchTimer: ReturnType<typeof setTimeout>;
+  searchInput?.addEventListener("input", () => {
+    clearTimeout(_blogSearchTimer);
+    if (!searchInput.value.trim()) return;
+    _blogSearchTimer = setTimeout(() => {
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      if (typeof w.gtag === 'function') w.gtag('event', 'blog_search', { search_term: searchInput.value.trim(), page_path: window.location.pathname });
+      else w.dataLayer.push({ event: 'blog_search', search_term: searchInput.value.trim(), page_path: window.location.pathname });
+    }, 1000);
+  });
+
   // Clear button
   clearBtn?.addEventListener("click", () => {
     searchQuery = "";

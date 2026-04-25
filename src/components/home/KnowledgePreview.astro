@@ -30,6 +30,7 @@ const post = posts[0];
           <a
             href={`/blog/${post.slug}`}
             class="font-label text-[#041632] text-[10px] md:text-xs font-bold uppercase tracking-widest border-b-2 border-[#041632] pb-2 inline-block"
+            onclick="window.gtag?.('event','home_knowledge_read_article',{page_path:window.location.pathname})"
           >
             Read the Full Article
           </a>

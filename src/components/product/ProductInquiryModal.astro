@@ -288,15 +288,22 @@ const companyName = company?.legalName ?? "";
   let isSubmitting = false;
 
   // ── open / close ──────────────────────────────────────────────────────────────
+  const _gaPage = () => (window as any).location.pathname;
+  const _gaForm = 'Product Inquiry Modal';
+  const _gaProduct = () => (openBtn as HTMLButtonElement | null)?.dataset?.product ?? '';
+
   function openModal(productName = '') {
     productNameEl.textContent = productName;
     productChip.classList.toggle('hidden', !productName);
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    const slug = productName.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'').slice(0,30);
+    (window as any).gtag?.('event', `inquiry_modal_opened__${slug || 'product'}__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: productName, page_path: _gaPage() });
   }
   function closeModal() {
     modal.classList.add('hidden');
     document.body.style.overflow = '';
+    (window as any).gtag?.('event', `inquiry_modal_closed__step${current + 1}__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { step_reached: current + 1, page_path: _gaPage() });
   }
 
   // Original product open button
@@ -384,9 +391,13 @@ const companyName = company?.legalName ?? "";
     return true;
   }
 
-  (document.getElementById(`${FORM_ID}-next-0`) as HTMLElement).addEventListener('click', () => { if (validateStep0()) goTo(1); });
+  (document.getElementById(`${FORM_ID}-next-0`) as HTMLElement).addEventListener('click', () => {
+    if (validateStep0()) { goTo(1); (window as any).gtag?.('event', `inquiry_modal_step2_company__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() }); }
+  });
   (document.getElementById(`${FORM_ID}-prev-1`) as HTMLElement).addEventListener('click', () => goTo(0));
-  (document.getElementById(`${FORM_ID}-next-1`) as HTMLElement).addEventListener('click', () => goTo(2));
+  (document.getElementById(`${FORM_ID}-next-1`) as HTMLElement).addEventListener('click', () => {
+    goTo(2); (window as any).gtag?.('event', `inquiry_modal_step3_requirements__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() });
+  });
   (document.getElementById(`${FORM_ID}-prev-2`) as HTMLElement).addEventListener('click', () => goTo(1));
 
   // ── submit ────────────────────────────────────────────────────────────────────
@@ -405,6 +416,7 @@ const companyName = company?.legalName ?? "";
     submitText.textContent = 'Sending…';
     spinner.style.display = '';
     errorEl.classList.add('hidden');
+    (window as any).gtag?.('event', `inquiry_modal_submitted__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() });
 
     const resetBtn = () => {
       submitBtn.disabled = false;
@@ -443,6 +455,7 @@ const companyName = company?.legalName ?? "";
       isSubmitting = false;
       successEl.classList.remove('hidden');
       progressBar.style.width = '100%';
+      (window as any).gtag?.('event', `inquiry_modal_success__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() });
     } catch (err: unknown) {
       let msg = 'Something went wrong. Please try again.';
       if (err instanceof Error) {
@@ -452,6 +465,7 @@ const companyName = company?.legalName ?? "";
       console.error('[IQM] Submit error:', err);
       errorEl.textContent = msg;
       errorEl.classList.remove('hidden');
+      (window as any).gtag?.('event', `inquiry_modal_error__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { error_message: msg, page_path: _gaPage() });
       resetBtn();
     }
   });

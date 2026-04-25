@@ -33,7 +33,7 @@ const agentLabel = phone2Dept ? `${phone2Dept} Line` : "Live Agent";
         <h3 class="font-serif text-2xl text-[#041632] mb-2">WhatsApp Direct</h3>
         <p class="text-[#44474d] text-sm mb-6 leading-relaxed">Instant technical support for on-floor manufacturing issues. Fastest response guaranteed.</p>
         {waLink
-          ? <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[#1a7a3f] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">{whatsapp}<span class="material-symbols-outlined text-sm">arrow_outward</span></a>
+          ? <a href={waLink} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[#1a7a3f] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all" onclick="window.gtag?.('event','support_channel_whatsapp_click',{page_path:window.location.pathname})">{whatsapp}<span class="material-symbols-outlined text-sm">arrow_outward</span></a>
           : <span class="text-sm text-[#9ca3af]">Not available</span>
         }
       </div>
@@ -46,7 +46,7 @@ const agentLabel = phone2Dept ? `${phone2Dept} Line` : "Live Agent";
         <h3 class="font-serif text-2xl text-[#041632] mb-2">Corporate Email</h3>
         <p class="text-[#44474d] text-sm mb-6 leading-relaxed">For documentation, order changes, certification requests, and formal escalations.</p>
         {supportEmail
-          ? <a href={`mailto:${supportEmail}`} class="inline-flex items-center gap-2 text-[#1B2B48] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">{supportEmail}<span class="material-symbols-outlined text-sm">arrow_outward</span></a>
+          ? <a href={`mailto:${supportEmail}`} class="inline-flex items-center gap-2 text-[#1B2B48] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all" onclick="window.gtag?.('event','support_channel_email_click',{page_path:window.location.pathname})">{supportEmail}<span class="material-symbols-outlined text-sm">arrow_outward</span></a>
           : <span class="text-sm text-[#9ca3af]">Not available</span>
         }
       </div>
@@ -59,7 +59,7 @@ const agentLabel = phone2Dept ? `${phone2Dept} Line` : "Live Agent";
         <h3 class="font-serif text-2xl mb-2 !text-white">{agentLabel}</h3>
         <p class="text-[#8393b5] text-sm mb-6 leading-relaxed">Real-time collaboration with our supply chain logistics team for critical issues.</p>
         {phone2
-          ? <a href={`tel:${phone2}`} class="inline-flex items-center gap-2 text-[#ffdea5] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all">{phone2}<span class="material-symbols-outlined text-sm">arrow_outward</span></a>
+          ? <a href={`tel:${phone2}`} class="inline-flex items-center gap-2 text-[#ffdea5] font-bold font-sans text-sm uppercase tracking-widest hover:gap-3 transition-all" onclick="window.gtag?.('event','support_channel_phone_click',{page_path:window.location.pathname})">{phone2}<span class="material-symbols-outlined text-sm">arrow_outward</span></a>
           : <span class="text-sm text-[#8393b5]">Not available</span>
         }
       </div>

@@ -211,6 +211,64 @@ const schemaArray = schemaMarkup
       <script type="text/partytown" src={`https://www.clarity.ms/tag/${site.clarityId}`} />
     )}
 
+    <!-- Clarity custom event bridge: mirrors gtag events → clarity("set") tags -->
+    <!-- Runs in main thread so clarity() is always available -->
+    <script>
+      type ClarityFn = (action: string, key: string, value?: string) => void;
+      type GtagFn = (...args: unknown[]) => void;
+
+      interface DataLayerItem {
+        event?: string;
+        page_path?: string;
+        [key: string]: unknown;
+      }
+
+      function sendToClarity(eventName: string, pagePath: string): void {
+        const w = window as unknown as { clarity?: ClarityFn };
+        if (typeof w.clarity === 'function') {
+          w.clarity('set', 'event', eventName);
+          w.clarity('set', 'page', pagePath);
+        }
+      }
+
+      function patchGtag(): void {
+        const w = window as unknown as { gtag?: GtagFn; __clarityGtagPatched?: boolean };
+        if (typeof w.gtag !== 'function' || w.__clarityGtagPatched) return;
+        w.__clarityGtagPatched = true;
+        const orig = w.gtag;
+        w.gtag = (...args: unknown[]): void => {
+          orig(...args);
+          try {
+            if (args[0] === 'event' && typeof args[1] === 'string') {
+              const params = args[2] as DataLayerItem | undefined;
+              const page = params?.page_path as string | undefined ?? window.location.pathname;
+              sendToClarity(args[1], page);
+            }
+          } catch { /* ignore */ }
+        };
+      }
+
+      // Patch gtag now and again after load (Partytown may initialize it late)
+      patchGtag();
+      window.addEventListener('load', patchGtag);
+
+      // Also intercept dataLayer for events pushed before gtag is ready
+      const w = window as unknown as { dataLayer?: DataLayerItem[] };
+      w.dataLayer = w.dataLayer ?? [];
+      const origPush = w.dataLayer.push.bind(w.dataLayer);
+      w.dataLayer.push = (...items: DataLayerItem[]): number => {
+        const result = origPush(...items);
+        try {
+          for (const obj of items) {
+            if (obj?.event) {
+              sendToClarity(obj.event, (obj.page_path as string | undefined) ?? window.location.pathname);
+            }
+          }
+        } catch { /* ignore */ }
+        return result;
+      };
+    </script>
+
     <!-- Material Symbols — self-hosted for long cache TTL, subset to used icons only -->
     <link rel="preload" href="/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin />
 

@@ -27,7 +27,7 @@ const companyName = company?.legalName ?? "";
   ]}
   waMessage="Hi, I'm looking for a great opportunity at your company. Can you tell me about current openings?"
 >
-  <CareersHero heroImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined} breadcrumbs={[{ name: "Home", href: "/" }, { name: "Careers" }]} />
+  <CareersHero heroImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined} breadcrumbs={[{ name: "Home", href: "/" }, { name: "Careers" }]} keywords={seo?.keywords ?? undefined} />
   <CareersPositions />
   <CareersProcess />
   <CareersForm />

@@ -19,12 +19,14 @@ const phoneLink = buildPhoneHref(company?.phone1, "/support");
       <a
         href={whatsappLink}
         class="font-label bg-[#775a19] text-white px-8 md:px-12 py-4 md:py-5 rounded-md font-bold tracking-widest uppercase hover:bg-[#5d4201] transition-all shadow-xl text-xs md:text-sm text-center"
+        onclick="window.gtag?.('event','home_cta_start_bulk_order',{page_path:window.location.pathname})"
       >
         Start Your Bulk Order Today
       </a>
       <a
         href={phoneLink}
         class="font-label border border-white/20 text-white px-8 md:px-12 py-4 md:py-5 rounded-md font-bold tracking-widest uppercase hover:bg-white/10 transition-all text-xs md:text-sm text-center"
+        onclick="window.gtag?.('event','home_cta_request_sample_book',{page_path:window.location.pathname})"
       >
         Request Sample Book
       </a>

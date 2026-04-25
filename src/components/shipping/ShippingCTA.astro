@@ -17,6 +17,7 @@ const phoneHref = buildPhoneHref(companyInfo?.phone1 ?? companyInfo?.phone2);
           <a
             href="/support"
             class="inline-block bg-[#775a19] text-white px-8 py-4 font-bold font-label uppercase text-sm tracking-widest hover:bg-[#fed488] hover:text-[#041632] transition-colors"
+            onclick="window.gtag?.('event','shipping_cta_consult_experts',{page_path:window.location.pathname})"
           >
             Consult with Experts
           </a>
@@ -24,6 +25,7 @@ const phoneHref = buildPhoneHref(companyInfo?.phone1 ?? companyInfo?.phone2);
             <a
               href={phoneHref}
               class="inline-flex items-center gap-2 border border-white text-white px-8 py-4 font-bold font-label uppercase text-sm tracking-widest hover:bg-white hover:text-[#041632] transition-colors"
+              onclick="window.gtag?.('event','shipping_cta_call_now',{page_path:window.location.pathname})"
             >
               <span class="material-symbols-outlined text-base">call</span>
               Call Now

@@ -166,6 +166,7 @@ const keySpecs = [
     if (twLink) twLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodedUrl}`;
     modal?.classList.remove("hidden");
     document.body.style.overflow = "hidden";
+    window.gtag?.('event', 'modal_open', { modal_id: 'share_modal' });
     requestAnimationFrame(() => {
       panel?.classList.remove("translate-y-4", "opacity-0");
       panel?.classList.add("translate-y-0", "opacity-100");
@@ -186,6 +187,10 @@ const keySpecs = [
   modal?.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
+  waLink?.addEventListener("click", () => window.gtag?.('event', 'product_share_whatsapp', { page_path: window.location.pathname }));
+  tgLink?.addEventListener("click", () => window.gtag?.('event', 'product_share_telegram', { page_path: window.location.pathname }));
+  twLink?.addEventListener("click", () => window.gtag?.('event', 'product_share_twitter', { page_path: window.location.pathname }));
+
   copyBtn?.addEventListener("click", async () => {
     const url = window.location.href;
     try {
@@ -200,5 +205,6 @@ const keySpecs = [
     }
     if (copyLabel) copyLabel.textContent = "Copied!";
     setTimeout(() => { if (copyLabel) copyLabel.textContent = "Copy Link"; }, 2000);
+    window.gtag?.('event', 'product_share_copy_link', { page_path: window.location.pathname });
   });
 </script>

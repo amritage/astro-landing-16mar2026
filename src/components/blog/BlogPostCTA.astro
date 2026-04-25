@@ -25,12 +25,14 @@ const companyName = company?.legalName ?? "";
           target="_blank"
           rel="noopener noreferrer"
           class="bg-[#775a19] text-white px-10 py-4 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-[#ffdea5] hover:text-[#041632] transition-all shadow-lg"
+          onclick="window.gtag?.('event','blog_cta_consult_expert',{page_path:window.location.pathname})"
         >
           Consult an Expert
         </a>
         <a
           href="/fabric"
           class="border border-[#775a19] text-[#ffdea5] px-10 py-4 rounded-lg font-bold uppercase tracking-widest text-sm hover:bg-[#775a19]/10 transition-colors"
+          onclick="window.gtag?.('event','blog_cta_browse_collections',{page_path:window.location.pathname})"
         >
           Browse Our Collections
         </a>

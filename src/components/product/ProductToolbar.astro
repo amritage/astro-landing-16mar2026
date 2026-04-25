@@ -72,6 +72,20 @@ const { total } = Astro.props;
     triggerFilter();
   });
 
+  // GA: fire search event 1s after user stops typing
+  let _fabricSearchTimer: ReturnType<typeof setTimeout>;
+  searchInput?.addEventListener("input", () => {
+    clearTimeout(_fabricSearchTimer);
+    if (!searchInput.value.trim()) return;
+    _fabricSearchTimer = setTimeout(() => {
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      const ev = { event: 'fabric_search', search_term: searchInput.value.trim(), page_path: window.location.pathname };
+      if (typeof w.gtag === 'function') w.gtag('event', 'fabric_search', { search_term: searchInput.value.trim(), page_path: window.location.pathname });
+      else w.dataLayer.push(ev);
+    }, 1000);
+  });
+
   clearBtn?.addEventListener("click", () => {
     (window as any).__clearSearch();
     triggerFilter();

@@ -246,6 +246,24 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   // Free Sample button → open inquiry modal via global event
   document.getElementById("header-free-sample-btn")?.addEventListener("click", () => {
     window.dispatchEvent(new CustomEvent("iqm:open", { detail: { product: "" } }));
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === 'function') w.gtag('event', 'header_cta_free_sample', { page_path: window.location.pathname });
+    else w.dataLayer.push({ event: 'header_cta_free_sample', page_path: window.location.pathname });
+  });
+
+  // Header CTA — Call Now & Get Quote (desktop + mobile)
+  function gaEvent(name: string) {
+    const w = window as any;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === 'function') w.gtag('event', name, { page_path: window.location.pathname });
+    else w.dataLayer.push({ event: name, page_path: window.location.pathname });
+  }
+  document.querySelectorAll('a[href^="tel:"]').forEach((el) => {
+    el.addEventListener('mousedown', () => gaEvent('header_cta_call_now'));
+  });
+  document.querySelectorAll('a[href*="wa.me"]').forEach((el) => {
+    el.addEventListener('mousedown', () => gaEvent('header_cta_get_quote'));
   });
 
   // Trust strip ticker on mobile

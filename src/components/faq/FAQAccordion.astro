@@ -101,7 +101,6 @@ function getIcon(name: string, size = "20"): string {
   searchInput?.addEventListener("input", () => {
     const q = searchInput.value.toLowerCase().trim();
     let visible = 0;
-
     items.forEach((item) => {
       const text = item.textContent?.toLowerCase() ?? "";
       const match = !q || text.includes(q);
@@ -126,6 +125,20 @@ function getIcon(name: string, size = "20"): string {
     } else {
       emptyState?.classList.add("hidden");
     }
+  });
+
+  // Active sidebar highlight on scroll
+  // GA: fire faq search event 1s after user stops typing
+  let _faqSearchTimer: ReturnType<typeof setTimeout>;
+  searchInput?.addEventListener("input", () => {
+    clearTimeout(_faqSearchTimer);
+    if (!searchInput.value.trim()) return;
+    _faqSearchTimer = setTimeout(() => {
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      if (typeof w.gtag === 'function') w.gtag('event', 'faq_search', { search_term: searchInput.value.trim(), page_path: window.location.pathname });
+      else w.dataLayer.push({ event: 'faq_search', search_term: searchInput.value.trim(), page_path: window.location.pathname });
+    }, 1000);
   });
 
   // Active sidebar highlight on scroll

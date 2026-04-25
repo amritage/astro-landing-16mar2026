@@ -16,7 +16,7 @@ const companyName = company?.legalName ?? "";
       </div>
       <div class="md:w-2/3 space-y-6 text-[#44474d] leading-relaxed">
         <p class="text-lg text-[#191c1d] font-medium">
-          By accessing the {companyName} (AGE) platform, you agree to abide by the following terms of manufacturing and supply engagement.
+          By accessing the {companyName} platform, you agree to abide by the following terms of manufacturing and supply engagement.
         </p>
         <div>
           <h3 class="font-headline text-xl text-[#041632] italic mt-8 mb-3">1. General Engagement</h3>
@@ -131,6 +131,7 @@ const companyName = company?.legalName ?? "";
     <a
       href={legalEmail ? `mailto:${legalEmail}` : "/support"}
       class="inline-flex flex-col md:flex-row items-center gap-3 px-8 py-4 bg-[#041632] text-white hover:bg-[#775a19] transition-all"
+      onclick="window.gtag?.('event','terms_legal_inquiry_click',{page_path:window.location.pathname})"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M20 7H9.83L7.83 5H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-5 8H9v-2h6v2zm2-4H7v-2h10v2z"/></svg>
       <span class="font-label text-sm font-medium">

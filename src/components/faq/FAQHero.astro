@@ -24,17 +24,24 @@ const { breadcrumbs } = Astro.props;
       Expert Answers for Fabric Buyers
     </h1>
 
-    <div class="relative max-w-2xl mx-auto">
-      <div class="absolute inset-y-0 left-4 md:left-6 flex items-center pointer-events-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-[#ffdea5]"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <div class="max-w-2xl mx-auto flex flex-col md:block">
+      <div class="relative">
+        <div class="absolute inset-y-0 left-4 md:left-6 flex items-center pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-[#ffdea5]"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </div>
+        <input
+          id="faq-search"
+          type="text"
+          placeholder="Search questions..."
+          class="w-full pl-12 md:pl-16 pr-4 md:pr-40 py-4 md:py-5 bg-white/10 border border-white/20 text-white placeholder:text-[#8393b5] focus:ring-1 focus:ring-[#775a19] outline-none transition-all text-base md:text-lg"
+        />
+        <button class="hidden md:block md:absolute md:inset-y-2 md:right-2 px-8 py-3 bg-[#775a19] text-white font-bold hover:bg-[#fed488] hover:text-[#041632] transition-all uppercase text-sm tracking-widest"
+          onclick="window.gtag?.('event','faq_search_button_click',{page_path:window.location.pathname})">
+          Search
+        </button>
       </div>
-      <input
-        id="faq-search"
-        type="text"
-        placeholder="Search questions..."
-        class="w-full pl-12 md:pl-16 pr-4 md:pr-40 py-4 md:py-5 bg-white/10 border border-white/20 text-white placeholder:text-[#8393b5] focus:ring-1 focus:ring-[#775a19] outline-none transition-all text-base md:text-lg"
-      />
-      <button class="mt-3 w-full md:mt-0 md:absolute md:inset-y-2 md:right-2 md:w-auto px-8 py-3 bg-[#775a19] text-white font-bold hover:bg-[#fed488] hover:text-[#041632] transition-all uppercase text-sm tracking-widest">
+      <button class="mt-3 w-full md:hidden px-8 py-3 bg-[#775a19] text-white font-bold hover:bg-[#fed488] hover:text-[#041632] transition-all uppercase text-sm tracking-widest"
+        onclick="window.gtag?.('event','faq_search_button_click',{page_path:window.location.pathname})">
         Search
       </button>
     </div>
