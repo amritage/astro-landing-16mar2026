@@ -121,6 +121,14 @@ export function stripHtml(html: string | null | undefined): string {
   return plain;
 }
 
+function sanitizeDisplayLabel(value: string | null | undefined): string {
+  if (!value) return "";
+  return value
+    .trim()
+    .replace(/^["'“”‘’]+\s*/, "")
+    .replace(/\s*["'“”‘’]+$/, "");
+}
+
 function buildCertifications(finish: string[]) {
   const iconMap: Record<string, string> = {
     "Chemical - Bio Finish": "eco",
@@ -156,15 +164,18 @@ export function mapApiProduct(p: ApiProduct, whatsappNumber?: string, phone1?: s
   // C4 FIX: fallbacks come from constants, not hardcoded strings
   const waNumber = buildWaLink(whatsappNumber) ?? "";
   const phoneHref = buildPhoneHref(phone1) ?? "";
+  const displayName = sanitizeDisplayLabel(p.productTitle ?? p.name);
+  const imageAlt = sanitizeDisplayLabel(p.altTextImage1 ?? p.name);
+  const seriesLabel = sanitizeDisplayLabel(p.collectionName);
   return {
     id: p.id,
     slug: p.productslug,
-    seriesLabel: p.collectionName,
-    name: p.productTitle ?? p.name,
+    seriesLabel,
+    name: displayName,
     shortDesc: stripHtml(p.shortProductDescription) || p.productTagline || "",
     image: nullIfEmpty(p.image1CloudUrlCard) ?? getCloudinaryUrl(nullIfEmpty(p.image1CloudUrl), "f_auto,q_auto,w_400,c_fill,g_auto"),
     imageLarge: nullIfEmpty(p.image1CloudUrlHero) ?? nullIfEmpty(p.image1CloudUrl) ?? "",
-    imageAlt: p.altTextImage1 ?? p.name,
+    imageAlt,
     rating: p.ratingValue,
     ratingCount: p.ratingCount,
     category: p.category,
@@ -253,4 +264,3 @@ export async function fetchProducts(): Promise<Product[]> {
   const ph = company?.phone1 ?? undefined;
   return raw.filter(hasValidSlug).map((p) => mapApiProduct(p, wa, ph));
 }
-

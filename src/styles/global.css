@@ -29,6 +29,13 @@
   --color-text-muted: #64748b;
   --color-text-inverse: #ffffff;
 
+  /* semantic aliases used by shared layout components */
+  --color-surface-container-low: #f4f3f9;
+  --color-surface-container-highest: #e2e2e8;
+  --color-on-surface: #1a1b20;
+  --color-on-surface-variant: #434750;
+  --color-outline-variant: #c3c6d1;
+
   /* extras */
   --color-navy-dim: #b7c7eb;
   --color-amber-warm: #fef3c7;
