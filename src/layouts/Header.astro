@@ -5,10 +5,11 @@ import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../lib/api";
 import ProductInquiryModal from "../components/product/ProductInquiryModal.astro";
 
 const pathname = Astro.url.pathname;
+const shouldMountHeaderInquiryModal = !pathname.startsWith("/fabric/") && !pathname.startsWith("/product-location/");
 
 const isActivePath = (href: string) => {
   if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(href + "/") || pathname.startsWith(href);
+  return pathname === href || pathname.startsWith(href + "/");
 };
 
 const company = await getCompanyInfo();
@@ -103,7 +104,7 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
 
     <!-- Desktop CTA -->
     <div class="hidden md:flex items-center gap-2 flex-shrink-0">
-      <button id="header-free-sample-btn" type="button" class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-[#775a19] text-xs font-bold text-[#775a19] bg-transparent tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:bg-[#775a19] hover:text-white cursor-pointer">Free Sample</button>
+      <button id="header-free-sample-btn" type="button" data-header-free-sample-cta class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-[#775a19] text-xs font-bold text-[#775a19] bg-transparent tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:bg-[#775a19] hover:text-white cursor-pointer">Free Sample</button>
       <a href={phoneHref} class="inline-flex items-center px-4 py-2 rounded-full border-[1.5px] border-slate-300 bg-white text-xs font-bold text-slate-800 no-underline tracking-[0.04em] whitespace-nowrap transition-colors duration-200 hover:border-[#041632] hover:text-[#041632]">Call Now</a>
       <a href={whatsappHref} class="inline-flex items-center px-5 py-2 rounded-full bg-[#041632] text-xs font-bold text-white no-underline tracking-[0.06em] uppercase whitespace-nowrap shadow-[0_2px_12px_rgba(4,22,50,0.18)] transition-all duration-200 hover:bg-[#775a19] hover:-translate-y-px" target="_blank" rel="noopener noreferrer">Get Quote</a>
     </div>
@@ -170,8 +171,8 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   </div>
 </aside>
 
-<!-- Inquiry Modal (for Free Sample button) -->
-<ProductInquiryModal />
+<!-- Inquiry Modal: only mount where the header is the page's modal owner -->
+{shouldMountHeaderInquiryModal && <ProductInquiryModal />}
 
 <style>
   /* Hamburger open animation */
@@ -243,13 +244,19 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
     header.classList.toggle("scrolled", window.scrollY > 10);
   }, { passive: true });
 
+  // Track Free Sample CTA clicks on both modal and navigation variants.
+  document.querySelectorAll('[data-header-free-sample-cta]').forEach((el) => {
+    el.addEventListener('mousedown', () => {
+      const w = window as any;
+      w.dataLayer = w.dataLayer || [];
+      if (typeof w.gtag === 'function') w.gtag('event', 'header_cta_free_sample', { page_path: window.location.pathname });
+      else w.dataLayer.push({ event: 'header_cta_free_sample', page_path: window.location.pathname });
+    });
+  });
+
   // Free Sample button → open inquiry modal via global event
   document.getElementById("header-free-sample-btn")?.addEventListener("click", () => {
     window.dispatchEvent(new CustomEvent("iqm:open", { detail: { product: "" } }));
-    const w = window as any;
-    w.dataLayer = w.dataLayer || [];
-    if (typeof w.gtag === 'function') w.gtag('event', 'header_cta_free_sample', { page_path: window.location.pathname });
-    else w.dataLayer.push({ event: 'header_cta_free_sample', page_path: window.location.pathname });
   });
 
   // Header CTA — Call Now & Get Quote (desktop + mobile)

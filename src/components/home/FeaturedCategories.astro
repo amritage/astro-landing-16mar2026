@@ -31,7 +31,7 @@ const categories = await getCategoryTopicPages();
               {cat.image1CloudUrlCard || cat.image1CloudUrl ? (
                 <CloudinaryImage
                   src={cat.image1CloudUrlCard ?? cat.image1CloudUrl}
-                  alt={cat.name}
+                  alt={`${cat.name} fabric category image`}
                   title={cat.name}
                   width={480}
                   height={640}
@@ -56,6 +56,7 @@ const categories = await getCategoryTopicPages();
         <a
           class="font-label text-xs md:text-sm font-bold text-[#775a19] uppercase tracking-widest flex items-center gap-2 border-b-2 border-[#775a19] pb-1"
           href="/fabric"
+          aria-label="Explore full fabric library"
         >
           Explore Full Library
         </a>
