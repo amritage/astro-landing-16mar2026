@@ -49,6 +49,10 @@ const btnBase = arrowStyle === "outline"
 <div
   class="carousel-root"
   data-carousel-outer={id}
+  data-mobile-cols={finalCols.mobile ?? 1}
+  data-tablet-cols={finalCols.tablet ?? 2}
+  data-desktop-cols={finalCols.desktop ?? 3}
+  data-gap-px={gapPx}
   style={`--cols-mobile:${finalCols.mobile ?? 1};--cols-tablet:${finalCols.tablet ?? 2};--cols-desktop:${finalCols.desktop ?? 3};--gap-px:${gapPx};`}
 >
   <!-- Mobile: arrows float top-right above the track -->
@@ -174,6 +178,24 @@ const btnBase = arrowStyle === "outline"
     .c-mobile-arrows { display: none; }
   }
 
+  @supports selector(:has(*)) {
+    .carousel-root[data-mobile-cols="1"]:not(:has(.carousel-track > :nth-child(2))) .c-mobile-arrows,
+    .carousel-root[data-mobile-cols="2"]:not(:has(.carousel-track > :nth-child(3))) .c-mobile-arrows,
+    .carousel-root[data-mobile-cols="3"]:not(:has(.carousel-track > :nth-child(4))) .c-mobile-arrows,
+    .carousel-root[data-mobile-cols="4"]:not(:has(.carousel-track > :nth-child(5))) .c-mobile-arrows {
+      display: none;
+    }
+
+    @media (min-width: 640px) {
+      .carousel-root[data-tablet-cols="1"]:not(:has(.carousel-track > :nth-child(2))) .c-mobile-arrows,
+      .carousel-root[data-tablet-cols="2"]:not(:has(.carousel-track > :nth-child(3))) .c-mobile-arrows,
+      .carousel-root[data-tablet-cols="3"]:not(:has(.carousel-track > :nth-child(4))) .c-mobile-arrows,
+      .carousel-root[data-tablet-cols="4"]:not(:has(.carousel-track > :nth-child(5))) .c-mobile-arrows {
+        display: none;
+      }
+    }
+  }
+
   /* ── Desktop arrows ───────────────────────────────────────────────────────
      Absolute, outside the track. Hidden on mobile.
   ───────────────────────────────────────────────────────────────────────── */
@@ -189,6 +211,21 @@ const btnBase = arrowStyle === "outline"
     .c-desktop-prev { display: flex; left: -3rem; }
     .c-desktop-next { display: flex; right: -3rem; }
   }
+
+  @supports selector(:has(*)) {
+    @media (min-width: 1024px) {
+      .carousel-root[data-desktop-cols="1"]:not(:has(.carousel-track > :nth-child(2))) .c-desktop-prev,
+      .carousel-root[data-desktop-cols="1"]:not(:has(.carousel-track > :nth-child(2))) .c-desktop-next,
+      .carousel-root[data-desktop-cols="2"]:not(:has(.carousel-track > :nth-child(3))) .c-desktop-prev,
+      .carousel-root[data-desktop-cols="2"]:not(:has(.carousel-track > :nth-child(3))) .c-desktop-next,
+      .carousel-root[data-desktop-cols="3"]:not(:has(.carousel-track > :nth-child(4))) .c-desktop-prev,
+      .carousel-root[data-desktop-cols="3"]:not(:has(.carousel-track > :nth-child(4))) .c-desktop-next,
+      .carousel-root[data-desktop-cols="4"]:not(:has(.carousel-track > :nth-child(5))) .c-desktop-prev,
+      .carousel-root[data-desktop-cols="4"]:not(:has(.carousel-track > :nth-child(5))) .c-desktop-next {
+        display: none;
+      }
+    }
+  }
 </style>
 
 <script>
@@ -196,42 +233,24 @@ const btnBase = arrowStyle === "outline"
     const isPrev = btn.hasAttribute('data-carousel-prev');
     const trackId = btn.getAttribute(isPrev ? 'data-carousel-prev' : 'data-carousel-next')!;
     const track = document.getElementById(trackId);
-    if (!track) return;
+    const outer = track?.closest<HTMLElement>('[data-carousel-outer]');
+    if (!track || !outer) return;
 
-    const getStep = () => {
-      const card = track.querySelector<HTMLElement>(':scope > *');
-      const gap = parseFloat(getComputedStyle(track).gap) || 0;
-      return (card?.offsetWidth ?? track.clientWidth) + gap;
+    const gap = parseFloat(outer.dataset.gapPx ?? '0') || 0;
+    const getVisibleCols = () => {
+      if (window.matchMedia('(min-width: 1024px)').matches) {
+        return parseInt(outer.dataset.desktopCols ?? '3', 10) || 3;
+      }
+      if (window.matchMedia('(min-width: 640px)').matches) {
+        return parseInt(outer.dataset.tabletCols ?? '2', 10) || 2;
+      }
+      return parseInt(outer.dataset.mobileCols ?? '1', 10) || 1;
     };
 
     btn.addEventListener('click', () => {
-      track.scrollBy({ left: isPrev ? -getStep() : getStep(), behavior: 'smooth' });
+      const cols = getVisibleCols();
+      const step = cols > 0 ? Math.round((track.clientWidth + gap) / cols) : track.clientWidth;
+      track.scrollBy({ left: isPrev ? -step : step, behavior: 'smooth' });
     });
-  });
-
-  // Hide arrows when all cards fit without scrolling
-  document.querySelectorAll<HTMLElement>('[data-carousel-outer]').forEach((outer) => {
-    const track = outer.querySelector<HTMLElement>('[data-carousel-track]');
-    if (!track) return;
-
-    const update = () => {
-      const cardCount = track.querySelectorAll(':scope > *').length;
-      const w = window.innerWidth;
-      const cols = w >= 1024
-        ? (parseInt(outer.style.getPropertyValue('--cols-desktop')) || 3)
-        : w >= 640
-        ? (parseInt(outer.style.getPropertyValue('--cols-tablet'))  || 2)
-        : (parseInt(outer.style.getPropertyValue('--cols-mobile'))  || 1);
-      const hide = cardCount <= cols;
-
-      const mobileRow = outer.querySelector<HTMLElement>('.c-mobile-arrows');
-      if (mobileRow) mobileRow.style.display = (hide || w >= 1024) ? 'none' : 'flex';
-
-      outer.querySelectorAll<HTMLElement>('.c-desktop-prev, .c-desktop-next').forEach(a => {
-        a.style.display = (hide || w < 1024) ? 'none' : 'flex';
-      });
-    };
-    update();
-    window.addEventListener('resize', update, { passive: true });
   });
 </script>
