@@ -257,291 +257,218 @@ const companyName = company?.legalName ?? "";
   window.__IQM_LEAD_URL__ = LEAD_CAPTURE_URL;
 </script>
 
-<script is:inline>
-  (() => {
-    if (window.__IQM_INIT__) return;
-    window.__IQM_INIT__ = true;
+<script>
+  if (!(window as any).__IQM_INIT__) {
+    (window as any).__IQM_INIT__ = true;
 
-    const LEAD_CAPTURE_URL = window.__IQM_LEAD_URL__;
-    const FORM_ID = 'iqf';
-    const STEP_COUNT = 3;
-    const stepMeta = [
-      { label: 'Contact Info', progress: 33 },
-      { label: 'Company', progress: 66 },
-      { label: 'Requirements', progress: 100 },
-    ];
+  const LEAD_CAPTURE_URL = (window as any).__IQM_LEAD_URL__ as string;
+  const FORM_ID    = 'iqf';
+  const STEP_COUNT = 3;
+  const stepMeta   = [
+    { label: 'Contact Info', progress: 33  },
+    { label: 'Company',      progress: 66  },
+    { label: 'Requirements', progress: 100 },
+  ];
 
-    const modal = document.getElementById('inquire-modal');
-    const backdrop = document.getElementById('inquire-backdrop');
-    const closeBtn = document.getElementById('inquire-modal-close');
-    const openBtn = document.getElementById('inquire-modal-open');
-    const productNameEl = document.getElementById('inquire-product-name');
-    const productChip = document.getElementById('iqm-product-chip');
-    const form = document.getElementById(FORM_ID);
-    const progressBar = document.getElementById('iqf-progress-bar');
-    const progressText = document.getElementById('iqf-progress-text');
-    const mobileLbl = document.getElementById('iqf-step-label-mobile');
-    const stepLabel = document.getElementById(`${FORM_ID}-step-label`);
-    const sidebarDots = document.querySelectorAll('.iqm-sidebar-dot');
-    const sidebarLabels = document.querySelectorAll('.iqm-sidebar-label');
+  const modal         = document.getElementById('inquire-modal') as HTMLElement;
+  const backdrop      = document.getElementById('inquire-backdrop') as HTMLElement;
+  const closeBtn      = document.getElementById('inquire-modal-close') as HTMLElement;
+  const openBtn       = document.getElementById('inquire-modal-open') as HTMLElement;
+  const productNameEl = document.getElementById('inquire-product-name') as HTMLElement;
+  const productChip   = document.getElementById('iqm-product-chip') as HTMLElement;
+  const form          = document.getElementById(FORM_ID) as HTMLFormElement;
+  const progressBar   = document.getElementById('iqf-progress-bar') as HTMLElement;
+  const progressText  = document.getElementById('iqf-progress-text') as HTMLElement;
+  const mobileLbl     = document.getElementById('iqf-step-label-mobile') as HTMLElement;
+  const stepLabel     = document.getElementById(`${FORM_ID}-step-label`) as HTMLElement;
+  const sidebarDots   = document.querySelectorAll<HTMLElement>('.iqm-sidebar-dot');
+  const sidebarLabels = document.querySelectorAll<HTMLElement>('.iqm-sidebar-label');
 
-    if (
-      !modal || !backdrop || !closeBtn || !productNameEl || !productChip || !form ||
-      !progressBar || !progressText || !mobileLbl || !stepLabel
-    ) {
-      return;
-    }
+  let current = 0;
+  let isSubmitting = false;
 
-    let current = 0;
-    let isSubmitting = false;
+  // ── open / close ──────────────────────────────────────────────────────────────
+  const _gaPage = () => (window as any).location.pathname;
+  const _gaForm = 'Product Inquiry Modal';
+  const _gaProduct = () => (openBtn as HTMLButtonElement | null)?.dataset?.product ?? '';
 
-    const gaPage = () => window.location.pathname;
-    const gaProduct = () => openBtn?.dataset?.product ?? '';
+  function openModal(productName = '') {
+    productNameEl.textContent = productName;
+    productChip.classList.toggle('hidden', !productName);
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    const slug = productName.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'').slice(0,30);
+    (window as any).gtag?.('event', `inquiry_modal_opened__${slug || 'product'}__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: productName, page_path: _gaPage() });
+  }
+  function closeModal() {
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+    (window as any).gtag?.('event', `inquiry_modal_closed__step${current + 1}__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { step_reached: current + 1, page_path: _gaPage() });
+  }
 
-    function activeProductName(fallback = '') {
-      return productNameEl.textContent?.trim() || gaProduct() || fallback;
-    }
+  // Original product open button
+  openBtn?.addEventListener('click', () => openModal((openBtn as HTMLButtonElement).dataset.product ?? ''));
+  closeBtn?.addEventListener('click', closeModal);
+  backdrop?.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-    function openModal(productName = '') {
-      productNameEl.textContent = productName;
-      productChip.classList.toggle('hidden', !productName);
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      const slug = productName.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '').slice(0, 30);
-      window.gtag?.(
-        'event',
-        `inquiry_modal_opened__${slug || 'product'}__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-        { product: productName, page_path: gaPage() }
-      );
-    }
+  // Global event so any element (e.g. header Free Sample btn) can open the modal
+  window.addEventListener('iqm:open', (e) => {
+    openModal((e as CustomEvent).detail?.product ?? '');
+  });
 
-    function closeModal() {
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-      window.gtag?.(
-        'event',
-        `inquiry_modal_closed__step${current + 1}__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-        { step_reached: current + 1, page_path: gaPage() }
-      );
-    }
+  // ── helpers ───────────────────────────────────────────────────────────────────
+  const g = (name: string): string =>
+    (form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value?.trim() ?? '';
 
-    openBtn?.addEventListener('click', () => openModal(openBtn.dataset.product ?? ''));
-    closeBtn.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', closeModal);
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeModal();
+  function collectPayload(): Record<string, unknown> {
+    const payload: Record<string, unknown> = {};
+    ['firstName','lastName','emailAddress','accountName',
+     'addressCity','addressState','addressCountry'].forEach(f => {
+      const v = g(f); if (v) payload[f] = v;
     });
+    const bt = g('cBusinessType'), am = g('opportunityAmount'), cur = g('opportunityAmountCurrency');
+    if (bt)  payload.cBusinessType = [bt];
+    if (am)  payload.opportunityAmount = parseFloat(am);
+    if (cur) payload.opportunityAmountCurrency = cur;
+    // Build description — include phone and product name here to avoid CRM field validation
+    const parts: string[] = [];
+    const pn = (openBtn as HTMLButtonElement | null)?.dataset?.product ?? '';
+    if (pn) parts.push(`Product: ${pn}`);
+    const rawPhone = g('phoneNumber');
+    if (rawPhone) parts.push(`Phone: ${rawPhone}`);
+    const desc = g('description');
+    if (desc) parts.push(desc);
+    if (parts.length) payload.description = parts.join('\n');
+    return payload;
+  }
 
-    window.addEventListener('iqm:open', (event) => {
-      openModal(event.detail?.product ?? '');
-    });
+  // ── stepper ───────────────────────────────────────────────────────────────────
+  function goTo(n: number) {
+    (document.getElementById(`${FORM_ID}-step-${current}`) as HTMLElement).classList.add('hidden');
+    current = n;
+    (document.getElementById(`${FORM_ID}-step-${current}`) as HTMLElement).classList.remove('hidden');
 
-    const getValue = (name) =>
-      form.querySelector(`[name="${name}"]`)?.value?.trim() ?? '';
+    const meta = stepMeta[current];
+    progressBar.style.width = `${meta.progress}%`;
+    progressText.textContent = `Step ${current + 1} of ${STEP_COUNT}`;
+    mobileLbl.textContent = `Step ${current + 1} of ${STEP_COUNT} — ${meta.label}`;
+    stepLabel.textContent = meta.label;
 
-    function collectPayload() {
-      const payload = {};
-      [
-        'firstName',
-        'lastName',
-        'emailAddress',
-        'accountName',
-        'addressCity',
-        'addressState',
-        'addressCountry',
-      ].forEach((fieldName) => {
-        const value = getValue(fieldName);
-        if (value) payload[fieldName] = value;
-      });
-
-      const businessType = getValue('cBusinessType');
-      const amount = getValue('opportunityAmount');
-      const currency = getValue('opportunityAmountCurrency');
-      if (businessType) payload.cBusinessType = [businessType];
-      if (amount) payload.opportunityAmount = parseFloat(amount);
-      if (currency) payload.opportunityAmountCurrency = currency;
-
-      const descriptionParts = [];
-      const productName = activeProductName();
-      if (productName) descriptionParts.push(`Product: ${productName}`);
-
-      const rawPhone = getValue('phoneNumber');
-      if (rawPhone) descriptionParts.push(`Phone: ${rawPhone}`);
-
-      const description = getValue('description');
-      if (description) descriptionParts.push(description);
-      if (descriptionParts.length) payload.description = descriptionParts.join('\n');
-
-      return payload;
+    for (let i = 0; i < STEP_COUNT; i++) {
+      const dot = document.getElementById(`${FORM_ID}-dot-${i}`) as HTMLElement;
+      if (i <= current) {
+        dot.classList.remove('border-2','border-[#d1d5db]','text-[#9ca3af]');
+        dot.classList.add('bg-[#041632]','text-white');
+      } else {
+        dot.classList.add('border-2','border-[#d1d5db]','text-[#9ca3af]');
+        dot.classList.remove('bg-[#041632]','text-white');
+      }
+    }
+    for (let i = 0; i < STEP_COUNT - 1; i++) {
+      const line = document.getElementById(`${FORM_ID}-line-${i}`) as HTMLElement;
+      line.classList.toggle('bg-[#041632]', i < current);
+      line.classList.toggle('bg-[#d1d5db]', i >= current);
     }
 
-    function goTo(stepIndex) {
-      document.getElementById(`${FORM_ID}-step-${current}`)?.classList.add('hidden');
-      current = stepIndex;
-      document.getElementById(`${FORM_ID}-step-${current}`)?.classList.remove('hidden');
-
-      const meta = stepMeta[current];
-      progressBar.style.width = `${meta.progress}%`;
-      progressText.textContent = `Step ${current + 1} of ${STEP_COUNT}`;
-      mobileLbl.textContent = `Step ${current + 1} of ${STEP_COUNT} — ${meta.label}`;
-      stepLabel.textContent = meta.label;
-
-      for (let i = 0; i < STEP_COUNT; i++) {
-        const dot = document.getElementById(`${FORM_ID}-dot-${i}`);
-        if (!dot) continue;
-
-        if (i <= current) {
-          dot.classList.remove('border-2', 'border-[#d1d5db]', 'text-[#9ca3af]');
-          dot.classList.add('bg-[#041632]', 'text-white');
-        } else {
-          dot.classList.add('border-2', 'border-[#d1d5db]', 'text-[#9ca3af]');
-          dot.classList.remove('bg-[#041632]', 'text-white');
-        }
-      }
-
-      for (let i = 0; i < STEP_COUNT - 1; i++) {
-        const line = document.getElementById(`${FORM_ID}-line-${i}`);
-        if (!line) continue;
-        line.classList.toggle('bg-[#041632]', i < current);
-        line.classList.toggle('bg-[#d1d5db]', i >= current);
-      }
-
-      sidebarDots.forEach((dot, index) => {
-        dot.classList.toggle('bg-[#775a19]', index <= current);
-        dot.classList.toggle('text-white', index <= current);
-        dot.classList.toggle('border', index > current);
-        dot.classList.toggle('border-white/30', index > current);
-        dot.classList.toggle('text-white/40', index > current);
-      });
-
-      sidebarLabels.forEach((label, index) => {
-        label.classList.toggle('text-white', index <= current);
-        label.classList.toggle('font-semibold', index === current);
-        label.classList.toggle('text-white/40', index > current);
-      });
-    }
-
-    function validateStep0() {
-      if (!getValue('firstName') || !getValue('lastName')) {
-        alert('Please enter your first and last name.');
-        return false;
-      }
-
-      if (!getValue('emailAddress') && !getValue('phoneNumber')) {
-        alert('Please provide at least an email or phone number.');
-        return false;
-      }
-
-      return true;
-    }
-
-    document.getElementById(`${FORM_ID}-next-0`)?.addEventListener('click', () => {
-      if (!validateStep0()) return;
-      goTo(1);
-      window.gtag?.(
-        'event',
-        `inquiry_modal_step2_company__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-        { product: activeProductName(), page_path: gaPage() }
-      );
+    sidebarDots.forEach((dot, i) => {
+      dot.classList.toggle('bg-[#775a19]', i <= current);
+      dot.classList.toggle('text-white', i <= current);
+      dot.classList.toggle('border', i > current);
+      dot.classList.toggle('border-white/30', i > current);
+      dot.classList.toggle('text-white/40', i > current);
     });
-
-    document.getElementById(`${FORM_ID}-prev-1`)?.addEventListener('click', () => goTo(0));
-    document.getElementById(`${FORM_ID}-next-1`)?.addEventListener('click', () => {
-      goTo(2);
-      window.gtag?.(
-        'event',
-        `inquiry_modal_step3_requirements__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-        { product: activeProductName(), page_path: gaPage() }
-      );
+    sidebarLabels.forEach((lbl, i) => {
+      lbl.classList.toggle('text-white', i <= current);
+      lbl.classList.toggle('font-semibold', i === current);
+      lbl.classList.toggle('text-white/40', i > current);
     });
-    document.getElementById(`${FORM_ID}-prev-2`)?.addEventListener('click', () => goTo(1));
+  }
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      if (isSubmitting || form.querySelector('[name="_hp"]')?.value) return;
+  function validateStep0(): boolean {
+    if (!g('firstName') || !g('lastName')) { alert('Please enter your first and last name.'); return false; }
+    if (!g('emailAddress') && !g('phoneNumber')) { alert('Please provide at least an email or phone number.'); return false; }
+    return true;
+  }
 
-      const submitBtn = document.getElementById(`${FORM_ID}-submit`);
-      const submitText = document.getElementById(`${FORM_ID}-submit-text`);
-      const spinner = document.getElementById(`${FORM_ID}-submit-spinner`);
-      const errorEl = document.getElementById(`${FORM_ID}-error`);
-      const successEl = document.getElementById(`${FORM_ID}-success`);
+  (document.getElementById(`${FORM_ID}-next-0`) as HTMLElement).addEventListener('click', () => {
+    if (validateStep0()) { goTo(1); (window as any).gtag?.('event', `inquiry_modal_step2_company__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() }); }
+  });
+  (document.getElementById(`${FORM_ID}-prev-1`) as HTMLElement).addEventListener('click', () => goTo(0));
+  (document.getElementById(`${FORM_ID}-next-1`) as HTMLElement).addEventListener('click', () => {
+    goTo(2); (window as any).gtag?.('event', `inquiry_modal_step3_requirements__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() });
+  });
+  (document.getElementById(`${FORM_ID}-prev-2`) as HTMLElement).addEventListener('click', () => goTo(1));
 
-      if (!submitBtn || !submitText || !spinner || !errorEl || !successEl) return;
+  // ── submit ────────────────────────────────────────────────────────────────────
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if ((form.querySelector('[name="_hp"]') as HTMLInputElement).value) return;
 
-      isSubmitting = true;
-      submitBtn.disabled = true;
-      submitText.textContent = 'Sending…';
-      spinner.style.display = '';
-      errorEl.classList.add('hidden');
-      window.gtag?.(
-        'event',
-        `inquiry_modal_submitted__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-        { product: activeProductName(), page_path: gaPage() }
-      );
+    const submitBtn  = document.getElementById(`${FORM_ID}-submit`) as HTMLButtonElement;
+    const submitText = document.getElementById(`${FORM_ID}-submit-text`) as HTMLElement;
+    const spinner    = document.getElementById(`${FORM_ID}-submit-spinner`) as HTMLElement;
+    const errorEl    = document.getElementById(`${FORM_ID}-error`) as HTMLElement;
+    const successEl  = document.getElementById(`${FORM_ID}-success`) as HTMLElement;
 
-      const resetBtn = () => {
-        submitBtn.disabled = false;
-        submitText.textContent = 'Send Inquiry';
-        spinner.style.display = 'none';
-        isSubmitting = false;
-      };
+    isSubmitting = true;
+    submitBtn.disabled = true;
+    submitText.textContent = 'Sending…';
+    spinner.style.display = '';
+    errorEl.classList.add('hidden');
+    (window as any).gtag?.('event', `inquiry_modal_submitted__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() });
 
+    const resetBtn = () => {
+      submitBtn.disabled = false;
+      submitText.textContent = 'Send Inquiry';
+      spinner.style.display = 'none';
+      isSubmitting = false;
+    };
+
+    try {
+      const payload = collectPayload();
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 8000);
+      let res: Response;
       try {
-        const payload = collectPayload();
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 8000);
-        let response;
-
-        try {
-          response = await fetch(LEAD_CAPTURE_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            signal: controller.signal,
-          });
-        } finally {
-          clearTimeout(timer);
-        }
-
-        if (!response.ok) {
-          let detail = '';
-          try {
-            detail = await response.text();
-          } catch {
-            /* ignore response parse failures */
-          }
-          console.error('[IQM] API error', response.status, detail);
-          throw new Error(`API error ${response.status}${detail ? `: ${detail}` : ''}`);
-        }
-
-        form.reset();
-        document.getElementById(`${FORM_ID}-step-${current}`)?.classList.add('hidden');
-        spinner.style.display = 'none';
-        submitBtn.disabled = false;
-        isSubmitting = false;
-        successEl.classList.remove('hidden');
-        progressBar.style.width = '100%';
-        window.gtag?.(
-          'event',
-          `inquiry_modal_success__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-          { product: activeProductName(), page_path: gaPage() }
-        );
-      } catch (error) {
-        let message = 'Something went wrong. Please try again.';
-        if (error instanceof Error) {
-          if (error.name === 'AbortError') message = 'Request timed out. Please try again.';
-          else if (error.message) message = error.message;
-        }
-        console.error('[IQM] Submit error:', error);
-        errorEl.textContent = message;
-        errorEl.classList.remove('hidden');
-        window.gtag?.(
-          'event',
-          `inquiry_modal_error__${gaPage().replace(/\//g, '_').replace(/^_/, '')}`,
-          { error_message: message, page_path: gaPage() }
-        );
-        resetBtn();
+        res = await fetch(LEAD_CAPTURE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: ctrl.signal,
+        });
+      } finally {
+        clearTimeout(timer);
       }
-    });
-  })();
+
+      if (!res!.ok) {
+        let detail = '';
+        try { detail = await res!.text(); } catch { /* ignore */ }
+        console.error('[IQM] API error', res!.status, detail);
+        throw new Error(`API error ${res!.status}${detail ? ': ' + detail : ''}`);
+      }
+
+      form.reset();
+      (document.getElementById(`${FORM_ID}-step-${current}`) as HTMLElement).classList.add('hidden');
+      spinner.style.display = 'none';
+      submitBtn.disabled = false;
+      isSubmitting = false;
+      successEl.classList.remove('hidden');
+      progressBar.style.width = '100%';
+      (window as any).gtag?.('event', `inquiry_modal_success__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { product: _gaProduct(), page_path: _gaPage() });
+    } catch (err: unknown) {
+      let msg = 'Something went wrong. Please try again.';
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') msg = 'Request timed out. Please try again.';
+        else if (err.message) msg = err.message;
+      }
+      console.error('[IQM] Submit error:', err);
+      errorEl.textContent = msg;
+      errorEl.classList.remove('hidden');
+      (window as any).gtag?.('event', `inquiry_modal_error__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { error_message: msg, page_path: _gaPage() });
+      resetBtn();
+    }
+  });
+
+  } // end __IQM_INIT__ guard
 </script>
