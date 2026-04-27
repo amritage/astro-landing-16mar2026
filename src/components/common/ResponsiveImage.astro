@@ -25,7 +25,7 @@ interface Props {
   fetchpriority?: "high" | "low" | "auto";
   class?: string;
   title?: string;
-  decoding?: "async" | "sync" | "auto";
+  decoding?: "async";
 }
 
 const {
@@ -62,7 +62,6 @@ const isCloudinary = safeSrc.includes("res.cloudinary.com") && safeSrc.includes(
     gravity={gravity}
     loading={loading}
     fetchpriority={fetchpriority}
-    decoding={decoding}
     class={className}
   />
 ) : (
@@ -80,3 +79,4 @@ const isCloudinary = safeSrc.includes("res.cloudinary.com") && safeSrc.includes(
     decoding="async"
   />
 )}
+

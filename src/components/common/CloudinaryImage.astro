@@ -31,7 +31,6 @@ interface Props {
   gravity?: string;
   loading?: "lazy" | "eager";
   fetchpriority?: "high" | "low" | "auto";
-  decoding?: "async" | "sync" | "auto";
   class?: string;
   title?: string;
 }
@@ -47,7 +46,6 @@ const {
   gravity = "auto",
   loading = "lazy",
   fetchpriority,
-  decoding,
   class: className,
   title,
 } = Astro.props;
@@ -97,7 +95,6 @@ const fallbackSrcset = safeSrc && isCloudinary
       title={title}
       loading={loading}
       fetchpriority={fetchpriority}
-      decoding={decoding}
       class={className}
     />
   </picture>
@@ -111,6 +108,6 @@ const fallbackSrcset = safeSrc && isCloudinary
     loading={loading}
     fetchpriority={fetchpriority}
     class={className}
-    decoding={decoding ?? "async"}
+    decoding="async"
   />
 )}
