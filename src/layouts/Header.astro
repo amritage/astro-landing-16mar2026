@@ -2,10 +2,8 @@
 import { navItems, mobileQuickLinks } from "../data/navigation";
 import { siteConfig } from "../data/site";
 import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../lib/api";
-import ProductInquiryModal from "../components/product/ProductInquiryModal.astro";
 
 const pathname = Astro.url.pathname;
-const shouldMountHeaderInquiryModal = !pathname.startsWith("/fabric/") && !pathname.startsWith("/fabric-manufacturer/");
 
 const isActivePath = (href: string) => {
   if (href === "/") return pathname === "/";
@@ -170,9 +168,6 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
     <a href={phoneHref} class="flex items-center justify-center px-[18px] py-[14px] rounded-2xl border-[1.5px] border-slate-200 bg-white text-[#041632] text-[13px] font-bold no-underline transition-colors duration-200 hover:border-[#041632]">Call Now</a>
   </div>
 </aside>
-
-<!-- Inquiry Modal: only mount where the header is the page's modal owner -->
-{shouldMountHeaderInquiryModal && <ProductInquiryModal />}
 
 <style>
   /* Hamburger open animation */

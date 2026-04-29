@@ -5,6 +5,7 @@ import Footer from "/src/layouts/Footer.astro";
 import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
+import ProductInquiryModal from "../components/product/ProductInquiryModal.astro";
 
 import { getSiteSettings, getCompanyInfo } from "../lib/api";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
@@ -67,7 +68,19 @@ const {
 const authorName = authorNameProp ?? companyName;
 
 const siteBase = SITE_BASE;
-const rawPath = Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '');
+const pathname = Astro.url.pathname;
+const normalizedPath = pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/';
+const pathSegments = normalizedPath.split("/").filter(Boolean);
+const isCategoryProductDetailRoute = pathSegments[0] === "category" && pathSegments.length > 2;
+const isCollectionProductDetailRoute = pathSegments[0] === "collection" && pathSegments.length > 2;
+const shouldMountInquiryModal =
+  normalizedPath !== "/fabric" &&
+  !normalizedPath.startsWith("/fabric/") &&
+  normalizedPath !== "/fabric-manufacturer" &&
+  !normalizedPath.startsWith("/fabric-manufacturer/") &&
+  !isCategoryProductDetailRoute &&
+  !isCollectionProductDetailRoute;
+const rawPath = normalizedPath;
 const cleanPath = rawPath === '/' ? '' : rawPath;
 const resolvedCanonical = canonical ?? undefined;
 const resolvedOgTitle = ogTitle ?? title;
@@ -300,10 +313,11 @@ const schemaArray = schemaMarkup
   </head>
   <body class="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
     <Header />
-    <main class="pt-[94px] md:pt-[102px]">
+    <main id="main-content" class="pt-[94px] md:pt-[102px]">
       <slot />
     </main>
     <Footer />
+    {shouldMountInquiryModal && <ProductInquiryModal />}
     <FloatingActions waMessage={waMessage} />
     <!-- WhatsApp delegated click handler: opens data-wa-link URLs in a new tab -->
     <script is:inline>
