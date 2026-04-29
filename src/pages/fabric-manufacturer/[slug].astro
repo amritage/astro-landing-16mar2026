@@ -1,13 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PLHero from "../../components/productandlocation/PLHero.astro";
-import PLTrustMetrics from "../../components/productandlocation/PLTrustMetrics.astro";
-import PLProductDetail from "../../components/productandlocation/PLProductDetail.astro";
-import PLLocation from "../../components/productandlocation/PLLocation.astro";
-import PLSuitability from "../../components/productandlocation/PLSuitability.astro";
-import PLCollection from "../../components/productandlocation/PLCollection.astro";
-import PLInquiryForm from "../../components/productandlocation/PLInquiryForm.astro";
-import PLFAQ from "../../components/productandlocation/PLFAQ.astro";
+import PLHero from "../../components/fabric-manufacturer/PLHero.astro";
+import PLTrustMetrics from "../../components/fabric-manufacturer/PLTrustMetrics.astro";
+import PLProductDetail from "../../components/fabric-manufacturer/PLProductDetail.astro";
+import PLLocation from "../../components/fabric-manufacturer/PLLocation.astro";
+import PLSuitability from "../../components/fabric-manufacturer/PLSuitability.astro";
+import PLCollection from "../../components/fabric-manufacturer/PLCollection.astro";
+import PLInquiryForm from "../../components/fabric-manufacturer/PLInquiryForm.astro";
+import PLFAQ from "../../components/fabric-manufacturer/PLFAQ.astro";
 import { getAllProductLocations, getCompanyInfo } from "../../lib/api";
 import type { ApiProductLocation } from "../../lib/api";
 import { stripHtml } from "../../data/products";
@@ -33,7 +33,7 @@ const location = data.location;
 const pageTitle =
   data.title?.trim() ||
   (product && location ? `${product.productTitle || product.name} in ${location.name}` : null) ||
-  "Product & Location";
+  "Fabric Manufacturer";
 
 const metaDescription =
   stripHtml(data.fulldescription).slice(0, 155) ||
@@ -51,12 +51,12 @@ const ogImage =
   location?.image1CloudUrl ||
   undefined;
 
-const canonicalUrl = `${SITE_BASE}/product-location/${data.slug}`;
+const canonicalUrl = `${SITE_BASE}/fabric-manufacturer/${data.slug}`;
 
 // ── JSON-LD ───────────────────────────────────────────────────────────────────
 const breadcrumbs = [
   { name: "Home", url: "/" },
-  { name: "Product & Location", url: "/product-location" },
+  { name: "Fabric Manufacturer", url: "/fabric-manufacturer" },
   { name: pageTitle },
 ];
 
@@ -160,7 +160,7 @@ const graphSchema = {
     data={data}
     breadcrumbs={[
       { name: "Home", href: "/" },
-      { name: "Product & Location", href: "/product-location" },
+      { name: "Fabric Manufacturer", href: "/fabric-manufacturer" },
       { name: pageTitle },
     ]}
   />

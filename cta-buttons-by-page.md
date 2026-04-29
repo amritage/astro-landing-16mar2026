@@ -29,7 +29,7 @@ These three are hardcoded and will NOT update if the API data changes.
 | `ShippingCTA.astro` | `phone1`, `phone2` | `/shipping` |
 | `SupportCTA.astro` | `whatsappNumber`, `supportEmail` | `/support` |
 | `FloatingActions.astro` | `phone1`, `phone2`, `primaryEmail`, `salesEmail` | All pages (global) |
-| `PLHero.astro` | `whatsappNumber`, `phone1`, `salesEmail` | `/product-location/[slug]` |
+| `PLHero.astro` | `whatsappNumber`, `phone1`, `salesEmail` | `/fabric-manufacturer/[slug]` |
 | `ProductHero.astro` | `whatsappNumber`, `phone1`, `salesEmail` | `/fabric`, `/category/[slug]`, `/collection/[slug]` |
 | `TermsContent.astro` | `supportEmail`, `primaryEmail` | `/terms-and-conditions` |
 
@@ -69,7 +69,7 @@ These three are hardcoded and will NOT update if the API data changes.
 | `/collection/[collectionSlug]/[productSlug]` | API (via prop) | API (via prop) | STATIC (`sales@egport.com`) |
 | `/industry` & `/industry/[slug]` | — | — | — |
 | `/location/[citySlug]` | API | API | API |
-| `/product-location/[slug]` | API | API | API |
+| `/fabric-manufacturer/[slug]` | API | API | API |
 | All pages (floating) | API | API | API |
 
 ---

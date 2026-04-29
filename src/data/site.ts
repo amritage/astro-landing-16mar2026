@@ -19,7 +19,7 @@ export const siteConfig = {
       { label: "FAQ", href: "/faq" },
       { label: "Shipping", href: "/shipping" },
       { label: "Ahmedabad Hub", href: "/ahmedabad-hub" },
-      { label: "Product & Location", href: "/product-location" },
+      { label: "Fabric Manufacturer", href: "/fabric-manufacturer" },
     ],
     products: [
       { label: "Terms & Conditions", href: "/terms-and-conditions" },

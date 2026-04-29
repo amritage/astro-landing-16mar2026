@@ -5,7 +5,7 @@ import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../lib/api";
 import ProductInquiryModal from "../components/product/ProductInquiryModal.astro";
 
 const pathname = Astro.url.pathname;
-const shouldMountHeaderInquiryModal = !pathname.startsWith("/fabric/") && !pathname.startsWith("/product-location/");
+const shouldMountHeaderInquiryModal = !pathname.startsWith("/fabric/") && !pathname.startsWith("/fabric-manufacturer/");
 
 const isActivePath = (href: string) => {
   if (href === "/") return pathname === "/";

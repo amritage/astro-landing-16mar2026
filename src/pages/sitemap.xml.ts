@@ -28,7 +28,7 @@ const PAGE_META: Record<string, { priority: string; changefreq: string }> = {
   "/faq":                   { priority: "0.7", changefreq: "monthly" },
   "/shipping":              { priority: "0.7", changefreq: "monthly" },
   "/ahmedabad-hub":         { priority: "0.7", changefreq: "monthly" },
-  "/product-location":      { priority: "0.8", changefreq: "weekly" },
+  "/fabric-manufacturer":      { priority: "0.8", changefreq: "weekly" },
   "/terms-and-conditions":  { priority: "0.3", changefreq: "yearly" },
   "/sitemap":               { priority: "0.3", changefreq: "monthly" },
 };
@@ -121,7 +121,7 @@ export const GET: APIRoute = async () => {
     `  <!-- Product + Location Pages (API-driven) -->`,
     ...productLocations
       .filter((pl) => pl.name?.toLowerCase() !== "test")
-      .map((pl) => url(`/product-location/${pl.slug}`, today, "0.8", "weekly")),
+      .map((pl) => url(`/fabric-manufacturer/${pl.slug}`, today, "0.8", "weekly")),
 
     `  <!-- Blog Posts (API-driven) -->`,
     ...blogPosts.map((p) =>

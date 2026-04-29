@@ -13,6 +13,7 @@ export interface Product {
   seriesLabel: string;
   name: string;
   shortDesc: string;
+  productTagline: string | null;
   image: string;
   imageLarge: string;   // full-size for OG sharing
   imageAlt: string;
@@ -173,6 +174,7 @@ export function mapApiProduct(p: ApiProduct, whatsappNumber?: string, phone1?: s
     seriesLabel,
     name: displayName,
     shortDesc: stripHtml(p.shortProductDescription) || p.productTagline || "",
+    productTagline: p.productTagline || null,
     image: nullIfEmpty(p.image1CloudUrlCard) ?? getCloudinaryUrl(nullIfEmpty(p.image1CloudUrl), "f_auto,q_auto,w_400,c_fill,g_auto"),
     imageLarge: nullIfEmpty(p.image1CloudUrlHero) ?? nullIfEmpty(p.image1CloudUrl) ?? "",
     imageAlt,

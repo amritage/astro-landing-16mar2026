@@ -2,6 +2,21 @@
 import type { Product } from "../../data/products";
 interface Props { product: Product }
 const { product } = Astro.props;
+
+// Build enhanced weight value with GSM and Oz
+const enhancedWeight = `${Math.round(product.gsm)} GSM / ${(Math.round(product.ozs * 100) / 100).toFixed(2)} oz`;
+
+// Build width value with cm and inch only
+const enhancedWidth = `${Math.round(product.cm)} cm / ${Math.round(product.inch)} inch`;
+
+// Filter out null/empty values and specific fields
+const filteredTechSpecs = product.techSpecs.filter((row) => {
+  // Skip if value is null, undefined, or empty string
+  if (!row.value || row.value.trim() === '') return false;
+  // Skip Width (CM), Width (Inch), GSM, and Ozs rows
+  if (['Width (CM)', 'Width (Inch)', 'GSM', 'Ozs'].includes(row.label)) return false;
+  return true;
+});
 ---
 
 <!-- Technical Specs & Applications -->
@@ -18,24 +33,32 @@ const { product } = Astro.props;
           <table class="w-full text-left font-sans min-w-[300px]">
             <tbody>
               <!-- Quick specs first -->
-              <tr class="border-b border-[#edeeef]">
-                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Material</td>
-                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.material}</td>
-              </tr>
-              <tr class="border-b border-[#edeeef]">
-                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Weight</td>
-                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.weight}</td>
-              </tr>
-              <tr class="border-b border-[#edeeef]">
-                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Width</td>
-                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.width}</td>
-              </tr>
-              <tr class="border-b border-[#edeeef]">
-                <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Weave</td>
-                <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.weave}</td>
-              </tr>
-              <!-- Detailed tech specs below -->
-              {product.techSpecs.map((row) => (
+              {product.specs.material && (
+                <tr class="border-b border-[#edeeef]">
+                  <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Material</td>
+                  <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.material}</td>
+                </tr>
+              )}
+              {(product.gsm || product.ozs) && (
+                <tr class="border-b border-[#edeeef]">
+                  <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Weight</td>
+                  <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{enhancedWeight}</td>
+                </tr>
+              )}
+              {(product.cm || product.inch) && (
+                <tr class="border-b border-[#edeeef]">
+                  <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Width</td>
+                  <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{enhancedWidth}</td>
+                </tr>
+              )}
+              {product.specs.weave && (
+                <tr class="border-b border-[#edeeef]">
+                  <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">Weave</td>
+                  <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{product.specs.weave}</td>
+                </tr>
+              )}
+              <!-- Detailed tech specs below (filtered) -->
+              {filteredTechSpecs.map((row) => (
                 <tr class="border-b border-[#edeeef]">
                   <td class="py-4 px-4 lg:px-6 font-semibold text-[#44474d] bg-[#ffffff] text-xs lg:text-sm">{row.label}</td>
                   <td class="py-4 px-4 lg:px-6 bg-white text-xs lg:text-sm">{row.value}</td>
@@ -53,35 +76,35 @@ const { product } = Astro.props;
         </h2>
         {(() => {
           const sorted = [...product.applications].sort((a, b) => b.score - a.score);
-          const visible = sorted.slice(0, 4);
-          const hidden = sorted.slice(4);
+          const visible = sorted.slice(0, 6);
+          const hidden = sorted.slice(6);
           return (
             <div>
-              <div class="space-y-4 lg:space-y-6">
+              <div class="space-y-2 lg:space-y-3">
                 {visible.map((app) => (
-                  <div class="bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]">
-                    <div class="flex justify-between mb-2">
-                      <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+                  <div class="bg-white p-2 lg:p-3 shadow-sm border-l-3 border-[#041632] max-w-md">
+                    <div class="flex justify-between mb-1">
+                      <span class="font-bold text-[#041632] text-xs lg:text-sm">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
                     </div>
-                    <div class="w-full bg-[#e7e8e9] h-2">
+                    <div class="w-full bg-[#e7e8e9] h-1.5">
                       <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
                     </div>
-                    <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+                    <p class="text-[10px] lg:text-xs mt-1 text-[#44474d]">{app.desc}</p>
                   </div>
                 ))}
               </div>
               {hidden.length > 0 && (
                 <div>
-                  <div id="extra-apps" class="space-y-4 lg:space-y-6 mt-4 lg:mt-6 hidden">
+                  <div id="extra-apps" class="space-y-2 lg:space-y-3 mt-2 lg:mt-3 hidden">
                     {hidden.map((app) => (
-                      <div class="bg-white p-4 lg:p-6 shadow-sm border-l-4 border-[#041632]">
-                        <div class="flex justify-between mb-2">
-                          <span class="font-bold text-[#041632] text-sm lg:text-base">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
+                      <div class="bg-white p-2 lg:p-3 shadow-sm border-l-3 border-[#041632] max-w-md">
+                        <div class="flex justify-between mb-1">
+                          <span class="font-bold text-[#041632] text-xs lg:text-sm">{app.name.replace(/\b\w/g, c => c.toUpperCase())}</span>
                         </div>
-                        <div class="w-full bg-[#e7e8e9] h-2">
+                        <div class="w-full bg-[#e7e8e9] h-1.5">
                           <div class="bg-[#041632] h-full" style={`width: ${app.score}%`}></div>
                         </div>
-                        <p class="text-[10px] lg:text-xs mt-2 text-[#44474d]">{app.desc}</p>
+                        <p class="text-[10px] lg:text-xs mt-1 text-[#44474d]">{app.desc}</p>
                       </div>
                     ))}
                   </div>
@@ -142,60 +165,24 @@ const { product } = Astro.props;
   </div>
 </section>
 
-<!-- Contextual: Region / Industries / FAQ -->
-<section class="bg-[#041632] text-white py-16 lg:py-20">
-  <div class="max-w-7xl mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-
-    <!-- Regional Preference -->
-    <div>
-      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Regional Preference</h3>
-      <div class="flex items-start space-x-4">
-        <span class="material-symbols-outlined text-[#775a19] mt-1">location_on</span>
-        <p class="text-[#8393b5] leading-relaxed text-sm lg:text-base">
-          Preferred choice for
-          {product.regionalCities.map((city, i) => (
-            <>
-              <span class="text-white font-bold">{city}</span>
-              {i < product.regionalCities.length - 1 && <span> and </span>}
-            </>
-          ))}
-          {" "}garment hubs due to its adaptable GSM and rich cocoa tone.
-        </p>
-      </div>
+<!-- FAQ Section -->
+<section class="bg-[#041632] text-white py-10 lg:py-12">
+  <div class="max-w-4xl mx-auto px-4 lg:px-8">
+    <h3 class="font-serif text-xl lg:text-2xl italic mb-6 text-center">Industrial FAQ</h3>
+    <div class="space-y-3">
+      {product.faq.map((item) => (
+        <details class="group cursor-pointer rounded-lg bg-white/5 border border-white/10 hover:border-[#c9a84c]/40 transition-colors duration-200">
+          <summary class="list-none flex justify-between items-start gap-3 px-5 py-4 text-sm lg:text-base font-semibold text-white group-open:text-[#c9a84c] transition-colors duration-200">
+            <span>{item.q}</span>
+            <span class="material-symbols-outlined text-base flex-shrink-0 mt-0.5 text-[#c9a84c] group-open:rotate-180 transition-transform duration-200">expand_more</span>
+          </summary>
+          <div class="px-5 pb-5 pt-1">
+            <div class="w-8 h-px bg-[#c9a84c]/50 mb-3"></div>
+            <p class="text-sm text-[#cbd5e1] leading-relaxed">{item.a}</p>
+          </div>
+        </details>
+      ))}
     </div>
-
-    <!-- Industries -->
-    <div>
-      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Target Industries</h3>
-      <ul class="space-y-4 font-sans text-sm lg:text-base">
-        {product.industries.map((ind) => (
-          <li class="flex items-center">
-            <span class="w-1.5 h-1.5 bg-[#775a19] rounded-full mr-3"></span>
-            {ind}
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- FAQ -->
-    <div>
-      <h3 class="font-serif text-xl lg:text-2xl italic mb-6">Industrial FAQ</h3>
-      <div class="space-y-3">
-        {product.faq.map((item) => (
-          <details class="group cursor-pointer rounded-lg bg-white/5 border border-white/10 hover:border-[#c9a84c]/40 transition-colors duration-200">
-            <summary class="list-none flex justify-between items-start gap-3 px-5 py-4 text-sm lg:text-base font-semibold text-white group-open:text-[#c9a84c] transition-colors duration-200">
-              <span>{item.q}</span>
-              <span class="material-symbols-outlined text-base flex-shrink-0 mt-0.5 text-[#c9a84c] group-open:rotate-180 transition-transform duration-200">expand_more</span>
-            </summary>
-            <div class="px-5 pb-5 pt-1">
-              <div class="w-8 h-px bg-[#c9a84c]/50 mb-3"></div>
-              <p class="text-sm text-[#cbd5e1] leading-relaxed">{item.a}</p>
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
-
   </div>
 </section>
 

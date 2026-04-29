@@ -47,9 +47,19 @@ const rawSlides: (Slide | null)[] = [
 
 const slides = rawSlides.filter((s): s is Slide => s !== null);
 
+// Build enhanced weight value with GSM and Oz
+const gsmValue = product.gsm;
+const ozValue = (gsmValue * 0.0295).toFixed(2); // Convert GSM to oz/yd²
+const enhancedWeight = `${Math.round(gsmValue)} GSM / ${ozValue} oz`;
+
+// Build enhanced width value with cm and inch
+const cmValue = product.cm;
+const inchValue = Math.round(cmValue / 2.54); // Convert cm to inches
+const enhancedWidth = `${Math.round(cmValue)} cm / ${inchValue} inch`;
+
 const specs = [
-  { label: "GSM",        value: String(product.gsm) },
-  { label: "Width (CM)", value: `${product.cm} cm` },
+  { label: "GSM",        value: enhancedWeight },
+  { label: "Width (CM)", value: enhancedWidth },
   { label: "Design",     value: product.design },
   { label: "Colour",     value: product.color.join(", ") },
   { label: "Content",    value: product.content.join(", ") },

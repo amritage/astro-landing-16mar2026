@@ -162,19 +162,19 @@ const dotClass = "w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0";
         )}
       </div>
 
-      <!-- Product + Location Pages -->
+      <!-- Fabric Manufacturer Pages -->
       <div class="md:col-span-12 bg-white p-6 md:p-8 rounded-xl shadow-sm border border-slate-100" id="pl-section">
-        <h2 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Product &amp; Location Pages</h2>
+        <h2 class="font-serif text-xl md:text-2xl font-bold text-[#1B2B48] mb-6 border-b border-slate-200 pb-4">Fabric Manufacturer</h2>
         <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 text-slate-700" id="pl-list">
           <li>
-            <a class={linkClass} href="/product-location">
+            <a class={linkClass} href="/fabric-manufacturer">
               <span class={dotClass}></span>
               <span class="text-sm font-semibold">All Product Locations</span>
             </a>
           </li>
           {productLocations.slice(0, PREVIEW).map((pl) => (
             <li>
-              <a class={linkClass} href={`/product-location/${pl.slug}`}>
+              <a class={linkClass} href={`/fabric-manufacturer/${pl.slug}`}>
                 <span class={dotClass}></span>
                 <span class="text-sm">{pl.name}</span>
               </a>
@@ -182,7 +182,7 @@ const dotClass = "w-1.5 h-1.5 rounded-full bg-[#775a19] shrink-0";
           ))}
           {productLocations.slice(PREVIEW).map((pl) => (
             <li class="pl-extra hidden">
-              <a class={linkClass} href={`/product-location/${pl.slug}`}>
+              <a class={linkClass} href={`/fabric-manufacturer/${pl.slug}`}>
                 <span class={dotClass}></span>
                 <span class="text-sm">{pl.name}</span>
               </a>

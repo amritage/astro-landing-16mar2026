@@ -183,7 +183,10 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
           <a href={`/category/${product.categorySlug}`} class="text-sm font-semibold hover:text-[#775a19] cursor-pointer transition-colors">{product.category}</a>
         </div>
       </div>
-      <h1 class="font-serif text-3xl lg:text-5xl font-extrabold mt-2 text-[#041632] leading-tight">{product.name}</h1>
+      <h1 class="font-serif text-2xl lg:text-4xl font-extrabold mt-2 text-[#041632] leading-tight">{product.name}</h1>
+      {product.productTagline && (
+        <p class="mt-3 text-[#775a19] text-base lg:text-lg font-semibold italic">{product.productTagline}</p>
+      )}
       <p class="mt-4 text-[#44474d] text-sm lg:text-base leading-relaxed border-l-4 border-[#775a19] pl-4">{product.shortDesc}</p>
     </div>
 

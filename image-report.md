@@ -274,19 +274,19 @@ Same as Fabric Product Detail above.
 
 ---
 
-## 16. PRODUCT & LOCATION PAGES — `src/pages/product-location/`
+## 16. FABRIC MANUFACTURER PAGES — `src/pages/fabric-manufacturer/`
 
-### PLListingHero — `src/components/productandlocation/PLListingHero.astro`
+### PLListingHero — `src/components/fabric-manufacturer/PLListingHero.astro`
 | Image | Source | Size Needed | Notes |
 |-------|--------|-------------|-------|
 | Hero background | STATIC — `v1775652305/17_y6ajol.jpg` | 1600×900px | `opacity-30`, `loading="eager"` |
 
-### PLHero — `src/components/productandlocation/PLHero.astro`
+### PLHero — `src/components/fabric-manufacturer/PLHero.astro`
 | Image | Source | Size Needed | Notes |
 |-------|--------|-------------|-------|
-| Product-location hero | DYNAMIC — `data.image1CloudUrl ?? product.image1CloudUrlHero ?? product.image1CloudUrl` from `getAllProductLocations()` API | 1600×900px | `loading="eager"`, `fetchpriority="high"`. Full-cover with gradient overlay |
+| Fabric Manufacturer hero | DYNAMIC — `data.image1CloudUrl ?? product.image1CloudUrlHero ?? product.image1CloudUrl` from `getAllProductLocations()` API | 1600×900px | `loading="eager"`, `fetchpriority="high"`. Full-cover with gradient overlay |
 
-### PLProductDetail — `src/components/productandlocation/PLProductDetail.astro`
+### PLProductDetail — `src/components/fabric-manufacturer/PLProductDetail.astro`
 | Image | Source | Size Needed | Notes |
 |-------|--------|-------------|-------|
 | Main gallery image 1 | DYNAMIC — `product.image1CloudUrlHero ?? image1CloudUrl` | 800×1000px (4:5 aspect) | `loading="eager"` |
@@ -296,7 +296,7 @@ Same as Fabric Product Detail above.
 | Thumbnails | DYNAMIC — same images | 80×80px | `c_fill` square crop |
 | YouTube thumbnail | DYNAMIC — `img.youtube.com/vi/{id}/mqdefault.jpg` | 80×80px | When collection has video |
 
-### PLCollection — `src/components/productandlocation/PLCollection.astro`
+### PLCollection — `src/components/fabric-manufacturer/PLCollection.astro`
 | Image | Source | Size Needed | Notes |
 |-------|--------|-------------|-------|
 | Collection product cards | DYNAMIC — `p.image1CloudUrlHero ?? image1CloudUrl` from `getProductsByCollectionId()` API | 600×800px (3:4). Up to 6 cards | `aspect-[3/4]`, hover scale |
@@ -325,7 +325,7 @@ Same as Fabric Product Detail above.
 | `getTopicPageBySlug("contact")` | `image1CloudUrl` | Support hero |
 | `getTopicPageBySlug("fabric")` | `image1CloudUrl`, `image2CloudUrl` | Fabric catalog hero + guide |
 | `getTopicPageBySlug("blog")` | `image1CloudUrl`, `image1CloudUrlHero` | Blog OG image |
-| `getTopicPageBySlug("product-location")` | `image1CloudUrl`, `image1CloudUrlHero` | PL listing OG |
+| `getTopicPageBySlug("fabric-manufacturer")` | `image1CloudUrl`, `image1CloudUrlHero` | Fabric Manufacturer listing OG |
 | `getCategoryTopicPages()` | `image1CloudUrlCard`, `image1CloudUrl`, `image2CloudUrlHero`, `image2CloudUrl`, `image3CloudUrl` | Category cards (home), category hero, guide |
 | `getDynamicTopicPages()` | `image1CloudUrl`, `image1CloudUrlHero` | Collection hero |
 | `getProducts()` / `fetchProducts()` | `image1CloudUrl`, `image1CloudUrlCard`, `image1CloudUrlHero`, `image1CloudUrlWeb`, `image2CloudUrl`, `image3CloudUrl`, `collection.collectionImage1CloudUrl`, `collection.collectionImage1CloudUrlHero` | Product cards, detail gallery, related, thumbnails |
@@ -389,6 +389,6 @@ Same as Fabric Product Detail above.
 | Blog Post Image | 1200×630px | ~16:9 | Hero + grid card |
 | Author Portrait (Leadership) | 800×1067px | 3:4 portrait | `authorimageWeb` |
 | Author Avatar (Departments) | 200×200px | 1:1 | `authorimageCard`, face crop |
-| Product-Location Hero | 1600×900px | 16:9 | Full-bleed hero |
+| Fabric Manufacturer Hero | 1600×900px | 16:9 | Full-bleed hero |
 | Industry Hero | 1440×618px | ~7:3 | Full-width hero |
 | Certification Logos | 200×200px | 1:1 | `object-contain` display |
