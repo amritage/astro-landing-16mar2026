@@ -14,7 +14,7 @@ const displayTagline = product.productTagline ?? `${product.content.join(", ")} 
 
 // Build gallery slides — same pattern as ProductDetailHero
 function getYouTubeId(url: string): string | null {
-  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube-nocookie\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
   return m ? m[1] : null;
 }
 
@@ -40,7 +40,7 @@ const rawSlides: (Slide | null)[] = [
     const url = product.collection?.collectionvideoURL;
     if (!url) return null;
     const vid = getYouTubeId(url);
-    if (vid) return { type: "youtube" as const, embedSrc: `https://www.youtube.com/embed/${vid}?autoplay=0&rel=0`, thumbSrc: `https://img.youtube.com/vi/${vid}/mqdefault.jpg`, alt: "Collection Video" };
+    if (vid) return { type: "youtube" as const, embedSrc: `https://www.youtube-nocookie.com/embed/${vid}?autoplay=0&rel=0`, thumbSrc: `https://img.youtube.com/vi/${vid}/mqdefault.jpg`, alt: "Collection Video" };
     return { type: "video" as const, src: url, alt: "Collection Video" };
   })(),
 ];
