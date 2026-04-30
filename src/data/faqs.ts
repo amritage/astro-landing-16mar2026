@@ -68,7 +68,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Which countries do you currently export to?",
         answer:
-          "We actively export to over 40 countries including the USA, UK, Germany, UAE, Bangladesh, and Australia. Our Ahmedabad hub is strategically positioned for fast turnaround to both Eastern and Western markets.",
+          "We actively export to over 9+ countries including the USA, UK, Germany, UAE, Bangladesh, and Australia. Our Ahmedabad hub is strategically positioned for fast turnaround to both Eastern and Western markets.",
       },
       {
         question: "Do you provide real-time shipment tracking?",

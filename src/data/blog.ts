@@ -215,7 +215,7 @@ export const blogPosts: BlogPost[] = [
         },
         {
           heading: "Global Demand, Local Excellence",
-          body: "Exporting to 40+ countries requires more than production capacity. It demands cultural intelligence, logistics mastery, and an unwavering commitment to quality that transcends borders.",
+          body: "Exporting to 9+ countries requires more than production capacity. It demands cultural intelligence, logistics mastery, and an unwavering commitment to quality that transcends borders.",
         },
       ],
     },
@@ -227,8 +227,8 @@ export const blogPosts: BlogPost[] = [
       },
       {
         icon: "public",
-        title: "40+ Export Countries",
-        desc: "Trusted by brands across Europe, North America, and the Middle East.",
+        title: "9+ Export Countries",
+        desc: "Trusted by brands across  South Asia, Europe, North America, and the Middle East.",
       },
       {
         icon: "emoji_events",
@@ -243,7 +243,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         q: "Which countries does Amrita export to?",
-        a: "We export to 40+ countries including the USA, UK, Germany, UAE, Australia, and across Southeast Asia.",
+        a: "We export to 9+ countries including the USA, UK, Germany, UAE, Australia, and across Southeast Asia.",
       },
     ],
   },
