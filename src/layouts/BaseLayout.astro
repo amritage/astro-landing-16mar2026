@@ -70,10 +70,12 @@ const authorName = authorNameProp ?? companyName;
 const siteBase = SITE_BASE;
 const pathname = Astro.url.pathname;
 const normalizedPath = pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/';
+const isHomepage = normalizedPath === "/";
 const pathSegments = normalizedPath.split("/").filter(Boolean);
 const isCategoryProductDetailRoute = pathSegments[0] === "category" && pathSegments.length > 2;
 const isCollectionProductDetailRoute = pathSegments[0] === "collection" && pathSegments.length > 2;
 const shouldMountInquiryModal =
+  !isHomepage &&
   normalizedPath !== "/fabric" &&
   !normalizedPath.startsWith("/fabric/") &&
   normalizedPath !== "/fabric-manufacturer" &&
@@ -131,8 +133,6 @@ const schemaArray = schemaMarkup
       />
     )}
 
-    <!-- Preload only the primary body font globally; other fonts can load on demand -->
-    <link rel="preload" href="/fonts/manrope-vf.woff2" as="font" type="font/woff2" crossorigin />
     <!-- Font-face declarations inline — keeps fonts out of the CSS bundle -->
     <style is:inline>
       @font-face {
