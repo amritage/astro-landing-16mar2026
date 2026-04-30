@@ -13,7 +13,7 @@ const { total } = Astro.props;
       {total} textiles
     </span>
 
-    <div class="flex w-full items-center justify-between gap-4 sm:w-auto">
+    <div data-nosnippet class="flex w-full items-center justify-between gap-4 sm:w-auto">
       <span class="text-xs font-label uppercase tracking-widest text-slate-500" id="sort-label">Sort By:</span>
       <select aria-labelledby="sort-label" class="border-none bg-transparent text-sm font-bold text-[#041632] focus:ring-0 cursor-pointer">
         <option>Latest Arrivals</option>
@@ -24,7 +24,7 @@ const { total } = Astro.props;
   </div>
 
   <!-- Row 2: search bar -->
-  <div class="relative">
+  <div class="relative" data-nosnippet>
     <label for="fabric-search" class="sr-only">Search fabrics</label>
     <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" style="font-size:18px" aria-hidden="true">search</span>
     <input

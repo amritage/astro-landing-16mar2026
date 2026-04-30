@@ -6,7 +6,7 @@ import { mapApiProduct, getCloudinaryUrl } from "../../data/products";
 import {
   getDynamicTopicPages,
   getProductsByMerchTag,
-  getFilterValues,
+  buildFilterValuesFromProducts,
   getCompanyInfo,
 } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
@@ -25,19 +25,21 @@ const page: ApiTopicPage | undefined = allTopics.find((p) => p.slug === slug);
 if (!page) return Astro.redirect("/404");
 
 // Fetch all products for this merchtag (slug1 is the merchtag value) + filters in parallel
-const [rawProducts, filters, company] = await Promise.all([
+const [rawProducts, company] = await Promise.all([
   getProductsByMerchTag(page.slug1, 0),
-  getFilterValues(),
   getCompanyInfo("AGE"),
 ]);
 const companyName = company?.legalName ?? "";
 
+const visibleRawProducts = rawProducts.filter((raw) => {
+  const s = (raw.productslug ?? "").trim().toLowerCase();
+  return s.length > 0 && s !== "pending";
+});
+
+const filters = buildFilterValuesFromProducts(visibleRawProducts);
+
 // Map to FabricProduct shape (skip pending slugs)
-const products: FabricProduct[] = rawProducts
-  .filter((raw) => {
-    const s = (raw.productslug ?? "").trim().toLowerCase();
-    return s.length > 0 && s !== "pending";
-  })
+const products: FabricProduct[] = visibleRawProducts
   .map((raw) => {
   const p = mapApiProduct(raw);
   return {

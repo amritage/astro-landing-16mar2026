@@ -56,6 +56,7 @@ const { products, categories, colors, structures, contents, designs, finishes, t
 <div class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:hidden">
   <button
     id="open-filters"
+    data-nosnippet
     class="flex items-center gap-2 bg-[#041632] px-4 py-2 text-xs font-label uppercase tracking-widest text-white"
   >
     <span class="material-symbols-outlined text-sm">filter_list</span>
@@ -67,24 +68,43 @@ const { products, categories, colors, structures, contents, designs, finishes, t
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col gap-8 lg:flex-row">
 
+      <!-- Product grid -->
+      <div class="min-w-0 flex-1 lg:order-2">
+        <ProductToolbar total={total} />
+        {products.length > 0 ? (
+          <ProductGrid products={products} />
+        ) : (
+          <div class="flex flex-col items-center justify-center py-24 text-center">
+            <span class="material-symbols-outlined text-5xl text-slate-300 mb-4">inbox</span>
+            <p class="font-headline text-xl text-slate-400">No products available yet</p>
+            <p class="mt-2 text-sm text-slate-400">Content is being updated. Check back soon.</p>
+            <a href="/fabric" class="mt-6 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] underline underline-offset-4">
+              Browse all fabrics
+            </a>
+          </div>
+        )}
+      </div>
+
       <!--
         Filter panel — rendered ONCE.
-        On desktop: sticky sidebar (via lg: classes).
-        On mobile: slides in as a drawer (position fixed, toggled via JS).
+        In source order it comes after the product grid for cleaner crawl priority.
+        On desktop it still displays on the left via flex ordering.
       -->
-      <div
+      <aside
         id="filter-panel"
+        aria-label="Fabric filters"
+        data-nosnippet
         class="
           fixed inset-0 z-[60] overflow-y-auto bg-white
           translate-x-[-100%] transition-transform duration-300
-          lg:relative lg:inset-auto lg:z-auto lg:overflow-visible lg:bg-transparent
+          lg:relative lg:inset-auto lg:z-auto lg:order-1 lg:overflow-visible lg:bg-transparent
           lg:translate-x-0 lg:transition-none
           lg:w-72 lg:flex-shrink-0
         "
       >
         <!-- Mobile header (hidden on desktop) -->
         <div class="flex items-center justify-between p-6 pb-0 lg:hidden">
-          <h2 class="font-headline text-2xl text-[#041632]">Filters</h2>
+          <div class="font-headline text-2xl text-[#041632]">Filters</div>
           <button id="close-filters" class="material-symbols-outlined p-2 text-[#041632]">close</button>
         </div>
 
@@ -100,27 +120,10 @@ const { products, categories, colors, structures, contents, designs, finishes, t
             preSelectedCategory={preSelectedCategory}
           />
         </div>
-      </div>
+      </aside>
 
       <!-- Backdrop (mobile only) -->
       <div id="filter-backdrop" class="fixed inset-0 z-[59] bg-black/40 hidden lg:hidden"></div>
-
-      <!-- Product grid -->
-      <div class="min-w-0 flex-1">
-        <ProductToolbar total={total} />
-        {products.length > 0 ? (
-          <ProductGrid products={products} />
-        ) : (
-          <div class="flex flex-col items-center justify-center py-24 text-center">
-            <span class="material-symbols-outlined text-5xl text-slate-300 mb-4">inbox</span>
-            <p class="font-headline text-xl text-slate-400">No products available yet</p>
-            <p class="mt-2 text-sm text-slate-400">Content is being updated. Check back soon.</p>
-            <a href="/fabric" class="mt-6 text-xs font-label font-bold uppercase tracking-widest text-[#775a19] underline underline-offset-4">
-              Browse all fabrics
-            </a>
-          </div>
-        )}
-      </div>
 
     </div>
   </div>

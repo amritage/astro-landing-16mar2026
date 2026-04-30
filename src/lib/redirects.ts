@@ -9,9 +9,17 @@ export interface RedirectRule {
   priority: number;
 }
 
+function normalizeBaseUrl(value: string | undefined): string {
+  const trimmed = value?.trim();
+  if (!trimmed || trimmed === 'undefined' || trimmed === 'null') return '';
+  return trimmed.replace(/\/$/, '');
+}
+
 export async function fetchRedirects(): Promise<RedirectRule[]> {
   try {
-    const apiBase = (process.env.PUBLIC_API_BASE_URL ?? (import.meta as any).env?.PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '');
+    const apiBase = normalizeBaseUrl(
+      process.env.PUBLIC_API_BASE_URL ?? (import.meta as any).env?.PUBLIC_API_BASE_URL
+    );
     if (!apiBase) {
       console.warn('[redirects] PUBLIC_API_BASE_URL is not set, skipping redirects');
       return [];

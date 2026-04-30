@@ -5,10 +5,21 @@ import { loadEnv } from 'vite';
 import { buildAstroRedirects } from './src/lib/redirects.ts';
 import { cloudinaryPicture } from './src/integrations/cloudinary-picture.ts';
 
+function normalizeEnvValue(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === 'undefined' || trimmed === 'null') return undefined;
+  return trimmed;
+}
+
 // Load .env variables at config time so redirects can access them
 const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
-process.env.PUBLIC_API_BASE_URL = process.env.PUBLIC_API_BASE_URL ?? env.PUBLIC_API_BASE_URL;
-process.env.PUBLIC_SITE_URL = process.env.PUBLIC_SITE_URL ?? env.PUBLIC_SITE_URL;
+process.env.PUBLIC_API_BASE_URL =
+  normalizeEnvValue(process.env.PUBLIC_API_BASE_URL) ??
+  normalizeEnvValue(env.PUBLIC_API_BASE_URL);
+process.env.PUBLIC_SITE_URL =
+  normalizeEnvValue(process.env.PUBLIC_SITE_URL) ??
+  normalizeEnvValue(env.PUBLIC_SITE_URL);
 
 const redirects = await buildAstroRedirects();
 
@@ -24,7 +35,7 @@ export default defineConfig({
     defaultStrategy: 'viewport',
   },
   redirects,
-  site: process.env.PUBLIC_SITE_URL ?? 'http://localhost:4321',
+  site: normalizeEnvValue(process.env.PUBLIC_SITE_URL) ?? 'http://localhost:4321',
   integrations: [
     cloudinaryPicture(),
     partytown({ config: { forward: ['dataLayer.push', 'gtag', 'clarity'] } }),

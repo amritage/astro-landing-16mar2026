@@ -38,7 +38,7 @@ function isPreSelected(value: string): boolean {
   <!-- 1. Category -->
   {categories.length > 0 && (
     <div>
-      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Category</h3>
+      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Category</div>
       <ul class="space-y-2">
         {categories.map((item) => (
           <li>
@@ -55,7 +55,7 @@ function isPreSelected(value: string): boolean {
   <!-- 2. Structure / Weave -->
   {structures.length > 0 && (
     <div>
-      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Structure / Weave</h3>
+      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Structure / Weave</div>
       <ul class="space-y-2">
         {structures.map((item) => (
           <li>
@@ -72,7 +72,7 @@ function isPreSelected(value: string): boolean {
   <!-- 4. Content -->
   {contents.length > 0 && (
     <div>
-      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Content</h3>
+      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Content</div>
       <ul class="space-y-2">
         {contents.map((item) => (
           <li>
@@ -89,7 +89,7 @@ function isPreSelected(value: string): boolean {
   <!-- 5. Design -->
   {designs.length > 0 && (
     <div>
-      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Design</h3>
+      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Design</div>
       <ul class="space-y-2">
         {designs.map((item) => (
           <li>
@@ -106,7 +106,7 @@ function isPreSelected(value: string): boolean {
   <!-- 6. Color — one per row, swatch + name, scrollable -->
   {colors.length > 0 && (
     <div>
-      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Color</h3>
+      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Color</div>
       <ul class="max-h-52 overflow-y-auto space-y-2 pr-1">
         {colors.map((c) => (
           <li>
@@ -127,7 +127,7 @@ function isPreSelected(value: string): boolean {
   <!-- 7. Core Finishes -->
   {finishes.length > 0 && (
     <div>
-      <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Core Finishes</h3>
+      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Core Finishes</div>
       <ul class="space-y-2">
         {finishes.map((item) => (
           <li>
@@ -143,7 +143,7 @@ function isPreSelected(value: string): boolean {
 
   <!-- 7. Weight (GSM) -->
   <div>
-    <h3 class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Weight (GSM)</h3>
+    <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Weight (GSM)</div>
     <label for="gsm-range" class="sr-only">Maximum weight in GSM</label>
     <input id="gsm-range" type="range" min="50" max="500" value="500" class="w-full accent-[#775a19]" />
     <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">

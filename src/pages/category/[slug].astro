@@ -7,7 +7,7 @@ import {
   getCategoryTopicPages,
   getCategoryTopicPageBySlug,
   getProductsByCategory,
-  getFilterValues,
+  buildFilterValuesFromProducts,
   getCompanyInfo,
 } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
@@ -24,22 +24,21 @@ const page = await getCategoryTopicPageBySlug(slug);
 if (!page) return Astro.redirect("/404");
 
 // Now fetch products + filters in parallel using the resolved category name
-const [rawProducts, filters, company] = await Promise.all([
+const [rawProducts, company] = await Promise.all([
   getProductsByCategory(page.name),
-  getFilterValues(),
   getCompanyInfo("AGE"),
 ]);
 const companyName = company?.legalName ?? "";
 
-// Only show categories that actually exist in this page's products
-const pageCategories = [...new Set(rawProducts.map((p) => p.category).filter(Boolean))];
+const visibleRawProducts = rawProducts.filter((raw) => {
+  const s = (raw.productslug ?? "").trim().toLowerCase();
+  return s.length > 0 && s !== "pending";
+});
+
+const filters = buildFilterValuesFromProducts(visibleRawProducts);
 
 // Map raw API products → typed FabricProduct shape (skip pending slugs)
-const products: FabricProduct[] = rawProducts
-  .filter((raw) => {
-    const s = (raw.productslug ?? "").trim().toLowerCase();
-    return s.length > 0 && s !== "pending";
-  })
+const products: FabricProduct[] = visibleRawProducts
   .map((raw) => {
   const p = mapApiProduct(raw);
   return {

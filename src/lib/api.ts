@@ -1,4 +1,10 @@
-const BASE_URL = (import.meta.env.PUBLIC_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
+function normalizeBaseUrl(value: string | undefined): string {
+  const trimmed = value?.trim();
+  if (!trimmed || trimmed === 'undefined' || trimmed === 'null') return '';
+  return trimmed.replace(/\/$/, '');
+}
+
+const BASE_URL = normalizeBaseUrl(import.meta.env.PUBLIC_API_BASE_URL as string | undefined);
 if (!BASE_URL) {
   throw new Error('[api] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
 }
@@ -168,6 +174,50 @@ export async function getFilterValues(): Promise<FilterValues> {
   }));
 
   return { category, color, structure, content, design, finish };
+}
+
+export function buildFilterValuesFromProducts(products: ApiProduct[]): FilterValues {
+  const sortAlpha = (items: string[]) =>
+    [...items].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+
+  const category = new Set<string>();
+  const structure = new Set<string>();
+  const content = new Set<string>();
+  const design = new Set<string>();
+  const finish = new Set<string>();
+  const colorHexMap = new Map<string, string>();
+
+  for (const p of products) {
+    if (p.category?.trim()) category.add(p.category.trim());
+    if (p.structure?.trim()) structure.add(p.structure.trim());
+    if (p.design?.trim()) design.add(p.design.trim());
+
+    for (const item of p.content ?? []) {
+      if (item?.trim()) content.add(item.trim());
+    }
+
+    for (const item of p.finish ?? []) {
+      if (item?.trim()) finish.add(item.trim());
+    }
+
+    (p.color ?? []).forEach((name, i) => {
+      if (!name?.trim() || colorHexMap.has(name)) return;
+      colorHexMap.set(name, p.hex?.[i] ?? "#cccccc");
+    });
+  }
+
+  const color = [...colorHexMap.entries()]
+    .map(([name, hex]) => ({ name, hex }))
+    .sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: "base" }));
+
+  return {
+    category: sortAlpha([...category]),
+    color,
+    structure: sortAlpha([...structure]),
+    content: sortAlpha([...content]),
+    design: sortAlpha([...design]),
+    finish: sortAlpha([...finish]),
+  };
 }
 
 // D3 FIX: no longer downloads the full catalogue to find one product.
