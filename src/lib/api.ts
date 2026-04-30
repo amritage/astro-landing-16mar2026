@@ -14,6 +14,8 @@ if (!BASE_URL) {
 export interface ApiProduct {
   id: string;
   name: string;
+  modifiedAt?: string | null;
+  streamUpdatedAt?: string | null;
   productslug: string;
   productTitle: string;
   productTagline: string;
@@ -232,6 +234,8 @@ export function getProductBySlug(slug: string, products: ApiProduct[]): ApiProdu
 export interface ApiTopicPage {
   id: string;
   name: string;
+  modifiedAt?: string | null;
+  streamUpdatedAt?: string | null;
   slug: string;
   slug1: string;
   description: string | null;
@@ -289,25 +293,32 @@ export interface ApiTopicPage {
 }
 
 // B2 FIX: fetch remaining topic pages in parallel instead of sequentially
-async function getAllTopicPages(): Promise<ApiTopicPage[]> {
-  try {
-    const firstRes = await fetch(`${BASE_URL}/api/topicpage?page=1&limit=100`, { cache: "force-cache" });
-    if (!firstRes.ok) return [];
-    const firstJson = await firstRes.json();
-    const firstData: ApiTopicPage[] = firstJson.data ?? [];
-    const totalPages: number = firstJson.pagination?.totalPages ?? 1;
-    if (totalPages <= 1) return firstData;
-    const rest = await Promise.all(
-      Array.from({ length: totalPages - 1 }, (_, i) =>
-        fetch(`${BASE_URL}/api/topicpage?page=${i + 2}&limit=100`, { cache: "force-cache" })
-          .then((r) => (r.ok ? r.json() : { data: [] }))
-          .then((j) => (j.data ?? []) as ApiTopicPage[])
-      )
-    );
-    return [...firstData, ...rest.flat()];
-  } catch {
-    return [];
+let _topicPagesPromise: Promise<ApiTopicPage[]> | null = null;
+export async function getAllTopicPages(): Promise<ApiTopicPage[]> {
+  if (!_topicPagesPromise) {
+    _topicPagesPromise = (async () => {
+      try {
+        const firstRes = await fetch(`${BASE_URL}/api/topicpage?page=1&limit=100`, { cache: "force-cache" });
+        if (!firstRes.ok) return [];
+        const firstJson = await firstRes.json();
+        const firstData: ApiTopicPage[] = firstJson.data ?? [];
+        const totalPages: number = firstJson.pagination?.totalPages ?? 1;
+        if (totalPages <= 1) return firstData;
+        const rest = await Promise.all(
+          Array.from({ length: totalPages - 1 }, (_, i) =>
+            fetch(`${BASE_URL}/api/topicpage?page=${i + 2}&limit=100`, { cache: "force-cache" })
+              .then((r) => (r.ok ? r.json() : { data: [] }))
+              .then((j) => (j.data ?? []) as ApiTopicPage[])
+          )
+        );
+        return [...firstData, ...rest.flat()];
+      } catch {
+        return [];
+      }
+    })();
   }
+
+  return _topicPagesPromise;
 }
 
 export async function getDynamicTopicPages(): Promise<ApiTopicPage[]> {
@@ -581,6 +592,8 @@ export async function getAuthors(): Promise<ApiAuthor[]> {
 export interface ApiProductLocation {
   id: string;
   name: string;
+  modifiedAt?: string | null;
+  streamUpdatedAt?: string | null;
   slug: string;
   title: string | null;
   tagline: string | null;
@@ -607,6 +620,8 @@ export interface ApiProductLocation {
   product: {
     id: string;
     name: string;
+    modifiedAt?: string | null;
+    streamUpdatedAt?: string | null;
     productTitle: string | null;
     productTagline: string | null;
     category: string;

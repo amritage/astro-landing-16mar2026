@@ -12,6 +12,7 @@ export interface ApiBlogPost {
   title: string;
   slug: string;
   status: string;
+  modifiedAt?: string | null;
   publishedAt: string;
   excerpt: string | null;
   category: string | null;

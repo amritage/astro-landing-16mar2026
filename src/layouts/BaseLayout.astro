@@ -131,10 +131,8 @@ const schemaArray = schemaMarkup
       />
     )}
 
-    <!-- Preload self-hosted variable fonts -->
+    <!-- Preload only the primary body font globally; other fonts can load on demand -->
     <link rel="preload" href="/fonts/manrope-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/inter-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/newsreader-vf.woff2" as="font" type="font/woff2" crossorigin />
     <!-- Font-face declarations inline — keeps fonts out of the CSS bundle -->
     <style is:inline>
       @font-face {
@@ -281,9 +279,6 @@ const schemaArray = schemaMarkup
         return result;
       };
     </script>
-
-    <!-- Material Symbols — self-hosted for long cache TTL, subset to used icons only -->
-    <link rel="preload" href="/fonts/material-symbols-outlined.woff2" as="font" type="font/woff2" crossorigin />
 
     <style is:inline>
       @font-face {
