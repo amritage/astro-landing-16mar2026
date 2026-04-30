@@ -1,0 +1,63 @@
+{
+  "fabricDesktop": {
+    "title": "Fabric Catalogue | Cotton, Denim, Knit & Woven Fabrics for Bulk Orders",
+    "initialVisibleCards": 12,
+    "productCardsInDom": 74,
+    "bodyHasFalseEmptyCopy": false,
+    "bodyHasJsEmptyCopyBeforeInteraction": false
+  },
+  "fabricSearchNoResults": {
+    "noResultsText": "No matching fabrics found Try removing a few filters to broaden your search, or browse our full collection. Browse all products",
+    "visibleCardsAfterSearch": 0
+  },
+  "fabricSearchClear": {
+    "visibleCardsAfterClear": 74
+  },
+  "fabricFilters": {
+    "visibleCardsAfterCategory": 2,
+    "visibleCardsAfterGsm150": 0,
+    "clearButtonVisible": true,
+    "gsmLabel": "150 GSM"
+  },
+  "fabricFiltersCleared": {
+    "visibleCardsAfterClearAll": 74,
+    "clearButtonStillVisible": false,
+    "gsmLabel": "500 GSM",
+    "searchValue": ""
+  },
+  "fabricMobile": {
+    "panelOpen": true,
+    "backdropVisible": true
+  },
+  "fabricMobileClosed": {
+    "panelOpen": false
+  },
+  "category/woven-fabrics": {
+    "title": "Woven Fabric Manufacturer in India | Amrita Global Enterprises",
+    "productCardsInDom": 72,
+    "falseEmptyCopyPresent": false,
+    "jsNoResultsVisible": false,
+    "trueEmptyStateVisible": false
+  },
+  "category/knit-fabric": {
+    "title": "Wholesale Knitted Fabric Manufacturer | Amrita Global Enterprises",
+    "productCardsInDom": 0,
+    "falseEmptyCopyPresent": false,
+    "jsNoResultsVisible": false,
+    "trueEmptyStateVisible": true
+  },
+  "collection/holi-collection": {
+    "title": "Holi Collection Meta Title",
+    "productCardsInDom": 2,
+    "falseEmptyCopyPresent": false,
+    "jsNoResultsVisible": false,
+    "trueEmptyStateVisible": false
+  },
+  "collection/diwali-collection": {
+    "title": "diwali collection meta title",
+    "productCardsInDom": 48,
+    "falseEmptyCopyPresent": false,
+    "jsNoResultsVisible": false,
+    "trueEmptyStateVisible": false
+  }
+}

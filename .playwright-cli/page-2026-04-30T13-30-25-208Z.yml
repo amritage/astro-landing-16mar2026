@@ -1,0 +1,1004 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]: B2B Fabric Manufacturer & Exporter
+    - generic [ref=e4]: Cotton • Denim • Knit • Woven
+    - generic [ref=e5]: Bulk Orders • Global Supply • Inquiry Support
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - link "Amrita Global Enterprises" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Amrita Global Enterprises logo" [ref=e11]
+        - generic [ref=e12]:
+          - generic [ref=e13]: Amrita Global Enterprises
+          - generic [ref=e14]: Fabrics & Export Solutions
+      - navigation "Main navigation" [ref=e15]:
+        - link "Home" [ref=e16] [cursor=pointer]:
+          - /url: /
+        - link "Fabrics" [ref=e17] [cursor=pointer]:
+          - /url: /fabric
+        - link "Capabilities" [ref=e18] [cursor=pointer]:
+          - /url: /capabilities
+        - link "About" [ref=e19] [cursor=pointer]:
+          - /url: /about
+        - link "Careers" [ref=e20] [cursor=pointer]:
+          - /url: /careers
+        - link "Blog" [ref=e21] [cursor=pointer]:
+          - /url: /blog
+        - link "Certifications" [ref=e22] [cursor=pointer]:
+          - /url: /certifications
+      - generic [ref=e23]:
+        - button "Free Sample" [ref=e24] [cursor=pointer]
+        - link "Call Now" [ref=e25] [cursor=pointer]:
+          - /url: tel:+919925155141
+        - link "Get Quote" [ref=e26] [cursor=pointer]:
+          - /url: https://wa.me/919925155141?text=Hi+AGE+Team%2C+I%27m+a+bulk+fabric+buyer.+Can+I+get+pricing+and+a+free+sample%3F
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - img "Browse Our Full Fabric Catalog" [ref=e31]
+        - generic [ref=e32]:
+          - navigation "Breadcrumb" [ref=e33]:
+            - link "Home" [ref=e35] [cursor=pointer]:
+              - /url: /
+            - generic [ref=e36]:
+              - generic [ref=e37]: /
+              - link "Fabric" [ref=e38] [cursor=pointer]:
+                - /url: /fabric
+          - heading "Browse Our Full Fabric Catalog" [level=1] [ref=e39]
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - heading "Explore 100% Cotton Twill, Woven Fabrics, and Performance Textiles" [level=2] [ref=e43]
+          - paragraph [ref=e44]: Precision-engineered for durability and aesthetic excellence. Our curated selection represents the pinnacle of industrial textile manufacturing, sourcing the finest fibers for global brands.
+        - generic [ref=e45]:
+          - heading "Technical Assurance" [level=3] [ref=e46]
+          - paragraph [ref=e47]: All fabrics undergo 12-point quality inspection including GSM verification, color fastness, and tensile strength testing.
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]: 74 textiles
+              - generic [ref=e55]:
+                - generic [ref=e56]: "Sort By:"
+                - combobox "Sort By:" [ref=e57] [cursor=pointer]:
+                  - option "Latest Arrivals" [selected]
+                  - 'option "GSM: High to Low"'
+                  - 'option "GSM: Low to High"'
+            - generic [ref=e58]:
+              - generic [ref=e59]: Search fabrics
+              - generic: search
+              - searchbox "Search fabrics" [ref=e60]
+          - generic [ref=e62]:
+            - article [ref=e64] [cursor=pointer]:
+              - link "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm Majestica-766 Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e65]:
+                - /url: /fabric/majestica-766-twill-100cotton-125gsm-dark-burgundy-solid-dyed
+                - generic [ref=e66]:
+                  - img "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm" [ref=e68]
+                  - generic [ref=e69]: Majestica-766
+                - generic [ref=e70]:
+                  - heading "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm" [level=3] [ref=e72]
+                  - paragraph [ref=e74]: Woven Fabrics
+                  - generic [ref=e75]:
+                    - generic [ref=e76]:
+                      - paragraph [ref=e77]: Weight
+                      - paragraph [ref=e78]: 125 GSM
+                    - generic [ref=e79]:
+                      - paragraph [ref=e80]: Width
+                      - paragraph [ref=e81]: 146 cm / 57 inch
+                  - generic [ref=e82]: View Specifications
+            - article [ref=e84] [cursor=pointer]:
+              - link "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM Majestica-767 Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e85]:
+                - /url: /fabric/majestica-767-twill-100cotton-125gsm-cocoa-brown-solid-dyed
+                - generic [ref=e86]:
+                  - img "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM" [ref=e88]
+                  - generic [ref=e89]: Majestica-767
+                - generic [ref=e90]:
+                  - heading "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e92]
+                  - paragraph [ref=e94]: Woven Fabrics
+                  - generic [ref=e95]:
+                    - generic [ref=e96]:
+                      - paragraph [ref=e97]: Weight
+                      - paragraph [ref=e98]: 125 GSM
+                    - generic [ref=e99]:
+                      - paragraph [ref=e100]: Width
+                      - paragraph [ref=e101]: 146 cm / 57 inch
+                  - generic [ref=e102]: View Specifications
+            - article [ref=e104] [cursor=pointer]:
+              - link "Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM Majestica-760 Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e105]:
+                - /url: /fabric/majestica-760-twill-100cotton-125gsm-mint-green-solid-dyed
+                - generic [ref=e106]:
+                  - img "Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM" [ref=e108]
+                  - generic [ref=e109]: Majestica-760
+                - generic [ref=e110]:
+                  - heading "Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM" [level=3] [ref=e112]
+                  - paragraph [ref=e114]: Woven Fabrics
+                  - generic [ref=e115]:
+                    - generic [ref=e116]:
+                      - paragraph [ref=e117]: Weight
+                      - paragraph [ref=e118]: 125 GSM
+                    - generic [ref=e119]:
+                      - paragraph [ref=e120]: Width
+                      - paragraph [ref=e121]: 146 cm / 57 inch
+                  - generic [ref=e122]: View Specifications
+            - article [ref=e124] [cursor=pointer]:
+              - link "Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM Majestica-754 Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e125]:
+                - /url: /fabric/majestica-754-twill-100cotton-125gsm-lavender-grey-solid-dyed
+                - generic [ref=e126]:
+                  - img "Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM" [ref=e128]
+                  - generic [ref=e129]: Majestica-754
+                - generic [ref=e130]:
+                  - heading "Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e132]
+                  - paragraph [ref=e134]: Woven Fabrics
+                  - generic [ref=e135]:
+                    - generic [ref=e136]:
+                      - paragraph [ref=e137]: Weight
+                      - paragraph [ref=e138]: 125 GSM
+                    - generic [ref=e139]:
+                      - paragraph [ref=e140]: Width
+                      - paragraph [ref=e141]: 146 cm / 57 inch
+                  - generic [ref=e142]: View Specifications
+            - article [ref=e144] [cursor=pointer]:
+              - link "Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM Majestica-748 Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e145]:
+                - /url: /fabric/majestica-748-twill-100cotton-125gsm-pastel-green-solid-dyed
+                - generic [ref=e146]:
+                  - img "Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM" [ref=e148]
+                  - generic [ref=e149]: Majestica-748
+                - generic [ref=e150]:
+                  - heading "Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM" [level=3] [ref=e152]
+                  - paragraph [ref=e154]: Woven Fabrics
+                  - generic [ref=e155]:
+                    - generic [ref=e156]:
+                      - paragraph [ref=e157]: Weight
+                      - paragraph [ref=e158]: 125 GSM
+                    - generic [ref=e159]:
+                      - paragraph [ref=e160]: Width
+                      - paragraph [ref=e161]: 146 cm / 57 inch
+                  - generic [ref=e162]: View Specifications
+            - article [ref=e164] [cursor=pointer]:
+              - link "Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM Majestica-730 Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e165]:
+                - /url: /fabric/majestica-730-twill-100cotton-125gsm-ink-blue-solid-dyed-woven-fabric
+                - generic [ref=e166]:
+                  - img "Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM" [ref=e168]
+                  - generic [ref=e169]: Majestica-730
+                - generic [ref=e170]:
+                  - heading "Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e172]
+                  - paragraph [ref=e174]: Woven Fabrics
+                  - generic [ref=e175]:
+                    - generic [ref=e176]:
+                      - paragraph [ref=e177]: Weight
+                      - paragraph [ref=e178]: 125 GSM
+                    - generic [ref=e179]:
+                      - paragraph [ref=e180]: Width
+                      - paragraph [ref=e181]: 146 cm / 57 inch
+                  - generic [ref=e182]: View Specifications
+            - article [ref=e184] [cursor=pointer]:
+              - link "Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM Majestica-724 Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e185]:
+                - /url: /fabric/majestica-724-twill-100cotton-125gsm-dark-teal-solid-dyed-woven
+                - generic [ref=e186]:
+                  - img "Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM" [ref=e188]
+                  - generic [ref=e189]: Majestica-724
+                - generic [ref=e190]:
+                  - heading "Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e192]
+                  - paragraph [ref=e194]: Woven Fabrics
+                  - generic [ref=e195]:
+                    - generic [ref=e196]:
+                      - paragraph [ref=e197]: Weight
+                      - paragraph [ref=e198]: 125 GSM
+                    - generic [ref=e199]:
+                      - paragraph [ref=e200]: Width
+                      - paragraph [ref=e201]: 146 cm / 57 inch
+                  - generic [ref=e202]: View Specifications
+            - article [ref=e204] [cursor=pointer]:
+              - link "Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM Majestica-718 Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e205]:
+                - /url: /fabric/majestica-718-twill-100cotton-125gsm-solid-dyed-teal-blue
+                - generic [ref=e206]:
+                  - img "Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM" [ref=e208]
+                  - generic [ref=e209]: Majestica-718
+                - generic [ref=e210]:
+                  - heading "Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM" [level=3] [ref=e212]
+                  - paragraph [ref=e214]: Woven Fabrics
+                  - generic [ref=e215]:
+                    - generic [ref=e216]:
+                      - paragraph [ref=e217]: Weight
+                      - paragraph [ref=e218]: 125 GSM
+                    - generic [ref=e219]:
+                      - paragraph [ref=e220]: Width
+                      - paragraph [ref=e221]: 146 cm / 57 inch
+                  - generic [ref=e222]: View Specifications
+            - article [ref=e224] [cursor=pointer]:
+              - link "Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM Majestica-712 Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e225]:
+                - /url: /fabric/majestica-712-twill-100cotton-125gsm-blush-pink-solid-dyed-woven
+                - generic [ref=e226]:
+                  - img "Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM" [ref=e228]
+                  - generic [ref=e229]: Majestica-712
+                - generic [ref=e230]:
+                  - heading "Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM" [level=3] [ref=e232]
+                  - paragraph [ref=e234]: Woven Fabrics
+                  - generic [ref=e235]:
+                    - generic [ref=e236]:
+                      - paragraph [ref=e237]: Weight
+                      - paragraph [ref=e238]: 125 GSM
+                    - generic [ref=e239]:
+                      - paragraph [ref=e240]: Width
+                      - paragraph [ref=e241]: 146 cm / 57 inch
+                  - generic [ref=e242]: View Specifications
+            - article [ref=e244] [cursor=pointer]:
+              - link "Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM Majestica-706 Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e245]:
+                - /url: /fabric/majestica-706-twill-100cotton-125gsm-golden-yellow-solid-dyed
+                - generic [ref=e246]:
+                  - img "Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM" [ref=e248]
+                  - generic [ref=e249]: Majestica-706
+                - generic [ref=e250]:
+                  - heading "Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM" [level=3] [ref=e252]
+                  - paragraph [ref=e254]: Woven Fabrics
+                  - generic [ref=e255]:
+                    - generic [ref=e256]:
+                      - paragraph [ref=e257]: Weight
+                      - paragraph [ref=e258]: 125 GSM
+                    - generic [ref=e259]:
+                      - paragraph [ref=e260]: Width
+                      - paragraph [ref=e261]: 146 cm / 57 inch
+                  - generic [ref=e262]: View Specifications
+            - article [ref=e264] [cursor=pointer]:
+              - link "Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM Majestica-765 Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e265]:
+                - /url: /fabric/majestica-765-twill-100cotton-125gsm-soft-orange-solid-dyed-woven
+                - generic [ref=e266]:
+                  - img "Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM" [ref=e268]
+                  - generic [ref=e269]: Majestica-765
+                - generic [ref=e270]:
+                  - heading "Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM" [level=3] [ref=e272]
+                  - paragraph [ref=e274]: Woven Fabrics
+                  - generic [ref=e275]:
+                    - generic [ref=e276]:
+                      - paragraph [ref=e277]: Weight
+                      - paragraph [ref=e278]: 125 GSM
+                    - generic [ref=e279]:
+                      - paragraph [ref=e280]: Width
+                      - paragraph [ref=e281]: 146 cm / 57 inch
+                  - generic [ref=e282]: View Specifications
+            - article [ref=e284] [cursor=pointer]:
+              - link "Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM Majestica-759 Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e285]:
+                - /url: /fabric/majestica-759-twill-100cotton-125gsm-military-green-solid-dyed
+                - generic [ref=e286]:
+                  - img "Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM" [ref=e288]
+                  - generic [ref=e289]: Majestica-759
+                - generic [ref=e290]:
+                  - heading "Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e292]
+                  - paragraph [ref=e294]: Woven Fabrics
+                  - generic [ref=e295]:
+                    - generic [ref=e296]:
+                      - paragraph [ref=e297]: Weight
+                      - paragraph [ref=e298]: 125 GSM
+                    - generic [ref=e299]:
+                      - paragraph [ref=e300]: Width
+                      - paragraph [ref=e301]: 146 cm / 57 inch
+                  - generic [ref=e302]: View Specifications
+        - complementary "Fabric filters" [ref=e304]:
+          - generic [ref=e308]:
+            - generic [ref=e309]:
+              - generic [ref=e310]: Category
+              - list [ref=e311]:
+                - listitem [ref=e312]:
+                  - generic [ref=e313] [cursor=pointer]:
+                    - checkbox "Denim Fabric" [ref=e314]
+                    - text: Denim Fabric
+                - listitem [ref=e315]:
+                  - generic [ref=e316] [cursor=pointer]:
+                    - checkbox "Woven Fabrics" [ref=e317]
+                    - text: Woven Fabrics
+            - generic [ref=e318]:
+              - generic [ref=e319]: Structure / Weave
+              - list [ref=e320]:
+                - listitem [ref=e321]:
+                  - generic [ref=e322] [cursor=pointer]:
+                    - checkbox "Plain / Poplin" [ref=e323]
+                    - text: Plain / Poplin
+                - listitem [ref=e324]:
+                  - generic [ref=e325] [cursor=pointer]:
+                    - checkbox "Twill" [ref=e326]
+                    - text: Twill
+            - generic [ref=e327]:
+              - generic [ref=e328]: Content
+              - list [ref=e329]:
+                - listitem [ref=e330]:
+                  - generic [ref=e331] [cursor=pointer]:
+                    - checkbox "100% Cotton" [ref=e332]
+                    - text: 100% Cotton
+                - listitem [ref=e333]:
+                  - generic [ref=e334] [cursor=pointer]:
+                    - checkbox "Cotton" [ref=e335]
+                    - text: Cotton
+                - listitem [ref=e336]:
+                  - generic [ref=e337] [cursor=pointer]:
+                    - checkbox "Polyester" [ref=e338]
+                    - text: Polyester
+            - generic [ref=e339]:
+              - generic [ref=e340]: Design
+              - list [ref=e341]:
+                - listitem [ref=e342]:
+                  - generic [ref=e343] [cursor=pointer]:
+                    - checkbox "Object" [ref=e344]
+                    - text: Object
+                - listitem [ref=e345]:
+                  - generic [ref=e346] [cursor=pointer]:
+                    - checkbox "Solid Dyed" [ref=e347]
+                    - text: Solid Dyed
+                - listitem [ref=e348]:
+                  - generic [ref=e349] [cursor=pointer]:
+                    - checkbox "Yarn Dyed" [ref=e350]
+                    - text: Yarn Dyed
+            - generic [ref=e351]:
+              - generic [ref=e352]: Color
+              - list [ref=e353]:
+                - listitem [ref=e354]:
+                  - generic [ref=e355] [cursor=pointer]:
+                    - checkbox "Aqua Blue" [ref=e356]
+                    - text: Aqua Blue
+                - listitem [ref=e358]:
+                  - generic [ref=e359] [cursor=pointer]:
+                    - checkbox "Ash Grey" [ref=e360]
+                    - text: Ash Grey
+                - listitem [ref=e362]:
+                  - generic [ref=e363] [cursor=pointer]:
+                    - checkbox "Baby Pink" [ref=e364]
+                    - text: Baby Pink
+                - listitem [ref=e366]:
+                  - generic [ref=e367] [cursor=pointer]:
+                    - checkbox "Beige" [ref=e368]
+                    - text: Beige
+                - listitem [ref=e370]:
+                  - generic [ref=e371] [cursor=pointer]:
+                    - checkbox "Black" [ref=e372]
+                    - text: Black
+                - listitem [ref=e374]:
+                  - generic [ref=e375] [cursor=pointer]:
+                    - checkbox "Blush Pink" [ref=e376]
+                    - text: Blush Pink
+                - listitem [ref=e378]:
+                  - generic [ref=e379] [cursor=pointer]:
+                    - checkbox "Bold Teal" [ref=e380]
+                    - text: Bold Teal
+                - listitem [ref=e382]:
+                  - generic [ref=e383] [cursor=pointer]:
+                    - checkbox "Bottle Green" [ref=e384]
+                    - text: Bottle Green
+                - listitem [ref=e386]:
+                  - generic [ref=e387] [cursor=pointer]:
+                    - checkbox "Bright Cyan Blue" [ref=e388]
+                    - text: Bright Cyan Blue
+                - listitem [ref=e390]:
+                  - generic [ref=e391] [cursor=pointer]:
+                    - checkbox "Bright Orange" [ref=e392]
+                    - text: Bright Orange
+                - listitem [ref=e394]:
+                  - generic [ref=e395] [cursor=pointer]:
+                    - checkbox "Butter Yellow" [ref=e396]
+                    - text: Butter Yellow
+                - listitem [ref=e398]:
+                  - generic [ref=e399] [cursor=pointer]:
+                    - checkbox "Camel" [ref=e400]
+                    - text: Camel
+                - listitem [ref=e402]:
+                  - generic [ref=e403] [cursor=pointer]:
+                    - checkbox "Camel Brown" [ref=e404]
+                    - text: Camel Brown
+                - listitem [ref=e406]:
+                  - generic [ref=e407] [cursor=pointer]:
+                    - checkbox "Caramel" [ref=e408]
+                    - text: Caramel
+                - listitem [ref=e410]:
+                  - generic [ref=e411] [cursor=pointer]:
+                    - checkbox "Charcoal Black" [ref=e412]
+                    - text: Charcoal Black
+                - listitem [ref=e414]:
+                  - generic [ref=e415] [cursor=pointer]:
+                    - checkbox "Charcoal Grey" [ref=e416]
+                    - text: Charcoal Grey
+                - listitem [ref=e418]:
+                  - generic [ref=e419] [cursor=pointer]:
+                    - checkbox "Chocolate Brown" [ref=e420]
+                    - text: Chocolate Brown
+                - listitem [ref=e422]:
+                  - generic [ref=e423] [cursor=pointer]:
+                    - checkbox "Classic Black" [ref=e424]
+                    - text: Classic Black
+                - listitem [ref=e426]:
+                  - generic [ref=e427] [cursor=pointer]:
+                    - checkbox "Cocoa Brown" [ref=e428]
+                    - text: Cocoa Brown
+                - listitem [ref=e430]:
+                  - generic [ref=e431] [cursor=pointer]:
+                    - checkbox "Coffee Brown" [ref=e432]
+                    - text: Coffee Brown
+                - listitem [ref=e434]:
+                  - generic [ref=e435] [cursor=pointer]:
+                    - checkbox "Coral" [ref=e436]
+                    - text: Coral
+                - listitem [ref=e438]:
+                  - generic [ref=e439] [cursor=pointer]:
+                    - checkbox "Cream" [ref=e440]
+                    - text: Cream
+                - listitem [ref=e442]:
+                  - generic [ref=e443] [cursor=pointer]:
+                    - checkbox "Crimson Red" [ref=e444]
+                    - text: Crimson Red
+                - listitem [ref=e446]:
+                  - generic [ref=e447] [cursor=pointer]:
+                    - checkbox "Dark Bottle Green" [ref=e448]
+                    - text: Dark Bottle Green
+                - listitem [ref=e450]:
+                  - generic [ref=e451] [cursor=pointer]:
+                    - checkbox "Dark Burgundy" [ref=e452]
+                    - text: Dark Burgundy
+                - listitem [ref=e454]:
+                  - generic [ref=e455] [cursor=pointer]:
+                    - checkbox "Dark Chocolate" [ref=e456]
+                    - text: Dark Chocolate
+                - listitem [ref=e458]:
+                  - generic [ref=e459] [cursor=pointer]:
+                    - checkbox "Dark Coral" [ref=e460]
+                    - text: Dark Coral
+                - listitem [ref=e462]:
+                  - generic [ref=e463] [cursor=pointer]:
+                    - checkbox "Dark Forest Green" [ref=e464]
+                    - text: Dark Forest Green
+                - listitem [ref=e466]:
+                  - generic [ref=e467] [cursor=pointer]:
+                    - checkbox "Dark Khaki" [ref=e468]
+                    - text: Dark Khaki
+                - listitem [ref=e470]:
+                  - generic [ref=e471] [cursor=pointer]:
+                    - checkbox "Dark Mustard" [ref=e472]
+                    - text: Dark Mustard
+                - listitem [ref=e474]:
+                  - generic [ref=e475] [cursor=pointer]:
+                    - checkbox "Dark Navy" [ref=e476]
+                    - text: Dark Navy
+                - listitem [ref=e478]:
+                  - generic [ref=e479] [cursor=pointer]:
+                    - checkbox "Dark Navy Blue" [ref=e480]
+                    - text: Dark Navy Blue
+                - listitem [ref=e482]:
+                  - generic [ref=e483] [cursor=pointer]:
+                    - checkbox "Dark Purple" [ref=e484]
+                    - text: Dark Purple
+                - listitem [ref=e486]:
+                  - generic [ref=e487] [cursor=pointer]:
+                    - checkbox "Dark Teal" [ref=e488]
+                    - text: Dark Teal
+                - listitem [ref=e490]:
+                  - generic [ref=e491] [cursor=pointer]:
+                    - checkbox "Deep Crimson Red" [ref=e492]
+                    - text: Deep Crimson Red
+                - listitem [ref=e494]:
+                  - generic [ref=e495] [cursor=pointer]:
+                    - checkbox "Deep Olive" [ref=e496]
+                    - text: Deep Olive
+                - listitem [ref=e498]:
+                  - generic [ref=e499] [cursor=pointer]:
+                    - checkbox "Deep Pink" [ref=e500]
+                    - text: Deep Pink
+                - listitem [ref=e502]:
+                  - generic [ref=e503] [cursor=pointer]:
+                    - checkbox "Deep Teal" [ref=e504]
+                    - text: Deep Teal
+                - listitem [ref=e506]:
+                  - generic [ref=e507] [cursor=pointer]:
+                    - checkbox "Denim Blue" [ref=e508]
+                    - text: Denim Blue
+                - listitem [ref=e510]:
+                  - generic [ref=e511] [cursor=pointer]:
+                    - checkbox "Dusty Mauve" [ref=e512]
+                    - text: Dusty Mauve
+                - listitem [ref=e514]:
+                  - generic [ref=e515] [cursor=pointer]:
+                    - checkbox "Dusty Rose" [ref=e516]
+                    - text: Dusty Rose
+                - listitem [ref=e518]:
+                  - generic [ref=e519] [cursor=pointer]:
+                    - checkbox "Emerald Green" [ref=e520]
+                    - text: Emerald Green
+                - listitem [ref=e522]:
+                  - generic [ref=e523] [cursor=pointer]:
+                    - checkbox "Golden Yellow" [ref=e524]
+                    - text: Golden Yellow
+                - listitem [ref=e526]:
+                  - generic [ref=e527] [cursor=pointer]:
+                    - checkbox "Grass Green" [ref=e528]
+                    - text: Grass Green
+                - listitem [ref=e530]:
+                  - generic [ref=e531] [cursor=pointer]:
+                    - checkbox "Grey" [ref=e532]
+                    - text: Grey
+                - listitem [ref=e534]:
+                  - generic [ref=e535] [cursor=pointer]:
+                    - checkbox "Hot Pink" [ref=e536]
+                    - text: Hot Pink
+                - listitem [ref=e538]:
+                  - generic [ref=e539] [cursor=pointer]:
+                    - checkbox "Ice Blue" [ref=e540]
+                    - text: Ice Blue
+                - listitem [ref=e542]:
+                  - generic [ref=e543] [cursor=pointer]:
+                    - checkbox "Indigo Blue" [ref=e544]
+                    - text: Indigo Blue
+                - listitem [ref=e546]:
+                  - generic [ref=e547] [cursor=pointer]:
+                    - checkbox "Ink Blue" [ref=e548]
+                    - text: Ink Blue
+                - listitem [ref=e550]:
+                  - generic [ref=e551] [cursor=pointer]:
+                    - checkbox "Ivory" [ref=e552]
+                    - text: Ivory
+                - listitem [ref=e554]:
+                  - generic [ref=e555] [cursor=pointer]:
+                    - checkbox "Khaki" [ref=e556]
+                    - text: Khaki
+                - listitem [ref=e558]:
+                  - generic [ref=e559] [cursor=pointer]:
+                    - checkbox "Lavender Grey" [ref=e560]
+                    - text: Lavender Grey
+                - listitem [ref=e562]:
+                  - generic [ref=e563] [cursor=pointer]:
+                    - checkbox "Lemon Yellow" [ref=e564]
+                    - text: Lemon Yellow
+                - listitem [ref=e566]:
+                  - generic [ref=e567] [cursor=pointer]:
+                    - checkbox "Light Navy Blue" [ref=e568]
+                    - text: Light Navy Blue
+                - listitem [ref=e570]:
+                  - generic [ref=e571] [cursor=pointer]:
+                    - checkbox "Lilac" [ref=e572]
+                    - text: Lilac
+                - listitem [ref=e574]:
+                  - generic [ref=e575] [cursor=pointer]:
+                    - checkbox "Maroon" [ref=e576]
+                    - text: Maroon
+                - listitem [ref=e578]:
+                  - generic [ref=e579] [cursor=pointer]:
+                    - checkbox "Medium Grey" [ref=e580]
+                    - text: Medium Grey
+                - listitem [ref=e582]:
+                  - generic [ref=e583] [cursor=pointer]:
+                    - checkbox "Military Green" [ref=e584]
+                    - text: Military Green
+                - listitem [ref=e586]:
+                  - generic [ref=e587] [cursor=pointer]:
+                    - checkbox "Mint" [ref=e588]
+                    - text: Mint
+                - listitem [ref=e590]:
+                  - generic [ref=e591] [cursor=pointer]:
+                    - checkbox "Mint Green" [ref=e592]
+                    - text: Mint Green
+                - listitem [ref=e594]:
+                  - generic [ref=e595] [cursor=pointer]:
+                    - checkbox "Mud Grey" [ref=e596]
+                    - text: Mud Grey
+                - listitem [ref=e598]:
+                  - generic [ref=e599] [cursor=pointer]:
+                    - checkbox "mushroom Brown" [ref=e600]
+                    - text: mushroom Brown
+                - listitem [ref=e602]:
+                  - generic [ref=e603] [cursor=pointer]:
+                    - checkbox "Mustard" [ref=e604]
+                    - text: Mustard
+                - listitem [ref=e606]:
+                  - generic [ref=e607] [cursor=pointer]:
+                    - checkbox "Mustard Yellow" [ref=e608]
+                    - text: Mustard Yellow
+                - listitem [ref=e610]:
+                  - generic [ref=e611] [cursor=pointer]:
+                    - checkbox "Muted Rose" [ref=e612]
+                    - text: Muted Rose
+                - listitem [ref=e614]:
+                  - generic [ref=e615] [cursor=pointer]:
+                    - checkbox "Nude Peach" [ref=e616]
+                    - text: Nude Peach
+                - listitem [ref=e618]:
+                  - generic [ref=e619] [cursor=pointer]:
+                    - checkbox "Off White" [ref=e620]
+                    - text: Off White
+                - listitem [ref=e622]:
+                  - generic [ref=e623] [cursor=pointer]:
+                    - checkbox "Olive" [ref=e624]
+                    - text: Olive
+                - listitem [ref=e626]:
+                  - generic [ref=e627] [cursor=pointer]:
+                    - checkbox "Olive Brown" [ref=e628]
+                    - text: Olive Brown
+                - listitem [ref=e630]:
+                  - generic [ref=e631] [cursor=pointer]:
+                    - checkbox "Olive Green" [ref=e632]
+                    - text: Olive Green
+                - listitem [ref=e634]:
+                  - generic [ref=e635] [cursor=pointer]:
+                    - checkbox "Parrot Green" [ref=e636]
+                    - text: Parrot Green
+                - listitem [ref=e638]:
+                  - generic [ref=e639] [cursor=pointer]:
+                    - checkbox "Pastel Coral" [ref=e640]
+                    - text: Pastel Coral
+                - listitem [ref=e642]:
+                  - generic [ref=e643] [cursor=pointer]:
+                    - checkbox "Pastel Green" [ref=e644]
+                    - text: Pastel Green
+                - listitem [ref=e646]:
+                  - generic [ref=e647] [cursor=pointer]:
+                    - checkbox "Peach" [ref=e648]
+                    - text: Peach
+                - listitem [ref=e650]:
+                  - generic [ref=e651] [cursor=pointer]:
+                    - checkbox "Peacock Blue" [ref=e652]
+                    - text: Peacock Blue
+                - listitem [ref=e654]:
+                  - generic [ref=e655] [cursor=pointer]:
+                    - checkbox "Peacock Green" [ref=e656]
+                    - text: Peacock Green
+                - listitem [ref=e658]:
+                  - generic [ref=e659] [cursor=pointer]:
+                    - checkbox "Periwinkle Grey" [ref=e660]
+                    - text: Periwinkle Grey
+                - listitem [ref=e662]:
+                  - generic [ref=e663] [cursor=pointer]:
+                    - checkbox "Pink" [ref=e664]
+                    - text: Pink
+                - listitem [ref=e666]:
+                  - generic [ref=e667] [cursor=pointer]:
+                    - checkbox "Pistachio Green" [ref=e668]
+                    - text: Pistachio Green
+                - listitem [ref=e670]:
+                  - generic [ref=e671] [cursor=pointer]:
+                    - checkbox "Pure White" [ref=e672]
+                    - text: Pure White
+                - listitem [ref=e674]:
+                  - generic [ref=e675] [cursor=pointer]:
+                    - checkbox "Purple" [ref=e676]
+                    - text: Purple
+                - listitem [ref=e678]:
+                  - generic [ref=e679] [cursor=pointer]:
+                    - checkbox "Red" [ref=e680]
+                    - text: Red
+                - listitem [ref=e682]:
+                  - generic [ref=e683] [cursor=pointer]:
+                    - checkbox "Royal Blue" [ref=e684]
+                    - text: Royal Blue
+                - listitem [ref=e686]:
+                  - generic [ref=e687] [cursor=pointer]:
+                    - checkbox "Rust" [ref=e688]
+                    - text: Rust
+                - listitem [ref=e690]:
+                  - generic [ref=e691] [cursor=pointer]:
+                    - checkbox "Rust Brown" [ref=e692]
+                    - text: Rust Brown
+                - listitem [ref=e694]:
+                  - generic [ref=e695] [cursor=pointer]:
+                    - checkbox "Rust Red" [ref=e696]
+                    - text: Rust Red
+                - listitem [ref=e698]:
+                  - generic [ref=e699] [cursor=pointer]:
+                    - checkbox "Sage Green" [ref=e700]
+                    - text: Sage Green
+                - listitem [ref=e702]:
+                  - generic [ref=e703] [cursor=pointer]:
+                    - checkbox "Sand Beige" [ref=e704]
+                    - text: Sand Beige
+                - listitem [ref=e706]:
+                  - generic [ref=e707] [cursor=pointer]:
+                    - checkbox "Sea Green" [ref=e708]
+                    - text: Sea Green
+                - listitem [ref=e710]:
+                  - generic [ref=e711] [cursor=pointer]:
+                    - checkbox "Silver Grey" [ref=e712]
+                    - text: Silver Grey
+                - listitem [ref=e714]:
+                  - generic [ref=e715] [cursor=pointer]:
+                    - checkbox "Sky Blue" [ref=e716]
+                    - text: Sky Blue
+                - listitem [ref=e718]:
+                  - generic [ref=e719] [cursor=pointer]:
+                    - checkbox "Slate Blue" [ref=e720]
+                    - text: Slate Blue
+                - listitem [ref=e722]:
+                  - generic [ref=e723] [cursor=pointer]:
+                    - checkbox "Smoke Grey" [ref=e724]
+                    - text: Smoke Grey
+                - listitem [ref=e726]:
+                  - generic [ref=e727] [cursor=pointer]:
+                    - checkbox "Soft Orange" [ref=e728]
+                    - text: Soft Orange
+                - listitem [ref=e730]:
+                  - generic [ref=e731] [cursor=pointer]:
+                    - checkbox "Soft Peach" [ref=e732]
+                    - text: Soft Peach
+                - listitem [ref=e734]:
+                  - generic [ref=e735] [cursor=pointer]:
+                    - checkbox "Stone Grey" [ref=e736]
+                    - text: Stone Grey
+                - listitem [ref=e738]:
+                  - generic [ref=e739] [cursor=pointer]:
+                    - checkbox "Teal" [ref=e740]
+                    - text: Teal
+                - listitem [ref=e742]:
+                  - generic [ref=e743] [cursor=pointer]:
+                    - checkbox "Teal Blue" [ref=e744]
+                    - text: Teal Blue
+                - listitem [ref=e746]:
+                  - generic [ref=e747] [cursor=pointer]:
+                    - checkbox "Teal Green" [ref=e748]
+                    - text: Teal Green
+                - listitem [ref=e750]:
+                  - generic [ref=e751] [cursor=pointer]:
+                    - checkbox "Turquoise" [ref=e752]
+                    - text: Turquoise
+                - listitem [ref=e754]:
+                  - generic [ref=e755] [cursor=pointer]:
+                    - checkbox "Warm Saddle Brown" [ref=e756]
+                    - text: Warm Saddle Brown
+                - listitem [ref=e758]:
+                  - generic [ref=e759] [cursor=pointer]:
+                    - checkbox "White" [ref=e760]
+                    - text: White
+                - listitem [ref=e762]:
+                  - generic [ref=e763] [cursor=pointer]:
+                    - checkbox "Wine Purple" [ref=e764]
+                    - text: Wine Purple
+                - listitem [ref=e766]:
+                  - generic [ref=e767] [cursor=pointer]:
+                    - checkbox "Wine Red" [ref=e768]
+                    - text: Wine Red
+            - generic [ref=e770]:
+              - generic [ref=e771]: Core Finishes
+              - list [ref=e772]:
+                - listitem [ref=e773]:
+                  - generic [ref=e774] [cursor=pointer]:
+                    - checkbox "Chemical - Bio Finish" [ref=e775]
+                    - text: Chemical - Bio Finish
+                - listitem [ref=e776]:
+                  - generic [ref=e777] [cursor=pointer]:
+                    - checkbox "Chemical - Mercerized" [ref=e778]
+                    - text: Chemical - Mercerized
+                - listitem [ref=e779]:
+                  - generic [ref=e780] [cursor=pointer]:
+                    - checkbox "Chemical - Mercerized, Soft Finish" [ref=e781]
+                    - text: Chemical - Mercerized, Soft Finish
+                - listitem [ref=e782]:
+                  - generic [ref=e783] [cursor=pointer]:
+                    - checkbox "Chemical - Silicon" [ref=e784]
+                    - text: Chemical - Silicon
+                - listitem [ref=e785]:
+                  - generic [ref=e786] [cursor=pointer]:
+                    - checkbox "Mechanical - Brushed" [ref=e787]
+                    - text: Mechanical - Brushed
+                - listitem [ref=e788]:
+                  - generic [ref=e789] [cursor=pointer]:
+                    - checkbox "Mechanical - Carbon" [ref=e790]
+                    - text: Mechanical - Carbon
+                - listitem [ref=e791]:
+                  - generic [ref=e792] [cursor=pointer]:
+                    - checkbox "Mechanical - Laffer" [ref=e793]
+                    - text: Mechanical - Laffer
+                - listitem [ref=e794]:
+                  - generic [ref=e795] [cursor=pointer]:
+                    - checkbox "Soft Finish" [ref=e796]
+                    - text: Soft Finish
+            - generic [ref=e797]:
+              - generic [ref=e798]: Weight (GSM)
+              - generic [ref=e799]: Maximum weight in GSM
+              - slider "Maximum weight in GSM" [ref=e800]: "500"
+              - generic [ref=e801]:
+                - generic [ref=e802]: 50 GSM
+                - generic [ref=e803]: 500 GSM
+      - generic [ref=e805]:
+        - generic [ref=e806]:
+          - heading "Experience the quality in your hands." [level=2] [ref=e807]
+          - paragraph [ref=e808]: Order our precision swatch packs for your design team. We offer global shipping for technical textile evaluation.
+        - link "Request Swatch Samples" [ref=e809] [cursor=pointer]:
+          - /url: /support
+      - generic [ref=e811]:
+        - generic [ref=e812]:
+          - heading "How to choose the right fabric for your brand" [level=2] [ref=e813]
+          - generic [ref=e814]:
+            - generic [ref=e815]:
+              - generic [ref=e816]: "01"
+              - generic [ref=e817]:
+                - heading "Define Utility First" [level=3] [ref=e818]
+                - paragraph [ref=e819]: Identify the end-use. Industrial workwear requires higher tensile strength.
+            - generic [ref=e820]:
+              - generic [ref=e821]: "02"
+              - generic [ref=e822]:
+                - heading "Understand GSM Dynamics" [level=3] [ref=e823]
+                - paragraph [ref=e824]: GSM determines drape and durability. 125-150 is ideal for shirting.
+            - generic [ref=e825]:
+              - generic [ref=e826]: "03"
+              - generic [ref=e827]:
+                - heading "Finish Selection" [level=3] [ref=e828]
+                - paragraph [ref=e829]: Choose mercerization for luster or silicone washes for soft hand feel.
+        - img "How to choose the right fabric for your brand" [ref=e833]
+      - generic [ref=e834]:
+        - heading "Buyer Intelligence & FAQ" [level=2] [ref=e835]
+        - generic [ref=e836]:
+          - group [ref=e837]:
+            - generic "Pricing/MOQ website faq1 - question expand_more" [ref=e838] [cursor=pointer]:
+              - generic [ref=e839]: Pricing/MOQ website faq1 - question
+              - generic [ref=e840]: expand_more
+          - group [ref=e841]:
+            - generic "Pricing/MOQ website faq2 - question expand_more" [ref=e842] [cursor=pointer]:
+              - generic [ref=e843]: Pricing/MOQ website faq2 - question
+              - generic [ref=e844]: expand_more
+          - group [ref=e845]:
+            - generic "Pricing/MOQ website faq3 - question expand_more" [ref=e846] [cursor=pointer]:
+              - generic [ref=e847]: Pricing/MOQ website faq3 - question
+              - generic [ref=e848]: expand_more
+          - group [ref=e849]:
+            - generic "Pricing/MOQ website faq4 - question expand_more" [ref=e850] [cursor=pointer]:
+              - generic [ref=e851]: Pricing/MOQ website faq4 - question
+              - generic [ref=e852]: expand_more
+  - contentinfo [ref=e853]:
+    - generic [ref=e854]:
+      - generic [ref=e856]:
+        - generic [ref=e857]:
+          - heading "Office Address" [level=3] [ref=e858]: Office Address
+          - link "404, 4th Floor, Safal Prelude, Opp SPIPA, Ahmedabad, Gujarat, India, 380015" [ref=e860] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=404%2C%204th%20Floor%2C%20Safal%20Prelude%2C%20Opp%20SPIPA%2C%20Ahmedabad%2C%20Gujarat%2C%20India%2C%20380015
+        - generic [ref=e861]:
+          - heading "Factory Address" [level=3] [ref=e862]: Factory Address
+          - link "1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449" [ref=e864] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=1+Mohan+Estate+Ramol+Road+Ahmedabad+Gujarat+India+382449
+        - generic [ref=e865]:
+          - heading "Warehouse Address" [level=3] [ref=e866]: Warehouse Address
+          - link "Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405" [ref=e868] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=Nr+Ambuja+Synthetics+Old+Narol+Court+Narol+Ahmedabad+Gujarat+India+382405
+        - generic [ref=e869]:
+          - heading "UAE Office Address" [level=3] [ref=e870]: UAE Office Address
+          - link "GSK Worldwide FZE, Ajman Free Zone, UAE" [ref=e872] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=GSK+Worldwide+FZE+Ajman+Free+Zone+UAE
+      - generic [ref=e873]:
+        - generic [ref=e874]:
+          - heading "Quick Links" [level=3] [ref=e875]
+          - list "Quick Links" [ref=e876]:
+            - listitem [ref=e877]:
+              - link "Home" [ref=e878] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e879]:
+              - link "About AGE" [ref=e880] [cursor=pointer]:
+                - /url: /about
+                - text: About
+                - generic: AGE
+            - listitem [ref=e881]:
+              - link "Capabilities" [ref=e882] [cursor=pointer]:
+                - /url: /capabilities
+            - listitem [ref=e883]:
+              - link "Blog" [ref=e884] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e885]:
+              - link "Support & Contact" [ref=e886] [cursor=pointer]:
+                - /url: /support
+            - listitem [ref=e887]:
+              - link "FAQ" [ref=e888] [cursor=pointer]:
+                - /url: /faq
+            - listitem [ref=e889]:
+              - link "Shipping" [ref=e890] [cursor=pointer]:
+                - /url: /shipping
+            - listitem [ref=e891]:
+              - link "Ahmedabad Hub" [ref=e892] [cursor=pointer]:
+                - /url: /ahmedabad-hub
+            - listitem [ref=e893]:
+              - link "Fabric Manufacturer" [ref=e894] [cursor=pointer]:
+                - /url: /fabric-manufacturer
+        - generic [ref=e895]:
+          - heading "Collections" [level=3] [ref=e896]
+          - list "Collections" [ref=e897]:
+            - listitem [ref=e898]:
+              - link "Holi Collection" [ref=e899] [cursor=pointer]:
+                - /url: /collection/holi-collection
+            - listitem [ref=e900]:
+              - link "Diwali Collection" [ref=e901] [cursor=pointer]:
+                - /url: /collection/diwali-collection
+      - generic [ref=e902]:
+        - generic [ref=e903]:
+          - heading "Information" [level=3] [ref=e904]
+          - list "Information" [ref=e905]:
+            - listitem [ref=e906]:
+              - link "Terms & Conditions" [ref=e907] [cursor=pointer]:
+                - /url: /terms-and-conditions
+            - listitem [ref=e908]:
+              - link "Careers" [ref=e909] [cursor=pointer]:
+                - /url: /careers
+            - listitem [ref=e910]:
+              - link "Sitemap" [ref=e911] [cursor=pointer]:
+                - /url: /sitemap
+            - listitem [ref=e912]:
+              - link "Certifications" [ref=e913] [cursor=pointer]:
+                - /url: /certifications
+        - generic [ref=e914]:
+          - heading "Categories" [level=3] [ref=e915]
+          - list "Categories" [ref=e916]:
+            - listitem [ref=e917]:
+              - link "All Fabrics" [ref=e918] [cursor=pointer]:
+                - /url: /fabric
+            - listitem [ref=e919]:
+              - link "Woven Fabrics" [ref=e920] [cursor=pointer]:
+                - /url: /category/woven-fabrics
+            - listitem [ref=e921]:
+              - link "Denim Fabric" [ref=e922] [cursor=pointer]:
+                - /url: /category/denim-fabric
+            - listitem [ref=e923]:
+              - link "Knit Fabric" [ref=e924] [cursor=pointer]:
+                - /url: /category/knit-fabric
+      - generic [ref=e925]:
+        - heading "Talk To Us" [level=3] [ref=e926]
+        - group "Talk To Us" [ref=e927]:
+          - generic [ref=e928]:
+            - img [ref=e929]
+            - link "+91-9925155141 (Sales)" [ref=e931] [cursor=pointer]:
+              - /url: tel:+91-9925155141
+          - generic [ref=e932]:
+            - img [ref=e933]
+            - link "+91-9824003484 (Director)" [ref=e935] [cursor=pointer]:
+              - /url: tel:+91-9824003484
+          - generic [ref=e936]:
+            - img [ref=e937]
+            - generic [ref=e939]:
+              - generic [ref=e940]: Sales Email
+              - link "sales@amrita-fashions.com" [ref=e941] [cursor=pointer]:
+                - /url: mailto:sales@amrita-fashions.com
+          - generic [ref=e942]:
+            - img [ref=e943]
+            - generic [ref=e945]:
+              - generic [ref=e946]: Support Email
+              - link "support@amrita-fashions.com" [ref=e947] [cursor=pointer]:
+                - /url: mailto:support@amrita-fashions.com
+          - generic [ref=e948]:
+            - img [ref=e949]
+            - link "Amrita Global Enterprises , 404, 4th Floor, Safal Prelude, Opp SPIPA , Ahmedabad, Gujarat, India, 380015" [ref=e952] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=404%2C%204th%20Floor%2C%20Safal%20Prelude%2C%20Opp%20SPIPA%2C%20Ahmedabad%2C%20Gujarat%2C%20India%2C%20380015
+        - paragraph [ref=e953]: "GSTIN: 24ADLPG0414A2ZF"
+        - paragraph [ref=e954]: Get new fabric arrivals & bulk pricing alerts — straight to your inbox.
+        - generic [ref=e955]:
+          - generic [ref=e956]: Email address
+          - textbox "Email address" [ref=e957]:
+            - /placeholder: Subscribe with us
+          - button "Subscribe" [ref=e958]:
+            - img [ref=e959]
+        - list "Social media links" [ref=e961]:
+          - link "Visit Amrita Global Enterprises on Facebook" [ref=e962] [cursor=pointer]:
+            - /url: https://www.facebook.com/AmritaGlobalEnterprises/
+            - img [ref=e964]
+            - generic [ref=e966]: Visit Amrita Global Enterprises on Facebook
+          - link "Follow Amrita Global Enterprises on Instagram" [ref=e967] [cursor=pointer]:
+            - /url: https://www.instagram.com/amritaglobalenterprises/
+            - img [ref=e969]
+            - generic [ref=e972]: Follow Amrita Global Enterprises on Instagram
+          - link "Connect with Amrita Global Enterprises on LinkedIn" [ref=e973] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/amrita-global-enterprises/
+            - img [ref=e975]
+            - generic [ref=e978]: Connect with Amrita Global Enterprises on LinkedIn
+          - link "Follow Amrita Global Enterprises on X" [ref=e979] [cursor=pointer]:
+            - /url: https://x.com/AmritaGlobals
+            - img [ref=e981]
+            - generic [ref=e983]: Follow Amrita Global Enterprises on X
+          - link "Watch Amrita Global Enterprises on YouTube" [ref=e984] [cursor=pointer]:
+            - /url: https://www.youtube.com/@AmritaGlobalEnterprises
+            - img [ref=e986]
+            - generic [ref=e988]: Watch Amrita Global Enterprises on YouTube
+          - link "Follow Amrita Global Enterprises on Pinterest" [ref=e989] [cursor=pointer]:
+            - /url: https://in.pinterest.com/digitalmktage/
+            - img [ref=e991]
+            - generic [ref=e993]: Follow Amrita Global Enterprises on Pinterest
+    - generic [ref=e995]:
+      - generic [ref=e996]: © 1971–2026 Amrita Global Enterprises
+      - generic [ref=e997]: "|"
+      - generic [ref=e998]: 404, 4th Floor, Safal Prelude, Opp SPIPA, Ahmedabad, Gujarat, India, 380015
+      - generic [ref=e999]: "|"
+      - generic [ref=e1000]: Best Textile Supplier Award 2023
+      - generic [ref=e1001]: "|"
+      - button "WhatsApp Us" [ref=e1002] [cursor=pointer]
+  - generic:
+    - button "Chat on WhatsApp":
+      - img
+    - link "Call us":
+      - /url: tel:+919925155141
+      - generic: call
+  - generic:
+    - link "Email us":
+      - /url: mailto:connect.age@outlook.com
+      - generic: mail

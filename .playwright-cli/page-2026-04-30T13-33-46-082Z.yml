@@ -1,0 +1,1887 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]: B2B Fabric Manufacturer & Exporter
+    - generic [ref=e4]: Cotton • Denim • Knit • Woven
+    - generic [ref=e5]: Bulk Orders • Global Supply • Inquiry Support
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - link "Amrita Global Enterprises" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Amrita Global Enterprises logo" [ref=e11]
+        - generic [ref=e12]:
+          - generic [ref=e13]: Amrita Global Enterprises
+          - generic [ref=e14]: Fabrics & Export Solutions
+      - navigation "Main navigation" [ref=e15]:
+        - link "Home" [ref=e16] [cursor=pointer]:
+          - /url: /
+        - link "Fabrics" [ref=e17] [cursor=pointer]:
+          - /url: /fabric
+        - link "Capabilities" [ref=e18] [cursor=pointer]:
+          - /url: /capabilities
+        - link "About" [ref=e19] [cursor=pointer]:
+          - /url: /about
+        - link "Careers" [ref=e20] [cursor=pointer]:
+          - /url: /careers
+        - link "Blog" [ref=e21] [cursor=pointer]:
+          - /url: /blog
+        - link "Certifications" [ref=e22] [cursor=pointer]:
+          - /url: /certifications
+      - generic [ref=e23]:
+        - button "Free Sample" [ref=e24] [cursor=pointer]
+        - link "Call Now" [ref=e25] [cursor=pointer]:
+          - /url: tel:+919925155141
+        - link "Get Quote" [ref=e26] [cursor=pointer]:
+          - /url: https://wa.me/919925155141?text=Hi+AGE+Team%2C+I%27m+a+bulk+fabric+buyer.+Can+I+get+pricing+and+a+free+sample%3F
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - img "Woven Fabrics" [ref=e31]
+        - generic [ref=e32]:
+          - navigation "Breadcrumb" [ref=e33]:
+            - link "Home" [ref=e35] [cursor=pointer]:
+              - /url: /
+            - generic [ref=e36]:
+              - generic [ref=e37]: /
+              - link "Woven Fabrics" [ref=e38] [cursor=pointer]:
+                - /url: /category/woven-fabrics
+          - heading "Woven Fabrics" [level=1] [ref=e39]
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - heading "Woven Fabric Manufacturer in India | Amrita Global Enterprises" [level=2] [ref=e43]
+          - generic [ref=e44]:
+            - heading "Woven Fabric Manufacturer for B2B Buyers" [level=2] [ref=e45]
+            - paragraph [ref=e46]:
+              - strong [ref=e47]: Amrita Global Enterprises
+              - text: is a B2B woven fabric manufacturer in Ahmedabad, India, supplying production-ready fabrics for garment manufacturers, uniform suppliers, apparel brands, institutional buyers and textile wholesalers. Our woven fabric range is developed for buyers who need dependable fabric construction, repeatable quality and clear specifications for bulk sourcing. We focus on practical woven fabrics used in commercial garment production, including
+              - strong [ref=e48]: cotton poplin, cotton twill, plain weave fabrics and solid dyed woven materials
+              - text: .
+            - heading "Production-Ready Woven Fabrics for Garment Manufacturing" [level=3] [ref=e49]
+            - paragraph [ref=e50]:
+              - text: Woven fabrics are widely preferred for shirts, uniforms, workwear, casualwear, schoolwear, corporate clothing, kurtas, dresses, trousers and other structured garments because they offer better dimensional stability, cleaner appearance and reliable stitching performance. As a manufacturing-backed supplier, AGE helps buyers evaluate fabrics by
+              - strong [ref=e51]: GSM, width, weave type, material, finish, shade and end-use application
+              - text: ", so the selected fabric matches real production needs."
+            - heading "Common Woven Fabric Applications" [level=4] [ref=e52]
+            - list [ref=e53]:
+              - listitem [ref=e54]:
+                - strong [ref=e55]: "Suitable for:"
+                - text: shirts, uniforms, workwear, casualwear and institutional garments
+              - listitem [ref=e56]:
+                - strong [ref=e57]: "Fabric focus:"
+                - text: cotton poplin, cotton twill, plain weave and solid dyed woven fabrics
+              - listitem [ref=e58]:
+                - strong [ref=e59]: "Buyer type:"
+                - text: garment manufacturers, wholesalers, exporters and B2B sourcing teams
+        - generic [ref=e60]:
+          - heading "B2B Supply Ready" [level=3] [ref=e61]
+          - paragraph [ref=e62]: All fabrics available in bulk with consistent quality, GSM verification, and export documentation.
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - generic [ref=e69]: 72 textiles
+              - generic [ref=e70]:
+                - generic [ref=e71]: "Sort By:"
+                - combobox "Sort By:" [ref=e72] [cursor=pointer]:
+                  - option "Latest Arrivals" [selected]
+                  - 'option "GSM: High to Low"'
+                  - 'option "GSM: Low to High"'
+            - generic [ref=e73]:
+              - generic [ref=e74]: Search fabrics
+              - generic: search
+              - searchbox "Search fabrics" [ref=e75]
+          - generic [ref=e77]:
+            - article [ref=e79] [cursor=pointer]:
+              - link "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm Majestica-766 Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e80]:
+                - /url: /category/woven-fabrics/majestica-766-twill-100cotton-125gsm-dark-burgundy-solid-dyed
+                - generic [ref=e81]:
+                  - img "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm" [ref=e83]
+                  - generic [ref=e84]: Majestica-766
+                - generic [ref=e85]:
+                  - heading "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm" [level=3] [ref=e87]
+                  - paragraph [ref=e89]: Woven Fabrics
+                  - generic [ref=e90]:
+                    - generic [ref=e91]:
+                      - paragraph [ref=e92]: Weight
+                      - paragraph [ref=e93]: 125 GSM
+                    - generic [ref=e94]:
+                      - paragraph [ref=e95]: Width
+                      - paragraph [ref=e96]: 146 cm / 57 inch
+                  - generic [ref=e97]: View Specifications
+            - article [ref=e99] [cursor=pointer]:
+              - link "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM Majestica-767 Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e100]:
+                - /url: /category/woven-fabrics/majestica-767-twill-100cotton-125gsm-cocoa-brown-solid-dyed
+                - generic [ref=e101]:
+                  - img "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM" [ref=e103]
+                  - generic [ref=e104]: Majestica-767
+                - generic [ref=e105]:
+                  - heading "Majestica-767 Cocoa Brown 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e107]
+                  - paragraph [ref=e109]: Woven Fabrics
+                  - generic [ref=e110]:
+                    - generic [ref=e111]:
+                      - paragraph [ref=e112]: Weight
+                      - paragraph [ref=e113]: 125 GSM
+                    - generic [ref=e114]:
+                      - paragraph [ref=e115]: Width
+                      - paragraph [ref=e116]: 146 cm / 57 inch
+                  - generic [ref=e117]: View Specifications
+            - article [ref=e119] [cursor=pointer]:
+              - link "Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM Majestica-760 Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e120]:
+                - /url: /category/woven-fabrics/majestica-760-twill-100cotton-125gsm-mint-green-solid-dyed
+                - generic [ref=e121]:
+                  - img "Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM" [ref=e123]
+                  - generic [ref=e124]: Majestica-760
+                - generic [ref=e125]:
+                  - heading "Majestica-760 100% Cotton Twill Woven Fabric Mint Green 125 GSM" [level=3] [ref=e127]
+                  - paragraph [ref=e129]: Woven Fabrics
+                  - generic [ref=e130]:
+                    - generic [ref=e131]:
+                      - paragraph [ref=e132]: Weight
+                      - paragraph [ref=e133]: 125 GSM
+                    - generic [ref=e134]:
+                      - paragraph [ref=e135]: Width
+                      - paragraph [ref=e136]: 146 cm / 57 inch
+                  - generic [ref=e137]: View Specifications
+            - article [ref=e139] [cursor=pointer]:
+              - link "Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM Majestica-754 Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e140]:
+                - /url: /category/woven-fabrics/majestica-754-twill-100cotton-125gsm-lavender-grey-solid-dyed
+                - generic [ref=e141]:
+                  - img "Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM" [ref=e143]
+                  - generic [ref=e144]: Majestica-754
+                - generic [ref=e145]:
+                  - heading "Majestica-754 Lavender Grey 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e147]
+                  - paragraph [ref=e149]: Woven Fabrics
+                  - generic [ref=e150]:
+                    - generic [ref=e151]:
+                      - paragraph [ref=e152]: Weight
+                      - paragraph [ref=e153]: 125 GSM
+                    - generic [ref=e154]:
+                      - paragraph [ref=e155]: Width
+                      - paragraph [ref=e156]: 146 cm / 57 inch
+                  - generic [ref=e157]: View Specifications
+            - article [ref=e159] [cursor=pointer]:
+              - link "Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM Majestica-748 Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e160]:
+                - /url: /category/woven-fabrics/majestica-748-twill-100cotton-125gsm-pastel-green-solid-dyed
+                - generic [ref=e161]:
+                  - img "Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM" [ref=e163]
+                  - generic [ref=e164]: Majestica-748
+                - generic [ref=e165]:
+                  - heading "Majestica-748 100% Cotton Twill Woven Fabric Pastel Green 125 GSM" [level=3] [ref=e167]
+                  - paragraph [ref=e169]: Woven Fabrics
+                  - generic [ref=e170]:
+                    - generic [ref=e171]:
+                      - paragraph [ref=e172]: Weight
+                      - paragraph [ref=e173]: 125 GSM
+                    - generic [ref=e174]:
+                      - paragraph [ref=e175]: Width
+                      - paragraph [ref=e176]: 146 cm / 57 inch
+                  - generic [ref=e177]: View Specifications
+            - article [ref=e179] [cursor=pointer]:
+              - link "Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM Majestica-730 Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e180]:
+                - /url: /category/woven-fabrics/majestica-730-twill-100cotton-125gsm-ink-blue-solid-dyed-woven-fabric
+                - generic [ref=e181]:
+                  - img "Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM" [ref=e183]
+                  - generic [ref=e184]: Majestica-730
+                - generic [ref=e185]:
+                  - heading "Majestica-730 Ink Blue 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e187]
+                  - paragraph [ref=e189]: Woven Fabrics
+                  - generic [ref=e190]:
+                    - generic [ref=e191]:
+                      - paragraph [ref=e192]: Weight
+                      - paragraph [ref=e193]: 125 GSM
+                    - generic [ref=e194]:
+                      - paragraph [ref=e195]: Width
+                      - paragraph [ref=e196]: 146 cm / 57 inch
+                  - generic [ref=e197]: View Specifications
+            - article [ref=e199] [cursor=pointer]:
+              - link "Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM Majestica-724 Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e200]:
+                - /url: /category/woven-fabrics/majestica-724-twill-100cotton-125gsm-dark-teal-solid-dyed-woven
+                - generic [ref=e201]:
+                  - img "Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM" [ref=e203]
+                  - generic [ref=e204]: Majestica-724
+                - generic [ref=e205]:
+                  - heading "Majestica-724 Dark Teal 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e207]
+                  - paragraph [ref=e209]: Woven Fabrics
+                  - generic [ref=e210]:
+                    - generic [ref=e211]:
+                      - paragraph [ref=e212]: Weight
+                      - paragraph [ref=e213]: 125 GSM
+                    - generic [ref=e214]:
+                      - paragraph [ref=e215]: Width
+                      - paragraph [ref=e216]: 146 cm / 57 inch
+                  - generic [ref=e217]: View Specifications
+            - article [ref=e219] [cursor=pointer]:
+              - link "Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM Majestica-718 Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e220]:
+                - /url: /category/woven-fabrics/majestica-718-twill-100cotton-125gsm-solid-dyed-teal-blue
+                - generic [ref=e221]:
+                  - img "Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM" [ref=e223]
+                  - generic [ref=e224]: Majestica-718
+                - generic [ref=e225]:
+                  - heading "Majestica-718 Teal Blue Twill 100% Cotton Woven Fabric 125 GSM" [level=3] [ref=e227]
+                  - paragraph [ref=e229]: Woven Fabrics
+                  - generic [ref=e230]:
+                    - generic [ref=e231]:
+                      - paragraph [ref=e232]: Weight
+                      - paragraph [ref=e233]: 125 GSM
+                    - generic [ref=e234]:
+                      - paragraph [ref=e235]: Width
+                      - paragraph [ref=e236]: 146 cm / 57 inch
+                  - generic [ref=e237]: View Specifications
+            - article [ref=e239] [cursor=pointer]:
+              - link "Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM Majestica-712 Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e240]:
+                - /url: /category/woven-fabrics/majestica-712-twill-100cotton-125gsm-blush-pink-solid-dyed-woven
+                - generic [ref=e241]:
+                  - img "Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM" [ref=e243]
+                  - generic [ref=e244]: Majestica-712
+                - generic [ref=e245]:
+                  - heading "Majestica-712 100% Cotton Twill Woven Fabric Blush Pink 125 GSM" [level=3] [ref=e247]
+                  - paragraph [ref=e249]: Woven Fabrics
+                  - generic [ref=e250]:
+                    - generic [ref=e251]:
+                      - paragraph [ref=e252]: Weight
+                      - paragraph [ref=e253]: 125 GSM
+                    - generic [ref=e254]:
+                      - paragraph [ref=e255]: Width
+                      - paragraph [ref=e256]: 146 cm / 57 inch
+                  - generic [ref=e257]: View Specifications
+            - article [ref=e259] [cursor=pointer]:
+              - link "Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM Majestica-706 Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e260]:
+                - /url: /category/woven-fabrics/majestica-706-twill-100cotton-125gsm-golden-yellow-solid-dyed
+                - generic [ref=e261]:
+                  - img "Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM" [ref=e263]
+                  - generic [ref=e264]: Majestica-706
+                - generic [ref=e265]:
+                  - heading "Majestica-706 100% Cotton Twill Woven Fabric Golden Yellow 125 GSM" [level=3] [ref=e267]
+                  - paragraph [ref=e269]: Woven Fabrics
+                  - generic [ref=e270]:
+                    - generic [ref=e271]:
+                      - paragraph [ref=e272]: Weight
+                      - paragraph [ref=e273]: 125 GSM
+                    - generic [ref=e274]:
+                      - paragraph [ref=e275]: Width
+                      - paragraph [ref=e276]: 146 cm / 57 inch
+                  - generic [ref=e277]: View Specifications
+            - article [ref=e279] [cursor=pointer]:
+              - link "Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM Majestica-765 Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e280]:
+                - /url: /category/woven-fabrics/majestica-765-twill-100cotton-125gsm-soft-orange-solid-dyed-woven
+                - generic [ref=e281]:
+                  - img "Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM" [ref=e283]
+                  - generic [ref=e284]: Majestica-765
+                - generic [ref=e285]:
+                  - heading "Majestica-765 100% Cotton Twill Woven Fabric Soft Orange 125 GSM" [level=3] [ref=e287]
+                  - paragraph [ref=e289]: Woven Fabrics
+                  - generic [ref=e290]:
+                    - generic [ref=e291]:
+                      - paragraph [ref=e292]: Weight
+                      - paragraph [ref=e293]: 125 GSM
+                    - generic [ref=e294]:
+                      - paragraph [ref=e295]: Width
+                      - paragraph [ref=e296]: 146 cm / 57 inch
+                  - generic [ref=e297]: View Specifications
+            - article [ref=e299] [cursor=pointer]:
+              - link "Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM Majestica-759 Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e300]:
+                - /url: /category/woven-fabrics/majestica-759-twill-100cotton-125gsm-military-green-solid-dyed
+                - generic [ref=e301]:
+                  - img "Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM" [ref=e303]
+                  - generic [ref=e304]: Majestica-759
+                - generic [ref=e305]:
+                  - heading "Majestica-759 Military Green 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e307]
+                  - paragraph [ref=e309]: Woven Fabrics
+                  - generic [ref=e310]:
+                    - generic [ref=e311]:
+                      - paragraph [ref=e312]: Weight
+                      - paragraph [ref=e313]: 125 GSM
+                    - generic [ref=e314]:
+                      - paragraph [ref=e315]: Width
+                      - paragraph [ref=e316]: 146 cm / 57 inch
+                  - generic [ref=e317]: View Specifications
+            - article [ref=e319] [cursor=pointer]:
+              - link "Majestica-753 Silver Grey 100% Cotton Twill Woven Fabric 146cm 125GSM Majestica-753 Majestica-753 Silver Grey 100% Cotton Twill Woven Fabric 146cm 125GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e320]:
+                - /url: /category/woven-fabrics/majestica-753-twill-100cotton-125gsm-silver-grey-solid-dyed
+                - generic [ref=e321]:
+                  - img "Majestica-753 Silver Grey 100% Cotton Twill Woven Fabric 146cm 125GSM" [ref=e323]
+                  - generic [ref=e324]: Majestica-753
+                - generic [ref=e325]:
+                  - heading "Majestica-753 Silver Grey 100% Cotton Twill Woven Fabric 146cm 125GSM" [level=3] [ref=e327]
+                  - paragraph [ref=e329]: Woven Fabrics
+                  - generic [ref=e330]:
+                    - generic [ref=e331]:
+                      - paragraph [ref=e332]: Weight
+                      - paragraph [ref=e333]: 125 GSM
+                    - generic [ref=e334]:
+                      - paragraph [ref=e335]: Width
+                      - paragraph [ref=e336]: 146 cm / 57 inch
+                  - generic [ref=e337]: View Specifications
+            - article [ref=e339] [cursor=pointer]:
+              - link "Majestica-747 Nude Peach 100% Cotton Twill Woven Fabric 146cm 125GSM Majestica-747 Majestica-747 Nude Peach 100% Cotton Twill Woven Fabric 146cm 125GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e340]:
+                - /url: /category/woven-fabrics/majestica-747-twill-100cotton-125gsm-nude-peach-solid-dyed-woven
+                - generic [ref=e341]:
+                  - img "Majestica-747 Nude Peach 100% Cotton Twill Woven Fabric 146cm 125GSM" [ref=e343]
+                  - generic [ref=e344]: Majestica-747
+                - generic [ref=e345]:
+                  - heading "Majestica-747 Nude Peach 100% Cotton Twill Woven Fabric 146cm 125GSM" [level=3] [ref=e347]
+                  - paragraph [ref=e349]: Woven Fabrics
+                  - generic [ref=e350]:
+                    - generic [ref=e351]:
+                      - paragraph [ref=e352]: Weight
+                      - paragraph [ref=e353]: 125 GSM
+                    - generic [ref=e354]:
+                      - paragraph [ref=e355]: Width
+                      - paragraph [ref=e356]: 146 cm / 57 inch
+                  - generic [ref=e357]: View Specifications
+            - article [ref=e359] [cursor=pointer]:
+              - link "Majestica-741 100% Cotton Twill Woven Fabric Dusty Mauve 146cm 125GSM Majestica-741 Majestica-741 100% Cotton Twill Woven Fabric Dusty Mauve 146cm 125GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e360]:
+                - /url: /category/woven-fabrics/majestica-741-twill-100cotton-125gsm-dusty-mauve-solid-dyed
+                - generic [ref=e361]:
+                  - img "Majestica-741 100% Cotton Twill Woven Fabric Dusty Mauve 146cm 125GSM" [ref=e363]
+                  - generic [ref=e364]: Majestica-741
+                - generic [ref=e365]:
+                  - heading "Majestica-741 100% Cotton Twill Woven Fabric Dusty Mauve 146cm 125GSM" [level=3] [ref=e367]
+                  - paragraph [ref=e369]: Woven Fabrics
+                  - generic [ref=e370]:
+                    - generic [ref=e371]:
+                      - paragraph [ref=e372]: Weight
+                      - paragraph [ref=e373]: 125 GSM
+                    - generic [ref=e374]:
+                      - paragraph [ref=e375]: Width
+                      - paragraph [ref=e376]: 146 cm / 57 inch
+                  - generic [ref=e377]: View Specifications
+            - article [ref=e379] [cursor=pointer]:
+              - link "Majestica-729 100% Cotton Twill Woven Fabric Warm Saddle Brown 125 GSM Majestica-729 Majestica-729 100% Cotton Twill Woven Fabric Warm Saddle Brown 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e380]:
+                - /url: /category/woven-fabrics/majestica-729-twill-100cotton-125gsm-warm-saddle-brown-solid-dyed
+                - generic [ref=e381]:
+                  - img "Majestica-729 100% Cotton Twill Woven Fabric Warm Saddle Brown 125 GSM" [ref=e383]
+                  - generic [ref=e384]: Majestica-729
+                - generic [ref=e385]:
+                  - heading "Majestica-729 100% Cotton Twill Woven Fabric Warm Saddle Brown 125 GSM" [level=3] [ref=e387]
+                  - paragraph [ref=e389]: Woven Fabrics
+                  - generic [ref=e390]:
+                    - generic [ref=e391]:
+                      - paragraph [ref=e392]: Weight
+                      - paragraph [ref=e393]: 125 GSM
+                    - generic [ref=e394]:
+                      - paragraph [ref=e395]: Width
+                      - paragraph [ref=e396]: 146 cm / 57 inch
+                  - generic [ref=e397]: View Specifications
+            - article [ref=e399] [cursor=pointer]:
+              - link "Majestica-723 100% Cotton Twill Woven Fabric Grass Green 125 GSM Majestica-723 Majestica-723 100% Cotton Twill Woven Fabric Grass Green 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e400]:
+                - /url: /category/woven-fabrics/majestica-723-twill-100cotton-125gsm-grass-green-solid-dyed-woven
+                - generic [ref=e401]:
+                  - img "Majestica-723 100% Cotton Twill Woven Fabric Grass Green 125 GSM" [ref=e403]
+                  - generic [ref=e404]: Majestica-723
+                - generic [ref=e405]:
+                  - heading "Majestica-723 100% Cotton Twill Woven Fabric Grass Green 125 GSM" [level=3] [ref=e407]
+                  - paragraph [ref=e409]: Woven Fabrics
+                  - generic [ref=e410]:
+                    - generic [ref=e411]:
+                      - paragraph [ref=e412]: Weight
+                      - paragraph [ref=e413]: 125 GSM
+                    - generic [ref=e414]:
+                      - paragraph [ref=e415]: Width
+                      - paragraph [ref=e416]: 146 cm / 57 inch
+                  - generic [ref=e417]: View Specifications
+            - article [ref=e419] [cursor=pointer]:
+              - link "Majestica-717 Smoke Grey 100% Cotton Twill Fabric 125 GSM Bulk Majestica-717 Majestica-717 Smoke Grey 100% Cotton Twill Fabric 125 GSM Bulk Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e420]:
+                - /url: /category/woven-fabrics/majestica-717-twill-100cotton-125gsm-smoke-grey-solid-dyed-woven
+                - generic [ref=e421]:
+                  - img "Majestica-717 Smoke Grey 100% Cotton Twill Fabric 125 GSM Bulk" [ref=e423]
+                  - generic [ref=e424]: Majestica-717
+                - generic [ref=e425]:
+                  - heading "Majestica-717 Smoke Grey 100% Cotton Twill Fabric 125 GSM Bulk" [level=3] [ref=e427]
+                  - paragraph [ref=e429]: Woven Fabrics
+                  - generic [ref=e430]:
+                    - generic [ref=e431]:
+                      - paragraph [ref=e432]: Weight
+                      - paragraph [ref=e433]: 125 GSM
+                    - generic [ref=e434]:
+                      - paragraph [ref=e435]: Width
+                      - paragraph [ref=e436]: 146 cm / 57 inch
+                  - generic [ref=e437]: View Specifications
+            - article [ref=e439] [cursor=pointer]:
+              - link "Majestica-711 Crimson Red 100% Cotton Twill Woven Fabric 125 GSM Majestica-711 Majestica-711 Crimson Red 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e440]:
+                - /url: /category/woven-fabrics/majestica-711-twill-100cotton-125gsm-crimson-red-solid-dyed-woven
+                - generic [ref=e441]:
+                  - img "Majestica-711 Crimson Red 100% Cotton Twill Woven Fabric 125 GSM" [ref=e443]
+                  - generic [ref=e444]: Majestica-711
+                - generic [ref=e445]:
+                  - heading "Majestica-711 Crimson Red 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e447]
+                  - paragraph [ref=e449]: Woven Fabrics
+                  - generic [ref=e450]:
+                    - generic [ref=e451]:
+                      - paragraph [ref=e452]: Weight
+                      - paragraph [ref=e453]: 125 GSM
+                    - generic [ref=e454]:
+                      - paragraph [ref=e455]: Width
+                      - paragraph [ref=e456]: 146 cm / 57 inch
+                  - generic [ref=e457]: View Specifications
+            - article [ref=e459] [cursor=pointer]:
+              - link "Majestica-705 Dark Forest Green Twill 100% Cotton Woven Fabric 125 GSM Majestica-705 Majestica-705 Dark Forest Green Twill 100% Cotton Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e460]:
+                - /url: /category/woven-fabrics/majestica-705-twill-100cotton-125gsm-dark-forest-green-solid-dyed
+                - generic [ref=e461]:
+                  - img "Majestica-705 Dark Forest Green Twill 100% Cotton Woven Fabric 125 GSM" [ref=e463]
+                  - generic [ref=e464]: Majestica-705
+                - generic [ref=e465]:
+                  - heading "Majestica-705 Dark Forest Green Twill 100% Cotton Woven Fabric 125 GSM" [level=3] [ref=e467]
+                  - paragraph [ref=e469]: Woven Fabrics
+                  - generic [ref=e470]:
+                    - generic [ref=e471]:
+                      - paragraph [ref=e472]: Weight
+                      - paragraph [ref=e473]: 125 GSM
+                    - generic [ref=e474]:
+                      - paragraph [ref=e475]: Width
+                      - paragraph [ref=e476]: 146 cm / 57 inch
+                  - generic [ref=e477]: View Specifications
+            - article [ref=e479] [cursor=pointer]:
+              - link "Majestica-764 Camel Brown 100% Cotton Twill Woven Fabric 125 GSM Majestica-764 Majestica-764 Camel Brown 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e480]:
+                - /url: /category/woven-fabrics/majestica-764-twill-100cotton-125gsm-camel-brown-solid-dyed
+                - generic [ref=e481]:
+                  - img "Majestica-764 Camel Brown 100% Cotton Twill Woven Fabric 125 GSM" [ref=e483]
+                  - generic [ref=e484]: Majestica-764
+                - generic [ref=e485]:
+                  - heading "Majestica-764 Camel Brown 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e487]
+                  - paragraph [ref=e489]: Woven Fabrics
+                  - generic [ref=e490]:
+                    - generic [ref=e491]:
+                      - paragraph [ref=e492]: Weight
+                      - paragraph [ref=e493]: 125 GSM
+                    - generic [ref=e494]:
+                      - paragraph [ref=e495]: Width
+                      - paragraph [ref=e496]: 146 cm / 57 inch
+                  - generic [ref=e497]: View Specifications
+            - article [ref=e499] [cursor=pointer]:
+              - link "Majestica-758 Rust Brown 100% Cotton Twill Woven Fabric 125 GSM Majestica-758 Majestica-758 Rust Brown 100% Cotton Twill Woven Fabric 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e500]:
+                - /url: /category/woven-fabrics/majestica-758-twill-100cotton-125gsm-rust-brown-solid-dyed-woven
+                - generic [ref=e501]:
+                  - img "Majestica-758 Rust Brown 100% Cotton Twill Woven Fabric 125 GSM" [ref=e503]
+                  - generic [ref=e504]: Majestica-758
+                - generic [ref=e505]:
+                  - heading "Majestica-758 Rust Brown 100% Cotton Twill Woven Fabric 125 GSM" [level=3] [ref=e507]
+                  - paragraph [ref=e509]: Woven Fabrics
+                  - generic [ref=e510]:
+                    - generic [ref=e511]:
+                      - paragraph [ref=e512]: Weight
+                      - paragraph [ref=e513]: 125 GSM
+                    - generic [ref=e514]:
+                      - paragraph [ref=e515]: Width
+                      - paragraph [ref=e516]: 146 cm / 57 inch
+                  - generic [ref=e517]: View Specifications
+            - article [ref=e519] [cursor=pointer]:
+              - link "Butter Yellow Cotton Poplin 146cm 125gsm Brushed — Never-Out-of-Stock Nokia-602 Butter Yellow Cotton Poplin 146cm 125gsm Brushed — Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e520]:
+                - /url: /category/woven-fabrics/nokia-602-plain-100cotton-125gsm-mercerized-butter-yellow
+                - generic [ref=e521]:
+                  - img "Butter Yellow Cotton Poplin 146cm 125gsm Brushed — Never-Out-of-Stock" [ref=e523]
+                  - generic [ref=e524]: Nokia-602
+                - generic [ref=e525]:
+                  - heading "Butter Yellow Cotton Poplin 146cm 125gsm Brushed — Never-Out-of-Stock" [level=3] [ref=e527]
+                  - paragraph [ref=e529]: Woven Fabrics
+                  - generic [ref=e530]:
+                    - generic [ref=e531]:
+                      - paragraph [ref=e532]: Weight
+                      - paragraph [ref=e533]: 125 GSM
+                    - generic [ref=e534]:
+                      - paragraph [ref=e535]: Width
+                      - paragraph [ref=e536]: 146 cm / 57 inch
+                  - generic [ref=e537]: View Specifications
+            - article [ref=e539] [cursor=pointer]:
+              - link "Nokia-601 Red 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply Nokia-601 Nokia-601 Red 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e540]:
+                - /url: /category/woven-fabrics/nokia601-plain-poplin-100cotton-125gsm-mercerized-red
+                - generic [ref=e541]:
+                  - img "Nokia-601 Red 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply" [ref=e543]
+                  - generic [ref=e544]: Nokia-601
+                - generic [ref=e545]:
+                  - heading "Nokia-601 Red 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply" [level=3] [ref=e547]
+                  - paragraph [ref=e549]: Woven Fabrics
+                  - generic [ref=e550]:
+                    - generic [ref=e551]:
+                      - paragraph [ref=e552]: Weight
+                      - paragraph [ref=e553]: 125 GSM
+                    - generic [ref=e554]:
+                      - paragraph [ref=e555]: Width
+                      - paragraph [ref=e556]: 146 cm / 57 inch
+                  - generic [ref=e557]: View Specifications
+            - article [ref=e559] [cursor=pointer]:
+              - link "Solid Dyed Hot Pink Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-605 Solid Dyed Hot Pink Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e560]:
+                - /url: /category/woven-fabrics/nokia605-poplin-100cotton-125gsm-mercerized-hot-pink
+                - generic [ref=e561]:
+                  - img "Solid Dyed Hot Pink Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e563]
+                  - generic [ref=e564]: Nokia-605
+                - generic [ref=e565]:
+                  - heading "Solid Dyed Hot Pink Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e567]
+                  - paragraph [ref=e569]: Woven Fabrics
+                  - generic [ref=e570]:
+                    - generic [ref=e571]:
+                      - paragraph [ref=e572]: Weight
+                      - paragraph [ref=e573]: 125 GSM
+                    - generic [ref=e574]:
+                      - paragraph [ref=e575]: Width
+                      - paragraph [ref=e576]: 146 cm / 57 inch
+                  - generic [ref=e577]: View Specifications
+            - article [ref=e579] [cursor=pointer]:
+              - link "Sky Blue Cotton Poplin 146cm 125GSM Mercerized - Never Out of Stock Nokia-667 Sky Blue Cotton Poplin 146cm 125GSM Mercerized - Never Out of Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e580]:
+                - /url: /category/woven-fabrics/nokia-667-plain-poplin-cotton-125gsm-mercerized-silicon-sky-blue
+                - generic [ref=e581]:
+                  - img "Sky Blue Cotton Poplin 146cm 125GSM Mercerized - Never Out of Stock" [ref=e583]
+                  - generic [ref=e584]: Nokia-667
+                - generic [ref=e585]:
+                  - heading "Sky Blue Cotton Poplin 146cm 125GSM Mercerized - Never Out of Stock" [level=3] [ref=e587]
+                  - paragraph [ref=e589]: Woven Fabrics
+                  - generic [ref=e590]:
+                    - generic [ref=e591]:
+                      - paragraph [ref=e592]: Weight
+                      - paragraph [ref=e593]: 125 GSM
+                    - generic [ref=e594]:
+                      - paragraph [ref=e595]: Width
+                      - paragraph [ref=e596]: 146 cm / 57 inch
+                  - generic [ref=e597]: View Specifications
+            - article [ref=e599] [cursor=pointer]:
+              - link "Turquoise Mercerized Cotton Poplin 146cm,125GSM - Never-Out-of-Stock Nokia-693 Turquoise Mercerized Cotton Poplin 146cm,125GSM - Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e600]:
+                - /url: /category/woven-fabrics/nokia-693-plain-100cotton-125gsm-multi-finish-turquoise
+                - generic [ref=e601]:
+                  - img "Turquoise Mercerized Cotton Poplin 146cm,125GSM - Never-Out-of-Stock" [ref=e603]
+                  - generic [ref=e604]: Nokia-693
+                - generic [ref=e605]:
+                  - heading "Turquoise Mercerized Cotton Poplin 146cm,125GSM - Never-Out-of-Stock" [level=3] [ref=e607]
+                  - paragraph [ref=e609]: Woven Fabrics
+                  - generic [ref=e610]:
+                    - generic [ref=e611]:
+                      - paragraph [ref=e612]: Weight
+                      - paragraph [ref=e613]: 125 GSM
+                    - generic [ref=e614]:
+                      - paragraph [ref=e615]: Width
+                      - paragraph [ref=e616]: 146 cm / 57 inch
+                  - generic [ref=e617]: View Specifications
+            - article [ref=e619] [cursor=pointer]:
+              - link "Lemon Yellow Solid Dyed Cotton Poplin 146cm 125gsm Wholesale Fabric Nokia-603 Lemon Yellow Solid Dyed Cotton Poplin 146cm 125gsm Wholesale Fabric Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e620]:
+                - /url: /category/woven-fabrics/nokia-603-plain-poplin-100cotton-125gsm-lemon-yellow-solid-dyed
+                - generic [ref=e621]:
+                  - img "Lemon Yellow Solid Dyed Cotton Poplin 146cm 125gsm Wholesale Fabric" [ref=e623]
+                  - generic [ref=e624]: Nokia-603
+                - generic [ref=e625]:
+                  - heading "Lemon Yellow Solid Dyed Cotton Poplin 146cm 125gsm Wholesale Fabric" [level=3] [ref=e627]
+                  - paragraph [ref=e629]: Woven Fabrics
+                  - generic [ref=e630]:
+                    - generic [ref=e631]:
+                      - paragraph [ref=e632]: Weight
+                      - paragraph [ref=e633]: 125 GSM
+                    - generic [ref=e634]:
+                      - paragraph [ref=e635]: Width
+                      - paragraph [ref=e636]: 146 cm / 57 inch
+                  - generic [ref=e637]: View Specifications
+            - article [ref=e639] [cursor=pointer]:
+              - link "Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm Nokia-Peach Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e640]:
+                - /url: /category/woven-fabrics/nokia-peach-poplin-100cotton-125gsm-mercerized-peach
+                - generic [ref=e641]:
+                  - img "Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm" [ref=e643]
+                  - generic [ref=e644]: Nokia-Peach
+                - generic [ref=e645]:
+                  - heading "Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm" [level=3] [ref=e647]
+                  - paragraph [ref=e649]: Woven Fabrics
+                  - generic [ref=e650]:
+                    - generic [ref=e651]:
+                      - paragraph [ref=e652]: Weight
+                      - paragraph [ref=e653]: 125 GSM
+                    - generic [ref=e654]:
+                      - paragraph [ref=e655]: Width
+                      - paragraph [ref=e656]: 146 cm / 57 inch
+                  - generic [ref=e657]: View Specifications
+            - article [ref=e659] [cursor=pointer]:
+              - link "Nokia-666 Pink 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply Nokia-666 Nokia-666 Pink 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e660]:
+                - /url: /category/woven-fabrics/nokia666-plain-poplin-100cotton-125gsm-mercerized-pink
+                - generic [ref=e661]:
+                  - img "Nokia-666 Pink 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply" [ref=e663]
+                  - generic [ref=e664]: Nokia-666
+                - generic [ref=e665]:
+                  - heading "Nokia-666 Pink 100% Cotton Poplin Fabric 146cm 125 GSM Bulk Supply" [level=3] [ref=e667]
+                  - paragraph [ref=e669]: Woven Fabrics
+                  - generic [ref=e670]:
+                    - generic [ref=e671]:
+                      - paragraph [ref=e672]: Weight
+                      - paragraph [ref=e673]: 125 GSM
+                    - generic [ref=e674]:
+                      - paragraph [ref=e675]: Width
+                      - paragraph [ref=e676]: 146 cm / 57 inch
+                  - generic [ref=e677]: View Specifications
+            - article [ref=e679] [cursor=pointer]:
+              - link "Nokia-615 100% Cotton Sand Beige Poplin Fabric 146cm 125 GSM Bulk Nokia-615 Nokia-615 100% Cotton Sand Beige Poplin Fabric 146cm 125 GSM Bulk Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e680]:
+                - /url: /category/woven-fabrics/nokia-615-plain-poplin-100cotton-125gsm-multi-finish
+                - generic [ref=e681]:
+                  - img "Nokia-615 100% Cotton Sand Beige Poplin Fabric 146cm 125 GSM Bulk" [ref=e683]
+                  - generic [ref=e684]: Nokia-615
+                - generic [ref=e685]:
+                  - heading "Nokia-615 100% Cotton Sand Beige Poplin Fabric 146cm 125 GSM Bulk" [level=3] [ref=e687]
+                  - paragraph [ref=e689]: Woven Fabrics
+                  - generic [ref=e690]:
+                    - generic [ref=e691]:
+                      - paragraph [ref=e692]: Weight
+                      - paragraph [ref=e693]: 125 GSM
+                    - generic [ref=e694]:
+                      - paragraph [ref=e695]: Width
+                      - paragraph [ref=e696]: 146 cm / 57 inch
+                  - generic [ref=e697]: View Specifications
+            - article [ref=e699] [cursor=pointer]:
+              - link "Muted Rose Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-683 Muted Rose Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e700]:
+                - /url: /category/woven-fabrics/nokia-683-plain-poplin-100c-125gsm-mercerized-silicon
+                - generic [ref=e701]:
+                  - img "Muted Rose Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e703]
+                  - generic [ref=e704]: Nokia-683
+                - generic [ref=e705]:
+                  - heading "Muted Rose Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e707]
+                  - paragraph [ref=e709]: Woven Fabrics
+                  - generic [ref=e710]:
+                    - generic [ref=e711]:
+                      - paragraph [ref=e712]: Weight
+                      - paragraph [ref=e713]: 125 GSM
+                    - generic [ref=e714]:
+                      - paragraph [ref=e715]: Width
+                      - paragraph [ref=e716]: 146 cm / 57 inch
+                  - generic [ref=e717]: View Specifications
+            - article [ref=e719] [cursor=pointer]:
+              - link "Nokia-655 Dark Coral Cotton Poplin — Mercerized, 125 GSM, 146 cm Nokia-655 Nokia-655 Dark Coral Cotton Poplin — Mercerized, 125 GSM, 146 cm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e720]:
+                - /url: /category/woven-fabrics/nokia-655-plain-poplin-100cotton-125gsm-dark-coral-solid-dyed
+                - generic [ref=e721]:
+                  - img "Nokia-655 Dark Coral Cotton Poplin — Mercerized, 125 GSM, 146 cm" [ref=e723]
+                  - generic [ref=e724]: Nokia-655
+                - generic [ref=e725]:
+                  - heading "Nokia-655 Dark Coral Cotton Poplin — Mercerized, 125 GSM, 146 cm" [level=3] [ref=e727]
+                  - paragraph [ref=e729]: Woven Fabrics
+                  - generic [ref=e730]:
+                    - generic [ref=e731]:
+                      - paragraph [ref=e732]: Weight
+                      - paragraph [ref=e733]: 125 GSM
+                    - generic [ref=e734]:
+                      - paragraph [ref=e735]: Width
+                      - paragraph [ref=e736]: 146 cm / 57 inch
+                  - generic [ref=e737]: View Specifications
+            - article [ref=e739] [cursor=pointer]:
+              - link "Solid Dyed Mustard Yellow Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-629 Solid Dyed Mustard Yellow Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e740]:
+                - /url: /category/woven-fabrics/nokia-629-plain-poplin-100cotton-125gsm-mustard-casual-shirts
+                - generic [ref=e741]:
+                  - img "Solid Dyed Mustard Yellow Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e743]
+                  - generic [ref=e744]: Nokia-629
+                - generic [ref=e745]:
+                  - heading "Solid Dyed Mustard Yellow Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e747]
+                  - paragraph [ref=e749]: Woven Fabrics
+                  - generic [ref=e750]:
+                    - generic [ref=e751]:
+                      - paragraph [ref=e752]: Weight
+                      - paragraph [ref=e753]: 125 GSM
+                    - generic [ref=e754]:
+                      - paragraph [ref=e755]: Width
+                      - paragraph [ref=e756]: 146 cm / 57 inch
+                  - generic [ref=e757]: View Specifications
+            - article [ref=e759] [cursor=pointer]:
+              - link "Emerald Green Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-606 Emerald Green Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e760]:
+                - /url: /category/woven-fabrics/nokia-606-plain-poplin-100cotton-125gsm-mercerized-emerald-green
+                - generic [ref=e761]:
+                  - img "Emerald Green Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e763]
+                  - generic [ref=e764]: Nokia-606
+                - generic [ref=e765]:
+                  - heading "Emerald Green Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e767]
+                  - paragraph [ref=e769]: Woven Fabrics
+                  - generic [ref=e770]:
+                    - generic [ref=e771]:
+                      - paragraph [ref=e772]: Weight
+                      - paragraph [ref=e773]: 125 GSM
+                    - generic [ref=e774]:
+                      - paragraph [ref=e775]: Width
+                      - paragraph [ref=e776]: 146 cm / 57 inch
+                  - generic [ref=e777]: View Specifications
+            - article [ref=e779] [cursor=pointer]:
+              - link "Wholesale Cotton Poplin 146cm 125gsm — Med Grey | Never-Out-of-Stock Nokia-638 Wholesale Cotton Poplin 146cm 125gsm — Med Grey | Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e780]:
+                - /url: /category/woven-fabrics/nokia-638-plain-poplin-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e781]:
+                  - img "Wholesale Cotton Poplin 146cm 125gsm — Med Grey | Never-Out-of-Stock" [ref=e783]
+                  - generic [ref=e784]: Nokia-638
+                - generic [ref=e785]:
+                  - heading "Wholesale Cotton Poplin 146cm 125gsm — Med Grey | Never-Out-of-Stock" [level=3] [ref=e787]
+                  - paragraph [ref=e789]: Woven Fabrics
+                  - generic [ref=e790]:
+                    - generic [ref=e791]:
+                      - paragraph [ref=e792]: Weight
+                      - paragraph [ref=e793]: 125 GSM
+                    - generic [ref=e794]:
+                      - paragraph [ref=e795]: Width
+                      - paragraph [ref=e796]: 146 cm / 57 inch
+                  - generic [ref=e797]: View Specifications
+            - article [ref=e799] [cursor=pointer]:
+              - link "Dark Mustard Mercerized Cotton Poplin Woven Fabric 146cm 125gsm Nokia-697 Dark Mustard Mercerized Cotton Poplin Woven Fabric 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e800]:
+                - /url: /category/woven-fabrics/nokia-697-plain-poplin-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e801]:
+                  - img "Dark Mustard Mercerized Cotton Poplin Woven Fabric 146cm 125gsm" [ref=e803]
+                  - generic [ref=e804]: Nokia-697
+                - generic [ref=e805]:
+                  - heading "Dark Mustard Mercerized Cotton Poplin Woven Fabric 146cm 125gsm" [level=3] [ref=e807]
+                  - paragraph [ref=e809]: Woven Fabrics
+                  - generic [ref=e810]:
+                    - generic [ref=e811]:
+                      - paragraph [ref=e812]: Weight
+                      - paragraph [ref=e813]: 125 GSM
+                    - generic [ref=e814]:
+                      - paragraph [ref=e815]: Width
+                      - paragraph [ref=e816]: 146 cm / 57 inch
+                  - generic [ref=e817]: View Specifications
+            - article [ref=e819] [cursor=pointer]:
+              - link "Dark Khaki Solid Dyed Cotton Poplin Fabric 146cm 125gsm Nokia-631 Dark Khaki Solid Dyed Cotton Poplin Fabric 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e820]:
+                - /url: /category/woven-fabrics/nokia-631-plain-poplin-100cotton-125gsm-mercerized-silicon-dark-khaki
+                - generic [ref=e821]:
+                  - img "Dark Khaki Solid Dyed Cotton Poplin Fabric 146cm 125gsm" [ref=e823]
+                  - generic [ref=e824]: Nokia-631
+                - generic [ref=e825]:
+                  - heading "Dark Khaki Solid Dyed Cotton Poplin Fabric 146cm 125gsm" [level=3] [ref=e827]
+                  - paragraph [ref=e829]: Woven Fabrics
+                  - generic [ref=e830]:
+                    - generic [ref=e831]:
+                      - paragraph [ref=e832]: Weight
+                      - paragraph [ref=e833]: 125 GSM
+                    - generic [ref=e834]:
+                      - paragraph [ref=e835]: Width
+                      - paragraph [ref=e836]: 146 cm / 57 inch
+                  - generic [ref=e837]: View Specifications
+            - article [ref=e839] [cursor=pointer]:
+              - link "Nokia-Lilac mercerized cotton poplin fabric solid lilac 146cm 125gsm Nokia-Lilac Nokia-Lilac mercerized cotton poplin fabric solid lilac 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e840]:
+                - /url: /category/woven-fabrics/nokia-lilac-plain-100cotton-125gsm-multi-finish
+                - generic [ref=e841]:
+                  - img "Nokia-Lilac mercerized cotton poplin fabric solid lilac 146cm 125gsm" [ref=e843]
+                  - generic [ref=e844]: Nokia-Lilac
+                - generic [ref=e845]:
+                  - heading "Nokia-Lilac mercerized cotton poplin fabric solid lilac 146cm 125gsm" [level=3] [ref=e847]
+                  - paragraph [ref=e849]: Woven Fabrics
+                  - generic [ref=e850]:
+                    - generic [ref=e851]:
+                      - paragraph [ref=e852]: Weight
+                      - paragraph [ref=e853]: 125 GSM
+                    - generic [ref=e854]:
+                      - paragraph [ref=e855]: Width
+                      - paragraph [ref=e856]: 146 cm / 57 inch
+                  - generic [ref=e857]: View Specifications
+            - article [ref=e859] [cursor=pointer]:
+              - link "Solid Dyed Mint Cotton Poplin Fabric 146cm 125gsm for Bulk Supply Nokia-690 Solid Dyed Mint Cotton Poplin Fabric 146cm 125gsm for Bulk Supply Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e860]:
+                - /url: /category/woven-fabrics/nokia-690-plain-100cotton-125gsm-mercerized-mint-shirts
+                - generic [ref=e861]:
+                  - img "Solid Dyed Mint Cotton Poplin Fabric 146cm 125gsm for Bulk Supply" [ref=e863]
+                  - generic [ref=e864]: Nokia-690
+                - generic [ref=e865]:
+                  - heading "Solid Dyed Mint Cotton Poplin Fabric 146cm 125gsm for Bulk Supply" [level=3] [ref=e867]
+                  - paragraph [ref=e869]: Woven Fabrics
+                  - generic [ref=e870]:
+                    - generic [ref=e871]:
+                      - paragraph [ref=e872]: Weight
+                      - paragraph [ref=e873]: 125 GSM
+                    - generic [ref=e874]:
+                      - paragraph [ref=e875]: Width
+                      - paragraph [ref=e876]: 146 cm / 57 inch
+                  - generic [ref=e877]: View Specifications
+            - article [ref=e879] [cursor=pointer]:
+              - link "Solid Dyed Grey Cotton Poplin Fabric Mercerized Brushed Finish 146cm Nokia-Grey Solid Dyed Grey Cotton Poplin Fabric Mercerized Brushed Finish 146cm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e880]:
+                - /url: /category/woven-fabrics/nokia-grey-plain-poplin-100cotton-125gsm-multi-finish
+                - generic [ref=e881]:
+                  - img "Solid Dyed Grey Cotton Poplin Fabric Mercerized Brushed Finish 146cm" [ref=e883]
+                  - generic [ref=e884]: Nokia-Grey
+                - generic [ref=e885]:
+                  - heading "Solid Dyed Grey Cotton Poplin Fabric Mercerized Brushed Finish 146cm" [level=3] [ref=e887]
+                  - paragraph [ref=e889]: Woven Fabrics
+                  - generic [ref=e890]:
+                    - generic [ref=e891]:
+                      - paragraph [ref=e892]: Weight
+                      - paragraph [ref=e893]: 125 GSM
+                    - generic [ref=e894]:
+                      - paragraph [ref=e895]: Width
+                      - paragraph [ref=e896]: 146 cm / 57 inch
+                  - generic [ref=e897]: View Specifications
+            - article [ref=e899] [cursor=pointer]:
+              - link "Woven Slate Blue 100% Cotton Poplin — 125 GSM 146cm Never-Out-of-Stock Nokia-Slate-Blue Woven Slate Blue 100% Cotton Poplin — 125 GSM 146cm Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e900]:
+                - /url: /category/woven-fabrics/nokia-slate-blue-plain-poplin-100cotton-125gsm-merc-silicon
+                - generic [ref=e901]:
+                  - img "Woven Slate Blue 100% Cotton Poplin — 125 GSM 146cm Never-Out-of-Stock" [ref=e903]
+                  - generic [ref=e904]: Nokia-Slate-Blue
+                - generic [ref=e905]:
+                  - heading "Woven Slate Blue 100% Cotton Poplin — 125 GSM 146cm Never-Out-of-Stock" [level=3] [ref=e907]
+                  - paragraph [ref=e909]: Woven Fabrics
+                  - generic [ref=e910]:
+                    - generic [ref=e911]:
+                      - paragraph [ref=e912]: Weight
+                      - paragraph [ref=e913]: 125 GSM
+                    - generic [ref=e914]:
+                      - paragraph [ref=e915]: Width
+                      - paragraph [ref=e916]: 146 cm / 57 inch
+                  - generic [ref=e917]: View Specifications
+            - article [ref=e919] [cursor=pointer]:
+              - link "Deep Olive Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM Nokia-633 Deep Olive Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e920]:
+                - /url: /category/woven-fabrics/nokia-633-plain-poplin-100cotton-125gsm-deep-olive-solid-dyed
+                - generic [ref=e921]:
+                  - img "Deep Olive Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM" [ref=e923]
+                  - generic [ref=e924]: Nokia-633
+                - generic [ref=e925]:
+                  - heading "Deep Olive Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM" [level=3] [ref=e927]
+                  - paragraph [ref=e929]: Woven Fabrics
+                  - generic [ref=e930]:
+                    - generic [ref=e931]:
+                      - paragraph [ref=e932]: Weight
+                      - paragraph [ref=e933]: 125 GSM
+                    - generic [ref=e934]:
+                      - paragraph [ref=e935]: Width
+                      - paragraph [ref=e936]: 146 cm / 57 inch
+                  - generic [ref=e937]: View Specifications
+            - article [ref=e939] [cursor=pointer]:
+              - link "Solid Dyed Teal Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-Teal Solid Dyed Teal Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e940]:
+                - /url: /category/woven-fabrics/nokia-teal-plain-poplin-cotton-125gsm-mercerized-silicon
+                - generic [ref=e941]:
+                  - img "Solid Dyed Teal Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e943]
+                  - generic [ref=e944]: Nokia-Teal
+                - generic [ref=e945]:
+                  - heading "Solid Dyed Teal Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e947]
+                  - paragraph [ref=e949]: Woven Fabrics
+                  - generic [ref=e950]:
+                    - generic [ref=e951]:
+                      - paragraph [ref=e952]: Weight
+                      - paragraph [ref=e953]: 125 GSM
+                    - generic [ref=e954]:
+                      - paragraph [ref=e955]: Width
+                      - paragraph [ref=e956]: 146 cm / 57 inch
+                  - generic [ref=e957]: View Specifications
+            - article [ref=e959] [cursor=pointer]:
+              - link "Solid Dyed Mustard Cotton Poplin Fabric 146cm 125gsm for Bulk Orders Nokia-Mustard Solid Dyed Mustard Cotton Poplin Fabric 146cm 125gsm for Bulk Orders Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e960]:
+                - /url: /category/woven-fabrics/nokia-mustard-plain-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e961]:
+                  - img "Solid Dyed Mustard Cotton Poplin Fabric 146cm 125gsm for Bulk Orders" [ref=e963]
+                  - generic [ref=e964]: Nokia-Mustard
+                - generic [ref=e965]:
+                  - heading "Solid Dyed Mustard Cotton Poplin Fabric 146cm 125gsm for Bulk Orders" [level=3] [ref=e967]
+                  - paragraph [ref=e969]: Woven Fabrics
+                  - generic [ref=e970]:
+                    - generic [ref=e971]:
+                      - paragraph [ref=e972]: Weight
+                      - paragraph [ref=e973]: 125 GSM
+                    - generic [ref=e974]:
+                      - paragraph [ref=e975]: Width
+                      - paragraph [ref=e976]: 146 cm / 57 inch
+                  - generic [ref=e977]: View Specifications
+            - article [ref=e979] [cursor=pointer]:
+              - link "100% Cotton Camel Poplin 146cm 125gsm Mercerized —Never-Out-of-Stock Nokia-Camel 100% Cotton Camel Poplin 146cm 125gsm Mercerized —Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e980]:
+                - /url: /category/woven-fabrics/nokia-camel-plain-100cotton-125gsm-mercerized-camel
+                - generic [ref=e981]:
+                  - img "100% Cotton Camel Poplin 146cm 125gsm Mercerized —Never-Out-of-Stock" [ref=e983]
+                  - generic [ref=e984]: Nokia-Camel
+                - generic [ref=e985]:
+                  - heading "100% Cotton Camel Poplin 146cm 125gsm Mercerized —Never-Out-of-Stock" [level=3] [ref=e987]
+                  - paragraph [ref=e989]: Woven Fabrics
+                  - generic [ref=e990]:
+                    - generic [ref=e991]:
+                      - paragraph [ref=e992]: Weight
+                      - paragraph [ref=e993]: 125 GSM
+                    - generic [ref=e994]:
+                      - paragraph [ref=e995]: Width
+                      - paragraph [ref=e996]: 146 cm / 57 inch
+                  - generic [ref=e997]: View Specifications
+            - article [ref=e999] [cursor=pointer]:
+              - link "soft brush 125GSM poplin 100% cotton Nokia-612 Caramel with mercerize Nokia-612 soft brush 125GSM poplin 100% cotton Nokia-612 Caramel with mercerize Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1000]:
+                - /url: /category/woven-fabrics/nokia-612-plain-poplin-100cotton-125gsm-mercerized-caramel
+                - generic [ref=e1001]:
+                  - img "soft brush 125GSM poplin 100% cotton Nokia-612 Caramel with mercerize" [ref=e1003]
+                  - generic [ref=e1004]: Nokia-612
+                - generic [ref=e1005]:
+                  - heading "soft brush 125GSM poplin 100% cotton Nokia-612 Caramel with mercerize" [level=3] [ref=e1007]
+                  - paragraph [ref=e1009]: Woven Fabrics
+                  - generic [ref=e1010]:
+                    - generic [ref=e1011]:
+                      - paragraph [ref=e1012]: Weight
+                      - paragraph [ref=e1013]: 125 GSM
+                    - generic [ref=e1014]:
+                      - paragraph [ref=e1015]: Width
+                      - paragraph [ref=e1016]: 146 cm / 57 inch
+                  - generic [ref=e1017]: View Specifications
+            - article [ref=e1019] [cursor=pointer]:
+              - link "Mercerized Cotton Poplin — Deep Pink, 146cm 125gsm —Never Out-of-Stock Nokia-696 Mercerized Cotton Poplin — Deep Pink, 146cm 125gsm —Never Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1020]:
+                - /url: /category/woven-fabrics/nokia-696-plain-poplin-100cotton-125gsm-deep-pink-shirts
+                - generic [ref=e1021]:
+                  - img "Mercerized Cotton Poplin — Deep Pink, 146cm 125gsm —Never Out-of-Stock" [ref=e1023]
+                  - generic [ref=e1024]: Nokia-696
+                - generic [ref=e1025]:
+                  - heading "Mercerized Cotton Poplin — Deep Pink, 146cm 125gsm —Never Out-of-Stock" [level=3] [ref=e1027]
+                  - paragraph [ref=e1029]: Woven Fabrics
+                  - generic [ref=e1030]:
+                    - generic [ref=e1031]:
+                      - paragraph [ref=e1032]: Weight
+                      - paragraph [ref=e1033]: 125 GSM
+                    - generic [ref=e1034]:
+                      - paragraph [ref=e1035]: Width
+                      - paragraph [ref=e1036]: 146 cm / 57 inch
+                  - generic [ref=e1037]: View Specifications
+            - article [ref=e1039] [cursor=pointer]:
+              - link "Solid Dyed Bright Orange Cotton Poplin Fabric 146cm 125gsm Nokia-662 Solid Dyed Bright Orange Cotton Poplin Fabric 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1040]:
+                - /url: /category/woven-fabrics/nokia-662-plain-poplin-100cotton-125gsm-bright-orange-solid-dyed
+                - generic [ref=e1041]:
+                  - img "Solid Dyed Bright Orange Cotton Poplin Fabric 146cm 125gsm" [ref=e1043]
+                  - generic [ref=e1044]: Nokia-662
+                - generic [ref=e1045]:
+                  - heading "Solid Dyed Bright Orange Cotton Poplin Fabric 146cm 125gsm" [level=3] [ref=e1047]
+                  - paragraph [ref=e1049]: Woven Fabrics
+                  - generic [ref=e1050]:
+                    - generic [ref=e1051]:
+                      - paragraph [ref=e1052]: Weight
+                      - paragraph [ref=e1053]: 125 GSM
+                    - generic [ref=e1054]:
+                      - paragraph [ref=e1055]: Width
+                      - paragraph [ref=e1056]: 146 cm / 57 inch
+                  - generic [ref=e1057]: View Specifications
+            - article [ref=e1059] [cursor=pointer]:
+              - link "Bold Teal Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-676 Bold Teal Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1060]:
+                - /url: /category/woven-fabrics/nokia-676-plain-poplin-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e1061]:
+                  - img "Bold Teal Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e1063]
+                  - generic [ref=e1064]: Nokia-676
+                - generic [ref=e1065]:
+                  - heading "Bold Teal Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e1067]
+                  - paragraph [ref=e1069]: Woven Fabrics
+                  - generic [ref=e1070]:
+                    - generic [ref=e1071]:
+                      - paragraph [ref=e1072]: Weight
+                      - paragraph [ref=e1073]: 125 GSM
+                    - generic [ref=e1074]:
+                      - paragraph [ref=e1075]: Width
+                      - paragraph [ref=e1076]: 146 cm / 57 inch
+                  - generic [ref=e1077]: View Specifications
+            - article [ref=e1079] [cursor=pointer]:
+              - link "Solid Dyed Coral Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-Coral Solid Dyed Coral Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1080]:
+                - /url: /category/woven-fabrics/nokia-coral-plain-poplin-100cotton-125gsm-mercerized-coral
+                - generic [ref=e1081]:
+                  - img "Solid Dyed Coral Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e1083]
+                  - generic [ref=e1084]: Nokia-Coral
+                - generic [ref=e1085]:
+                  - heading "Solid Dyed Coral Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e1087]
+                  - paragraph [ref=e1089]: Woven Fabrics
+                  - generic [ref=e1090]:
+                    - generic [ref=e1091]:
+                      - paragraph [ref=e1092]: Weight
+                      - paragraph [ref=e1093]: 125 GSM
+                    - generic [ref=e1094]:
+                      - paragraph [ref=e1095]: Width
+                      - paragraph [ref=e1096]: 146 cm / 57 inch
+                  - generic [ref=e1097]: View Specifications
+            - article [ref=e1099] [cursor=pointer]:
+              - link "100% Cotton Poplin Nokia-Rust — Solid Dyed, Mercerized, 146cm 125GSM Nokia-Rust 100% Cotton Poplin Nokia-Rust — Solid Dyed, Mercerized, 146cm 125GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1100]:
+                - /url: /category/woven-fabrics/nokia-rust-plain-poplin-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e1101]:
+                  - img "100% Cotton Poplin Nokia-Rust — Solid Dyed, Mercerized, 146cm 125GSM" [ref=e1103]
+                  - generic [ref=e1104]: Nokia-Rust
+                - generic [ref=e1105]:
+                  - heading "100% Cotton Poplin Nokia-Rust — Solid Dyed, Mercerized, 146cm 125GSM" [level=3] [ref=e1107]
+                  - paragraph [ref=e1109]: Woven Fabrics
+                  - generic [ref=e1110]:
+                    - generic [ref=e1111]:
+                      - paragraph [ref=e1112]: Weight
+                      - paragraph [ref=e1113]: 125 GSM
+                    - generic [ref=e1114]:
+                      - paragraph [ref=e1115]: Width
+                      - paragraph [ref=e1116]: 146 cm / 57 inch
+                  - generic [ref=e1117]: View Specifications
+            - article [ref=e1119] [cursor=pointer]:
+              - link "Periwinkle Grey 100% Cotton Poplin 146cm — 125gsm Mercerized Nokia-698 Periwinkle Grey 100% Cotton Poplin 146cm — 125gsm Mercerized Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1120]:
+                - /url: /category/woven-fabrics/nokia-698-plain-poplin-100cotton-125gsm-periwinkle-grey-solid-dyed
+                - generic [ref=e1121]:
+                  - img "Periwinkle Grey 100% Cotton Poplin 146cm — 125gsm Mercerized" [ref=e1123]
+                  - generic [ref=e1124]: Nokia-698
+                - generic [ref=e1125]:
+                  - heading "Periwinkle Grey 100% Cotton Poplin 146cm — 125gsm Mercerized" [level=3] [ref=e1127]
+                  - paragraph [ref=e1129]: Woven Fabrics
+                  - generic [ref=e1130]:
+                    - generic [ref=e1131]:
+                      - paragraph [ref=e1132]: Weight
+                      - paragraph [ref=e1133]: 125 GSM
+                    - generic [ref=e1134]:
+                      - paragraph [ref=e1135]: Width
+                      - paragraph [ref=e1136]: 146 cm / 57 inch
+                  - generic [ref=e1137]: View Specifications
+            - article [ref=e1139] [cursor=pointer]:
+              - link "Pistachio Green Solid Dyed Cotton Poplin 146cm 125gsm Fabric Nokia-689 Pistachio Green Solid Dyed Cotton Poplin 146cm 125gsm Fabric Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1140]:
+                - /url: /category/woven-fabrics/nokia-689-plain-poplin-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e1141]:
+                  - img "Pistachio Green Solid Dyed Cotton Poplin 146cm 125gsm Fabric" [ref=e1143]
+                  - generic [ref=e1144]: Nokia-689
+                - generic [ref=e1145]:
+                  - heading "Pistachio Green Solid Dyed Cotton Poplin 146cm 125gsm Fabric" [level=3] [ref=e1147]
+                  - paragraph [ref=e1149]: Woven Fabrics
+                  - generic [ref=e1150]:
+                    - generic [ref=e1151]:
+                      - paragraph [ref=e1152]: Weight
+                      - paragraph [ref=e1153]: 125 GSM
+                    - generic [ref=e1154]:
+                      - paragraph [ref=e1155]: Width
+                      - paragraph [ref=e1156]: 146 cm / 57 inch
+                  - generic [ref=e1157]: View Specifications
+            - article [ref=e1159] [cursor=pointer]:
+              - link "Mercerized Brushed Dark Teal Cotton Woven Poplin Fabric 146cm 125gsm Nokia-684 Mercerized Brushed Dark Teal Cotton Woven Poplin Fabric 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1160]:
+                - /url: /category/woven-fabrics/nokia-684-plain-poplin-cotton-125gsm-mercerized-silicon
+                - generic [ref=e1161]:
+                  - img "Mercerized Brushed Dark Teal Cotton Woven Poplin Fabric 146cm 125gsm" [ref=e1163]
+                  - generic [ref=e1164]: Nokia-684
+                - generic [ref=e1165]:
+                  - heading "Mercerized Brushed Dark Teal Cotton Woven Poplin Fabric 146cm 125gsm" [level=3] [ref=e1167]
+                  - paragraph [ref=e1169]: Woven Fabrics
+                  - generic [ref=e1170]:
+                    - generic [ref=e1171]:
+                      - paragraph [ref=e1172]: Weight
+                      - paragraph [ref=e1173]: 125 GSM
+                    - generic [ref=e1174]:
+                      - paragraph [ref=e1175]: Width
+                      - paragraph [ref=e1176]: 146 cm / 57 inch
+                  - generic [ref=e1177]: View Specifications
+            - article [ref=e1179] [cursor=pointer]:
+              - link "Never-Out-of-Stock Royal Blue Cotton Poplin Woven Fabric, 146cm Nokia-660 Never-Out-of-Stock Royal Blue Cotton Poplin Woven Fabric, 146cm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1180]:
+                - /url: /category/woven-fabrics/nokia-660-plain-poplin-100-cotton-125gsm-mercerized-silicon
+                - generic [ref=e1181]:
+                  - img "Never-Out-of-Stock Royal Blue Cotton Poplin Woven Fabric, 146cm" [ref=e1183]
+                  - generic [ref=e1184]: Nokia-660
+                - generic [ref=e1185]:
+                  - heading "Never-Out-of-Stock Royal Blue Cotton Poplin Woven Fabric, 146cm" [level=3] [ref=e1187]
+                  - paragraph [ref=e1189]: Woven Fabrics
+                  - generic [ref=e1190]:
+                    - generic [ref=e1191]:
+                      - paragraph [ref=e1192]: Weight
+                      - paragraph [ref=e1193]: 125 GSM
+                    - generic [ref=e1194]:
+                      - paragraph [ref=e1195]: Width
+                      - paragraph [ref=e1196]: 146 cm / 57 inch
+                  - generic [ref=e1197]: View Specifications
+            - article [ref=e1199] [cursor=pointer]:
+              - link "Solid Dyed Peacock Blue Cotton Poplin 146cm 125gsm Export Fabric Nokia-Peacock Blue Solid Dyed Peacock Blue Cotton Poplin 146cm 125gsm Export Fabric Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1200]:
+                - /url: /category/woven-fabrics/nokia-plain-100cotton-125gsm-mercerized-silicon-peacock-blue
+                - generic [ref=e1201]:
+                  - img "Solid Dyed Peacock Blue Cotton Poplin 146cm 125gsm Export Fabric" [ref=e1203]
+                  - generic [ref=e1204]: Nokia-Peacock Blue
+                - generic [ref=e1205]:
+                  - heading "Solid Dyed Peacock Blue Cotton Poplin 146cm 125gsm Export Fabric" [level=3] [ref=e1207]
+                  - paragraph [ref=e1209]: Woven Fabrics
+                  - generic [ref=e1210]:
+                    - generic [ref=e1211]:
+                      - paragraph [ref=e1212]: Weight
+                      - paragraph [ref=e1213]: 125 GSM
+                    - generic [ref=e1214]:
+                      - paragraph [ref=e1215]: Width
+                      - paragraph [ref=e1216]: 146 cm / 57 inch
+                  - generic [ref=e1217]: View Specifications
+            - article [ref=e1219] [cursor=pointer]:
+              - link "Olive 100% Cotton Poplin 146cm 125gsm Mercerized – Never-Out-of-Stock Nokia-627 Olive 100% Cotton Poplin 146cm 125gsm Mercerized – Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1220]:
+                - /url: /category/woven-fabrics/nokia-627-plain-poplin-100cotton-125gsm-olive-green
+                - generic [ref=e1221]:
+                  - img "Olive 100% Cotton Poplin 146cm 125gsm Mercerized – Never-Out-of-Stock" [ref=e1223]
+                  - generic [ref=e1224]: Nokia-627
+                - generic [ref=e1225]:
+                  - heading "Olive 100% Cotton Poplin 146cm 125gsm Mercerized – Never-Out-of-Stock" [level=3] [ref=e1227]
+                  - paragraph [ref=e1229]: Woven Fabrics
+                  - generic [ref=e1230]:
+                    - generic [ref=e1231]:
+                      - paragraph [ref=e1232]: Weight
+                      - paragraph [ref=e1233]: 125 GSM
+                    - generic [ref=e1234]:
+                      - paragraph [ref=e1235]: Width
+                      - paragraph [ref=e1236]: 146 cm / 57 inch
+                  - generic [ref=e1237]: View Specifications
+            - article [ref=e1239] [cursor=pointer]:
+              - link "Deep Olive Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Nokia-Deep Olive Deep Olive Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1240]:
+                - /url: /category/woven-fabrics/nokia-deep-olive-plain-poplin-cotton-125gsm-mercerized-silicon
+                - generic [ref=e1241]:
+                  - img "Deep Olive Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [ref=e1243]
+                  - generic [ref=e1244]: Nokia-Deep Olive
+                - generic [ref=e1245]:
+                  - heading "Deep Olive Solid Dyed Cotton Poplin Fabric 146cm 125gsm Wholesale" [level=3] [ref=e1247]
+                  - paragraph [ref=e1249]: Woven Fabrics
+                  - generic [ref=e1250]:
+                    - generic [ref=e1251]:
+                      - paragraph [ref=e1252]: Weight
+                      - paragraph [ref=e1253]: 125 GSM
+                    - generic [ref=e1254]:
+                      - paragraph [ref=e1255]: Width
+                      - paragraph [ref=e1256]: 146 cm / 57 inch
+                  - generic [ref=e1257]: View Specifications
+            - article [ref=e1259] [cursor=pointer]:
+              - link "Mercerized Olive Cotton Woven Poplin 146cm 125gsm, Bulk Supply Nokia-Olive Mercerized Olive Cotton Woven Poplin 146cm 125gsm, Bulk Supply Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1260]:
+                - /url: /category/woven-fabrics/nokia-olive-plain-poplin-100cotton-125gsm-mercerized-silicon-brushed
+                - generic [ref=e1261]:
+                  - img "Mercerized Olive Cotton Woven Poplin 146cm 125gsm, Bulk Supply" [ref=e1263]
+                  - generic [ref=e1264]: Nokia-Olive
+                - generic [ref=e1265]:
+                  - heading "Mercerized Olive Cotton Woven Poplin 146cm 125gsm, Bulk Supply" [level=3] [ref=e1267]
+                  - paragraph [ref=e1269]: Woven Fabrics
+                  - generic [ref=e1270]:
+                    - generic [ref=e1271]:
+                      - paragraph [ref=e1272]: Weight
+                      - paragraph [ref=e1273]: 125 GSM
+                    - generic [ref=e1274]:
+                      - paragraph [ref=e1275]: Width
+                      - paragraph [ref=e1276]: 146 cm / 57 inch
+                  - generic [ref=e1277]: View Specifications
+            - article [ref=e1279] [cursor=pointer]:
+              - link "Light Navy Blue Cotton Poplin 146cm 125gsm Solid Dyed Fabric Nokia-695 Light Navy Blue Cotton Poplin 146cm 125gsm Solid Dyed Fabric Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1280]:
+                - /url: /category/woven-fabrics/nokia-695-plain-poplin-cotton-125gsm-mercerized-silicon
+                - generic [ref=e1281]:
+                  - img "Light Navy Blue Cotton Poplin 146cm 125gsm Solid Dyed Fabric" [ref=e1283]
+                  - generic [ref=e1284]: Nokia-695
+                - generic [ref=e1285]:
+                  - heading "Light Navy Blue Cotton Poplin 146cm 125gsm Solid Dyed Fabric" [level=3] [ref=e1287]
+                  - paragraph [ref=e1289]: Woven Fabrics
+                  - generic [ref=e1290]:
+                    - generic [ref=e1291]:
+                      - paragraph [ref=e1292]: Weight
+                      - paragraph [ref=e1293]: 125 GSM
+                    - generic [ref=e1294]:
+                      - paragraph [ref=e1295]: Width
+                      - paragraph [ref=e1296]: 146 cm / 57 inch
+                  - generic [ref=e1297]: View Specifications
+            - article [ref=e1299] [cursor=pointer]:
+              - link "Mercerized Maroon Cotton Poplin Fabric, Brushed Finish, 146 cm Width Nokia-611 Mercerized Maroon Cotton Poplin Fabric, Brushed Finish, 146 cm Width Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1300]:
+                - /url: /category/woven-fabrics/nokia-611-plain-poplin-100cotton-125gsm-mercerized-maroon
+                - generic [ref=e1301]:
+                  - img "Mercerized Maroon Cotton Poplin Fabric, Brushed Finish, 146 cm Width" [ref=e1303]
+                  - generic [ref=e1304]: Nokia-611
+                - generic [ref=e1305]:
+                  - heading "Mercerized Maroon Cotton Poplin Fabric, Brushed Finish, 146 cm Width" [level=3] [ref=e1307]
+                  - paragraph [ref=e1309]: Woven Fabrics
+                  - generic [ref=e1310]:
+                    - generic [ref=e1311]:
+                      - paragraph [ref=e1312]: Weight
+                      - paragraph [ref=e1313]: 125 GSM
+                    - generic [ref=e1314]:
+                      - paragraph [ref=e1315]: Width
+                      - paragraph [ref=e1316]: 146 cm / 57 inch
+                  - generic [ref=e1317]: View Specifications
+            - article [ref=e1319] [cursor=pointer]:
+              - link "Nokia-686 Coffee Brown 100% Cotton Poplin Fabric 146cm 125 GSM Nokia-686 Nokia-686 Coffee Brown 100% Cotton Poplin Fabric 146cm 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1320]:
+                - /url: /category/woven-fabrics/nokia-686-plain-cotton-125gsm-mercerized-silicon-coffee-brown
+                - generic [ref=e1321]:
+                  - img "Nokia-686 Coffee Brown 100% Cotton Poplin Fabric 146cm 125 GSM" [ref=e1323]
+                  - generic [ref=e1324]: Nokia-686
+                - generic [ref=e1325]:
+                  - heading "Nokia-686 Coffee Brown 100% Cotton Poplin Fabric 146cm 125 GSM" [level=3] [ref=e1327]
+                  - paragraph [ref=e1329]: Woven Fabrics
+                  - generic [ref=e1330]:
+                    - generic [ref=e1331]:
+                      - paragraph [ref=e1332]: Weight
+                      - paragraph [ref=e1333]: 125 GSM
+                    - generic [ref=e1334]:
+                      - paragraph [ref=e1335]: Width
+                      - paragraph [ref=e1336]: 146 cm / 57 inch
+                  - generic [ref=e1337]: View Specifications
+            - article [ref=e1339] [cursor=pointer]:
+              - link "100% Cotton Poplin — Pastel Coral, 146cm 125GSM, Never-Out-of-Stock Nokia-685 100% Cotton Poplin — Pastel Coral, 146cm 125GSM, Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1340]:
+                - /url: /category/woven-fabrics/nokia-685-poplin-cotton-125gsm-multi-finish-pastel-coral
+                - generic [ref=e1341]:
+                  - img "100% Cotton Poplin — Pastel Coral, 146cm 125GSM, Never-Out-of-Stock" [ref=e1343]
+                  - generic [ref=e1344]: Nokia-685
+                - generic [ref=e1345]:
+                  - heading "100% Cotton Poplin — Pastel Coral, 146cm 125GSM, Never-Out-of-Stock" [level=3] [ref=e1347]
+                  - paragraph [ref=e1349]: Woven Fabrics
+                  - generic [ref=e1350]:
+                    - generic [ref=e1351]:
+                      - paragraph [ref=e1352]: Weight
+                      - paragraph [ref=e1353]: 125 GSM
+                    - generic [ref=e1354]:
+                      - paragraph [ref=e1355]: Width
+                      - paragraph [ref=e1356]: 146 cm / 57 inch
+                  - generic [ref=e1357]: View Specifications
+            - article [ref=e1359] [cursor=pointer]:
+              - link "Maroon 100% Cotton Poplin – 146 cm, 125 GSM | Mercerized & Brushed Nokia-647 Maroon 100% Cotton Poplin – 146 cm, 125 GSM | Mercerized & Brushed Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1360]:
+                - /url: /category/woven-fabrics/nokia647-poplin-100cotton-125gsm-merc-sil-brsh-carb-laffer-maroon
+                - generic [ref=e1361]:
+                  - img "Maroon 100% Cotton Poplin – 146 cm, 125 GSM | Mercerized & Brushed" [ref=e1363]
+                  - generic [ref=e1364]: Nokia-647
+                - generic [ref=e1365]:
+                  - heading "Maroon 100% Cotton Poplin – 146 cm, 125 GSM | Mercerized & Brushed" [level=3] [ref=e1367]
+                  - paragraph [ref=e1369]: Woven Fabrics
+                  - generic [ref=e1370]:
+                    - generic [ref=e1371]:
+                      - paragraph [ref=e1372]: Weight
+                      - paragraph [ref=e1373]: 125 GSM
+                    - generic [ref=e1374]:
+                      - paragraph [ref=e1375]: Width
+                      - paragraph [ref=e1376]: 146 cm / 57 inch
+                  - generic [ref=e1377]: View Specifications
+            - article [ref=e1379] [cursor=pointer]:
+              - link "Dark Purple Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM Nokia-672-B Dark Purple Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1380]:
+                - /url: /category/woven-fabrics/nokia-672-b-plain-poplin-100cotton-125gsm-dark-purple-solid-dyed
+                - generic [ref=e1381]:
+                  - img "Dark Purple Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM" [ref=e1383]
+                  - generic [ref=e1384]: Nokia-672-B
+                - generic [ref=e1385]:
+                  - heading "Dark Purple Solid Dyed Cotton Poplin Fabric 146 cm 125 GSM" [level=3] [ref=e1387]
+                  - paragraph [ref=e1389]: Woven Fabrics
+                  - generic [ref=e1390]:
+                    - generic [ref=e1391]:
+                      - paragraph [ref=e1392]: Weight
+                      - paragraph [ref=e1393]: 125 GSM
+                    - generic [ref=e1394]:
+                      - paragraph [ref=e1395]: Width
+                      - paragraph [ref=e1396]: 146 cm / 57 inch
+                  - generic [ref=e1397]: View Specifications
+            - article [ref=e1399] [cursor=pointer]:
+              - link "Purple Solid Dyed Cotton Poplin Woven Fabric 146cm 125gsm Nokia-672-A Purple Solid Dyed Cotton Poplin Woven Fabric 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1400]:
+                - /url: /category/woven-fabrics/nokia-672-a-plain-poplin-100cotton-125gsm-mercerized-purple
+                - generic [ref=e1401]:
+                  - img "Purple Solid Dyed Cotton Poplin Woven Fabric 146cm 125gsm" [ref=e1403]
+                  - generic [ref=e1404]: Nokia-672-A
+                - generic [ref=e1405]:
+                  - heading "Purple Solid Dyed Cotton Poplin Woven Fabric 146cm 125gsm" [level=3] [ref=e1407]
+                  - paragraph [ref=e1409]: Woven Fabrics
+                  - generic [ref=e1410]:
+                    - generic [ref=e1411]:
+                      - paragraph [ref=e1412]: Weight
+                      - paragraph [ref=e1413]: 125 GSM
+                    - generic [ref=e1414]:
+                      - paragraph [ref=e1415]: Width
+                      - paragraph [ref=e1416]: 146 cm / 57 inch
+                  - generic [ref=e1417]: View Specifications
+            - article [ref=e1419] [cursor=pointer]:
+              - link "100% Cotton Poplin — Bottle Green 146 cm, 125 GSM, Mercerized Nokia-687 100% Cotton Poplin — Bottle Green 146 cm, 125 GSM, Mercerized Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1420]:
+                - /url: /category/woven-fabrics/nokia-687-plain-poplin-100cotton-125gsm-solid-dyed-bottle-green
+                - generic [ref=e1421]:
+                  - img "100% Cotton Poplin — Bottle Green 146 cm, 125 GSM, Mercerized" [ref=e1423]
+                  - generic [ref=e1424]: Nokia-687
+                - generic [ref=e1425]:
+                  - heading "100% Cotton Poplin — Bottle Green 146 cm, 125 GSM, Mercerized" [level=3] [ref=e1427]
+                  - paragraph [ref=e1429]: Woven Fabrics
+                  - generic [ref=e1430]:
+                    - generic [ref=e1431]:
+                      - paragraph [ref=e1432]: Weight
+                      - paragraph [ref=e1433]: 125 GSM
+                    - generic [ref=e1434]:
+                      - paragraph [ref=e1435]: Width
+                      - paragraph [ref=e1436]: 146 cm / 57 inch
+                  - generic [ref=e1437]: View Specifications
+            - article [ref=e1439] [cursor=pointer]:
+              - link "Chocolate Brown Mercerized Cotton Poplin Woven Fabric 146cm 125gsm Nokia-688 Chocolate Brown Mercerized Cotton Poplin Woven Fabric 146cm 125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1440]:
+                - /url: /category/woven-fabrics/nokia-688-plain-poplin-100cotton-125gsm-mercerized-silicon
+                - generic [ref=e1441]:
+                  - img "Chocolate Brown Mercerized Cotton Poplin Woven Fabric 146cm 125gsm" [ref=e1443]
+                  - generic [ref=e1444]: Nokia-688
+                - generic [ref=e1445]:
+                  - heading "Chocolate Brown Mercerized Cotton Poplin Woven Fabric 146cm 125gsm" [level=3] [ref=e1447]
+                  - paragraph [ref=e1449]: Woven Fabrics
+                  - generic [ref=e1450]:
+                    - generic [ref=e1451]:
+                      - paragraph [ref=e1452]: Weight
+                      - paragraph [ref=e1453]: 125 GSM
+                    - generic [ref=e1454]:
+                      - paragraph [ref=e1455]: Width
+                      - paragraph [ref=e1456]: 146 cm / 57 inch
+                  - generic [ref=e1457]: View Specifications
+            - article [ref=e1459] [cursor=pointer]:
+              - link "Nokia-678 100% Cotton Poplin — Dark Navy, 146cm 125gsm, Mercerized Nokia-678 Nokia-678 100% Cotton Poplin — Dark Navy, 146cm 125gsm, Mercerized Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1460]:
+                - /url: /category/woven-fabrics/nokia-678-plain-poplin-100cotton-125gsm-mercerized-navy-shirt
+                - generic [ref=e1461]:
+                  - img "Nokia-678 100% Cotton Poplin — Dark Navy, 146cm 125gsm, Mercerized" [ref=e1463]
+                  - generic [ref=e1464]: Nokia-678
+                - generic [ref=e1465]:
+                  - heading "Nokia-678 100% Cotton Poplin — Dark Navy, 146cm 125gsm, Mercerized" [level=3] [ref=e1467]
+                  - paragraph [ref=e1469]: Woven Fabrics
+                  - generic [ref=e1470]:
+                    - generic [ref=e1471]:
+                      - paragraph [ref=e1472]: Weight
+                      - paragraph [ref=e1473]: 125 GSM
+                    - generic [ref=e1474]:
+                      - paragraph [ref=e1475]: Width
+                      - paragraph [ref=e1476]: 146 cm / 57 inch
+                  - generic [ref=e1477]: View Specifications
+            - article [ref=e1479] [cursor=pointer]:
+              - link "Black Cotton Poplin 146cm 125gsm Mercerized/Brushed-In stock Nokia-608 Black Cotton Poplin 146cm 125gsm Mercerized/Brushed-In stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1480]:
+                - /url: /category/woven-fabrics/nokia-608-plain-poplin-cotton-125gsm-mercerized-black
+                - generic [ref=e1481]:
+                  - img "Black Cotton Poplin 146cm 125gsm Mercerized/Brushed-In stock" [ref=e1483]
+                  - generic [ref=e1484]: Nokia-608
+                - generic [ref=e1485]:
+                  - heading "Black Cotton Poplin 146cm 125gsm Mercerized/Brushed-In stock" [level=3] [ref=e1487]
+                  - paragraph [ref=e1489]: Woven Fabrics
+                  - generic [ref=e1490]:
+                    - generic [ref=e1491]:
+                      - paragraph [ref=e1492]: Weight
+                      - paragraph [ref=e1493]: 125 GSM
+                    - generic [ref=e1494]:
+                      - paragraph [ref=e1495]: Width
+                      - paragraph [ref=e1496]: 146 cm / 57 inch
+                  - generic [ref=e1497]: View Specifications
+            - article [ref=e1499] [cursor=pointer]:
+              - link "White Cotton Poplin 146cm | 125 GSM | Mercerized | Never-Out-of-Stock Nokia-607 White Cotton Poplin 146cm | 125 GSM | Mercerized | Never-Out-of-Stock Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e1500]:
+                - /url: /category/woven-fabrics/nokia-607-poplin-100c-125gsm-mercerized-white-shirts
+                - generic [ref=e1501]:
+                  - img "White Cotton Poplin 146cm | 125 GSM | Mercerized | Never-Out-of-Stock" [ref=e1503]
+                  - generic [ref=e1504]: Nokia-607
+                - generic [ref=e1505]:
+                  - heading "White Cotton Poplin 146cm | 125 GSM | Mercerized | Never-Out-of-Stock" [level=3] [ref=e1507]
+                  - paragraph [ref=e1509]: Woven Fabrics
+                  - generic [ref=e1510]:
+                    - generic [ref=e1511]:
+                      - paragraph [ref=e1512]: Weight
+                      - paragraph [ref=e1513]: 125 GSM
+                    - generic [ref=e1514]:
+                      - paragraph [ref=e1515]: Width
+                      - paragraph [ref=e1516]: 146 cm / 57 inch
+                  - generic [ref=e1517]: View Specifications
+        - complementary "Fabric filters" [ref=e1519]:
+          - generic [ref=e1522]:
+            - button "filter_alt_off Clear all filters" [ref=e1523]:
+              - generic [ref=e1524]: filter_alt_off
+              - text: Clear all filters
+            - generic [ref=e1525]:
+              - generic [ref=e1526]:
+                - generic [ref=e1527]: Category
+                - list [ref=e1528]:
+                  - listitem [ref=e1529]:
+                    - generic [ref=e1530] [cursor=pointer]:
+                      - checkbox "Woven Fabrics" [checked] [ref=e1531]
+                      - text: Woven Fabrics
+              - generic [ref=e1532]:
+                - generic [ref=e1533]: Structure / Weave
+                - list [ref=e1534]:
+                  - listitem [ref=e1535]:
+                    - generic [ref=e1536] [cursor=pointer]:
+                      - checkbox "Plain / Poplin" [ref=e1537]
+                      - text: Plain / Poplin
+                  - listitem [ref=e1538]:
+                    - generic [ref=e1539] [cursor=pointer]:
+                      - checkbox "Twill" [ref=e1540]
+                      - text: Twill
+              - generic [ref=e1541]:
+                - generic [ref=e1542]: Content
+                - list [ref=e1543]:
+                  - listitem [ref=e1544]:
+                    - generic [ref=e1545] [cursor=pointer]:
+                      - checkbox "100% Cotton" [ref=e1546]
+                      - text: 100% Cotton
+              - generic [ref=e1547]:
+                - generic [ref=e1548]: Design
+                - list [ref=e1549]:
+                  - listitem [ref=e1550]:
+                    - generic [ref=e1551] [cursor=pointer]:
+                      - checkbox "Solid Dyed" [ref=e1552]
+                      - text: Solid Dyed
+              - generic [ref=e1553]:
+                - generic [ref=e1554]: Color
+                - list [ref=e1555]:
+                  - listitem [ref=e1556]:
+                    - generic [ref=e1557] [cursor=pointer]:
+                      - checkbox "Black" [ref=e1558]
+                      - text: Black
+                  - listitem [ref=e1560]:
+                    - generic [ref=e1561] [cursor=pointer]:
+                      - checkbox "Blush Pink" [ref=e1562]
+                      - text: Blush Pink
+                  - listitem [ref=e1564]:
+                    - generic [ref=e1565] [cursor=pointer]:
+                      - checkbox "Bold Teal" [ref=e1566]
+                      - text: Bold Teal
+                  - listitem [ref=e1568]:
+                    - generic [ref=e1569] [cursor=pointer]:
+                      - checkbox "Bottle Green" [ref=e1570]
+                      - text: Bottle Green
+                  - listitem [ref=e1572]:
+                    - generic [ref=e1573] [cursor=pointer]:
+                      - checkbox "Bright Orange" [ref=e1574]
+                      - text: Bright Orange
+                  - listitem [ref=e1576]:
+                    - generic [ref=e1577] [cursor=pointer]:
+                      - checkbox "Butter Yellow" [ref=e1578]
+                      - text: Butter Yellow
+                  - listitem [ref=e1580]:
+                    - generic [ref=e1581] [cursor=pointer]:
+                      - checkbox "Camel" [ref=e1582]
+                      - text: Camel
+                  - listitem [ref=e1584]:
+                    - generic [ref=e1585] [cursor=pointer]:
+                      - checkbox "Camel Brown" [ref=e1586]
+                      - text: Camel Brown
+                  - listitem [ref=e1588]:
+                    - generic [ref=e1589] [cursor=pointer]:
+                      - checkbox "Caramel" [ref=e1590]
+                      - text: Caramel
+                  - listitem [ref=e1592]:
+                    - generic [ref=e1593] [cursor=pointer]:
+                      - checkbox "Chocolate Brown" [ref=e1594]
+                      - text: Chocolate Brown
+                  - listitem [ref=e1596]:
+                    - generic [ref=e1597] [cursor=pointer]:
+                      - checkbox "Cocoa Brown" [ref=e1598]
+                      - text: Cocoa Brown
+                  - listitem [ref=e1600]:
+                    - generic [ref=e1601] [cursor=pointer]:
+                      - checkbox "Coffee Brown" [ref=e1602]
+                      - text: Coffee Brown
+                  - listitem [ref=e1604]:
+                    - generic [ref=e1605] [cursor=pointer]:
+                      - checkbox "Coral" [ref=e1606]
+                      - text: Coral
+                  - listitem [ref=e1608]:
+                    - generic [ref=e1609] [cursor=pointer]:
+                      - checkbox "Crimson Red" [ref=e1610]
+                      - text: Crimson Red
+                  - listitem [ref=e1612]:
+                    - generic [ref=e1613] [cursor=pointer]:
+                      - checkbox "Dark Burgundy" [ref=e1614]
+                      - text: Dark Burgundy
+                  - listitem [ref=e1616]:
+                    - generic [ref=e1617] [cursor=pointer]:
+                      - checkbox "Dark Coral" [ref=e1618]
+                      - text: Dark Coral
+                  - listitem [ref=e1620]:
+                    - generic [ref=e1621] [cursor=pointer]:
+                      - checkbox "Dark Forest Green" [ref=e1622]
+                      - text: Dark Forest Green
+                  - listitem [ref=e1624]:
+                    - generic [ref=e1625] [cursor=pointer]:
+                      - checkbox "Dark Khaki" [ref=e1626]
+                      - text: Dark Khaki
+                  - listitem [ref=e1628]:
+                    - generic [ref=e1629] [cursor=pointer]:
+                      - checkbox "Dark Mustard" [ref=e1630]
+                      - text: Dark Mustard
+                  - listitem [ref=e1632]:
+                    - generic [ref=e1633] [cursor=pointer]:
+                      - checkbox "Dark Navy Blue" [ref=e1634]
+                      - text: Dark Navy Blue
+                  - listitem [ref=e1636]:
+                    - generic [ref=e1637] [cursor=pointer]:
+                      - checkbox "Dark Purple" [ref=e1638]
+                      - text: Dark Purple
+                  - listitem [ref=e1640]:
+                    - generic [ref=e1641] [cursor=pointer]:
+                      - checkbox "Dark Teal" [ref=e1642]
+                      - text: Dark Teal
+                  - listitem [ref=e1644]:
+                    - generic [ref=e1645] [cursor=pointer]:
+                      - checkbox "Deep Olive" [ref=e1646]
+                      - text: Deep Olive
+                  - listitem [ref=e1648]:
+                    - generic [ref=e1649] [cursor=pointer]:
+                      - checkbox "Deep Pink" [ref=e1650]
+                      - text: Deep Pink
+                  - listitem [ref=e1652]:
+                    - generic [ref=e1653] [cursor=pointer]:
+                      - checkbox "Dusty Mauve" [ref=e1654]
+                      - text: Dusty Mauve
+                  - listitem [ref=e1656]:
+                    - generic [ref=e1657] [cursor=pointer]:
+                      - checkbox "Emerald Green" [ref=e1658]
+                      - text: Emerald Green
+                  - listitem [ref=e1660]:
+                    - generic [ref=e1661] [cursor=pointer]:
+                      - checkbox "Golden Yellow" [ref=e1662]
+                      - text: Golden Yellow
+                  - listitem [ref=e1664]:
+                    - generic [ref=e1665] [cursor=pointer]:
+                      - checkbox "Grass Green" [ref=e1666]
+                      - text: Grass Green
+                  - listitem [ref=e1668]:
+                    - generic [ref=e1669] [cursor=pointer]:
+                      - checkbox "Grey" [ref=e1670]
+                      - text: Grey
+                  - listitem [ref=e1672]:
+                    - generic [ref=e1673] [cursor=pointer]:
+                      - checkbox "Hot Pink" [ref=e1674]
+                      - text: Hot Pink
+                  - listitem [ref=e1676]:
+                    - generic [ref=e1677] [cursor=pointer]:
+                      - checkbox "Ink Blue" [ref=e1678]
+                      - text: Ink Blue
+                  - listitem [ref=e1680]:
+                    - generic [ref=e1681] [cursor=pointer]:
+                      - checkbox "Lavender Grey" [ref=e1682]
+                      - text: Lavender Grey
+                  - listitem [ref=e1684]:
+                    - generic [ref=e1685] [cursor=pointer]:
+                      - checkbox "Lemon Yellow" [ref=e1686]
+                      - text: Lemon Yellow
+                  - listitem [ref=e1688]:
+                    - generic [ref=e1689] [cursor=pointer]:
+                      - checkbox "Light Navy Blue" [ref=e1690]
+                      - text: Light Navy Blue
+                  - listitem [ref=e1692]:
+                    - generic [ref=e1693] [cursor=pointer]:
+                      - checkbox "Lilac" [ref=e1694]
+                      - text: Lilac
+                  - listitem [ref=e1696]:
+                    - generic [ref=e1697] [cursor=pointer]:
+                      - checkbox "Maroon" [ref=e1698]
+                      - text: Maroon
+                  - listitem [ref=e1700]:
+                    - generic [ref=e1701] [cursor=pointer]:
+                      - checkbox "Medium Grey" [ref=e1702]
+                      - text: Medium Grey
+                  - listitem [ref=e1704]:
+                    - generic [ref=e1705] [cursor=pointer]:
+                      - checkbox "Military Green" [ref=e1706]
+                      - text: Military Green
+                  - listitem [ref=e1708]:
+                    - generic [ref=e1709] [cursor=pointer]:
+                      - checkbox "Mint" [ref=e1710]
+                      - text: Mint
+                  - listitem [ref=e1712]:
+                    - generic [ref=e1713] [cursor=pointer]:
+                      - checkbox "Mint Green" [ref=e1714]
+                      - text: Mint Green
+                  - listitem [ref=e1716]:
+                    - generic [ref=e1717] [cursor=pointer]:
+                      - checkbox "Mustard" [ref=e1718]
+                      - text: Mustard
+                  - listitem [ref=e1720]:
+                    - generic [ref=e1721] [cursor=pointer]:
+                      - checkbox "Mustard Yellow" [ref=e1722]
+                      - text: Mustard Yellow
+                  - listitem [ref=e1724]:
+                    - generic [ref=e1725] [cursor=pointer]:
+                      - checkbox "Muted Rose" [ref=e1726]
+                      - text: Muted Rose
+                  - listitem [ref=e1728]:
+                    - generic [ref=e1729] [cursor=pointer]:
+                      - checkbox "Nude Peach" [ref=e1730]
+                      - text: Nude Peach
+                  - listitem [ref=e1732]:
+                    - generic [ref=e1733] [cursor=pointer]:
+                      - checkbox "Olive" [ref=e1734]
+                      - text: Olive
+                  - listitem [ref=e1736]:
+                    - generic [ref=e1737] [cursor=pointer]:
+                      - checkbox "Olive Green" [ref=e1738]
+                      - text: Olive Green
+                  - listitem [ref=e1740]:
+                    - generic [ref=e1741] [cursor=pointer]:
+                      - checkbox "Pastel Coral" [ref=e1742]
+                      - text: Pastel Coral
+                  - listitem [ref=e1744]:
+                    - generic [ref=e1745] [cursor=pointer]:
+                      - checkbox "Pastel Green" [ref=e1746]
+                      - text: Pastel Green
+                  - listitem [ref=e1748]:
+                    - generic [ref=e1749] [cursor=pointer]:
+                      - checkbox "Peach" [ref=e1750]
+                      - text: Peach
+                  - listitem [ref=e1752]:
+                    - generic [ref=e1753] [cursor=pointer]:
+                      - checkbox "Peacock Blue" [ref=e1754]
+                      - text: Peacock Blue
+                  - listitem [ref=e1756]:
+                    - generic [ref=e1757] [cursor=pointer]:
+                      - checkbox "Periwinkle Grey" [ref=e1758]
+                      - text: Periwinkle Grey
+                  - listitem [ref=e1760]:
+                    - generic [ref=e1761] [cursor=pointer]:
+                      - checkbox "Pink" [ref=e1762]
+                      - text: Pink
+                  - listitem [ref=e1764]:
+                    - generic [ref=e1765] [cursor=pointer]:
+                      - checkbox "Pistachio Green" [ref=e1766]
+                      - text: Pistachio Green
+                  - listitem [ref=e1768]:
+                    - generic [ref=e1769] [cursor=pointer]:
+                      - checkbox "Purple" [ref=e1770]
+                      - text: Purple
+                  - listitem [ref=e1772]:
+                    - generic [ref=e1773] [cursor=pointer]:
+                      - checkbox "Red" [ref=e1774]
+                      - text: Red
+                  - listitem [ref=e1776]:
+                    - generic [ref=e1777] [cursor=pointer]:
+                      - checkbox "Royal Blue" [ref=e1778]
+                      - text: Royal Blue
+                  - listitem [ref=e1780]:
+                    - generic [ref=e1781] [cursor=pointer]:
+                      - checkbox "Rust" [ref=e1782]
+                      - text: Rust
+                  - listitem [ref=e1784]:
+                    - generic [ref=e1785] [cursor=pointer]:
+                      - checkbox "Rust Brown" [ref=e1786]
+                      - text: Rust Brown
+                  - listitem [ref=e1788]:
+                    - generic [ref=e1789] [cursor=pointer]:
+                      - checkbox "Sand Beige" [ref=e1790]
+                      - text: Sand Beige
+                  - listitem [ref=e1792]:
+                    - generic [ref=e1793] [cursor=pointer]:
+                      - checkbox "Silver Grey" [ref=e1794]
+                      - text: Silver Grey
+                  - listitem [ref=e1796]:
+                    - generic [ref=e1797] [cursor=pointer]:
+                      - checkbox "Sky Blue" [ref=e1798]
+                      - text: Sky Blue
+                  - listitem [ref=e1800]:
+                    - generic [ref=e1801] [cursor=pointer]:
+                      - checkbox "Slate Blue" [ref=e1802]
+                      - text: Slate Blue
+                  - listitem [ref=e1804]:
+                    - generic [ref=e1805] [cursor=pointer]:
+                      - checkbox "Smoke Grey" [ref=e1806]
+                      - text: Smoke Grey
+                  - listitem [ref=e1808]:
+                    - generic [ref=e1809] [cursor=pointer]:
+                      - checkbox "Soft Orange" [ref=e1810]
+                      - text: Soft Orange
+                  - listitem [ref=e1812]:
+                    - generic [ref=e1813] [cursor=pointer]:
+                      - checkbox "Teal" [ref=e1814]
+                      - text: Teal
+                  - listitem [ref=e1816]:
+                    - generic [ref=e1817] [cursor=pointer]:
+                      - checkbox "Teal Blue" [ref=e1818]
+                      - text: Teal Blue
+                  - listitem [ref=e1820]:
+                    - generic [ref=e1821] [cursor=pointer]:
+                      - checkbox "Turquoise" [ref=e1822]
+                      - text: Turquoise
+                  - listitem [ref=e1824]:
+                    - generic [ref=e1825] [cursor=pointer]:
+                      - checkbox "Warm Saddle Brown" [ref=e1826]
+                      - text: Warm Saddle Brown
+                  - listitem [ref=e1828]:
+                    - generic [ref=e1829] [cursor=pointer]:
+                      - checkbox "White" [ref=e1830]
+                      - text: White
+              - generic [ref=e1832]:
+                - generic [ref=e1833]: Core Finishes
+                - list [ref=e1834]:
+                  - listitem [ref=e1835]:
+                    - generic [ref=e1836] [cursor=pointer]:
+                      - checkbox "Chemical - Bio Finish" [ref=e1837]
+                      - text: Chemical - Bio Finish
+                  - listitem [ref=e1838]:
+                    - generic [ref=e1839] [cursor=pointer]:
+                      - checkbox "Chemical - Mercerized" [ref=e1840]
+                      - text: Chemical - Mercerized
+                  - listitem [ref=e1841]:
+                    - generic [ref=e1842] [cursor=pointer]:
+                      - checkbox "Chemical - Silicon" [ref=e1843]
+                      - text: Chemical - Silicon
+                  - listitem [ref=e1844]:
+                    - generic [ref=e1845] [cursor=pointer]:
+                      - checkbox "Mechanical - Brushed" [ref=e1846]
+                      - text: Mechanical - Brushed
+                  - listitem [ref=e1847]:
+                    - generic [ref=e1848] [cursor=pointer]:
+                      - checkbox "Mechanical - Carbon" [ref=e1849]
+                      - text: Mechanical - Carbon
+                  - listitem [ref=e1850]:
+                    - generic [ref=e1851] [cursor=pointer]:
+                      - checkbox "Mechanical - Laffer" [ref=e1852]
+                      - text: Mechanical - Laffer
+              - generic [ref=e1853]:
+                - generic [ref=e1854]: Weight (GSM)
+                - generic [ref=e1855]: Maximum weight in GSM
+                - slider "Maximum weight in GSM" [ref=e1856]: "500"
+                - generic [ref=e1857]:
+                  - generic [ref=e1858]: 50 GSM
+                  - generic [ref=e1859]: 500 GSM
+      - generic [ref=e1861]:
+        - generic [ref=e1862]:
+          - heading "Experience the quality in your hands." [level=2] [ref=e1863]
+          - paragraph [ref=e1864]: Order our precision swatch packs for your design team. We offer global shipping for technical textile evaluation.
+        - link "Request Swatch Samples" [ref=e1865] [cursor=pointer]:
+          - /url: /support
+      - generic [ref=e1867]:
+        - generic [ref=e1869]:
+          - heading "Reliable Woven Fabric Sourcing from India" [level=2] [ref=e1870]
+          - paragraph [ref=e1871]:
+            - text: For B2B buyers, woven fabric sourcing is not only about selecting a color or design. It is about choosing a dependable fabric base that can perform consistently across cutting, stitching, finishing, packing and repeat production. At
+            - strong [ref=e1872]: Amrita Global Enterprises
+            - text: ", we support buyers with woven fabrics that are selected and supplied with attention to production usability, shade continuity, fabric hand feel, strength, width consistency and bulk-order suitability. This makes our woven fabric category useful for manufacturers who need stable supply for seasonal programs, uniforms, export garments and wholesale fabric requirements."
+          - heading "Choosing the Right Woven Fabric for Your Application" [level=3] [ref=e1873]
+          - paragraph [ref=e1874]: Buyers can use this woven fabric range to shortlist materials for shirts, uniforms, formalwear, light workwear, casual garments and institutional apparel. Our team can help match the fabric with the intended use, whether the requirement is a smooth cotton poplin for shirting, a stronger twill fabric for structured garments, or a solid dyed woven fabric for uniform programs. We aim to make fabric sourcing simple, transparent and practical for B2B customers.
+          - heading "What B2B Buyers Can Evaluate" [level=4] [ref=e1875]
+          - list [ref=e1876]:
+            - listitem [ref=e1877]:
+              - strong [ref=e1878]: "Bulk sourcing support:"
+              - text: fabric selection, inquiry handling and production-oriented guidance
+            - listitem [ref=e1879]:
+              - strong [ref=e1880]: "Key checks:"
+              - text: GSM, width, weave, finish, color, application and repeat supply potential
+            - listitem [ref=e1881]:
+              - strong [ref=e1882]: "Best for:"
+              - text: buyers looking for reliable woven fabric manufacturing and wholesale supply from India
+        - img "Professional fabric selection guide from Amrita Global Enterprises. Flat lay photography of organize" [ref=e1886]
+      - generic [ref=e1887]:
+        - heading "Buyer Intelligence & FAQ" [level=2] [ref=e1888]
+        - generic [ref=e1889]:
+          - group [ref=e1890]:
+            - generic "What types of woven fabrics do you manufacture? expand_more" [ref=e1891] [cursor=pointer]:
+              - generic [ref=e1892]: What types of woven fabrics do you manufacture?
+              - generic [ref=e1893]: expand_more
+          - group [ref=e1894]:
+            - generic "Are your woven fabrics suitable for bulk garment production? expand_more" [ref=e1895] [cursor=pointer]:
+              - generic [ref=e1896]: Are your woven fabrics suitable for bulk garment production?
+              - generic [ref=e1897]: expand_more
+          - group [ref=e1898]:
+            - generic "Which industries use your woven fabrics? expand_more" [ref=e1899] [cursor=pointer]:
+              - generic [ref=e1900]: Which industries use your woven fabrics?
+              - generic [ref=e1901]: expand_more
+          - group [ref=e1902]:
+            - generic "Can buyers source woven fabrics by GSM, width and finish? expand_more" [ref=e1903] [cursor=pointer]:
+              - generic [ref=e1904]: Can buyers source woven fabrics by GSM, width and finish?
+              - generic [ref=e1905]: expand_more
+          - group [ref=e1906]:
+            - generic "Do you supply woven fabrics for export and wholesale buyers? expand_more" [ref=e1907] [cursor=pointer]:
+              - generic [ref=e1908]: Do you supply woven fabrics for export and wholesale buyers?
+              - generic [ref=e1909]: expand_more
+  - contentinfo [ref=e1910]:
+    - generic [ref=e1911]:
+      - generic [ref=e1913]:
+        - generic [ref=e1914]:
+          - heading "Office Address" [level=3] [ref=e1915]: Office Address
+          - link "404, 4th Floor, Safal Prelude, Opp SPIPA, Ahmedabad, Gujarat, India, 380015" [ref=e1917] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=404%2C%204th%20Floor%2C%20Safal%20Prelude%2C%20Opp%20SPIPA%2C%20Ahmedabad%2C%20Gujarat%2C%20India%2C%20380015
+        - generic [ref=e1918]:
+          - heading "Factory Address" [level=3] [ref=e1919]: Factory Address
+          - link "1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449" [ref=e1921] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=1+Mohan+Estate+Ramol+Road+Ahmedabad+Gujarat+India+382449
+        - generic [ref=e1922]:
+          - heading "Warehouse Address" [level=3] [ref=e1923]: Warehouse Address
+          - link "Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405" [ref=e1925] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=Nr+Ambuja+Synthetics+Old+Narol+Court+Narol+Ahmedabad+Gujarat+India+382405
+        - generic [ref=e1926]:
+          - heading "UAE Office Address" [level=3] [ref=e1927]: UAE Office Address
+          - link "GSK Worldwide FZE, Ajman Free Zone, UAE" [ref=e1929] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=GSK+Worldwide+FZE+Ajman+Free+Zone+UAE
+      - generic [ref=e1930]:
+        - generic [ref=e1931]:
+          - heading "Quick Links" [level=3] [ref=e1932]
+          - list "Quick Links" [ref=e1933]:
+            - listitem [ref=e1934]:
+              - link "Home" [ref=e1935] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e1936]:
+              - link "About AGE" [ref=e1937] [cursor=pointer]:
+                - /url: /about
+                - text: About
+                - generic: AGE
+            - listitem [ref=e1938]:
+              - link "Capabilities" [ref=e1939] [cursor=pointer]:
+                - /url: /capabilities
+            - listitem [ref=e1940]:
+              - link "Blog" [ref=e1941] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e1942]:
+              - link "Support & Contact" [ref=e1943] [cursor=pointer]:
+                - /url: /support
+            - listitem [ref=e1944]:
+              - link "FAQ" [ref=e1945] [cursor=pointer]:
+                - /url: /faq
+            - listitem [ref=e1946]:
+              - link "Shipping" [ref=e1947] [cursor=pointer]:
+                - /url: /shipping
+            - listitem [ref=e1948]:
+              - link "Ahmedabad Hub" [ref=e1949] [cursor=pointer]:
+                - /url: /ahmedabad-hub
+            - listitem [ref=e1950]:
+              - link "Fabric Manufacturer" [ref=e1951] [cursor=pointer]:
+                - /url: /fabric-manufacturer
+        - generic [ref=e1952]:
+          - heading "Collections" [level=3] [ref=e1953]
+          - list "Collections" [ref=e1954]:
+            - listitem [ref=e1955]:
+              - link "Holi Collection" [ref=e1956] [cursor=pointer]:
+                - /url: /collection/holi-collection
+            - listitem [ref=e1957]:
+              - link "Diwali Collection" [ref=e1958] [cursor=pointer]:
+                - /url: /collection/diwali-collection
+      - generic [ref=e1959]:
+        - generic [ref=e1960]:
+          - heading "Information" [level=3] [ref=e1961]
+          - list "Information" [ref=e1962]:
+            - listitem [ref=e1963]:
+              - link "Terms & Conditions" [ref=e1964] [cursor=pointer]:
+                - /url: /terms-and-conditions
+            - listitem [ref=e1965]:
+              - link "Careers" [ref=e1966] [cursor=pointer]:
+                - /url: /careers
+            - listitem [ref=e1967]:
+              - link "Sitemap" [ref=e1968] [cursor=pointer]:
+                - /url: /sitemap
+            - listitem [ref=e1969]:
+              - link "Certifications" [ref=e1970] [cursor=pointer]:
+                - /url: /certifications
+        - generic [ref=e1971]:
+          - heading "Categories" [level=3] [ref=e1972]
+          - list "Categories" [ref=e1973]:
+            - listitem [ref=e1974]:
+              - link "All Fabrics" [ref=e1975] [cursor=pointer]:
+                - /url: /fabric
+            - listitem [ref=e1976]:
+              - link "Woven Fabrics" [ref=e1977] [cursor=pointer]:
+                - /url: /category/woven-fabrics
+            - listitem [ref=e1978]:
+              - link "Denim Fabric" [ref=e1979] [cursor=pointer]:
+                - /url: /category/denim-fabric
+            - listitem [ref=e1980]:
+              - link "Knit Fabric" [ref=e1981] [cursor=pointer]:
+                - /url: /category/knit-fabric
+      - generic [ref=e1982]:
+        - heading "Talk To Us" [level=3] [ref=e1983]
+        - group "Talk To Us" [ref=e1984]:
+          - generic [ref=e1985]:
+            - img [ref=e1986]
+            - link "+91-9925155141 (Sales)" [ref=e1988] [cursor=pointer]:
+              - /url: tel:+91-9925155141
+          - generic [ref=e1989]:
+            - img [ref=e1990]
+            - link "+91-9824003484 (Director)" [ref=e1992] [cursor=pointer]:
+              - /url: tel:+91-9824003484
+          - generic [ref=e1993]:
+            - img [ref=e1994]
+            - generic [ref=e1996]:
+              - generic [ref=e1997]: Sales Email
+              - link "sales@amrita-fashions.com" [ref=e1998] [cursor=pointer]:
+                - /url: mailto:sales@amrita-fashions.com
+          - generic [ref=e1999]:
+            - img [ref=e2000]
+            - generic [ref=e2002]:
+              - generic [ref=e2003]: Support Email
+              - link "support@amrita-fashions.com" [ref=e2004] [cursor=pointer]:
+                - /url: mailto:support@amrita-fashions.com
+          - generic [ref=e2005]:
+            - img [ref=e2006]
+            - link "Amrita Global Enterprises , 404, 4th Floor, Safal Prelude, Opp SPIPA , Ahmedabad, Gujarat, India, 380015" [ref=e2009] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=404%2C%204th%20Floor%2C%20Safal%20Prelude%2C%20Opp%20SPIPA%2C%20Ahmedabad%2C%20Gujarat%2C%20India%2C%20380015
+        - paragraph [ref=e2010]: "GSTIN: 24ADLPG0414A2ZF"
+        - paragraph [ref=e2011]: Get new fabric arrivals & bulk pricing alerts — straight to your inbox.
+        - generic [ref=e2012]:
+          - generic [ref=e2013]: Email address
+          - textbox "Email address" [ref=e2014]:
+            - /placeholder: Subscribe with us
+          - button "Subscribe" [ref=e2015]:
+            - img [ref=e2016]
+        - list "Social media links" [ref=e2018]:
+          - link "Visit Amrita Global Enterprises on Facebook" [ref=e2019] [cursor=pointer]:
+            - /url: https://www.facebook.com/AmritaGlobalEnterprises/
+            - img [ref=e2021]
+            - generic [ref=e2023]: Visit Amrita Global Enterprises on Facebook
+          - link "Follow Amrita Global Enterprises on Instagram" [ref=e2024] [cursor=pointer]:
+            - /url: https://www.instagram.com/amritaglobalenterprises/
+            - img [ref=e2026]
+            - generic [ref=e2029]: Follow Amrita Global Enterprises on Instagram
+          - link "Connect with Amrita Global Enterprises on LinkedIn" [ref=e2030] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/amrita-global-enterprises/
+            - img [ref=e2032]
+            - generic [ref=e2035]: Connect with Amrita Global Enterprises on LinkedIn
+          - link "Follow Amrita Global Enterprises on X" [ref=e2036] [cursor=pointer]:
+            - /url: https://x.com/AmritaGlobals
+            - img [ref=e2038]
+            - generic [ref=e2040]: Follow Amrita Global Enterprises on X
+          - link "Watch Amrita Global Enterprises on YouTube" [ref=e2041] [cursor=pointer]:
+            - /url: https://www.youtube.com/@AmritaGlobalEnterprises
+            - img [ref=e2043]
+            - generic [ref=e2045]: Watch Amrita Global Enterprises on YouTube
+          - link "Follow Amrita Global Enterprises on Pinterest" [ref=e2046] [cursor=pointer]:
+            - /url: https://in.pinterest.com/digitalmktage/
+            - img [ref=e2048]
+            - generic [ref=e2050]: Follow Amrita Global Enterprises on Pinterest
+    - generic [ref=e2052]:
+      - generic [ref=e2053]: © 1971–2026 Amrita Global Enterprises
+      - generic [ref=e2054]: "|"
+      - generic [ref=e2055]: 404, 4th Floor, Safal Prelude, Opp SPIPA, Ahmedabad, Gujarat, India, 380015
+      - generic [ref=e2056]: "|"
+      - generic [ref=e2057]: Best Textile Supplier Award 2023
+      - generic [ref=e2058]: "|"
+      - button "WhatsApp Us" [ref=e2059] [cursor=pointer]
+  - generic:
+    - button "Chat on WhatsApp":
+      - img
+    - link "Call us":
+      - /url: tel:+919925155141
+      - generic: call
+  - generic:
+    - link "Email us":
+      - /url: mailto:connect.age@outlook.com
+      - generic: mail

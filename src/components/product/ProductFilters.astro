@@ -12,151 +12,148 @@ interface Props {
 }
 
 const { categories, colors, structures, contents, designs, finishes, preSelectedCategory } = Astro.props;
-
-// Normalize for comparison (case-insensitive, handles "Denim Fabric" vs "Denim Fabrics")
-function isPreSelected(value: string): boolean {
-  if (!preSelectedCategory) return false;
-  const a = value.toLowerCase().trim();
-  const b = preSelectedCategory.toLowerCase().trim();
-  return a === b || a.includes(b) || b.includes(a);
-}
+const filterDataJson = JSON.stringify({
+  categories,
+  colors,
+  structures,
+  contents,
+  designs,
+  finishes,
+  preSelectedCategory,
+}).replace(/</g, "\\u003c");
 ---
 
-<div class="filter-outer space-y-3 sticky top-[90px] max-h-[calc(100vh-110px)] overflow-y-auto">
-
-  <!-- Clear All — medium, polished -->
-  <button
-    id="clear-filters"
-    class="hidden items-center gap-2 rounded-md bg-slate-100 px-4 py-2 text-xs font-label font-semibold uppercase tracking-wider text-slate-600 transition hover:bg-[#041632] hover:text-white"
-  >
-    <span class="material-symbols-outlined" style="font-size:16px">filter_alt_off</span>
-    Clear all filters
-  </button>
-
-  <div class="filter-panel space-y-6 pr-2">
-
-  <!-- 1. Category -->
-  {categories.length > 0 && (
-    <div>
-      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Category</div>
-      <ul class="space-y-2">
-        {categories.map((item) => (
-          <li>
-            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="category" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" checked={isPreSelected(item)} />
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <!-- 2. Structure / Weave -->
-  {structures.length > 0 && (
-    <div>
-      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Structure / Weave</div>
-      <ul class="space-y-2">
-        {structures.map((item) => (
-          <li>
-            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="structure" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <!-- 4. Content -->
-  {contents.length > 0 && (
-    <div>
-      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Content</div>
-      <ul class="space-y-2">
-        {contents.map((item) => (
-          <li>
-            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="content" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <!-- 5. Design -->
-  {designs.length > 0 && (
-    <div>
-      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Design</div>
-      <ul class="space-y-2">
-        {designs.map((item) => (
-          <li>
-            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="design" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <!-- 6. Color — one per row, swatch + name, scrollable -->
-  {colors.length > 0 && (
-    <div>
-      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Color</div>
-      <ul class="max-h-52 overflow-y-auto space-y-2 pr-1">
-        {colors.map((c) => (
-          <li>
-            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="color" data-filter-value={c.name} class="filter-checkbox sr-only" />
-              <span
-                class="color-dot h-4 w-4 flex-shrink-0 rounded-full ring-1 ring-slate-300 transition"
-                style={`background-color:${c.hex};`}
-              />
-              {c.name}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <!-- 7. Core Finishes -->
-  {finishes.length > 0 && (
-    <div>
-      <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Core Finishes</div>
-      <ul class="space-y-2">
-        {finishes.map((item) => (
-          <li>
-            <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-              <input type="checkbox" data-filter-field="finish" data-filter-value={item} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
-              {item}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-
-  <!-- 7. Weight (GSM) -->
-  <div>
-    <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Weight (GSM)</div>
-    <label for="gsm-range" class="sr-only">Maximum weight in GSM</label>
-    <input id="gsm-range" type="range" min="50" max="500" value="500" class="w-full accent-[#775a19]" />
-    <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">
-      <span>50 GSM</span>
-      <span id="gsm-value">500 GSM</span>
-    </div>
-  </div>
-
-  </div><!-- /filter-panel -->
-
-</div><!-- /outer wrapper -->
+<div id="product-filter-root" data-nosnippet></div>
+<script type="application/json" id="product-filter-data" set:html={filterDataJson}></script>
 
 <script>
+  interface ColorItem {
+    name: string;
+    hex: string;
+  }
+
+  interface FilterData {
+    categories: string[];
+    colors: ColorItem[];
+    structures: string[];
+    contents: string[];
+    designs: string[];
+    finishes: string[];
+    preSelectedCategory?: string;
+  }
+
+  const filterRoot = document.getElementById("product-filter-root");
+  const filterDataElement = document.getElementById("product-filter-data");
+
+  function escapeHtml(value: string): string {
+    return value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function isPreSelected(value: string, selected?: string): boolean {
+    if (!selected) return false;
+    const a = value.toLowerCase().trim();
+    const b = selected.toLowerCase().trim();
+    return a === b || a.includes(b) || b.includes(a);
+  }
+
+  function renderCheckboxGroup(field: string, title: string, items: string[], selected?: string): string {
+    if (items.length === 0) return "";
+
+    const list = items.map((item) => {
+      const escapedItem = escapeHtml(item);
+      const checked = field === "category" && isPreSelected(item, selected) ? " checked" : "";
+
+      return `
+        <li>
+          <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+            <input type="checkbox" data-filter-field="${field}" data-filter-value="${escapedItem}" class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]"${checked} />
+            ${escapedItem}
+          </label>
+        </li>
+      `;
+    }).join("");
+
+    return `
+      <div>
+        <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">${title}</div>
+        <ul class="space-y-2">${list}</ul>
+      </div>
+    `;
+  }
+
+  function renderColors(colors: ColorItem[]): string {
+    if (colors.length === 0) return "";
+
+    const list = colors.map((color) => {
+      const colorName = escapeHtml(color.name);
+      const colorHex = escapeHtml(color.hex);
+
+      return `
+        <li>
+          <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
+            <input type="checkbox" data-filter-field="color" data-filter-value="${colorName}" class="filter-checkbox sr-only" />
+            <span class="color-dot h-4 w-4 flex-shrink-0 rounded-full ring-1 ring-slate-300 transition" style="background-color:${colorHex};"></span>
+            ${colorName}
+          </label>
+        </li>
+      `;
+    }).join("");
+
+    return `
+      <div>
+        <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Color</div>
+        <ul class="max-h-52 overflow-y-auto space-y-2 pr-1">${list}</ul>
+      </div>
+    `;
+  }
+
+  function renderFilters(data: FilterData): string {
+    return `
+      <div class="filter-outer space-y-3 sticky top-[90px] max-h-[calc(100vh-110px)] overflow-y-auto">
+        <button
+          id="clear-filters"
+          class="hidden items-center gap-2 rounded-md bg-slate-100 px-4 py-2 text-xs font-label font-semibold uppercase tracking-wider text-slate-600 transition hover:bg-[#041632] hover:text-white"
+        >
+          <span class="material-symbols-outlined" style="font-size:16px">filter_alt_off</span>
+          Clear all filters
+        </button>
+
+        <div class="filter-panel space-y-6 pr-2">
+          ${renderCheckboxGroup("category", "Category", data.categories, data.preSelectedCategory)}
+          ${renderCheckboxGroup("structure", "Structure / Weave", data.structures)}
+          ${renderCheckboxGroup("content", "Content", data.contents)}
+          ${renderCheckboxGroup("design", "Design", data.designs)}
+          ${renderColors(data.colors)}
+          ${renderCheckboxGroup("finish", "Core Finishes", data.finishes)}
+          <div>
+            <div class="mb-3 border-b border-slate-200 pb-2 text-xs font-label font-bold uppercase tracking-widest text-[#041632]">Weight (GSM)</div>
+            <label for="gsm-range" class="sr-only">Maximum weight in GSM</label>
+            <input id="gsm-range" type="range" min="50" max="500" value="500" class="w-full accent-[#775a19]" />
+            <div class="mt-2 flex justify-between font-mono text-[10px] uppercase text-slate-500">
+              <span>50 GSM</span>
+              <span id="gsm-value">500 GSM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  const filterData: FilterData = filterDataElement?.textContent
+    ? JSON.parse(filterDataElement.textContent) as FilterData
+    : { categories: [], colors: [], structures: [], contents: [], designs: [], finishes: [] };
+
+  filterDataElement?.remove();
+
+  if (filterRoot) {
+    filterRoot.innerHTML = renderFilters(filterData);
+  }
+
   const active = new Map<string, Set<string>>();
   let maxGsm = 500;
 

@@ -1,0 +1,392 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]: B2B Fabric Manufacturer & Exporter
+    - generic [ref=e4]: Cotton • Denim • Knit • Woven
+    - generic [ref=e5]: Bulk Orders • Global Supply • Inquiry Support
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - link "Amrita Global Enterprises" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img "Amrita Global Enterprises logo" [ref=e11]
+        - generic [ref=e12]:
+          - generic [ref=e13]: Amrita Global Enterprises
+          - generic [ref=e14]: Fabrics & Export Solutions
+      - navigation "Main navigation" [ref=e15]:
+        - link "Home" [ref=e16] [cursor=pointer]:
+          - /url: /
+        - link "Fabrics" [ref=e17] [cursor=pointer]:
+          - /url: /fabric
+        - link "Capabilities" [ref=e18] [cursor=pointer]:
+          - /url: /capabilities
+        - link "About" [ref=e19] [cursor=pointer]:
+          - /url: /about
+        - link "Careers" [ref=e20] [cursor=pointer]:
+          - /url: /careers
+        - link "Blog" [ref=e21] [cursor=pointer]:
+          - /url: /blog
+        - link "Certifications" [ref=e22] [cursor=pointer]:
+          - /url: /certifications
+      - generic [ref=e23]:
+        - button "Free Sample" [ref=e24] [cursor=pointer]
+        - link "Call Now" [ref=e25] [cursor=pointer]:
+          - /url: tel:+919925155141
+        - link "Get Quote" [ref=e26] [cursor=pointer]:
+          - /url: https://wa.me/919925155141?text=Hi+AGE+Team%2C+I%27m+a+bulk+fabric+buyer.+Can+I+get+pricing+and+a+free+sample%3F
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e32]:
+        - navigation "Breadcrumb" [ref=e33]:
+          - link "Home" [ref=e35] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e36]:
+            - generic [ref=e37]: /
+            - link "Holi Collection" [ref=e38] [cursor=pointer]:
+              - /url: /collection/holi-collection
+        - heading "Holi Collection" [level=1] [ref=e39]
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - heading "Holi Collection Meta Title" [level=2] [ref=e43]
+          - paragraph [ref=e44]: Holi collection description meta
+        - generic [ref=e45]:
+          - heading "B2B Supply Ready" [level=3] [ref=e46]
+          - paragraph [ref=e47]: All fabrics available in bulk with consistent quality, GSM verification, and export documentation.
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]: 2 textiles
+              - generic [ref=e55]:
+                - generic [ref=e56]: "Sort By:"
+                - combobox "Sort By:" [ref=e57] [cursor=pointer]:
+                  - option "Latest Arrivals" [selected]
+                  - 'option "GSM: High to Low"'
+                  - 'option "GSM: Low to High"'
+            - generic [ref=e58]:
+              - generic [ref=e59]: Search fabrics
+              - generic: search
+              - searchbox "Search fabrics" [ref=e60]
+          - generic [ref=e62]:
+            - article [ref=e64] [cursor=pointer]:
+              - link "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm Majestica-766 Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e65]:
+                - /url: /collection/holi-collection/majestica-766-twill-100cotton-125gsm-dark-burgundy-solid-dyed
+                - generic [ref=e66]:
+                  - img "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm" [ref=e68]
+                  - generic [ref=e69]: Majestica-766
+                - generic [ref=e70]:
+                  - heading "Majestica-766 100% Cotton Twill Fabric Dark Burgundy 125 GSM 146cm" [level=3] [ref=e72]
+                  - paragraph [ref=e74]: Woven Fabrics
+                  - generic [ref=e75]:
+                    - generic [ref=e76]:
+                      - paragraph [ref=e77]: Weight
+                      - paragraph [ref=e78]: 125 GSM
+                    - generic [ref=e79]:
+                      - paragraph [ref=e80]: Width
+                      - paragraph [ref=e81]: 146 cm / 57 inch
+                  - generic [ref=e82]: View Specifications
+            - article [ref=e84] [cursor=pointer]:
+              - link "Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm Nokia-Peach Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm Woven Fabrics Weight 125 GSM Width 146 cm / 57 inch View Specifications" [ref=e85]:
+                - /url: /collection/holi-collection/nokia-peach-poplin-100cotton-125gsm-mercerized-peach
+                - generic [ref=e86]:
+                  - img "Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm" [ref=e88]
+                  - generic [ref=e89]: Nokia-Peach
+                - generic [ref=e90]:
+                  - heading "Never-Out-of-Stock Nokia-Peach Cotton Poplin, Peach, 146cm/125gsm" [level=3] [ref=e92]
+                  - paragraph [ref=e94]: Woven Fabrics
+                  - generic [ref=e95]:
+                    - generic [ref=e96]:
+                      - paragraph [ref=e97]: Weight
+                      - paragraph [ref=e98]: 125 GSM
+                    - generic [ref=e99]:
+                      - paragraph [ref=e100]: Width
+                      - paragraph [ref=e101]: 146 cm / 57 inch
+                  - generic [ref=e102]: View Specifications
+        - complementary "Fabric filters" [ref=e104]:
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e110]: Category
+              - list [ref=e111]:
+                - listitem [ref=e112]:
+                  - generic [ref=e113] [cursor=pointer]:
+                    - checkbox "Woven Fabrics" [ref=e114]
+                    - text: Woven Fabrics
+            - generic [ref=e115]:
+              - generic [ref=e116]: Structure / Weave
+              - list [ref=e117]:
+                - listitem [ref=e118]:
+                  - generic [ref=e119] [cursor=pointer]:
+                    - checkbox "Plain / Poplin" [ref=e120]
+                    - text: Plain / Poplin
+                - listitem [ref=e121]:
+                  - generic [ref=e122] [cursor=pointer]:
+                    - checkbox "Twill" [ref=e123]
+                    - text: Twill
+            - generic [ref=e124]:
+              - generic [ref=e125]: Content
+              - list [ref=e126]:
+                - listitem [ref=e127]:
+                  - generic [ref=e128] [cursor=pointer]:
+                    - checkbox "100% Cotton" [ref=e129]
+                    - text: 100% Cotton
+            - generic [ref=e130]:
+              - generic [ref=e131]: Design
+              - list [ref=e132]:
+                - listitem [ref=e133]:
+                  - generic [ref=e134] [cursor=pointer]:
+                    - checkbox "Solid Dyed" [ref=e135]
+                    - text: Solid Dyed
+            - generic [ref=e136]:
+              - generic [ref=e137]: Color
+              - list [ref=e138]:
+                - listitem [ref=e139]:
+                  - generic [ref=e140] [cursor=pointer]:
+                    - checkbox "Dark Burgundy" [ref=e141]
+                    - text: Dark Burgundy
+                - listitem [ref=e143]:
+                  - generic [ref=e144] [cursor=pointer]:
+                    - checkbox "Peach" [ref=e145]
+                    - text: Peach
+            - generic [ref=e147]:
+              - generic [ref=e148]: Core Finishes
+              - list [ref=e149]:
+                - listitem [ref=e150]:
+                  - generic [ref=e151] [cursor=pointer]:
+                    - checkbox "Chemical - Bio Finish" [ref=e152]
+                    - text: Chemical - Bio Finish
+                - listitem [ref=e153]:
+                  - generic [ref=e154] [cursor=pointer]:
+                    - checkbox "Chemical - Mercerized" [ref=e155]
+                    - text: Chemical - Mercerized
+                - listitem [ref=e156]:
+                  - generic [ref=e157] [cursor=pointer]:
+                    - checkbox "Chemical - Silicon" [ref=e158]
+                    - text: Chemical - Silicon
+                - listitem [ref=e159]:
+                  - generic [ref=e160] [cursor=pointer]:
+                    - checkbox "Mechanical - Brushed" [ref=e161]
+                    - text: Mechanical - Brushed
+                - listitem [ref=e162]:
+                  - generic [ref=e163] [cursor=pointer]:
+                    - checkbox "Mechanical - Carbon" [ref=e164]
+                    - text: Mechanical - Carbon
+                - listitem [ref=e165]:
+                  - generic [ref=e166] [cursor=pointer]:
+                    - checkbox "Mechanical - Laffer" [ref=e167]
+                    - text: Mechanical - Laffer
+            - generic [ref=e168]:
+              - generic [ref=e169]: Weight (GSM)
+              - generic [ref=e170]: Maximum weight in GSM
+              - slider "Maximum weight in GSM" [ref=e171]: "500"
+              - generic [ref=e172]:
+                - generic [ref=e173]: 50 GSM
+                - generic [ref=e174]: 500 GSM
+      - generic [ref=e176]:
+        - generic [ref=e177]:
+          - heading "Experience the quality in your hands." [level=2] [ref=e178]
+          - paragraph [ref=e179]: Order our precision swatch packs for your design team. We offer global shipping for technical textile evaluation.
+        - link "Request Swatch Samples" [ref=e180] [cursor=pointer]:
+          - /url: /support
+      - generic [ref=e182]:
+        - generic [ref=e183]:
+          - heading "How to choose the right fabric for your brand" [level=2] [ref=e184]
+          - generic [ref=e185]:
+            - generic [ref=e186]:
+              - generic [ref=e187]: "01"
+              - generic [ref=e188]:
+                - heading "Define Utility First" [level=3] [ref=e189]
+                - paragraph [ref=e190]: Identify the end-use. Industrial workwear requires higher tensile strength.
+            - generic [ref=e191]:
+              - generic [ref=e192]: "02"
+              - generic [ref=e193]:
+                - heading "Understand GSM Dynamics" [level=3] [ref=e194]
+                - paragraph [ref=e195]: GSM determines drape and durability. 125-150 is ideal for shirting.
+            - generic [ref=e196]:
+              - generic [ref=e197]: "03"
+              - generic [ref=e198]:
+                - heading "Finish Selection" [level=3] [ref=e199]
+                - paragraph [ref=e200]: Choose mercerization for luster or silicone washes for soft hand feel.
+        - img "Fabric guidance" [ref=e204]
+      - generic [ref=e205]:
+        - heading "Buyer Intelligence & FAQ" [level=2] [ref=e206]
+        - generic [ref=e207]:
+          - group [ref=e208]:
+            - generic "What fabrics are included in the Holi Collection? expand_more" [ref=e209] [cursor=pointer]:
+              - generic [ref=e210]: What fabrics are included in the Holi Collection?
+              - generic [ref=e211]: expand_more
+          - group [ref=e212]:
+            - generic "What is your Minimum Order Quantity (MOQ)? expand_more" [ref=e213] [cursor=pointer]:
+              - generic [ref=e214]: What is your Minimum Order Quantity (MOQ)?
+              - generic [ref=e215]: expand_more
+          - group [ref=e216]:
+            - generic "Do you offer export documentation? expand_more" [ref=e217] [cursor=pointer]:
+              - generic [ref=e218]: Do you offer export documentation?
+              - generic [ref=e219]: expand_more
+  - contentinfo [ref=e220]:
+    - generic [ref=e221]:
+      - generic [ref=e223]:
+        - generic [ref=e224]:
+          - heading "Office Address" [level=3] [ref=e225]: Office Address
+          - link "404, 4th Floor, Safal Prelude, Opp SPIPA, Ahmedabad, Gujarat, India, 380015" [ref=e227] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=404%2C%204th%20Floor%2C%20Safal%20Prelude%2C%20Opp%20SPIPA%2C%20Ahmedabad%2C%20Gujarat%2C%20India%2C%20380015
+        - generic [ref=e228]:
+          - heading "Factory Address" [level=3] [ref=e229]: Factory Address
+          - link "1, Mohan Estate, Ramol Road, Ahmedabad Gujarat, India – 382449" [ref=e231] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=1+Mohan+Estate+Ramol+Road+Ahmedabad+Gujarat+India+382449
+        - generic [ref=e232]:
+          - heading "Warehouse Address" [level=3] [ref=e233]: Warehouse Address
+          - link "Nr. Ambuja Synthetics, B/H Old Narol Court Narol, Ahmedabad, Gujarat, India – 382405" [ref=e235] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=Nr+Ambuja+Synthetics+Old+Narol+Court+Narol+Ahmedabad+Gujarat+India+382405
+        - generic [ref=e236]:
+          - heading "UAE Office Address" [level=3] [ref=e237]: UAE Office Address
+          - link "GSK Worldwide FZE, Ajman Free Zone, UAE" [ref=e239] [cursor=pointer]:
+            - /url: https://www.google.com/maps/search/?api=1&query=GSK+Worldwide+FZE+Ajman+Free+Zone+UAE
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - heading "Quick Links" [level=3] [ref=e242]
+          - list "Quick Links" [ref=e243]:
+            - listitem [ref=e244]:
+              - link "Home" [ref=e245] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e246]:
+              - link "About AGE" [ref=e247] [cursor=pointer]:
+                - /url: /about
+                - text: About
+                - generic: AGE
+            - listitem [ref=e248]:
+              - link "Capabilities" [ref=e249] [cursor=pointer]:
+                - /url: /capabilities
+            - listitem [ref=e250]:
+              - link "Blog" [ref=e251] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e252]:
+              - link "Support & Contact" [ref=e253] [cursor=pointer]:
+                - /url: /support
+            - listitem [ref=e254]:
+              - link "FAQ" [ref=e255] [cursor=pointer]:
+                - /url: /faq
+            - listitem [ref=e256]:
+              - link "Shipping" [ref=e257] [cursor=pointer]:
+                - /url: /shipping
+            - listitem [ref=e258]:
+              - link "Ahmedabad Hub" [ref=e259] [cursor=pointer]:
+                - /url: /ahmedabad-hub
+            - listitem [ref=e260]:
+              - link "Fabric Manufacturer" [ref=e261] [cursor=pointer]:
+                - /url: /fabric-manufacturer
+        - generic [ref=e262]:
+          - heading "Collections" [level=3] [ref=e263]
+          - list "Collections" [ref=e264]:
+            - listitem [ref=e265]:
+              - link "Holi Collection" [ref=e266] [cursor=pointer]:
+                - /url: /collection/holi-collection
+            - listitem [ref=e267]:
+              - link "Diwali Collection" [ref=e268] [cursor=pointer]:
+                - /url: /collection/diwali-collection
+      - generic [ref=e269]:
+        - generic [ref=e270]:
+          - heading "Information" [level=3] [ref=e271]
+          - list "Information" [ref=e272]:
+            - listitem [ref=e273]:
+              - link "Terms & Conditions" [ref=e274] [cursor=pointer]:
+                - /url: /terms-and-conditions
+            - listitem [ref=e275]:
+              - link "Careers" [ref=e276] [cursor=pointer]:
+                - /url: /careers
+            - listitem [ref=e277]:
+              - link "Sitemap" [ref=e278] [cursor=pointer]:
+                - /url: /sitemap
+            - listitem [ref=e279]:
+              - link "Certifications" [ref=e280] [cursor=pointer]:
+                - /url: /certifications
+        - generic [ref=e281]:
+          - heading "Categories" [level=3] [ref=e282]
+          - list "Categories" [ref=e283]:
+            - listitem [ref=e284]:
+              - link "All Fabrics" [ref=e285] [cursor=pointer]:
+                - /url: /fabric
+            - listitem [ref=e286]:
+              - link "Woven Fabrics" [ref=e287] [cursor=pointer]:
+                - /url: /category/woven-fabrics
+            - listitem [ref=e288]:
+              - link "Denim Fabric" [ref=e289] [cursor=pointer]:
+                - /url: /category/denim-fabric
+            - listitem [ref=e290]:
+              - link "Knit Fabric" [ref=e291] [cursor=pointer]:
+                - /url: /category/knit-fabric
+      - generic [ref=e292]:
+        - heading "Talk To Us" [level=3] [ref=e293]
+        - group "Talk To Us" [ref=e294]:
+          - generic [ref=e295]:
+            - img [ref=e296]
+            - link "+91-9925155141 (Sales)" [ref=e298] [cursor=pointer]:
+              - /url: tel:+91-9925155141
+          - generic [ref=e299]:
+            - img [ref=e300]
+            - link "+91-9824003484 (Director)" [ref=e302] [cursor=pointer]:
+              - /url: tel:+91-9824003484
+          - generic [ref=e303]:
+            - img [ref=e304]
+            - generic [ref=e306]:
+              - generic [ref=e307]: Sales Email
+              - link "sales@amrita-fashions.com" [ref=e308] [cursor=pointer]:
+                - /url: mailto:sales@amrita-fashions.com
+          - generic [ref=e309]:
+            - img [ref=e310]
+            - generic [ref=e312]:
+              - generic [ref=e313]: Support Email
+              - link "support@amrita-fashions.com" [ref=e314] [cursor=pointer]:
+                - /url: mailto:support@amrita-fashions.com
+          - generic [ref=e315]:
+            - img [ref=e316]
+            - link "Amrita Global Enterprises , 404, 4th Floor, Safal Prelude, Opp SPIPA , Ahmedabad, Gujarat, India, 380015" [ref=e319] [cursor=pointer]:
+              - /url: https://www.google.com/maps/search/?api=1&query=404%2C%204th%20Floor%2C%20Safal%20Prelude%2C%20Opp%20SPIPA%2C%20Ahmedabad%2C%20Gujarat%2C%20India%2C%20380015
+        - paragraph [ref=e320]: "GSTIN: 24ADLPG0414A2ZF"
+        - paragraph [ref=e321]: Get new fabric arrivals & bulk pricing alerts — straight to your inbox.
+        - generic [ref=e322]:
+          - generic [ref=e323]: Email address
+          - textbox "Email address" [ref=e324]:
+            - /placeholder: Subscribe with us
+          - button "Subscribe" [ref=e325]:
+            - img [ref=e326]
+        - list "Social media links" [ref=e328]:
+          - link "Visit Amrita Global Enterprises on Facebook" [ref=e329] [cursor=pointer]:
+            - /url: https://www.facebook.com/AmritaGlobalEnterprises/
+            - img [ref=e331]
+            - generic [ref=e333]: Visit Amrita Global Enterprises on Facebook
+          - link "Follow Amrita Global Enterprises on Instagram" [ref=e334] [cursor=pointer]:
+            - /url: https://www.instagram.com/amritaglobalenterprises/
+            - img [ref=e336]
+            - generic [ref=e339]: Follow Amrita Global Enterprises on Instagram
+          - link "Connect with Amrita Global Enterprises on LinkedIn" [ref=e340] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/amrita-global-enterprises/
+            - img [ref=e342]
+            - generic [ref=e345]: Connect with Amrita Global Enterprises on LinkedIn
+          - link "Follow Amrita Global Enterprises on X" [ref=e346] [cursor=pointer]:
+            - /url: https://x.com/AmritaGlobals
+            - img [ref=e348]
+            - generic [ref=e350]: Follow Amrita Global Enterprises on X
+          - link "Watch Amrita Global Enterprises on YouTube" [ref=e351] [cursor=pointer]:
+            - /url: https://www.youtube.com/@AmritaGlobalEnterprises
+            - img [ref=e353]
+            - generic [ref=e355]: Watch Amrita Global Enterprises on YouTube
+          - link "Follow Amrita Global Enterprises on Pinterest" [ref=e356] [cursor=pointer]:
+            - /url: https://in.pinterest.com/digitalmktage/
+            - img [ref=e358]
+            - generic [ref=e360]: Follow Amrita Global Enterprises on Pinterest
+    - generic [ref=e362]:
+      - generic [ref=e363]: © 1971–2026 Amrita Global Enterprises
+      - generic [ref=e364]: "|"
+      - generic [ref=e365]: 404, 4th Floor, Safal Prelude, Opp SPIPA, Ahmedabad, Gujarat, India, 380015
+      - generic [ref=e366]: "|"
+      - generic [ref=e367]: Best Textile Supplier Award 2023
+      - generic [ref=e368]: "|"
+      - button "WhatsApp Us" [ref=e369] [cursor=pointer]
+  - generic:
+    - button "Chat on WhatsApp":
+      - img
+    - link "Call us":
+      - /url: tel:+919925155141
+      - generic: call
+  - generic:
+    - link "Email us":
+      - /url: mailto:connect.age@outlook.com
+      - generic: mail
