@@ -29,6 +29,7 @@ interface Props {
   // LCP image preload
   preloadImage?: string;
   preloadImageSrcset?: string;
+  preloadImageSizes?: string;
   // Pass author name from pages that already fetch authors (about, support, blog, etc.)
   // Falls back to company name if not provided — avoids a redundant getAuthors() call in BaseLayout
   authorName?: string;
@@ -61,6 +62,7 @@ const {
   breadcrumbs,
   preloadImage,
   preloadImageSrcset,
+  preloadImageSizes,
   authorName: authorNameProp,
   waMessage,
 } = Astro.props;
@@ -128,7 +130,7 @@ const schemaArray = schemaMarkup
         as="image"
         href={preloadImage}
         imagesrcset={preloadImageSrcset || undefined}
-        imagesizes="(max-width: 1024px) 100vw, 58vw"
+        imagesizes={preloadImageSizes || undefined}
         fetchpriority="high"
       />
     )}
