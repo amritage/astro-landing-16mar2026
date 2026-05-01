@@ -3,7 +3,6 @@ import type { Product } from "../../data/products";
 import { getCloudinaryUrl } from "../../data/products";
 import ProductShareButton from "./ProductShareButton.astro";
 import ResponsiveImage from "../common/ResponsiveImage.astro";
-import ProductInquiryModal from "./ProductInquiryModal.astro";
 import { getCompanyInfo } from "../../lib/api";
 interface Props { product: Product }
 const { product } = Astro.props;
@@ -201,15 +200,15 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
       </div>
       <div class="space-y-3">
         <!-- Main CTA — single line -->
-        <button
-          id="inquire-modal-open"
-          type="button"
+        <a
+          href="/support"
+          data-open-inquiry-modal
           data-product={product.name}
-          class="w-full bg-[#041632] text-white py-3 lg:py-4 px-4 font-bold flex items-center justify-center gap-2 hover:bg-[#775a19] transition-colors cursor-pointer text-sm lg:text-base whitespace-nowrap"
+          class="w-full bg-[#041632] text-white py-3 lg:py-4 px-4 font-bold flex items-center justify-center gap-2 hover:bg-[#775a19] transition-colors text-sm lg:text-base whitespace-nowrap no-underline"
         >
           <span class="material-symbols-outlined text-[18px]">mail</span>
           <span>INQUIRE FOR BULK QUOTE</span>
-        </button>
+        </a>
         <!-- 4 action buttons — always one row -->
         <div class="grid grid-cols-4 gap-1.5">
           <button
@@ -245,8 +244,6 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
   </div>
 </section>
 
-<ProductInquiryModal />
-
 <script define:vars={{ SALES_EMAIL }}>
   // ── Email & WhatsApp dynamic URLs ─────────────────────────────────────────────
   const emailBtn   = document.getElementById('product-email-btn');
@@ -257,7 +254,7 @@ const slides = slots.filter((s): s is Exclude<Slot, { type: "empty" }> => s.type
     const pageUrl     = window.location.href;
     const subject     = encodeURIComponent(`Bulk Quote Inquiry — ${productName}`);
     const body        = encodeURIComponent(
-      `Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nThank you.`
+      `Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nRegards.`
     );
     emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
   }

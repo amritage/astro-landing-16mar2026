@@ -1,7 +1,6 @@
 ---
 import Breadcrumbs from "../common/Breadcrumbs.astro";
 import type { ApiProductLocation } from "../../lib/api";
-import ProductInquiryModal from "../product/ProductInquiryModal.astro";
 import { getCompanyInfo, buildWaLink, buildPhoneHref } from "../../lib/api";
 const company = await getCompanyInfo("AGE");
 const WA_FALLBACK = buildWaLink(company?.whatsappNumber);
@@ -47,10 +46,10 @@ const eyebrow = data.keywords?.length
           Request Technical Sheet
           <span class="material-symbols-outlined text-sm">download</span>
         </a>
-        <button id="inquire-modal-open" data-product={data.product.name} class="border border-white/30 backdrop-blur-sm text-white px-4 md:px-8 py-3 md:py-4 rounded-[0.125rem] font-body font-semibold hover:bg-white/10 transition-all flex items-center justify-center text-xs md:text-base col-span-2 sm:col-auto"
+        <a href="/support" data-open-inquiry-modal data-product={data.product.name} class="border border-white/30 backdrop-blur-sm text-white px-4 md:px-8 py-3 md:py-4 rounded-[0.125rem] font-body font-semibold hover:bg-white/10 transition-all flex items-center justify-center text-xs md:text-base col-span-2 sm:col-auto no-underline"
           onclick="window.gtag?.('event','pl_hero_cta_consult_expert',{page_path:window.location.pathname})">
           Consult with Expert
-        </button>
+        </a>
       </div>
 
       <!-- Secondary CTAs: WhatsApp, Call, Email — always 3 in a row -->
@@ -90,8 +89,6 @@ const eyebrow = data.keywords?.length
   </div>
 </section>
 
-<ProductInquiryModal />
-
 <script define:vars={{ SALES_EMAIL, WA_FALLBACK }}>
   const emailBtn = document.getElementById("pl-email-btn");
   const waBtn    = document.getElementById("pl-whatsapp-btn");
@@ -100,7 +97,7 @@ const eyebrow = data.keywords?.length
     const productName = emailBtn.dataset.product ?? "Product";
     const pageUrl     = window.location.href;
     const subject     = encodeURIComponent(`Bulk Quote Inquiry — ${productName}`);
-    const body        = encodeURIComponent(`Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nThank you.`);
+    const body        = encodeURIComponent(`Hi,\n\nI am interested in getting a bulk quote for the following product:\n\n${productName}\n${pageUrl}\n\nPlease share pricing and availability.\n\nRegards.`);
     emailBtn.href = `mailto:${SALES_EMAIL}?subject=${subject}&body=${body}`;
   }
 

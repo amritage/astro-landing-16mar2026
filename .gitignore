@@ -23,3 +23,12 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .vercel
+
+#.playwright-cli
+.playwright-cli
+
+#browser-checks
+browser-checks
+
+preview.stderr.log
+preview.stdout.log

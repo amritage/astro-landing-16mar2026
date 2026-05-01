@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
-import ProductInquiryModal from "../../components/product/ProductInquiryModal.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProducts, getCloudinaryUrl } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ, getCompanyInfo } from "../../lib/api";
@@ -155,5 +154,4 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
       guideImageAlt={seo?.altTextImage2 ?? "How to choose the right fabric for your brand"}
     />
   </div>
-  <ProductInquiryModal />
 </BaseLayout>

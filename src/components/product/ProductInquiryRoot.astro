@@ -1,0 +1,23 @@
+---
+import { getCompanyInfo } from "../../lib/api";
+
+const LEAD_CAPTURE_URL =
+  import.meta.env.PUBLIC_ESPO_BASE +
+  "/LeadCapture/" +
+  import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
+const company = await getCompanyInfo("AGE");
+const companyName = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
+---
+
+<div
+  id="quote-modal-root"
+  data-nosnippet
+  data-lead-capture-url={LEAD_CAPTURE_URL}
+  data-company-name={companyName}
+></div>
+
+<script>
+  import { initProductInquiryRoot } from "../../scripts/product-inquiry-root";
+
+  initProductInquiryRoot();
+</script>
