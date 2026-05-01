@@ -5,7 +5,8 @@ import type { FAQItem } from "../../components/product/FabricListLayout.astro";
 import { fetchProducts } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ, getCompanyInfo } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+import { getSiteOrigin } from "../../lib/site-url";
+const SITE_BASE = getSiteOrigin();
 
 const [allProducts, filters, seo, faqData, company] = await Promise.all([
   fetchProducts(),

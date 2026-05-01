@@ -8,7 +8,8 @@ import { fetchProducts, buildCloudinarySrcset, type Product } from "../../data/p
 import { getCompanyInfo } from "../../lib/api";
 // C1 FIX: use shared utility instead of local buildOgImageUrl copy
 import { buildOgImageUrl } from "../../lib/cloudinary";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+import { getSiteOrigin } from "../../lib/site-url";
+const SITE_BASE = getSiteOrigin();
 
 export async function getStaticPaths() {
   const products = await fetchProducts();

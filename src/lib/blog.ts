@@ -1,3 +1,5 @@
+import { getSiteOrigin } from "./site-url";
+
 const API_BASE = (import.meta.env.PUBLIC_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? '';
 if (!API_BASE) {
   throw new Error('[blog] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
@@ -6,6 +8,8 @@ export { cloudinarySrcset } from "./cloudinary";
 
 const API_URL = `${API_BASE}/api/blog`;
 const FALLBACK_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1773744244/BlogFallBackImage_snbkg6.jpg";
+const CURRENT_SITE_ORIGIN = getSiteOrigin();
+const LEGACY_SITE_ORIGIN_PATTERN = /https?:\/\/(?:www\.)?amrita-fashions\.com/gi;
 
 export interface ApiBlogPost {
   id: string;
@@ -81,11 +85,14 @@ export function getPostImage(post: ApiBlogPost): string {
 
 /**
  * Adds rel="noopener noreferrer" to all <a target="_blank"> links in an HTML string.
- * Fixes the "Unsafe Cross-Origin Links" SEO/security warning.
+ * Also rewrites legacy absolute site links to the current site origin.
  */
 export function safeExternalLinks(html: string): string {
   if (!html) return html;
-  return html.replace(
+
+  return html
+    .replace(LEGACY_SITE_ORIGIN_PATTERN, CURRENT_SITE_ORIGIN)
+    .replace(
     /<a\s([^>]*target=["']_blank["'][^>]*)>/gi,
     (match, attrs) => {
       // Already has rel= — just ensure noopener noreferrer are present

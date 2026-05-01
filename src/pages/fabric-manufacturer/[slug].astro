@@ -11,8 +11,9 @@ import PLFAQ from "../../components/fabric-manufacturer/PLFAQ.astro";
 import { getAllProductLocations, getCompanyInfo } from "../../lib/api";
 import type { ApiProductLocation } from "../../lib/api";
 import { stripHtml } from "../../data/products";
+import { getSiteOrigin } from "../../lib/site-url";
 
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+const SITE_BASE = getSiteOrigin();
 
 export async function getStaticPaths() {
   const all = await getAllProductLocations();

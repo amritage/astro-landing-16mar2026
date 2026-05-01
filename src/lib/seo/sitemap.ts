@@ -1,4 +1,4 @@
-const CANONICAL_SITE_ORIGIN = "https://www.amrita-fashions.com";
+import { toAbsoluteSiteUrl } from "../site-url";
 
 export interface SitemapUrlEntry {
   path: string;
@@ -21,20 +21,8 @@ function escapeXml(value: string): string {
     .replaceAll("'", "&apos;");
 }
 
-function normalizePath(path: string): string {
-  const trimmed = path.trim();
-  if (!trimmed || trimmed === "/") return "/";
-
-  const withoutQuery = trimmed.split(/[?#]/, 1)[0] ?? "";
-  const withLeadingSlash = withoutQuery.startsWith("/") ? withoutQuery : `/${withoutQuery}`;
-  const normalized = withLeadingSlash.replace(/\/{2,}/g, "/");
-
-  return normalized.length > 1 ? normalized.replace(/\/+$/, "") : normalized;
-}
-
 function toAbsoluteUrl(path: string): string {
-  const normalizedPath = normalizePath(path);
-  return normalizedPath === "/" ? `${CANONICAL_SITE_ORIGIN}/` : `${CANONICAL_SITE_ORIGIN}${normalizedPath}`;
+  return toAbsoluteSiteUrl(path);
 }
 
 function normalizeLastmod(value: string | Date | null | undefined, fallback: string): string {

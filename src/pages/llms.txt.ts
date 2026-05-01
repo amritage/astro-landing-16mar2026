@@ -1,4 +1,8 @@
-# Amrita Global Enterprises — llms.txt
+import { getSiteOrigin } from "../lib/site-url";
+
+const siteOrigin = getSiteOrigin();
+
+const body = `# Amrita Global Enterprises — llms.txt
 
 > Amrita Global Enterprises (AGE) is an Indian fabric manufacturer and exporter with over five decades of experience in precision textile manufacturing. This site is the product discovery, SEO, and lead-generation frontend for the AGE fabric catalogue.
 
@@ -15,7 +19,7 @@ This is the marketing and catalogue frontend for Amrita Global Enterprises, buil
 - Type: Fabric manufacturer, exporter, and B2B supplier
 - Contact (Sales): +91 99251 55141
 - WhatsApp: https://wa.me/919925155141
-- Website: https://www.amrita-fashions.com
+- Website: ${siteOrigin}
 
 ## What we make and sell
 
@@ -82,4 +86,14 @@ Menswear, Womenswear, Workwear, Uniforms, Sportswear, Industrial Textiles, and m
 
 - Phone / WhatsApp: +91 99251 55141
 - WhatsApp link: https://wa.me/919925155141
-- Inquiry form: https://www.amrita-fashions.com/support
+- Inquiry form: ${siteOrigin}/support
+`;
+
+export function GET(): Response {
+  return new Response(body, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
+}

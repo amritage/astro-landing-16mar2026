@@ -1,5 +1,7 @@
-# robots.txt — Amrita Global Enterprises
-# https://www.amrita-fashions.com
+import { getSiteOrigin } from "../lib/site-url";
+
+const body = `# robots.txt — Amrita Global Enterprises
+# ${getSiteOrigin()}
 
 # ── All crawlers ───────────────────────────────────────────────────────────────
 User-agent: *
@@ -35,4 +37,14 @@ User-agent: Amazonbot
 Allow: /
 
 # ── Sitemaps ───────────────────────────────────────────────────────────────────
-Sitemap: https://www.amrita-fashions.com/sitemap.xml
+Sitemap: ${getSiteOrigin()}/sitemap.xml
+`;
+
+export function GET(): Response {
+  return new Response(body, {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
+}

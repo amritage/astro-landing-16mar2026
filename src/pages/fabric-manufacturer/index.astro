@@ -3,8 +3,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PLListingHero from "../../components/fabric-manufacturer/PLListingHero.astro";
 import PLGrid from "../../components/fabric-manufacturer/PLGrid.astro";
 import { getAllProductLocations, getTopicPageBySlug, getCompanyInfo } from "../../lib/api";
+import { getSiteOrigin } from "../../lib/site-url";
 
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+const SITE_BASE = getSiteOrigin();
 
 const [items, seo, company] = await Promise.all([
   getAllProductLocations(),

@@ -1,7 +1,7 @@
 ---
 // LocalBusinessSchema fetches homePage itself — BaseLayout no longer needs to.
 import { type ApiCompanyInfo, type ApiSiteSettings, type ApiTopicPage, getTopicPageBySlug } from "../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+import { getSiteOrigin } from "../../lib/site-url";
 
 interface Props {
   company: ApiCompanyInfo | null;
@@ -14,7 +14,7 @@ const { company, site } = Astro.props;
 // so this won't cause extra HTTP requests even though it's inside a shared layout component.
 const homePage: ApiTopicPage | null = await getTopicPageBySlug("home");
 
-const siteBase = SITE_BASE;
+const siteBase = getSiteOrigin();
 
 if (!company) return;
 

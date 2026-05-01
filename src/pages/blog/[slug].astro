@@ -5,7 +5,8 @@ import BlogDynamicPostHero from "../../components/blog/BlogDynamicPostHero.astro
 import BlogDynamicPostBody from "../../components/blog/BlogDynamicPostBody.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getCompanyInfo } from "../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+import { getSiteOrigin } from "../../lib/site-url";
+const SITE_BASE = getSiteOrigin();
 
 export async function getStaticPaths() {
   const posts = await fetchBlogPosts();

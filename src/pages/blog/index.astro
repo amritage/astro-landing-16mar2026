@@ -6,7 +6,8 @@ import BlogDynamicGrid from "../../components/blog/BlogDynamicGrid.astro";
 import { fetchBlogPosts, getPostImage } from "../../lib/blog";
 import { getTopicPageBySlug, getCompanyInfo } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+import { getSiteOrigin } from "../../lib/site-url";
+const SITE_BASE = getSiteOrigin();
 
 const [posts, seo, company] = await Promise.all([
   fetchBlogPosts(),

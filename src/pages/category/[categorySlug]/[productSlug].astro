@@ -6,7 +6,8 @@ import ProductDetailBody from "../../../components/product/ProductDetailBody.ast
 import ProductDetailRelated from "../../../components/product/ProductDetailRelated.astro";
 import { fetchProducts, type Product } from "../../../data/products";
 import { getCategoryTopicPages, getCompanyInfo } from "../../../lib/api";
-const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
+import { getSiteOrigin } from "../../../lib/site-url";
+const SITE_BASE = getSiteOrigin();
 
 export async function getStaticPaths() {
   const [products, categories] = await Promise.all([

@@ -11,6 +11,7 @@
  *     { name: "Product Name" },   // last item — no url needed
  *   ]} />
  */
+import { getSiteOrigin } from "../../lib/site-url";
 
 interface BreadcrumbItem {
   name: string;
@@ -23,7 +24,7 @@ interface Props {
 
 const { items } = Astro.props;
 
-const siteBase = (import.meta.env.PUBLIC_SITE_URL ?? "https://www.amrita-fashions.com").replace(/\/$/, "");
+const siteBase = getSiteOrigin();
 
 function resolveUrl(url: string): string {
   if (url.startsWith("http")) return url;
