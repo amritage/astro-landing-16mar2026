@@ -2,12 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
-import { fetchProducts, getCloudinaryUrl } from "../../data/products";
+import { fetchProducts } from "../../data/products";
 import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ, getCompanyInfo } from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
 const SITE_BASE = import.meta.env.PUBLIC_SITE_URL;
-
-const FABRIC_HERO_IMAGE = "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg";
 
 const [allProducts, filters, seo, faqData, company] = await Promise.all([
   fetchProducts(),
@@ -53,7 +51,11 @@ const products = rawProducts.map((p) => ({
   searchMOQ: p.salesMOQ,
 }));
 
-const heroImageUrl = seo?.image1CloudUrl ?? null;
+const heroImageUrl = seo?.image1CloudUrl ?? undefined;
+
+// LCP preload: use backend/CRM image URL exactly as supplied.
+// Do not rebuild, crop, resize, or add h_ transforms here.
+const fabricHeroPreloadImage = heroImageUrl;
 
 // F2 FIX: use SITE_BASE directly — no local alias needed
 // ── JSON-LD: ItemList schema (product snippets in Google) ──────────────────────
@@ -120,16 +122,17 @@ const faqItems: FAQItem[] = faqData.map((f) => ({
   keywords={seo?.keywords ?? undefined}
   canonical={resolveCanonical(seo?.canonicalUrl)}
   ogType={seo?.ogType ?? "product"}
-  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? FABRIC_HERO_IMAGE}
+  ogImage={seo?.image1CloudUrlHero ?? seo?.image1CloudUrl ?? undefined}
   schemaMarkup={[itemListSchema]}
   breadcrumbs={breadcrumbItems}
+  preloadImage={fabricHeroPreloadImage}
   waMessage="Hi, I'm looking for fabrics. Can you help me find the right one for my needs?"
 >
   <div class="bg-white text-slate-900">
     <FabricListLayout
       hero={{
         title: "Browse Our Full Fabric Catalog",
-        imageUrl: heroImageUrl ?? "https://res.cloudinary.com/age-fabric/image/upload/v1775652305/17_y6ajol.jpg",
+        imageUrl: heroImageUrl,
         breadcrumbLabel: "Fabric",
         breadcrumbHref: "/fabric",
       }}
