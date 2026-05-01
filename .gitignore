@@ -30,5 +30,4 @@ pnpm-debug.log*
 #browser-checks
 browser-checks
 
-preview.stderr.log
-preview.stdout.log
+*.log

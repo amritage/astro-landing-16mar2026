@@ -72,8 +72,6 @@ const authorName = authorNameProp ?? companyName;
 const siteBase = SITE_BASE;
 const pathname = Astro.url.pathname;
 const normalizedPath = pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/';
-const isHomepage = normalizedPath === "/";
-const shouldMountInquiryModal = !isHomepage;
 const rawPath = normalizedPath;
 const cleanPath = rawPath === '/' ? '' : rawPath;
 const resolvedCanonical = canonical ?? undefined;
@@ -304,7 +302,7 @@ const schemaArray = schemaMarkup
       <slot />
     </main>
     <Footer />
-    {shouldMountInquiryModal && <ProductInquiryRoot />}
+    <ProductInquiryRoot />
     <FloatingActions waMessage={waMessage} />
     <!-- WhatsApp delegated click handler: opens data-wa-link URLs in a new tab -->
     <script is:inline>
