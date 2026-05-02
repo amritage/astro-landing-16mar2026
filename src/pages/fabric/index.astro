@@ -2,20 +2,35 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FabricListLayout from "../../components/product/FabricListLayout.astro";
 import type { FAQItem } from "../../components/product/FabricListLayout.astro";
-import { fetchProducts } from "../../data/products";
-import { getFilterValues, getTopicPageBySlug, getWebsiteFAQ, getCompanyInfo } from "../../lib/api";
+import { mapApiProduct } from "../../data/products";
+import {
+  getAllProducts,
+  buildFilterValuesFromProducts,
+  getTopicPageBySlug,
+  getWebsiteFAQ,
+  getCompanyInfo,
+} from "../../lib/api";
 import { resolveCanonical } from "../../lib/seo/canonical";
 import { getSiteOrigin } from "../../lib/site-url";
 const SITE_BASE = getSiteOrigin();
 
-const [allProducts, filters, seo, faqData, company] = await Promise.all([
-  fetchProducts(),
-  getFilterValues(),
+const [allRawProducts, seo, faqData, company] = await Promise.all([
+  getAllProducts(),
   getTopicPageBySlug("fabric"),
   getWebsiteFAQ(),
   getCompanyInfo("AGE"),
 ]);
 const companyName = company?.legalName ?? "";
+const wa = company?.whatsappNumber ?? undefined;
+const ph = company?.phone1 ?? undefined;
+
+const visibleRawProducts = allRawProducts.filter((raw) => {
+  const s = (raw.productslug ?? "").trim().toLowerCase();
+  return s.length > 0 && s !== "pending";
+});
+
+const filters = buildFilterValuesFromProducts(visibleRawProducts);
+const allProducts = visibleRawProducts.map((raw) => mapApiProduct(raw, wa, ph));
 
 const total = allProducts.length;
 const rawProducts = allProducts;
