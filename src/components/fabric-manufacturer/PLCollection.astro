@@ -3,9 +3,19 @@ import type { ApiProductLocation } from "../../lib/api";
 import { getProductsByCollectionId } from "../../lib/api";
 import Carousel from "../common/Carousel.astro";
 
-interface Props { data: ApiProductLocation; }
-const { data } = Astro.props;
+interface Props {
+  data: ApiProductLocation;
+  ctaMode?: "link" | "scroll";
+  ctaLabel?: string;
+}
+
+const {
+  data,
+  ctaMode = "link",
+  ctaLabel = "View Specs",
+} = Astro.props;
 const { product } = data;
+const collectionDescription = product.collection?.description?.trim() ?? "";
 
 // Fetch real collection products (exclude current product)
 const collectionProducts = await getProductsByCollectionId(product.collectionId, product.id);
@@ -40,6 +50,11 @@ if (cards.length === 0) {
         <div>
           <span class="text-[#385b99] font-label text-sm uppercase tracking-widest mb-2 block">The Series</span>
           <h2 class="text-2xl md:text-4xl font-headline">Explore the {product.collectionName}</h2>
+          {collectionDescription && (
+            <p class="mt-3 max-w-3xl whitespace-pre-line text-sm leading-relaxed text-[#5a6a85] md:text-base">
+              {collectionDescription}
+            </p>
+          )}
         </div>
       </div>
 
@@ -65,16 +80,52 @@ if (cards.length === 0) {
             </div>
             <h4 class="text-xl font-headline mb-1">{name}</h4>
             <p class="text-[#747781] text-sm font-label mb-4">{sub}</p>
-            <a href={href} class="text-[#385b99] font-bold text-sm uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all font-label">
-              View Specs
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
+            {ctaMode === "scroll" ? (
+              <button
+                type="button"
+                data-collection-inquiry
+                data-variant={name}
+                class="text-[#385b99] font-bold text-sm uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all font-label cursor-pointer"
+              >
+                {ctaLabel}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            ) : (
+              <a href={href} class="text-[#385b99] font-bold text-sm uppercase tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all font-label">
+                {ctaLabel}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            )}
           </div>
         ))}
       </Carousel>
     </div>
   </section>
 )}
+
+<script is:inline>
+  function trackCollection(name) {
+    const w = window;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === "function") {
+      w.gtag("event", name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  document.querySelectorAll("[data-collection-inquiry]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const variant = button.getAttribute("data-variant") ?? "";
+      window.dispatchEvent(new CustomEvent("lp:variant-selected", { detail: { variant } }));
+      document.getElementById("inquiry")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      trackCollection("lp_collection_variant_click");
+    });
+  });
+</script>

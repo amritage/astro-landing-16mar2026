@@ -35,6 +35,11 @@ interface Props {
   authorName?: string;
   // Page-specific WhatsApp pre-filled message for the floating button
   waMessage?: string;
+  hideHeader?: boolean;
+  hideFooter?: boolean;
+  hideFloatingActions?: boolean;
+  hideProductInquiryRoot?: boolean;
+  mainClass?: string;
 }
 
 // Site-wide settings from API (eCatalogue) — fetched before props destructuring so companyName is available as default
@@ -65,6 +70,11 @@ const {
   preloadImageSizes,
   authorName: authorNameProp,
   waMessage,
+  hideHeader = false,
+  hideFooter = false,
+  hideFloatingActions = false,
+  hideProductInquiryRoot = false,
+  mainClass = "pt-[94px] md:pt-[102px]",
 } = Astro.props;
 // Use prop if passed (pages that already fetched authors), otherwise fall back to company name
 const authorName = authorNameProp ?? companyName;
@@ -297,13 +307,13 @@ const schemaArray = schemaMarkup
     </style>
   </head>
   <body class="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
-    <Header />
-    <main id="main-content" class="pt-[94px] md:pt-[102px]">
+    {!hideHeader && <Header />}
+    <main id="main-content" class={mainClass}>
       <slot />
     </main>
-    <Footer />
-    <ProductInquiryRoot />
-    <FloatingActions waMessage={waMessage} />
+    {!hideFooter && <Footer />}
+    {!hideProductInquiryRoot && <ProductInquiryRoot />}
+    {!hideFloatingActions && <FloatingActions waMessage={waMessage} />}
     <!-- WhatsApp delegated click handler: opens data-wa-link URLs in a new tab -->
     <script is:inline>
       document.addEventListener('click', (e) => {

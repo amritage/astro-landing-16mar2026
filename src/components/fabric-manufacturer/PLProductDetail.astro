@@ -33,6 +33,27 @@ const rawSlides: (Slide | null)[] = [
   product.image3CloudUrl
     ? { type: "image", src: product.image3CloudUrl, alt: product.altTextImage3 ?? displayName }
     : null,
+  (() => {
+    const url = product.videoURL;
+    if (!url) return null;
+    const vid = getYouTubeId(url);
+    if (vid) {
+      return {
+        type: "youtube" as const,
+        embedSrc: `https://www.youtube-nocookie.com/embed/${vid}?autoplay=0&rel=0`,
+        thumbSrc: `https://img.youtube.com/vi/${vid}/mqdefault.jpg`,
+        alt: product.altTextVideo ?? displayName,
+      };
+    }
+    return { type: "video" as const, src: url, alt: product.altTextVideo ?? displayName };
+  })(),
+  data.location.image1CloudUrl
+    ? {
+        type: "image",
+        src: data.location.image1CloudUrlHero ?? data.location.image1CloudUrl,
+        alt: data.location.altTextImage1 ?? `${data.location.name} textile market`,
+      }
+    : null,
   product.collection?.collectionImage1CloudUrl
     ? { type: "image", src: product.collection.collectionImage1CloudUrlHero ?? product.collection.collectionImage1CloudUrl, alt: product.collection.altTextCollectionImage1 ?? product.collectionName }
     : null,
@@ -49,7 +70,7 @@ const slides = rawSlides.filter((s): s is Slide => s !== null);
 
 // Build enhanced weight value with GSM and Oz
 const gsmValue = product.gsm;
-const ozValue = (gsmValue * 0.0295).toFixed(2); // Convert GSM to oz/yd²
+const ozValue = Number.isInteger(product.ozs) ? String(product.ozs) : product.ozs.toFixed(2).replace(/\.?0+$/, "");
 const enhancedWeight = `${Math.round(gsmValue)} GSM / ${ozValue} oz`;
 
 // Build enhanced width value with cm and inch
@@ -58,8 +79,8 @@ const inchValue = Math.round(cmValue / 2.54); // Convert cm to inches
 const enhancedWidth = `${Math.round(cmValue)} cm / ${inchValue} inch`;
 
 const specs = [
-  { label: "GSM",        value: enhancedWeight },
-  { label: "Width (CM)", value: enhancedWidth },
+  { label: "Weight",     value: enhancedWeight },
+  { label: "Width",      value: enhancedWidth },
   { label: "Design",     value: product.design },
   { label: "Colour",     value: product.color.join(", ") },
   { label: "Content",    value: product.content.join(", ") },

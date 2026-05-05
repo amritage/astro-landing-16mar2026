@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PLProductDetail from "../../../components/fabric-manufacturer/PLProductDetail.astro";
+import PLFAQ from "../../../components/fabric-manufacturer/PLFAQ.astro";
+import PLCollection from "../../../components/fabric-manufacturer/PLCollection.astro";
+import PLLandingHeader from "../../../components/fabric-manufacturer-landing/PLLandingHeader.astro";
+import PLLandingHero from "../../../components/fabric-manufacturer-landing/PLLandingHero.astro";
+import PLLandingTrustMetrics from "../../../components/fabric-manufacturer-landing/PLLandingTrustMetrics.astro";
+import PLLandingOrderInfo from "../../../components/fabric-manufacturer-landing/PLLandingOrderInfo.astro";
+import PLLandingApplications from "../../../components/fabric-manufacturer-landing/PLLandingApplications.astro";
+import PLLandingFooter from "../../../components/fabric-manufacturer-landing/PLLandingFooter.astro";
+import PLLandingStickyBar from "../../../components/fabric-manufacturer-landing/PLLandingStickyBar.astro";
+import {
+  getAllProductLocations,
+  getCompanyInfo,
+  buildPhoneHref,
+  buildWaLink,
+} from "../../../lib/api";
+import type { ApiProductLocation } from "../../../lib/api";
+import { stripHtml } from "../../../data/products";
+import { getSiteOrigin } from "../../../lib/site-url";
+import {
+  applyFabricManufacturerLandingPreview,
+  getFabricManufacturerLandingPreview,
+} from "../../../data/fabricManufacturerLandingPreview";
+
+const SITE_BASE = getSiteOrigin();
+
+export async function getStaticPaths() {
+  const all = await getAllProductLocations();
+  return all
+    .filter((item) => item.slug)
+    .map((item) => ({
+      params: { slug: item.slug },
+      props: { data: item },
+    }));
+}
+
+const { data } = Astro.props as { data: ApiProductLocation };
+const company = await getCompanyInfo("AGE");
+const landing = getFabricManufacturerLandingPreview(data);
+const previewData = applyFabricManufacturerLandingPreview(data, landing);
+
+const previewUrl = `${SITE_BASE}/preview/fabric-manufacturer/${previewData.slug}`;
+const liveUrl = `${SITE_BASE}/fabric-manufacturer/${previewData.slug}`;
+const previewTitle = `${landing.headline} | ${company?.legalName ?? "Amrita Global Enterprises"}`;
+const metaDescription =
+  `${landing.subheadline} ${landing.responsePromise}`.slice(0, 155) ||
+  stripHtml(previewData.fulldescription).slice(0, 155);
+const ogImage =
+  previewData.image1CloudUrlHero ||
+  previewData.image1CloudUrl ||
+  previewData.product.image1CloudUrlHero ||
+  previewData.product.image1CloudUrl ||
+  undefined;
+
+const phone1 = landing.footerPhone1 ?? company?.phone1 ?? null;
+const phone2 = landing.footerPhone2 ?? company?.phone2 ?? null;
+const email =
+  landing.footerEmail ?? company?.primaryEmail ?? company?.salesEmail ?? company?.supportEmail ?? null;
+const phoneHref = buildPhoneHref(phone1);
+const whatsappHref = buildWaLink(landing.whatsappNumber ?? company?.whatsappNumber ?? phone1);
+
+const additionalProperties = [
+  { name: "Structure", value: previewData.product.structure },
+  { name: "GSM", value: String(previewData.product.gsm) },
+  { name: "Width", value: `${previewData.product.cm} cm / ${previewData.product.inch} inch` },
+  { name: "Design", value: previewData.product.design },
+  { name: "MOQ", value: `${previewData.product.salesMOQ} ${previewData.product.uM}` },
+  { name: "Location Served", value: previewData.location.name },
+].filter((item) => item.value);
+
+const previewSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${previewUrl}#webpage`,
+      url: previewUrl,
+      name: previewTitle,
+      description: metaDescription,
+      inLanguage: "en",
+    },
+    {
+      "@type": "Product",
+      "@id": `${previewUrl}#product`,
+      name: landing.headline,
+      description: metaDescription,
+      image: [ogImage].filter(Boolean),
+      brand: { "@type": "Brand", name: company?.legalName ?? "Amrita Global Enterprises" },
+      material: previewData.product.content.join(", "),
+      color: previewData.product.color.join(", "),
+      category: previewData.product.category,
+      additionalProperty: additionalProperties.map((item) => ({
+        "@type": "PropertyValue",
+        name: item.name,
+        value: item.value,
+      })),
+      offers: {
+        "@type": "Offer",
+        url: liveUrl,
+        availability: "https://schema.org/InStock",
+        priceCurrency: "INR",
+      },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={previewTitle}
+  description={metaDescription}
+  canonical={liveUrl}
+  keywords={previewData.keywords?.length ? previewData.keywords : undefined}
+  ogImage={ogImage}
+  ogType="product"
+  schemaMarkup={previewSchema}
+  noindex={true}
+  preloadImage={ogImage}
+  hideHeader={true}
+  hideFooter={true}
+  hideFloatingActions={true}
+  hideProductInquiryRoot={true}
+  mainClass="pt-[74px] md:pt-[80px]"
+>
+  <PLLandingHeader company={company} data={previewData} phoneHref={phoneHref} whatsappHref={whatsappHref} />
+  <PLLandingHero data={previewData} landing={landing} phoneHref={phoneHref} whatsappHref={whatsappHref} />
+  <PLLandingTrustMetrics metrics={landing.trustMetrics} />
+  <PLLandingOrderInfo
+    data={previewData}
+    companyName={company?.legalName ?? "Amrita Global Enterprises"}
+    responsePromise={landing.responsePromise}
+  />
+  <PLLandingApplications data={previewData} applications={landing.applications} />
+  <PLProductDetail data={previewData} />
+  <PLFAQ data={previewData} />
+  <PLCollection data={previewData} ctaMode="scroll" ctaLabel="Request Quote / Sample" />
+  <PLLandingFooter
+    company={company}
+    data={previewData}
+    landing={landing}
+    phone1={phone1}
+    phone2={phone2}
+    email={email}
+  />
+  <PLLandingStickyBar phoneHref={phoneHref} whatsappHref={whatsappHref} />
+</BaseLayout>

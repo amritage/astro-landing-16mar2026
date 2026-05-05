@@ -1,0 +1,66 @@
+---
+interface Props {
+  phoneHref: string | null;
+  whatsappHref: string | null;
+}
+
+const { phoneHref, whatsappHref } = Astro.props;
+---
+
+<div class="fixed inset-x-0 bottom-0 z-[80] border-t border-slate-200 bg-white/98 p-3 shadow-[0_-8px_24px_rgba(4,22,50,0.12)] md:hidden">
+  <div class="grid grid-cols-3 gap-2">
+    {whatsappHref ? (
+      <a
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-lp-sticky-whatsapp
+        class="inline-flex items-center justify-center rounded-full bg-[#25D366] px-3 py-3 text-xs font-bold uppercase tracking-[0.08em] text-white no-underline"
+      >
+        WhatsApp
+      </a>
+    ) : <div></div>}
+
+    {phoneHref ? (
+      <a
+        href={phoneHref}
+        data-lp-sticky-call
+        class="inline-flex items-center justify-center rounded-full border border-slate-300 px-3 py-3 text-xs font-bold uppercase tracking-[0.08em] text-[#041632] no-underline"
+      >
+        Call
+      </a>
+    ) : <div></div>}
+
+    <a
+      href="#inquiry"
+      data-lp-sticky-inquiry
+      class="inline-flex items-center justify-center rounded-full bg-[#041632] px-3 py-3 text-xs font-bold uppercase tracking-[0.08em] text-white no-underline"
+    >
+      Send Inquiry
+    </a>
+  </div>
+</div>
+
+<script is:inline>
+  function track(name) {
+    const w = window;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === "function") {
+      w.gtag("event", name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  document.querySelectorAll("[data-lp-sticky-whatsapp]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_whatsapp_click"));
+  });
+
+  document.querySelectorAll("[data-lp-sticky-call]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_call_click"));
+  });
+
+  document.querySelectorAll("[data-lp-sticky-inquiry]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_sticky_inquiry_click"));
+  });
+</script>

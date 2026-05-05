@@ -1,0 +1,88 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+
+interface Props {
+  data: ApiProductLocation;
+  companyName: string;
+  responsePromise: string;
+}
+
+const { data, companyName, responsePromise } = Astro.props;
+const normalizedFinishes = [...new Set(
+  (data.product.finish ?? [])
+    .map((finish) => finish.replace(/^.*?-\s*/, "").trim())
+    .filter(Boolean),
+)];
+const finishes = normalizedFinishes.length > 0 ? normalizedFinishes.join(", ") : "Standard dyed finish";
+
+function pickKeyword(keywords: string[], pattern: RegExp, fallback: string): string {
+  return keywords.find((keyword) => pattern.test(keyword)) ?? keywords[0] ?? fallback;
+}
+
+function firstSentence(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = value.replace(/\s+/g, " ").trim();
+  const match = cleaned.match(/.*?[.!?](?:\s|$)/);
+  return (match?.[0] ?? cleaned).trim();
+}
+
+const sectionEyebrow = pickKeyword(
+  data.keywords ?? [],
+  /(wholesale fabric supplier|fabric supplier|b2b fabric supplier)/i,
+  `Fabric supply in ${data.location.name}`,
+);
+
+const sectionHeading = `MOQ, repeat supply, and response support for ${data.location.name} buyers`;
+
+const sectionBody = [
+  firstSentence(data.location.description),
+  data.productlocationA4,
+  data.productlocationA5,
+]
+  .map((value) => value?.trim())
+  .filter((value): value is string => Boolean(value))
+  .join(" ");
+
+const cards = [
+  {
+    label: "Supply Model",
+    value: data.product.supplyModel || "Never-Out-of-Stock",
+    body: "Repeat buyers can plan replenishment without restarting the sourcing process from zero.",
+  },
+  {
+    label: "Sales MOQ",
+    value: `${data.product.salesMOQ} ${data.product.uM}`,
+    body: "Low enough for trial orders, clean enough to move into repeat quantity discussions.",
+  },
+  {
+    label: "Quote & Sample",
+    value: "Buyer Review Ready",
+    body: `Use the inquiry form to ask about ${finishes.toLowerCase()} and sample support for your end use.`,
+  },
+  {
+    label: "Ahmedabad Support",
+    value: "24 Hour Response",
+    body: responsePromise,
+  },
+];
+---
+
+<section class="bg-white py-12 md:py-20">
+  <div class="mx-auto max-w-7xl px-4 md:px-8">
+    <div class="max-w-3xl">
+      <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#755700]">{sectionEyebrow}</p>
+      <h2 class="mt-3 text-3xl font-headline text-[#041632] md:text-4xl">{sectionHeading}</h2>
+      <p class="mt-3 text-base leading-relaxed text-[#5a6a85]">{sectionBody}</p>
+    </div>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      {cards.map((card) => (
+        <div class="rounded-[28px] border border-[#dde3ec] bg-[#fbfcfe] p-6 shadow-[0_16px_34px_rgba(4,22,50,0.05)]">
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#385b99]">{card.label}</p>
+          <h3 class="mt-3 text-2xl font-headline leading-tight text-[#041632]">{card.value}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-[#5a6a85]">{card.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

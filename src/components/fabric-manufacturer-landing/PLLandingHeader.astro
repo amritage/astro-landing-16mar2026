@@ -1,0 +1,83 @@
+---
+import type { ApiCompanyInfo, ApiProductLocation } from "../../lib/api";
+
+interface Props {
+  company: ApiCompanyInfo | null;
+  data: ApiProductLocation;
+  phoneHref: string | null;
+  whatsappHref: string | null;
+}
+
+const { company, data, phoneHref, whatsappHref } = Astro.props;
+const logoSrc = company?.logoUrl ?? "/images/icons/my_logo.webp";
+const headerContext = `${data.location.name} B2B Fabric Supply${company?.foundingYear ? ` • Since ${company.foundingYear}` : ""}`;
+---
+
+<header class="fixed inset-x-0 top-0 z-[70] border-b border-slate-200 bg-white/96 backdrop-blur-md shadow-[0_8px_32px_rgba(4,22,50,0.08)]">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 md:px-8 md:py-4">
+    <div class="flex min-w-0 items-center gap-3" aria-label={company?.legalName ?? "Amrita Global Enterprises"}>
+      <img
+        src={logoSrc}
+        alt={`${company?.legalName ?? "Amrita Global Enterprises"} logo`}
+        width="40"
+        height="40"
+        class="h-10 w-10 shrink-0 object-contain"
+        loading="eager"
+      />
+      <div class="min-w-0">
+        <p class="truncate text-sm font-extrabold text-[#041632] md:text-base">{company?.legalName ?? "Amrita Global Enterprises"}</p>
+        <p class="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 sm:block">{headerContext}</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      {whatsappHref && (
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-lp-whatsapp
+          class="hidden rounded-full border border-[#d6eadf] bg-[#effbf4] px-4 py-2 text-xs font-bold text-[#137a49] no-underline transition-colors hover:bg-[#dff5e8] sm:inline-flex"
+        >
+          WhatsApp
+        </a>
+      )}
+      {phoneHref && (
+        <a
+          href={phoneHref}
+          data-lp-call
+          class="hidden rounded-full border border-slate-300 px-4 py-2 text-xs font-bold text-slate-800 no-underline transition-colors hover:border-[#041632] hover:text-[#041632] sm:inline-flex"
+        >
+          Call Now
+        </a>
+      )}
+      <a
+        href="#inquiry"
+        data-lp-header-inquiry
+        class="inline-flex rounded-full bg-[#041632] px-4 py-2 text-xs font-bold uppercase tracking-[0.08em] text-white no-underline shadow-[0_10px_24px_rgba(4,22,50,0.16)] transition-colors hover:bg-[#755700]"
+      >
+        Send Inquiry
+      </a>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  function track(name) {
+    const w = window;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === "function") {
+      w.gtag("event", name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  document.querySelectorAll("[data-lp-whatsapp]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_whatsapp_click"));
+  });
+
+  document.querySelectorAll("[data-lp-call]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_call_click"));
+  });
+</script>

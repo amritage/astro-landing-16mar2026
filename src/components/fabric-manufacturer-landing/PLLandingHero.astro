@@ -1,0 +1,241 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+import type { FabricManufacturerLandingPreview } from "../../data/fabricManufacturerLandingPreview";
+import PLLandingInquiryForm from "./PLLandingInquiryForm.astro";
+
+interface Props {
+  data: ApiProductLocation;
+  landing: FabricManufacturerLandingPreview;
+  phoneHref: string | null;
+  whatsappHref: string | null;
+}
+
+const { data, landing, phoneHref, whatsappHref } = Astro.props;
+
+const heroImg =
+  data.image1CloudUrlHero ??
+  data.image1CloudUrl ??
+  data.location.image1CloudUrlHero ??
+  data.location.image1CloudUrl ??
+  data.product.image1CloudUrlHero ??
+  data.product.image1CloudUrl ??
+  "";
+
+const heroAlt =
+  data.altTextImage1 ??
+  data.location.altTextImage1 ??
+  data.product.altTextImage1 ??
+  `${data.product.name} fabric for bulk buyers in ${data.location.name}`;
+
+const keywordPool = [...(data.keywords ?? []), ...(data.product.keywords ?? [])]
+  .map((keyword) => keyword?.trim())
+  .filter((keyword): keyword is string => Boolean(keyword));
+
+const heroKeywords = [...new Set(keywordPool)].slice(0, 3);
+const heroKeywordText =
+  heroKeywords.length > 0
+    ? heroKeywords.join(" • ")
+    : `${data.location.name} fabric supply • ${data.product.structure} fabric • bulk buyer support`;
+
+function formatOz(ozs: number): string {
+  return Number.isInteger(ozs) ? String(ozs) : ozs.toFixed(2).replace(/\.?0+$/, "");
+}
+
+function stripHtml(value: string): string {
+  return value
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&quot;/gi, "\"")
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getParagraphText(value: string | null | undefined, index: number): string | null {
+  if (!value) return null;
+  const paragraphs = value.match(/<p[\s\S]*?<\/p>/gi) ?? [];
+  const paragraph = paragraphs[index];
+  if (!paragraph) return null;
+  const cleaned = stripHtml(paragraph);
+  return cleaned || null;
+}
+
+const specs = [
+  { label: "Content", value: data.product.content.join(", ") },
+  { label: "Weight", value: `${Math.round(data.product.gsm)} GSM / ${formatOz(data.product.ozs)} oz` },
+  { label: "Width", value: `${data.product.cm} cm / ${data.product.inch} inch` },
+  { label: "Design", value: data.product.design },
+  { label: "Structure", value: data.product.structure },
+  { label: "MOQ", value: `${data.product.salesMOQ} ${data.product.uM}` },
+  { label: "Supply", value: data.product.supplyModel || "Never-Out-of-Stock" },
+];
+
+function pickKeyword(keywords: string[], pattern: RegExp, fallback: string): string {
+  return keywords.find((keyword) => pattern.test(keyword)) ?? keywords[0] ?? fallback;
+}
+
+const technicalEyebrow = pickKeyword(
+  data.keywords ?? [],
+  /(dark olive|cotton twill|woven fabric|fabric supplier)/i,
+  `${data.location.name} fabric supply`,
+);
+
+const technicalHeading = data.product.productTagline
+  ? `${data.product.productTagline.replace(/\.$/, "")} in ${data.location.name}`
+  : `${data.product.name} cotton twill supply for ${data.location.name} buyers`;
+
+const heroContextLabel = data.location.locationTagline?.trim() || `${data.location.name} Buyer Context`;
+const heroContextBody =
+  getParagraphText(data.fulldescription, 0) ??
+  data.productlocationA1?.trim() ??
+  "";
+---
+
+<section class="relative overflow-hidden bg-[#041632] text-white">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(172,199,255,0.18),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(236,193,92,0.18),transparent_28%)]"></div>
+  <div class="absolute inset-x-0 top-0 h-px bg-white/20"></div>
+
+  <div class="relative mx-auto max-w-7xl px-4 pb-12 pt-8 md:px-8 md:pb-16 md:pt-12">
+    <div class="grid items-start gap-8 xl:grid-cols-[minmax(0,1.12fr)_420px]">
+      <div class="xl:col-start-1">
+        <p class="inline-block max-w-full rounded-full border border-white/15 bg-white/8 px-4 py-1.5 text-[11px] font-bold uppercase leading-relaxed tracking-[0.18em] text-[#d7e2ff]">
+          {heroKeywordText}
+        </p>
+
+        <h1 class="mt-5 max-w-4xl text-4xl font-headline leading-[1.05] text-white sm:text-5xl lg:text-6xl">
+          {landing.headline}
+        </h1>
+        <p class="mt-4 max-w-3xl text-base leading-relaxed text-[#d7e2ff] md:text-xl">
+          {landing.subheadline}
+        </p>
+        <p class="mt-4 max-w-2xl text-sm leading-relaxed text-white/80 md:text-base">
+          {landing.buyerTypeLine}
+        </p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            href="#inquiry"
+            data-lp-hero-inquiry
+            data-lp-intent="pricing"
+            class="inline-flex items-center justify-center rounded-full bg-[#ecc15c] px-5 py-3 text-sm font-bold uppercase tracking-[0.08em] text-[#041632] no-underline shadow-[0_14px_28px_rgba(0,0,0,0.18)] transition-transform hover:-translate-y-px"
+          >
+            {landing.primaryCtaLabel}
+          </a>
+          <a
+            href="#inquiry"
+            data-lp-sample
+            data-lp-intent="sample"
+            class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm font-bold uppercase tracking-[0.08em] text-white no-underline transition-colors hover:bg-white/16"
+          >
+            {landing.secondaryCtaLabel}
+          </a>
+        </div>
+
+        <div class="mt-4 flex flex-wrap gap-3">
+          {whatsappHref && (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-lp-hero-whatsapp
+              class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-white/14"
+            >
+              <span class="material-symbols-outlined text-base text-[#79e2a8]" style="font-variation-settings: 'FILL' 1;">chat</span>
+              WhatsApp
+            </a>
+          )}
+          {phoneHref && (
+            <a
+              href={phoneHref}
+              data-lp-hero-call
+              class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/8 px-4 py-2.5 text-sm font-semibold text-white no-underline transition-colors hover:bg-white/14"
+            >
+              <span class="material-symbols-outlined text-base">call</span>
+              Call Now
+            </a>
+          )}
+        </div>
+
+        <p class="mt-5 text-sm font-semibold text-[#ecc15c] md:text-base">
+          {landing.responsePromise}
+        </p>
+      </div>
+
+      <div class="xl:sticky xl:top-[108px] xl:col-start-2 xl:row-span-2">
+        <PLLandingInquiryForm data={data} landing={landing} />
+      </div>
+
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:col-start-1">
+        <div class="flex h-full flex-col overflow-hidden rounded-[28px] border border-white/12 bg-white/8 shadow-[0_20px_48px_rgba(0,0,0,0.2)]">
+          {heroImg ? (
+            <img
+              src={heroImg}
+              alt={heroAlt}
+              width="920"
+              height="720"
+              class="aspect-[4/3] w-full object-cover"
+              loading="eager"
+              fetchpriority="high"
+            />
+          ) : (
+            <div class="flex aspect-[4/3] items-center justify-center bg-white/6">
+              <span class="material-symbols-outlined text-6xl text-white/40">texture</span>
+            </div>
+          )}
+          {heroContextBody && (
+            <div class="flex-1 border-t border-white/10 px-5 py-5 md:px-6">
+              <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#ecc15c]">
+                {heroContextLabel}
+              </p>
+              <p class="mt-3 text-sm leading-relaxed text-white/78 md:text-[15px]">
+                {heroContextBody}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div class="rounded-[28px] border border-white/12 bg-white/8 p-5 shadow-[0_20px_48px_rgba(0,0,0,0.16)] backdrop-blur-sm">
+          <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#ecc15c]">{technicalEyebrow}</p>
+          <h2 class="mt-3 text-2xl font-headline text-white">{technicalHeading}</h2>
+          <div class="mt-5 grid grid-cols-2 gap-3">
+            {specs.map((spec) => (
+              <div class="rounded-2xl border border-white/10 bg-white/6 px-4 py-3">
+                <p class="text-[10px] font-bold uppercase tracking-[0.16em] text-white/60">{spec.label}</p>
+                <p class="mt-1 text-sm font-semibold text-white">{spec.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  function track(name) {
+    const w = window;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === "function") {
+      w.gtag("event", name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  document.querySelectorAll("[data-lp-hero-inquiry]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_hero_inquiry_click"));
+  });
+
+  document.querySelectorAll("[data-lp-sample]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_sample_request_click"));
+  });
+
+  document.querySelectorAll("[data-lp-hero-whatsapp]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_whatsapp_click"));
+  });
+
+  document.querySelectorAll("[data-lp-hero-call]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_call_click"));
+  });
+</script>

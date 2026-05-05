@@ -650,6 +650,7 @@ export interface ApiProductLocation {
     altTextImage2: string | null;
     altTextImage3: string | null;
     videoURL: string | null;
+    altTextVideo: string | null;
     collectionId: string;
     collectionName: string;
     collection: {

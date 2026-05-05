@@ -1,0 +1,306 @@
+---
+import type { ApiProductLocation } from "../../lib/api";
+import type { FabricManufacturerLandingPreview } from "../../data/fabricManufacturerLandingPreview";
+
+const LEAD_CAPTURE_URL =
+  import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + import.meta.env.PUBLIC_LEAD_CAPTURE_KEY;
+
+interface Props {
+  data: ApiProductLocation;
+  landing: FabricManufacturerLandingPreview;
+}
+
+const { data, landing } = Astro.props;
+const fabricType = `${data.product.content.join(", ")} ${data.product.structure}`.trim();
+---
+
+<aside
+  id="inquiry"
+  class="rounded-[28px] border border-slate-200 bg-white p-5 text-[#041632] shadow-[0_24px_64px_rgba(4,22,50,0.16)] md:p-7"
+>
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#755700]">Quick Inquiry</p>
+      <h2 class="mt-2 text-2xl font-headline leading-tight text-[#041632]">{landing.primaryCtaLabel}</h2>
+      <p class="mt-2 text-sm leading-relaxed text-[#5a6a85]">{landing.responsePromise}</p>
+      <p id="lpf-intent-note" class="mt-3 inline-flex rounded-full bg-[#f4f3f9] px-3 py-1 text-[11px] font-semibold text-[#385b99]">
+        Selected: Pricing inquiry
+      </p>
+    </div>
+    <div class="hidden rounded-full bg-[#fef3c7] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-[#755700] sm:block">
+      24 Hr
+    </div>
+  </div>
+
+  <form id="lpf" class="mt-6 space-y-4" novalidate>
+    <input type="text" name="_hp" class="hidden" tabindex="-1" autocomplete="off" />
+    <input id="lpf-intent" type="hidden" name="inquiryIntent" value="pricing" />
+    <input id="lpf-selected-variant" type="hidden" name="selectedVariant" value="" />
+    <input type="hidden" name="productName" value={data.productName || data.product.name} />
+    <input type="hidden" name="productSlug" value={data.slug} />
+    <input type="hidden" name="city" value={data.location.name} />
+    <input type="hidden" name="fabricType" value={fabricType} />
+    <input id="lpf-source-page" type="hidden" name="sourcePage" value="" />
+    <input type="hidden" name="landingMode" value="true" />
+    <input id="lpf-utm-source" type="hidden" name="utm_source" value="" />
+    <input id="lpf-utm-campaign" type="hidden" name="utm_campaign" value="" />
+    <input id="lpf-gclid" type="hidden" name="gclid" value="" />
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <div>
+        <label for="lpf-name" class="lpf-label">Name</label>
+        <input id="lpf-name" name="fullName" type="text" class="lpf-input" placeholder="Your full name" required />
+      </div>
+      <div>
+        <label for="lpf-company" class="lpf-label">Company Name</label>
+        <input id="lpf-company" name="companyName" type="text" class="lpf-input" placeholder="Your company name" />
+      </div>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <div>
+        <label for="lpf-phone" class="lpf-label">Phone / WhatsApp</label>
+        <input id="lpf-phone" name="phoneWhatsApp" type="tel" class="lpf-input" placeholder="+91 00000 00000" />
+      </div>
+      <div>
+        <label for="lpf-email" class="lpf-label">Email</label>
+        <input id="lpf-email" name="emailAddress" type="email" class="lpf-input" placeholder="your@company.com" />
+      </div>
+    </div>
+
+    <div>
+      <label for="lpf-quantity" class="lpf-label">Quantity Requirement</label>
+      <input id="lpf-quantity" name="quantityRequirement" type="text" class="lpf-input" placeholder="Example: 110 meters trial, then monthly repeat" />
+    </div>
+
+    <div>
+      <label for="lpf-message" class="lpf-label">Message / Requirement</label>
+      <textarea
+        id="lpf-message"
+        name="messageRequirement"
+        rows="5"
+        class="lpf-input min-h-[132px] resize-y"
+        placeholder={`Share quantity, finish, sample need, delivery timeline, or buyer requirement for ${data.productName || data.product.name}.`}
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      id="lpf-submit"
+      class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#041632] px-5 py-3 text-sm font-bold uppercase tracking-[0.08em] text-white transition-colors hover:bg-[#755700]"
+    >
+      <span id="lpf-submit-text">{landing.primaryCtaLabel}</span>
+      <span id="lpf-submit-spinner" class="material-symbols-outlined animate-spin text-base" style="display:none">progress_activity</span>
+    </button>
+
+    <p class="text-xs leading-relaxed text-[#74809a]">
+      Sample requests and pricing inquiries go to the same team. Share as much detail as you have.
+    </p>
+    <p
+      id="lpf-variant-note"
+      class="hidden rounded-2xl border border-[#d7e2ff] bg-[#eef4ff] px-4 py-3 text-xs font-semibold text-[#385b99]"
+    ></p>
+
+    <div id="lpf-success" class="hidden rounded-3xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-900">
+      Inquiry received. The Ahmedabad team will follow up with pricing and availability.
+    </div>
+    <div id="lpf-error" class="hidden rounded-3xl border border-red-200 bg-red-50 px-4 py-4 text-sm text-red-800"></div>
+  </form>
+</aside>
+
+<style>
+  .lpf-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #041632;
+  }
+
+  .lpf-input {
+    width: 100%;
+    border: 1px solid #d6dde6;
+    background: #fbfcfd;
+    color: #041632;
+    border-radius: 18px;
+    padding: 0.95rem 1rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+
+  .lpf-input:focus {
+    border-color: #385b99;
+    box-shadow: 0 0 0 3px rgba(56, 91, 153, 0.12);
+    background: #ffffff;
+  }
+</style>
+
+<script is:inline define:vars={{ LEAD_CAPTURE_URL, productName: data.productName || data.product.name, productSlug: data.slug, city: data.location.name, fabricType }}>
+  const form = document.getElementById("lpf");
+  const successEl = document.getElementById("lpf-success");
+  const errorEl = document.getElementById("lpf-error");
+  const submitBtn = document.getElementById("lpf-submit");
+  const submitText = document.getElementById("lpf-submit-text");
+  const submitSpinner = document.getElementById("lpf-submit-spinner");
+  const intentInput = document.getElementById("lpf-intent");
+  const intentNote = document.getElementById("lpf-intent-note");
+  const selectedVariantInput = document.getElementById("lpf-selected-variant");
+  const variantNote = document.getElementById("lpf-variant-note");
+
+  let started = false;
+
+  function track(name) {
+    const w = window;
+    w.dataLayer = w.dataLayer || [];
+    if (typeof w.gtag === "function") {
+      w.gtag("event", name, { page_path: window.location.pathname });
+    } else {
+      w.dataLayer.push({ event: name, page_path: window.location.pathname });
+    }
+  }
+
+  function setIntent(intent) {
+    if (!intentInput || !intentNote) return;
+    intentInput.value = intent;
+    intentNote.textContent =
+      intent === "sample" ? "Selected: Sample request" : "Selected: Pricing inquiry";
+  }
+
+  function setSelectedVariant(variantName) {
+    if (!selectedVariantInput || !variantNote) return;
+    selectedVariantInput.value = variantName;
+    if (variantName) {
+      variantNote.textContent = `Selected variant: ${variantName}`;
+      variantNote.classList.remove("hidden");
+    } else {
+      variantNote.textContent = "";
+      variantNote.classList.add("hidden");
+    }
+  }
+
+  function splitName(fullName) {
+    const parts = fullName.trim().split(/\s+/).filter(Boolean);
+    return {
+      firstName: parts[0] ?? "",
+      lastName: parts.slice(1).join(" ") || "-",
+    };
+  }
+
+  function getValue(name) {
+    return form.querySelector(`[name="${name}"]`)?.value?.trim() ?? "";
+  }
+
+  function buildPayload() {
+    const { firstName, lastName } = splitName(getValue("fullName"));
+    const params = new URLSearchParams(window.location.search);
+    const messageParts = [];
+    const phone = getValue("phoneWhatsApp");
+    const quantity = getValue("quantityRequirement");
+    const message = getValue("messageRequirement");
+    const intent = getValue("inquiryIntent");
+    const selectedVariant = getValue("selectedVariant");
+
+    if (phone) messageParts.push(`Phone / WhatsApp: ${phone}`);
+    if (quantity) messageParts.push(`Quantity Requirement: ${quantity}`);
+    if (intent === "sample") messageParts.push("Request Type: Fabric sample request");
+    if (selectedVariant) messageParts.push(`Selected Variant: ${selectedVariant}`);
+    if (message) messageParts.push(message);
+
+    return {
+      firstName,
+      lastName,
+      emailAddress: getValue("emailAddress"),
+      accountName: getValue("companyName"),
+      description: messageParts.join("\n"),
+      productName,
+      productSlug,
+      city,
+      fabricType,
+      sourcePage: window.location.href,
+      landingMode: true,
+      inquiryIntent: intent,
+      selectedVariant,
+      quantityRequirement: quantity,
+      utm_source: params.get("utm_source") ?? "",
+      utm_campaign: params.get("utm_campaign") ?? "",
+      gclid: params.get("gclid") ?? "",
+    };
+  }
+
+  document.querySelectorAll("[data-lp-intent]").forEach((node) => {
+    node.addEventListener("click", () => {
+      setIntent(node.getAttribute("data-lp-intent") ?? "pricing");
+    });
+  });
+
+  window.addEventListener("lp:variant-selected", (event) => {
+    const variantName = event?.detail?.variant ?? "";
+    setSelectedVariant(variantName);
+  });
+
+  form?.addEventListener("focusin", () => {
+    if (started) return;
+    started = true;
+    track("lp_form_start");
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (form.querySelector('[name="_hp"]')?.value) return;
+
+    const fullName = getValue("fullName");
+    const phone = getValue("phoneWhatsApp");
+    const email = getValue("emailAddress");
+
+    if (!fullName) {
+      errorEl.textContent = "Please enter your name.";
+      errorEl.classList.remove("hidden");
+      return;
+    }
+
+    if (!phone && !email) {
+      errorEl.textContent = "Please provide either a phone / WhatsApp number or an email address.";
+      errorEl.classList.remove("hidden");
+      return;
+    }
+
+    errorEl.classList.add("hidden");
+    successEl.classList.add("hidden");
+    submitBtn.disabled = true;
+    submitText.textContent = "Sending...";
+    submitSpinner.style.display = "inline-block";
+    track("lp_form_submit");
+
+    try {
+      const response = await fetch(LEAD_CAPTURE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildPayload()),
+      });
+
+      if (!response.ok) {
+        throw new Error(String(response.status));
+      }
+
+      form.reset();
+      setIntent("pricing");
+      setSelectedVariant("");
+      successEl.classList.remove("hidden");
+      track("lp_form_success");
+    } catch {
+      errorEl.textContent = "Something went wrong. Please try again or contact us directly.";
+      errorEl.classList.remove("hidden");
+      track("lp_form_error");
+    } finally {
+      submitBtn.disabled = false;
+      submitText.textContent = "Send Fabric Inquiry";
+      submitSpinner.style.display = "none";
+    }
+  });
+
+  setIntent("pricing");
+  setSelectedVariant("");
+</script>

@@ -1,9 +1,12 @@
 import { defineConfig } from 'astro/config';
+import type { AstroUserConfig } from 'astro';
 import partytown from '@astrojs/partytown';
 import tailwindcss from '@tailwindcss/vite';
 import { loadEnv } from 'vite';
 import { buildAstroRedirects } from './src/lib/redirects.ts';
 import { cloudinaryPicture } from './src/integrations/cloudinary-picture.ts';
+
+type AstroVitePlugin = NonNullable<NonNullable<AstroUserConfig['vite']>['plugins']>[number];
 
 function normalizeEnvValue(value: string | undefined): string | undefined {
   if (!value) return undefined;
@@ -22,6 +25,7 @@ process.env.PUBLIC_SITE_URL =
   normalizeEnvValue(env.PUBLIC_SITE_URL);
 
 const redirects = await buildAstroRedirects();
+const tailwindPlugin = tailwindcss() as unknown as AstroVitePlugin;
 
 export default defineConfig({
   trailingSlash: 'never',
@@ -41,6 +45,6 @@ export default defineConfig({
     partytown({ config: { forward: ['dataLayer.push', 'gtag', 'clarity'] } }),
   ],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindPlugin],
   },
 });
