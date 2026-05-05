@@ -1,17 +1,28 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PLHero from "../../components/fabric-manufacturer/PLHero.astro";
-import PLTrustMetrics from "../../components/fabric-manufacturer/PLTrustMetrics.astro";
-import PLProductDetail from "../../components/fabric-manufacturer/PLProductDetail.astro";
-import PLLocation from "../../components/fabric-manufacturer/PLLocation.astro";
-import PLSuitability from "../../components/fabric-manufacturer/PLSuitability.astro";
-import PLCollection from "../../components/fabric-manufacturer/PLCollection.astro";
-import PLInquiryForm from "../../components/fabric-manufacturer/PLInquiryForm.astro";
-import PLFAQ from "../../components/fabric-manufacturer/PLFAQ.astro";
-import { getAllProductLocations, getCompanyInfo } from "../../lib/api";
-import type { ApiProductLocation } from "../../lib/api";
-import { stripHtml } from "../../data/products";
-import { getSiteOrigin } from "../../lib/site-url";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PLProductDetail from "../../../components/fabric-manufacturer/PLProductDetail.astro";
+import PLFAQ from "../../../components/fabric-manufacturer/PLFAQ.astro";
+import PLCollection from "../../../components/fabric-manufacturer/PLCollection.astro";
+import PLLandingHeader from "../../../components/fabric-manufacturer-landing/PLLandingHeader.astro";
+import PLLandingHero from "../../../components/fabric-manufacturer-landing/PLLandingHero.astro";
+import PLLandingTrustMetrics from "../../../components/fabric-manufacturer-landing/PLLandingTrustMetrics.astro";
+import PLLandingOrderInfo from "../../../components/fabric-manufacturer-landing/PLLandingOrderInfo.astro";
+import PLLandingApplications from "../../../components/fabric-manufacturer-landing/PLLandingApplications.astro";
+import PLLandingFooter from "../../../components/fabric-manufacturer-landing/PLLandingFooter.astro";
+import PLLandingStickyBar from "../../../components/fabric-manufacturer-landing/PLLandingStickyBar.astro";
+import {
+  getAllProductLocations,
+  getCompanyInfo,
+  buildPhoneHref,
+  buildWaLink,
+} from "../../../lib/api";
+import type { ApiProductLocation } from "../../../lib/api";
+import { stripHtml } from "../../../data/products";
+import { getSiteOrigin } from "../../../lib/site-url";
+import {
+  applyFabricManufacturerLandingPreview,
+  getFabricManufacturerLandingPreview,
+} from "../../../data/fabricManufacturerLandingPreview";
 
 const SITE_BASE = getSiteOrigin();
 
@@ -27,149 +38,110 @@ export async function getStaticPaths() {
 
 const { data } = Astro.props as { data: ApiProductLocation };
 const company = await getCompanyInfo("AGE");
-const companyName = company?.legalName ?? "";
-const product = data.product;
-const location = data.location;
+const landing = getFabricManufacturerLandingPreview(data);
+const previewData = applyFabricManufacturerLandingPreview(data, landing);
 
-const pageTitle =
-  data.title?.trim() ||
-  (product && location ? `${product.productTitle || product.name} in ${location.name}` : null) ||
-  "Fabric Manufacturer";
-
+const previewUrl = `${SITE_BASE}/preview/fabric-manufacturer/${previewData.slug}`;
+const liveUrl = `${SITE_BASE}/fabric-manufacturer/${previewData.slug}`;
+const previewTitle = `${landing.headline} | ${company?.legalName ?? "Amrita Global Enterprises"}`;
 const metaDescription =
-  stripHtml(data.fulldescription).slice(0, 155) ||
-  stripHtml(product?.fullProductDescription).slice(0, 155) ||
-  (product && location
-    ? `${product.name} available in ${location.name} for bulk B2B fabric sourcing from ${companyName}.`
-    : `B2B fabric supply by product and location. ${companyName}.`);
-
+  `${landing.subheadline} ${landing.responsePromise}`.slice(0, 155) ||
+  stripHtml(previewData.fulldescription).slice(0, 155);
 const ogImage =
-  data.image1CloudUrlHero ||
-  product?.image1CloudUrlHero ||
-  location?.image1CloudUrlHero ||
-  data.image1CloudUrl ||
-  product?.image1CloudUrl ||
-  location?.image1CloudUrl ||
+  previewData.image1CloudUrlHero ||
+  previewData.image1CloudUrl ||
+  previewData.product.image1CloudUrlHero ||
+  previewData.product.image1CloudUrl ||
   undefined;
 
-const canonicalUrl = `${SITE_BASE}/fabric-manufacturer/${data.slug}`;
+const phone1 = landing.footerPhone1 ?? company?.phone1 ?? null;
+const phone2 = landing.footerPhone2 ?? company?.phone2 ?? null;
+const email =
+  landing.footerEmail ?? company?.primaryEmail ?? company?.salesEmail ?? company?.supportEmail ?? null;
+const phoneHref = buildPhoneHref(phone1);
+const whatsappHref = buildWaLink(landing.whatsappNumber ?? company?.whatsappNumber ?? phone1);
 
-// ── JSON-LD ───────────────────────────────────────────────────────────────────
-const breadcrumbs = [
-  { name: "Home", url: "/" },
-  { name: "Fabric Manufacturer", url: "/fabric-manufacturer" },
-  { name: pageTitle },
-];
+const additionalProperties = [
+  { name: "Structure", value: previewData.product.structure },
+  { name: "GSM", value: String(previewData.product.gsm) },
+  { name: "Width", value: `${previewData.product.cm} cm / ${previewData.product.inch} inch` },
+  { name: "Design", value: previewData.product.design },
+  { name: "MOQ", value: `${previewData.product.salesMOQ} ${previewData.product.uM}` },
+  { name: "Location Served", value: previewData.location.name },
+].filter((item) => item.value);
 
-const additionalProperties = product && location ? [
-  { name: "Structure",       value: product.structure },
-  { name: "GSM",             value: String(product.gsm) },
-  { name: "Width",           value: `${product.cm} cm / ${product.inch} inch` },
-  { name: "Design",          value: product.design },
-  { name: "Supply Model",    value: "Never-Out-of-Stock" },
-  { name: "Location Served", value: location.name },
-].filter((p) => p.value).map(({ name, value }) => ({
-  "@type": "PropertyValue",
-  name,
-  value,
-})) : [];
-
-const faqItems = [
-  { q: data.productlocationQ1, a: data.productlocationA1 },
-  { q: data.productlocationQ2, a: data.productlocationA2 },
-  { q: data.productlocationQ3, a: data.productlocationA3 },
-  { q: data.productlocationQ4, a: data.productlocationA4 },
-  { q: data.productlocationQ5, a: data.productlocationA5 },
-].filter((f) => f.q && f.a);
-
-const faqSchema = faqItems.length > 0
-  ? {
-      "@type": "FAQPage",
-      "@id": `${canonicalUrl}#faq`,
-      mainEntity: faqItems.map(({ q, a }) => ({
-        "@type": "Question",
-        name: q,
-        acceptedAnswer: { "@type": "Answer", text: a },
-      })),
-    }
-  : null;
-
-const graphSchema = {
+const previewSchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebPage",
-      "@id": `${canonicalUrl}#webpage`,
-      url: canonicalUrl,
-      name: pageTitle,
+      "@id": `${previewUrl}#webpage`,
+      url: previewUrl,
+      name: previewTitle,
       description: metaDescription,
       inLanguage: "en",
-      ...(ogImage ? { primaryImageOfPage: { "@type": "ImageObject", url: ogImage } } : {}),
-      about: { "@id": `${canonicalUrl}#product` },
-      isPartOf: { "@id": `${SITE_BASE}/#website` },
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${canonicalUrl}#breadcrumb`,
-      itemListElement: breadcrumbs.map((item, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        name: item.name,
-        ...(item.url ? { item: `${SITE_BASE}${item.url}` } : {}),
-      })),
     },
     {
       "@type": "Product",
-      "@id": `${canonicalUrl}#product`,
-      name: product?.name,
+      "@id": `${previewUrl}#product`,
+      name: landing.headline,
       description: metaDescription,
       image: [ogImage].filter(Boolean),
-      brand: { "@type": "Brand", name: companyName },
-      category: product?.category,
-      material: Array.isArray(product?.content) ? product.content.join(", ") : product?.content,
-      color: Array.isArray(product?.color) ? product.color.join(", ") : product?.color,
-      additionalProperty: additionalProperties,
+      brand: { "@type": "Brand", name: company?.legalName ?? "Amrita Global Enterprises" },
+      material: previewData.product.content.join(", "),
+      color: previewData.product.color.join(", "),
+      category: previewData.product.category,
+      additionalProperty: additionalProperties.map((item) => ({
+        "@type": "PropertyValue",
+        name: item.name,
+        value: item.value,
+      })),
       offers: {
         "@type": "Offer",
-        "@id": `${canonicalUrl}#offer`,
-        url: canonicalUrl,
+        url: liveUrl,
         availability: "https://schema.org/InStock",
         priceCurrency: "INR",
-        seller: { "@type": "Organization", name: companyName },
       },
     },
-    ...(faqSchema ? [faqSchema] : []),
   ],
 };
 ---
 
 <BaseLayout
-  title={`${pageTitle}`}
+  title={previewTitle}
   description={metaDescription}
-  canonical={canonicalUrl}
-  keywords={data.keywords?.length ? data.keywords : undefined}
+  canonical={liveUrl}
+  keywords={previewData.keywords?.length ? previewData.keywords : undefined}
   ogImage={ogImage}
   ogType="product"
-  schemaMarkup={graphSchema}
-  breadcrumbs={breadcrumbs}
+  schemaMarkup={previewSchema}
+  noindex={true}
   preloadImage={ogImage}
-  waMessage={product && location
-    ? `Hi, I'm interested in ${product.name} available in ${location.name}. Can you share more details?`
-    : `Hi, I'm interested in ${pageTitle}. Can you share more details?`}
+  hideHeader={true}
+  hideFooter={true}
+  hideFloatingActions={true}
+  hideProductInquiryRoot={true}
+  mainClass="pt-[74px] md:pt-[80px]"
 >
-  <PLHero
-    data={data}
-    breadcrumbs={[
-      { name: "Home", href: "/" },
-      { name: "Fabric Manufacturer", href: "/fabric-manufacturer" },
-      { name: pageTitle },
-    ]}
+  <PLLandingHeader company={company} data={previewData} phoneHref={phoneHref} whatsappHref={whatsappHref} />
+  <PLLandingHero data={previewData} landing={landing} phoneHref={phoneHref} whatsappHref={whatsappHref} />
+  <PLLandingTrustMetrics metrics={landing.trustMetrics} />
+  <PLLandingOrderInfo
+    data={previewData}
+    companyName={company?.legalName ?? "Amrita Global Enterprises"}
+    responsePromise={landing.responsePromise}
   />
-  <PLTrustMetrics />
-  <PLProductDetail data={data} />
-  <PLLocation data={data} />
-  <PLSuitability data={data} />
-  <PLCollection data={data} />
-  <PLInquiryForm data={data} />
-  <PLFAQ data={data} />
+  <PLLandingApplications data={previewData} applications={landing.applications} />
+  <PLProductDetail data={previewData} />
+  <PLFAQ data={previewData} />
+  <PLCollection data={previewData} ctaMode="scroll" ctaLabel="Request Quote / Sample" />
+  <PLLandingFooter
+    company={company}
+    data={previewData}
+    landing={landing}
+    phone1={phone1}
+    phone2={phone2}
+    email={email}
+  />
+  <PLLandingStickyBar phoneHref={phoneHref} whatsappHref={whatsappHref} />
 </BaseLayout>
