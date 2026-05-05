@@ -2,9 +2,9 @@ name: Scheduled Rebuild - Cloudflare Pages
 
 on:
   schedule:
-    - cron: '0 5-14 * * 1-6'   # Every hour, 10:30 AM to 7:30 PM IST, Mon-Sat
+    - cron: '0 5,8,11,14 * * 1-6'   # Every 3 hours: 10:30 AM, 1:30 PM, 4:30 PM, 7:30 PM IST, Mon-Sat
   workflow_dispatch:
-
+  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
