@@ -46,12 +46,26 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
 
   function gaEvent(name: string) {
     const w = window as any;
+    if (typeof w.ageTrack === 'function') {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === 'function') {
       w.gtag('event', name, { page_path: window.location.pathname });
     } else {
       w.dataLayer.push({ event: name, page_path: window.location.pathname });
     }
+  }
+
+  function getAttribution() {
+    const w = window as any;
+    if (typeof w.ageGetAttribution === 'function') return w.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
   }
 
   form?.addEventListener('submit', async (e) => {
@@ -72,6 +86,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          ...getAttribution(),
           emailAddress: email,
           description: 'Subscribed via Blog Newsletter',
         }),

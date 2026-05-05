@@ -112,6 +112,10 @@ if (cards.length === 0) {
 <script is:inline>
   function trackCollection(name) {
     const w = window;
+    if (typeof w.ageTrack === "function") {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === "function") {
       w.gtag("event", name, { page_path: window.location.pathname });

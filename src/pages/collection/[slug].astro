@@ -77,8 +77,8 @@ const products: FabricProduct[] = visibleRawProducts
 // Build FAQ from API q/a fields, fallback to generic if null
 const apiFaqs: FAQItem[] = (["1", "2", "3", "4", "5"] as const)
   .map((n) => ({
-    question: (page as Record<string, unknown>)[`q${n}`] as string | null,
-    answer: (page as Record<string, unknown>)[`a${n}`] as string | null,
+    question: (page as unknown as Record<string, unknown>)[`q${n}`] as string | null,
+    answer: (page as unknown as Record<string, unknown>)[`a${n}`] as string | null,
   }))
   .filter((f): f is FAQItem => typeof f.question === "string" && typeof f.answer === "string");
 

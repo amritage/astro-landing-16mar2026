@@ -152,8 +152,21 @@ const fabricType = `${data.product.content.join(", ")} ${data.product.structure}
 
   let started = false;
 
+  function getAttribution() {
+    if (typeof window.ageGetAttribution === "function") return window.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
+  }
+
   function track(name) {
     const w = window;
+    if (typeof w.ageTrack === "function") {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === "function") {
       w.gtag("event", name, { page_path: window.location.pathname });
@@ -196,6 +209,7 @@ const fabricType = `${data.product.content.join(", ")} ${data.product.structure}
   function buildPayload() {
     const { firstName, lastName } = splitName(getValue("fullName"));
     const params = new URLSearchParams(window.location.search);
+    const attribution = getAttribution();
     const messageParts = [];
     const phone = getValue("phoneWhatsApp");
     const quantity = getValue("quantityRequirement");
@@ -210,6 +224,7 @@ const fabricType = `${data.product.content.join(", ")} ${data.product.structure}
     if (message) messageParts.push(message);
 
     return {
+      ...attribution,
       firstName,
       lastName,
       emailAddress: getValue("emailAddress"),
@@ -224,9 +239,16 @@ const fabricType = `${data.product.content.join(", ")} ${data.product.structure}
       inquiryIntent: intent,
       selectedVariant,
       quantityRequirement: quantity,
-      utm_source: params.get("utm_source") ?? "",
-      utm_campaign: params.get("utm_campaign") ?? "",
-      gclid: params.get("gclid") ?? "",
+      utm_source: params.get("utm_source") ?? attribution.utm_source ?? "",
+      utm_medium: params.get("utm_medium") ?? attribution.utm_medium ?? "",
+      utm_campaign: params.get("utm_campaign") ?? attribution.utm_campaign ?? "",
+      utm_content: params.get("utm_content") ?? attribution.utm_content ?? "",
+      utm_term: params.get("utm_term") ?? attribution.utm_term ?? "",
+      gclid: params.get("gclid") ?? attribution.gclid ?? "",
+      gbraid: params.get("gbraid") ?? attribution.gbraid ?? "",
+      wbraid: params.get("wbraid") ?? attribution.wbraid ?? "",
+      fbclid: params.get("fbclid") ?? attribution.fbclid ?? "",
+      msclkid: params.get("msclkid") ?? attribution.msclkid ?? "",
     };
   }
 

@@ -5,14 +5,32 @@
  */
 
 type GtagFn = (...args: unknown[]) => void;
+type AgeTrackFn = (eventName: string, params?: Record<string, unknown>) => void;
 
 function page(): string {
   return typeof window !== "undefined" ? window.location.pathname : "";
 }
 
 function send(eventName: string, params: Record<string, unknown>) {
-  if (typeof window !== "undefined" && typeof (window as unknown as { gtag?: GtagFn }).gtag === "function") {
-    (window as unknown as { gtag: GtagFn }).gtag("event", eventName, {
+  if (typeof window === "undefined") return;
+
+  const w = window as unknown as { ageTrack?: AgeTrackFn; dataLayer?: unknown[]; gtag?: GtagFn };
+  const payload = {
+    page_path: page(),
+    ...params,
+  };
+
+  if (typeof w.ageTrack === "function") {
+    w.ageTrack(eventName, payload);
+    return;
+  }
+
+  w.dataLayer = w.dataLayer || [];
+  if (typeof w.gtag === "function") {
+    w.gtag("event", eventName, payload);
+  } else {
+    w.dataLayer.push({
+      event: eventName,
       page_path: page(),
       ...params,
     });

@@ -126,6 +126,26 @@ const companyName = company?.legalName ?? "";
   const g = (name) =>
     form.querySelector(`[name="${name}"]`)?.value?.trim() ?? '';
 
+  function getAttribution() {
+    if (typeof window.ageGetAttribution === 'function') return window.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
+  }
+
+  function trackEvent(name, params = {}) {
+    const payload = { page_path: window.location.pathname, ...params };
+    if (typeof window.ageTrack === 'function') {
+      window.ageTrack(name, payload);
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === 'function') window.gtag('event', name, payload);
+    else window.dataLayer.push({ event: name, ...payload });
+  }
+
   function goTo(n) {
     document.getElementById(`${FORM_ID}-step-${current}`).classList.add('hidden');
     current = n;
@@ -148,26 +168,23 @@ const companyName = company?.legalName ?? "";
     }
   }
 
-  const _gaPage = () => window.location.pathname;
-  const _gaForm = 'Careers Application Form';
-
   document.getElementById(`${FORM_ID}-resume`)?.addEventListener('change', (e) => {
     const file = e.target.files?.[0];
     const nameEl = document.getElementById(`${FORM_ID}-resume-name`);
     if (nameEl) { nameEl.textContent = file ? `Selected: ${file.name}` : ''; nameEl.classList.toggle('hidden', !file); }
-    if (file) window.gtag?.('event', 'careers_resume_uploaded', { file_name: file.name, page_path: _gaPage() });
+    if (file) trackEvent('careers_resume_uploaded', { file_name: file.name });
   });
 
   document.getElementById(`${FORM_ID}-next-0`).addEventListener('click', () => {
     if (!g('firstName') || !g('lastName') || !g('emailAddress')) { alert('Please fill in First Name, Last Name and Email.'); return; }
     goTo(1);
-    window.gtag?.('event', 'careers_form_step2_experience', { page_path: _gaPage() });
+    trackEvent('careers_form_step2_experience');
   });
   document.getElementById(`${FORM_ID}-prev-1`).addEventListener('click', () => goTo(0));
   document.getElementById(`${FORM_ID}-next-1`).addEventListener('click', () => {
     if (!g('title')) { alert('Please enter the position you are applying for.'); return; }
     goTo(2);
-    window.gtag?.('event', 'careers_form_step3_resume', { page_path: _gaPage() });
+    trackEvent('careers_form_step3_resume');
   });
   document.getElementById(`${FORM_ID}-prev-2`).addEventListener('click', () => goTo(1));
 
@@ -183,7 +200,7 @@ const companyName = company?.legalName ?? "";
     submitText.textContent = 'Submitting...';
     spinner.style.display = 'inline-block';
     errorEl.classList.add('hidden');
-    window.gtag?.('event', 'careers_application_submitted', { position: g('title'), page_path: _gaPage() });
+    trackEvent('careers_application_submitted', { position: g('title') });
 
     try {
       let resumeAttachmentId;
@@ -211,6 +228,7 @@ const companyName = company?.legalName ?? "";
       const descText = g('description');
       if (descText) descParts.push(descText);
       const payload = {
+        ...getAttribution(),
         firstName: g('firstName'), lastName: g('lastName'), emailAddress: g('emailAddress'),
         title: g('title'),
         addressStreet: g('addressStreet'), addressCity: g('addressCity'),
@@ -232,11 +250,11 @@ const companyName = company?.legalName ?? "";
       document.getElementById(`${FORM_ID}-stepper`).classList.add('hidden');
       stepLabel.classList.add('hidden');
       successEl.classList.remove('hidden');
-      window.gtag?.('event', 'careers_application_success', { page_path: _gaPage() });
+      trackEvent('careers_application_success');
     } catch (err) {
       errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
       errorEl.classList.remove('hidden');
-      window.gtag?.('event', 'careers_application_error', { page_path: _gaPage() });
+      trackEvent('careers_application_error');
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Application';
       spinner.style.display = 'none';

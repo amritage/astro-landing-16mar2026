@@ -22,11 +22,12 @@ const collectionLinks = dynamicTopicPages.map((p) => ({
 
 // Build dynamic quick links — replace "About Us" label with "About {alternateName[0]}"
 const alternateName0 = company?.alternateName?.[0] ?? null;
-const quickLinks = siteConfig.footerLinks.quick.map((item) =>
-  item.href === "/about" && alternateName0
-    ? { ...item, label: `About ${alternateName0}`, displayLabel: "About" }
-    : item
-);
+const quickLinks = siteConfig.footerLinks.quick.map((item) => {
+  if (item.href === "/about" && alternateName0) {
+    return { ...item, label: `About ${alternateName0}`, displayLabel: "About" };
+  }
+  return { ...item, displayLabel: item.label };
+});
 
 // Build full address string + Google Maps link
 const addressParts = [
@@ -159,8 +160,8 @@ const socialLinks = [
           {quickLinks.map((item) => (
             <li>
               <a class="text-on-surface-variant hover:text-on-surface transition-all duration-200 ease-in-out" href={item.href}>
-                {item.displayLabel || item.label}
-                {item.displayLabel && <span class="seo-only">{item.label.replace(item.displayLabel, '').trim()}</span>}
+                {item.displayLabel}
+                {item.displayLabel !== item.label && <span class="seo-only">{item.label.replace(item.displayLabel, '').trim()}</span>}
               </a>
             </li>
           ))}
@@ -366,6 +367,15 @@ const socialLinks = [
   const successMsg = document.getElementById('footer-newsletter-success');
   const errorMsg = document.getElementById('footer-newsletter-error');
 
+  function getAttribution() {
+    if (typeof window.ageGetAttribution === 'function') return window.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
+  }
+
   if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -377,6 +387,10 @@ const socialLinks = [
       errorMsg.classList.add('hidden');
 
       const gaEvent = (name) => {
+        if (typeof window.ageTrack === 'function') {
+          window.ageTrack(name, { page_path: window.location.pathname });
+          return;
+        }
         window.dataLayer = window.dataLayer || [];
         if (typeof window.gtag === 'function') window.gtag('event', name, { page_path: window.location.pathname });
         else window.dataLayer.push({ event: name, page_path: window.location.pathname });
@@ -388,6 +402,7 @@ const socialLinks = [
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            ...getAttribution(),
             emailAddress: email,
             description: 'Subscribed via Footer Newsletter',
           }),
@@ -412,6 +427,10 @@ const socialLinks = [
 
   // Social media icon tracking
   function gaEvent(name) {
+    if (typeof window.ageTrack === 'function') {
+      window.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     window.dataLayer = window.dataLayer || [];
     if (typeof window.gtag === 'function') window.gtag('event', name, { page_path: window.location.pathname });
     else window.dataLayer.push({ event: name, page_path: window.location.pathname });

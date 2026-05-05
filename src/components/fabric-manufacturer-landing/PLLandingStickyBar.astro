@@ -15,6 +15,8 @@ const { phoneHref, whatsappHref } = Astro.props;
         target="_blank"
         rel="noopener noreferrer"
         data-lp-sticky-whatsapp
+        data-lp-prefill-whatsapp
+        data-wa-base={whatsappHref}
         class="inline-flex items-center justify-center rounded-full bg-[#25D366] px-3 py-3 text-xs font-bold uppercase tracking-[0.08em] text-white no-underline"
       >
         WhatsApp
@@ -44,6 +46,10 @@ const { phoneHref, whatsappHref } = Astro.props;
 <script is:inline>
   function track(name) {
     const w = window;
+    if (typeof w.ageTrack === "function") {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === "function") {
       w.gtag("event", name, { page_path: window.location.pathname });

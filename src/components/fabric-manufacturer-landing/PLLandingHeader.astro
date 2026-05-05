@@ -37,6 +37,8 @@ const headerContext = `${data.location.name} B2B Fabric Supply${company?.foundin
           target="_blank"
           rel="noopener noreferrer"
           data-lp-whatsapp
+          data-lp-prefill-whatsapp
+          data-wa-base={whatsappHref}
           class="hidden rounded-full border border-[#d6eadf] bg-[#effbf4] px-4 py-2 text-xs font-bold text-[#137a49] no-underline transition-colors hover:bg-[#dff5e8] sm:inline-flex"
         >
           WhatsApp
@@ -62,9 +64,21 @@ const headerContext = `${data.location.name} B2B Fabric Supply${company?.foundin
   </div>
 </header>
 
-<script is:inline>
+<script
+  is:inline
+  define:vars={{
+    companyName: company?.legalName ?? "Amrita Global Enterprises",
+    productName: data.productName || data.product.name,
+    pageTitle: data.title ?? data.product.productTitle ?? data.product.name,
+    locationName: data.location.name,
+  }}
+>
   function track(name) {
     const w = window;
+    if (typeof w.ageTrack === "function") {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === "function") {
       w.gtag("event", name, { page_path: window.location.pathname });
@@ -73,11 +87,47 @@ const headerContext = `${data.location.name} B2B Fabric Supply${company?.foundin
     }
   }
 
+  function buildWhatsAppMessage() {
+    return [
+      `Hello ${companyName},`,
+      "",
+      "I am interested in this fabric.",
+      `Product: ${productName}`,
+      `Page: ${pageTitle}`,
+      `Location: ${locationName}`,
+      `Page URL: ${window.location.href}`,
+      "",
+      "Please share pricing, MOQ, availability, and sample details.",
+    ].join("\n");
+  }
+
+  function hydrateWhatsAppLink(node) {
+    const baseHref = node.getAttribute("data-wa-base") || node.getAttribute("href");
+    if (!baseHref) return;
+    node.setAttribute("href", `${baseHref}?text=${encodeURIComponent(buildWhatsAppMessage())}`);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-lp-prefill-whatsapp]").forEach((node) => {
+      hydrateWhatsAppLink(node);
+    });
+  });
+
+  document.addEventListener("mousedown", (event) => {
+    const node = event.target.closest("[data-lp-prefill-whatsapp]");
+    if (!(node instanceof HTMLAnchorElement)) return;
+    hydrateWhatsAppLink(node);
+  });
+
   document.querySelectorAll("[data-lp-whatsapp]").forEach((node) => {
     node.addEventListener("mousedown", () => track("lp_whatsapp_click"));
   });
 
   document.querySelectorAll("[data-lp-call]").forEach((node) => {
     node.addEventListener("mousedown", () => track("lp_call_click"));
+  });
+
+  document.querySelectorAll("[data-lp-header-inquiry]").forEach((node) => {
+    node.addEventListener("mousedown", () => track("lp_header_inquiry_click"));
   });
 </script>

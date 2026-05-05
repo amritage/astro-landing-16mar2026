@@ -6,10 +6,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "node --use-system-ca ./node_modules/astro/bin/astro.mjs dev",
+    "build": "node --use-system-ca ./node_modules/astro/bin/astro.mjs build",
+    "preview": "node --use-system-ca ./node_modules/astro/bin/astro.mjs preview",
+    "astro": "node --use-system-ca ./node_modules/astro/bin/astro.mjs"
   },
   "dependencies": {
     "@astrojs/partytown": "^2.1.5",

@@ -158,6 +158,26 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
   const g = (name) =>
     form.querySelector(`[name="${name}"]`)?.value?.trim() ?? '';
 
+  function getAttribution() {
+    if (typeof window.ageGetAttribution === 'function') return window.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
+  }
+
+  function trackEvent(name, params = {}) {
+    const payload = { page_path: window.location.pathname, ...params };
+    if (typeof window.ageTrack === 'function') {
+      window.ageTrack(name, payload);
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === 'function') window.gtag('event', name, payload);
+    else window.dataLayer.push({ event: name, ...payload });
+  }
+
   function collectPayload() {
     const payload = {};
     const textFields = [
@@ -181,7 +201,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     const desc = g('description');
     if (desc) parts.push(desc);
     if (parts.length) payload.description = parts.join('\n');
-    return payload;
+    return { ...payload, ...getAttribution() };
   }
 
   function goTo(n) {
@@ -217,9 +237,17 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     return true;
   }
 
-  document.getElementById(`${FORM_ID}-next-0`).addEventListener('click', () => { if (validateStep0()) goTo(1); });
+  document.getElementById(`${FORM_ID}-next-0`).addEventListener('click', () => {
+    if (validateStep0()) {
+      goTo(1);
+      trackEvent('support_contact_step2_company', { form_name: 'Support Contact Form' });
+    }
+  });
   document.getElementById(`${FORM_ID}-prev-1`).addEventListener('click', () => goTo(0));
-  document.getElementById(`${FORM_ID}-next-1`).addEventListener('click', () => goTo(2));
+  document.getElementById(`${FORM_ID}-next-1`).addEventListener('click', () => {
+    goTo(2);
+    trackEvent('support_contact_step3_details', { form_name: 'Support Contact Form' });
+  });
   document.getElementById(`${FORM_ID}-prev-2`).addEventListener('click', () => goTo(1));
 
   // Prevent Enter key from submitting the form unless on the final step
@@ -241,6 +269,7 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
     submitText.textContent = 'Sending...';
     spinner.style.display = 'inline-block';
     errorEl.classList.add('hidden');
+    trackEvent('support_contact_submitted', { form_name: 'Support Contact Form' });
 
     try {
       const res = await fetch(LEAD_CAPTURE_URL, {
@@ -255,9 +284,11 @@ const LEAD_CAPTURE_URL = import.meta.env.PUBLIC_ESPO_BASE + "/LeadCapture/" + im
       document.getElementById(`${FORM_ID}-stepper`).classList.add('hidden');
       stepLabel.classList.add('hidden');
       successEl.classList.remove('hidden');
+      trackEvent('support_contact_success', { form_name: 'Support Contact Form' });
     } catch {
       errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
       errorEl.classList.remove('hidden');
+      trackEvent('support_contact_error', { form_name: 'Support Contact Form' });
     } finally {
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Request';

@@ -321,8 +321,18 @@ const companyName = company?.legalName ?? "";
   const g = (name: string): string =>
     (form.querySelector(`[name="${name}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement)?.value?.trim() ?? '';
 
+  function getAttribution(): Record<string, unknown> {
+    const w = window as any;
+    if (typeof w.ageGetAttribution === 'function') return w.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
+  }
+
   function collectPayload(): Record<string, unknown> {
-    const payload: Record<string, unknown> = {};
+    const payload: Record<string, unknown> = { ...getAttribution() };
     ['firstName','lastName','emailAddress','accountName',
      'addressCity','addressState','addressCountry'].forEach(f => {
       const v = g(f); if (v) payload[f] = v;

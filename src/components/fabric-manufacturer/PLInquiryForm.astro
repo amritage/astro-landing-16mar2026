@@ -152,6 +152,26 @@ const productName = product.productTitle ?? product.name;
   const g = (name) =>
     form.querySelector(`[name="${name}"]`)?.value?.trim() ?? '';
 
+  function getAttribution() {
+    if (typeof window.ageGetAttribution === 'function') return window.ageGetAttribution();
+    return {
+      sourcePage: window.location.href,
+      landingPage: window.location.href,
+      referrer: document.referrer,
+    };
+  }
+
+  function trackEvent(name, params = {}) {
+    const payload = { page_path: window.location.pathname, ...params };
+    if (typeof window.ageTrack === 'function') {
+      window.ageTrack(name, payload);
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === 'function') window.gtag('event', name, payload);
+    else window.dataLayer.push({ event: name, ...payload });
+  }
+
   function collectPayload() {
     const payload = {};
     const textFields = [
@@ -175,7 +195,7 @@ const productName = product.productTitle ?? product.name;
     const desc = g('description');
     if (desc) parts.push(desc);
     if (parts.length) payload.description = parts.join('\n');
-    return payload;
+    return { ...payload, ...getAttribution() };
   }
 
   function goTo(n) {
@@ -213,11 +233,11 @@ const productName = product.productTitle ?? product.name;
   const _gaForm = 'Product & Location Inquiry Form';
 
   document.getElementById(`${FORM_ID}-next-0`)?.addEventListener('click', () => {
-    if (validateStep0()) { goTo(1); window.gtag?.('event', `pl_inquiry_step2_company__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() }); }
+    if (validateStep0()) { goTo(1); trackEvent(`pl_inquiry_step2_company__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm }); }
   });
   document.getElementById(`${FORM_ID}-prev-1`)?.addEventListener('click', () => goTo(0));
   document.getElementById(`${FORM_ID}-next-1`)?.addEventListener('click', () => {
-    goTo(2); window.gtag?.('event', `pl_inquiry_step3_details__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
+    goTo(2); trackEvent(`pl_inquiry_step3_details__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm });
   });
   document.getElementById(`${FORM_ID}-prev-2`)?.addEventListener('click', () => goTo(1));
 
@@ -235,7 +255,7 @@ const productName = product.productTitle ?? product.name;
     submitText.textContent = 'Sending...';
     spinner.style.display = 'inline-block';
     errorEl?.classList.add('hidden');
-    window.gtag?.('event', `pl_inquiry_submitted__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
+    trackEvent(`pl_inquiry_submitted__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm });
 
     try {
       const res = await fetch(LEAD_CAPTURE_URL, {
@@ -250,13 +270,13 @@ const productName = product.productTitle ?? product.name;
       document.getElementById(`${FORM_ID}-stepper`)?.classList.add('hidden');
       stepLabel?.classList.add('hidden');
       successEl?.classList.remove('hidden');
-      window.gtag?.('event', `pl_inquiry_success__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
+      trackEvent(`pl_inquiry_success__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm });
     } catch {
       if (errorEl) {
         errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
         errorEl.classList.remove('hidden');
       }
-      window.gtag?.('event', `pl_inquiry_error__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm, page_path: _gaPage() });
+      trackEvent(`pl_inquiry_error__${_gaPage().replace(/\//g,'_').replace(/^_/,'')}`, { form_name: _gaForm });
     } finally {
       submitBtn.disabled = false;
       submitText.textContent = 'Submit Request';

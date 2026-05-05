@@ -12,7 +12,7 @@ const { company, site } = Astro.props;
 
 // Fetch homePage here — Astro deduplicates identical fetch calls at build time,
 // so this won't cause extra HTTP requests even though it's inside a shared layout component.
-const homePage: ApiTopicPage | null = await getTopicPageBySlug("home");
+const homePage: ApiTopicPage | null = (await getTopicPageBySlug("home")) ?? null;
 
 const siteBase = getSiteOrigin();
 

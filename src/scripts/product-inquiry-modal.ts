@@ -9,6 +9,9 @@ interface ModalConfig {
 
 interface AnalyticsWindow extends Window {
   gtag?: (...args: unknown[]) => void;
+  dataLayer?: unknown[];
+  ageTrack?: (eventName: string, params?: Record<string, unknown>) => void;
+  ageGetAttribution?: () => Record<string, unknown>;
 }
 
 const ROOT_ID = "quote-modal-root";
@@ -61,16 +64,36 @@ function productKey(product: string): string {
 
 function trackEvent(name: string, params: Record<string, unknown> = {}): void {
   const analyticsWindow = window as AnalyticsWindow;
-  if (typeof analyticsWindow.gtag !== "function") return;
+  const payload = {
+    ...params,
+    page_path: window.location.pathname,
+  };
 
   try {
-    analyticsWindow.gtag("event", name, {
-      ...params,
-      page_path: window.location.pathname,
-    });
+    if (typeof analyticsWindow.ageTrack === "function") {
+      analyticsWindow.ageTrack(name, payload);
+      return;
+    }
+
+    analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+    if (typeof analyticsWindow.gtag === "function") {
+      analyticsWindow.gtag("event", name, payload);
+    } else {
+      analyticsWindow.dataLayer.push({ event: name, ...payload });
+    }
   } catch {
     // Analytics failures must not interrupt the inquiry flow.
   }
+}
+
+function getAttribution(): Record<string, unknown> {
+  const analyticsWindow = window as AnalyticsWindow;
+  if (typeof analyticsWindow.ageGetAttribution === "function") return analyticsWindow.ageGetAttribution();
+  return {
+    sourcePage: window.location.href,
+    landingPage: window.location.href,
+    referrer: document.referrer,
+  };
 }
 
 function buildMarkup(companyName: string): string {
@@ -555,7 +578,7 @@ export function openProductInquiryModal(options: OpenProductInquiryOptions = {})
   };
 
   const collectPayload = (): Record<string, unknown> => {
-    const payload: Record<string, unknown> = {};
+    const payload: Record<string, unknown> = { ...getAttribution() };
     [
       "firstName",
       "lastName",

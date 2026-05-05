@@ -88,6 +88,10 @@ const emailHref = company?.primaryEmail
   // GA tracking — use dataLayer fallback in case gtag (Partytown) isn't ready yet
   function gaEvent(name: string) {
     const w = window as any;
+    if (typeof w.ageTrack === 'function') {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === 'function') {
       w.gtag('event', name, { page_path: window.location.pathname });

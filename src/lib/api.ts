@@ -9,6 +9,20 @@ if (!BASE_URL) {
   throw new Error('[api] PUBLIC_API_BASE_URL is not set. Add it to your .env file or Cloudflare Pages environment variables.');
 }
 
+async function fetchJsonOrNull<T>(url: string, context: string): Promise<T | null> {
+  try {
+    const res = await fetch(url, { cache: "force-cache" });
+    if (!res.ok) {
+      console.warn(`[api] ${context} returned ${res.status}; using fallback data`);
+      return null;
+    }
+    return (await res.json()) as T;
+  } catch (error) {
+    console.warn(`[api] ${context} failed; using fallback data`, error);
+    return null;
+  }
+}
+
 // ── Raw API shape ──────────────────────────────────────────────────────────────
 
 export interface ApiProduct {
@@ -109,26 +123,34 @@ export interface ProductsPage {
 export async function getProducts(page = 1, limit = 20): Promise<ProductsPage> {
   // D2 FIX: force-cache avoids redundant network hits when the same URL is
   // requested multiple times during a single SSG build run.
-  const res = await fetch(`${BASE_URL}/api/product?page=${page}&limit=${limit}`, { cache: "force-cache" });
-  if (!res.ok) return { data: [], total: 0, page, totalPages: 0, limit };
-  const json: ApiResponse = await res.json();
+  const json = await fetchJsonOrNull<ApiResponse>(
+    `${BASE_URL}/api/product?page=${page}&limit=${limit}`,
+    `product page ${page}`,
+  );
+  if (!json?.success) return { data: [], total: 0, page, totalPages: 0, limit };
   return {
-    data: json.data,
-    total: json.total,
-    page: json.pagination.page,
-    totalPages: json.pagination.totalPages,
-    limit: json.pagination.limit,
+    data: json.data ?? [],
+    total: json.total ?? 0,
+    page: json.pagination?.page ?? page,
+    totalPages: json.pagination?.totalPages ?? 0,
+    limit: json.pagination?.limit ?? limit,
   };
 }
 
+let _allProductsPromise: Promise<ApiProduct[]> | null = null;
 export async function getAllProducts(): Promise<ApiProduct[]> {
-  // B1 FIX: use large page size to minimise round-trips (ideally one request)
-  const first = await getProducts(1, 500);
-  if (first.totalPages <= 1) return first.data;
-  const rest = await Promise.all(
-    Array.from({ length: first.totalPages - 1 }, (_, i) => getProducts(i + 2, 500))
-  );
-  return [first.data, ...rest.map((p) => p.data)].flat();
+  if (!_allProductsPromise) {
+    _allProductsPromise = (async () => {
+      // B1 FIX: use large page size to minimise round-trips (ideally one request)
+      const first = await getProducts(1, 500);
+      if (first.totalPages <= 1) return first.data;
+      const rest = await Promise.all(
+        Array.from({ length: first.totalPages - 1 }, (_, i) => getProducts(i + 2, 500))
+      );
+      return [first.data, ...rest.map((p) => p.data)].flat();
+    })();
+  }
+  return _allProductsPromise;
 }
 
 export interface FilterValues {
@@ -141,10 +163,11 @@ export interface FilterValues {
 }
 
 async function fetchField(field: string): Promise<string[]> {
-  const res = await fetch(`${BASE_URL}/api/product/fieldname/${field}`, { cache: "force-cache" });
-  if (!res.ok) return [];
-  const json = await res.json();
-  return json.values ?? [];
+  const json = await fetchJsonOrNull<{ values?: string[] }>(
+    `${BASE_URL}/api/product/fieldname/${field}`,
+    `product field ${field}`,
+  );
+  return json?.values ?? [];
 }
 
 export async function getFilterValues(): Promise<FilterValues> {
@@ -355,9 +378,11 @@ export async function getProductsByMerchTag(tag: string, limit = 4): Promise<Api
   const pageSize = 500;
   const encodedTag = encodeURIComponent(tag);
 
-  const firstRes = await fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=1&limit=${pageSize}`, { cache: "force-cache" });
-  if (!firstRes.ok) return [];
-  const firstJson: ApiResponse = await firstRes.json();
+  const firstJson = await fetchJsonOrNull<ApiResponse>(
+    `${BASE_URL}/api/product?merchtag=${encodedTag}&page=1&limit=${pageSize}`,
+    `products by merch tag ${tag}`,
+  );
+  if (!firstJson?.success) return [];
   const totalPages = firstJson.pagination?.totalPages ?? 1;
 
   let allData = firstJson.data ?? [];
@@ -365,9 +390,10 @@ export async function getProductsByMerchTag(tag: string, limit = 4): Promise<Api
   if (totalPages > 1) {
     const rest = await Promise.all(
       Array.from({ length: totalPages - 1 }, (_, i) =>
-        fetch(`${BASE_URL}/api/product?merchtag=${encodedTag}&page=${i + 2}&limit=${pageSize}`, { cache: "force-cache" })
-          .then((r) => (r.ok ? r.json() : { data: [] }))
-          .then((j) => (j.data ?? []) as ApiProduct[])
+        fetchJsonOrNull<ApiResponse>(
+          `${BASE_URL}/api/product?merchtag=${encodedTag}&page=${i + 2}&limit=${pageSize}`,
+          `products by merch tag ${tag} page ${i + 2}`,
+        ).then((j) => (j?.data ?? []) as ApiProduct[])
       )
     );
     allData = [allData, ...rest].flat();
@@ -471,6 +497,11 @@ export interface ApiSiteSettings {
   gaMeasurementId: string | null;
   gtmId: string | null;
   clarityId: string | null;
+  metaPixelId?: string | null;
+  metaLeadEventName?: string | null;
+  googleAdsConversionId?: string | null;
+  googleAdsLeadConversionLabel?: string | null;
+  enableMarketingTracking?: boolean | string | null;
   googleVerification: string | null;
   bingVerification: string | null;
   twitterHandle: string | null;
@@ -570,10 +601,10 @@ export function buildWaLink(number: string | null | undefined, fallback: string 
  * Build a tel: href from any phone string like "+91-9925155141"
  * Returns null if number is empty.
  */
-export function buildPhoneHref(number: string | null | undefined): string | null {
-  if (!number) return null;
+export function buildPhoneHref(number: string | null | undefined, fallback: string | null = null): string | null {
+  if (!number) return fallback;
   const digits = String(number).replace(/[^\d]/g, "");
-  return digits ? `tel:+${digits}` : null;
+  return digits ? `tel:+${digits}` : fallback;
 }
 
 export async function getAuthors(): Promise<ApiAuthor[]> {
@@ -642,6 +673,7 @@ export interface ApiProductLocation {
     keywords: string[];
     fullProductDescription: string | null;
     image1CloudUrl: string | null;
+    image1CloudUrlCard?: string | null;
     image1CloudUrlHero: string | null;
     image1CloudUrlWeb: string | null;
     image2CloudUrl: string | null;

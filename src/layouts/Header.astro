@@ -244,6 +244,10 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   document.querySelectorAll('[data-header-free-sample-cta]').forEach((el) => {
     el.addEventListener('mousedown', () => {
       const w = window as any;
+      if (typeof w.ageTrack === 'function') {
+        w.ageTrack('header_cta_free_sample', { page_path: window.location.pathname });
+        return;
+      }
       w.dataLayer = w.dataLayer || [];
       if (typeof w.gtag === 'function') w.gtag('event', 'header_cta_free_sample', { page_path: window.location.pathname });
       else w.dataLayer.push({ event: 'header_cta_free_sample', page_path: window.location.pathname });
@@ -253,6 +257,10 @@ const whatsappHref = company?.whatsappNumber || company?.phone1
   // Header CTA — Call Now & Get Quote (desktop + mobile)
   function gaEvent(name: string) {
     const w = window as any;
+    if (typeof w.ageTrack === 'function') {
+      w.ageTrack(name, { page_path: window.location.pathname });
+      return;
+    }
     w.dataLayer = w.dataLayer || [];
     if (typeof w.gtag === 'function') w.gtag('event', name, { page_path: window.location.pathname });
     else w.dataLayer.push({ event: name, page_path: window.location.pathname });

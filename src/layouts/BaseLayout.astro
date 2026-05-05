@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
-import Header from "/src/layouts/Header.astro";
-import Footer from "/src/layouts/Footer.astro";
+import Header from "./Header.astro";
+import Footer from "./Footer.astro";
 import FloatingActions from "../components/common/FloatingActions.astro";
 import LocalBusinessSchema from "../components/schema/LocalBusinessSchema.astro";
 import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
@@ -11,18 +11,18 @@ import { getSiteSettings, getCompanyInfo } from "../lib/api";
 import { getSiteOrigin } from "../lib/site-url";
 
 interface Props {
-  title?: string;
-  description?: string;
+  title?: string | null;
+  description?: string | null;
   // Per-page SEO overrides
-  canonical?: string;
+  canonical?: string | null;
   keywords?: string[];
-  ogTitle?: string;
-  ogDescription?: string;
-  ogImage?: string;
-  ogType?: string;
-  twitterTitle?: string;
-  twitterDescription?: string;
-  twitterImage?: string;
+  ogTitle?: string | null;
+  ogDescription?: string | null;
+  ogImage?: string | null;
+  ogType?: string | null;
+  twitterTitle?: string | null;
+  twitterDescription?: string | null;
+  twitterImage?: string | null;
   schemaMarkup?: object | object[];
   noindex?: boolean;
   breadcrumbs?: { name: string; url?: string }[];
@@ -78,6 +78,8 @@ const {
 } = Astro.props;
 // Use prop if passed (pages that already fetched authors), otherwise fall back to company name
 const authorName = authorNameProp ?? companyName;
+const pageTitle = title ?? companyName;
+const pageDescription = description ?? "B2B fabric manufacturer and exporter.";
 
 const siteBase = getSiteOrigin();
 const pathname = Astro.url.pathname;
@@ -85,8 +87,9 @@ const normalizedPath = pathname.replace(/\.html$/, '').replace(/\/index$/, '') |
 const rawPath = normalizedPath;
 const cleanPath = rawPath === '/' ? '' : rawPath;
 const resolvedCanonical = canonical ?? undefined;
-const resolvedOgTitle = ogTitle ?? title;
-const resolvedOgDesc = ogDescription ?? description;
+const resolvedOgType = ogType ?? "website";
+const resolvedOgTitle = ogTitle ?? pageTitle;
+const resolvedOgDesc = ogDescription ?? pageDescription;
 const resolvedTwitterTitle = twitterTitle ?? resolvedOgTitle;
 const resolvedTwitterDesc = twitterDescription ?? resolvedOgDesc;
 
@@ -107,6 +110,61 @@ const robotsContent = noindex
 const schemaArray = schemaMarkup
   ? Array.isArray(schemaMarkup) ? schemaMarkup : [schemaMarkup]
   : null;
+
+function cleanTrackingId(value: string | null | undefined): string | null {
+  const trimmed = value?.trim();
+  if (!trimmed || trimmed === "undefined" || trimmed === "null") return null;
+  return trimmed;
+}
+
+function envTrackingValue(name: string): string | null {
+  return cleanTrackingId(import.meta.env[name] as string | undefined);
+}
+
+const marketingTrackingEnabled =
+  String(site?.enableMarketingTracking ?? import.meta.env.PUBLIC_ENABLE_MARKETING_TRACKING ?? "true").toLowerCase() !== "false";
+
+const gaMeasurementId = cleanTrackingId(site?.gaMeasurementId) ?? envTrackingValue("PUBLIC_GA_MEASUREMENT_ID");
+const gtmId = cleanTrackingId(site?.gtmId) ?? envTrackingValue("PUBLIC_GTM_ID");
+const clarityId = cleanTrackingId(site?.clarityId) ?? envTrackingValue("PUBLIC_CLARITY_ID");
+const metaPixelId = cleanTrackingId(site?.metaPixelId) ?? envTrackingValue("PUBLIC_META_PIXEL_ID");
+const googleAdsConversionId =
+  cleanTrackingId(site?.googleAdsConversionId) ?? envTrackingValue("PUBLIC_GOOGLE_ADS_CONVERSION_ID");
+const googleAdsLeadConversionLabel =
+  cleanTrackingId(site?.googleAdsLeadConversionLabel) ?? envTrackingValue("PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL");
+const metaLeadEventName =
+  cleanTrackingId(site?.metaLeadEventName) ?? envTrackingValue("PUBLIC_META_LEAD_EVENT_NAME") ?? "Lead";
+
+const gtagLoaderId = gaMeasurementId ?? googleAdsConversionId;
+const directGtagPageview = !gtmId;
+const gtmInline = gtmId
+  ? `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',${JSON.stringify(gtmId)});`
+  : null;
+const gtagConfigInline = gtagLoaderId
+  ? `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = window.gtag || gtag;
+        gtag('js', new Date());
+        ${gaMeasurementId ? `gtag('config', '${gaMeasurementId}', { send_page_view: ${directGtagPageview ? "true" : "false"} });` : ""}
+        ${googleAdsConversionId ? `gtag('config', '${googleAdsConversionId}');` : ""}
+      `
+  : null;
+const gtagShimInline = !gtagLoaderId
+  ? `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = window.gtag || gtag;
+      `
+  : null;
+const metaPixelInline = metaPixelId
+  ? `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init',${JSON.stringify(metaPixelId)});fbq('track','PageView');`
+  : null;
+const marketingTrackingConfig = {
+  googleAdsConversionId,
+  googleAdsLeadConversionLabel,
+  metaLeadEventName,
+};
 ---
 
 <!doctype html>
@@ -116,7 +174,7 @@ const schemaArray = schemaMarkup
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#041632" />
     <link rel="icon" href="/favicon.ico" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
 
     <!-- Preconnect to Cloudinary for faster image loads -->
     <link rel="preconnect" href="https://res.cloudinary.com" />
@@ -157,7 +215,7 @@ const schemaArray = schemaMarkup
         font-display: swap;
       }
     </style>
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <meta name="robots" content={robotsContent} />
     <meta name="author" content={authorName} />
     <meta name="publisher" content={authorName} />
@@ -177,7 +235,7 @@ const schemaArray = schemaMarkup
     )}
 
     <!-- Open Graph -->
-    <meta property="og:type" content={ogType} />
+    <meta property="og:type" content={resolvedOgType} />
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDesc} />
     <meta property="og:url" content={resolvedCanonical ?? ""} />
@@ -207,78 +265,32 @@ const schemaArray = schemaMarkup
       <BreadcrumbSchema items={breadcrumbs} />
     )}
 
-    {site?.gaMeasurementId && (
-      <script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${site.gaMeasurementId}`} />
-      <script type="text/partytown" set:html={`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', '${site.gaMeasurementId}');
-      `} />
+    {marketingTrackingEnabled && gtmInline && (
+      <script is:inline set:html={gtmInline} />
     )}
-    {site?.clarityId && (
+    {marketingTrackingEnabled && gtagLoaderId && (
+      <script type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${gtagLoaderId}`} />
+      <script type="text/partytown" set:html={gtagConfigInline} />
+    )}
+    {marketingTrackingEnabled && !gtagLoaderId && gtagShimInline && (
+      <script is:inline set:html={gtagShimInline} />
+    )}
+    {marketingTrackingEnabled && clarityId && (
       <script type="text/partytown" set:html={`window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments)};`} />
-      <script type="text/partytown" src={`https://www.clarity.ms/tag/${site.clarityId}`} />
+      <script type="text/partytown" src={`https://www.clarity.ms/tag/${clarityId}`} />
     )}
-
-    <!-- Clarity custom event bridge: mirrors gtag events → clarity("set") tags -->
-    <!-- Runs in main thread so clarity() is always available -->
-    <script>
-      type ClarityFn = (action: string, key: string, value?: string) => void;
-      type GtagFn = (...args: unknown[]) => void;
-
-      interface DataLayerItem {
-        event?: string;
-        page_path?: string;
-        [key: string]: unknown;
-      }
-
-      function sendToClarity(eventName: string, pagePath: string): void {
-        const w = window as unknown as { clarity?: ClarityFn };
-        if (typeof w.clarity === 'function') {
-          w.clarity('set', 'event', eventName);
-          w.clarity('set', 'page', pagePath);
-        }
-      }
-
-      function patchGtag(): void {
-        const w = window as unknown as { gtag?: GtagFn; __clarityGtagPatched?: boolean };
-        if (typeof w.gtag !== 'function' || w.__clarityGtagPatched) return;
-        w.__clarityGtagPatched = true;
-        const orig = w.gtag;
-        w.gtag = (...args: unknown[]): void => {
-          orig(...args);
-          try {
-            if (args[0] === 'event' && typeof args[1] === 'string') {
-              const params = args[2] as DataLayerItem | undefined;
-              const page = params?.page_path as string | undefined ?? window.location.pathname;
-              sendToClarity(args[1], page);
-            }
-          } catch { /* ignore */ }
-        };
-      }
-
-      // Patch gtag now and again after load (Partytown may initialize it late)
-      patchGtag();
-      window.addEventListener('load', patchGtag);
-
-      // Also intercept dataLayer for events pushed before gtag is ready
-      const w = window as unknown as { dataLayer?: DataLayerItem[] };
-      w.dataLayer = w.dataLayer ?? [];
-      const origPush = w.dataLayer.push.bind(w.dataLayer);
-      w.dataLayer.push = (...items: DataLayerItem[]): number => {
-        const result = origPush(...items);
-        try {
-          for (const obj of items) {
-            if (obj?.event) {
-              sendToClarity(obj.event, (obj.page_path as string | undefined) ?? window.location.pathname);
-            }
-          }
-        } catch { /* ignore */ }
-        return result;
-      };
-    </script>
+    {marketingTrackingEnabled && metaPixelInline && (
+      <script is:inline set:html={metaPixelInline} />
+    )}
+    {marketingTrackingEnabled && (
+      <script is:inline set:html={`window.__AGE_TRACKING_CONFIG__=${JSON.stringify(marketingTrackingConfig)};`} />
+    )}
+    {marketingTrackingEnabled && (
+      <script>
+        import { initMarketingAttribution } from "../scripts/marketing-attribution";
+        initMarketingAttribution((window as any).__AGE_TRACKING_CONFIG__ ?? {});
+      </script>
+    )}
 
     <style is:inline>
       @font-face {
@@ -307,6 +319,27 @@ const schemaArray = schemaMarkup
     </style>
   </head>
   <body class="min-h-screen bg-[var(--color-background)] text-[var(--color-text)]">
+    {marketingTrackingEnabled && gtmId && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+        ></iframe>
+      </noscript>
+    )}
+    {marketingTrackingEnabled && metaPixelId && (
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style="display:none"
+          src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+          alt=""
+        />
+      </noscript>
+    )}
     {!hideHeader && <Header />}
     <main id="main-content" class={mainClass}>
       <slot />
@@ -320,6 +353,12 @@ const schemaArray = schemaMarkup
         const waBtn = e.target.closest('[data-wa-link]');
         if (waBtn) {
           const url = waBtn.getAttribute('data-wa-link');
+          if (typeof window.ageTrack === 'function') {
+            window.ageTrack('whatsapp_link_click', {
+              page_path: window.location.pathname,
+              link_url: url,
+            });
+          }
           window.open(url, '_blank', 'noopener,noreferrer');
         }
       });
