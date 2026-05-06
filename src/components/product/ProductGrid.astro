@@ -47,10 +47,10 @@ const INITIAL_BATCH = 12;
 ---
 
 <div id="product-grid">
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" id="product-grid-inner">
+  <div class="grid grid-cols-1 items-stretch gap-6 md:grid-cols-2 xl:grid-cols-3" id="product-grid-inner">
     {products.map((product, i) => (
       <div
-        class="product-card-wrapper"
+        class="product-card-wrapper h-full"
         data-scroll-hidden={i >= INITIAL_BATCH ? "true" : undefined}
         style={i >= INITIAL_BATCH ? "display:none" : undefined}
       >

@@ -42,6 +42,9 @@ const slots: Slot[] = [
   product.image3
     ? { type: "image", src: product.image3, srcset: "", alt: product.imageAlt3 ?? product.name }
     : { type: "empty" },
+  product.videoURL
+    ? makeVideoSlot(product.videoURL, "Product Video")
+    : { type: "empty" },
   product.collectionImage
     ? { type: "image", src: product.collectionImage, srcset: product.collectionImageSrcset, alt: product.collectionImageAlt ?? product.collectionName }
     : { type: "empty" },

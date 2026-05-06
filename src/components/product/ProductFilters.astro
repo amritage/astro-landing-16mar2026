@@ -109,7 +109,7 @@ function isPreSelected(value: string, selected?: string): boolean {
             {colors.map((color) => (
               <li>
                 <label class="flex cursor-pointer items-center gap-3 text-sm font-medium text-slate-600 hover:text-[#041632]">
-                  <input type="checkbox" data-filter-field="color" data-filter-value={color.name} class="filter-checkbox sr-only" />
+                  <input type="checkbox" data-filter-field="color" data-filter-value={color.name} class="filter-checkbox rounded border-slate-300 text-[#775a19] focus:ring-[#775a19]" />
                   <span class="color-dot h-4 w-4 flex-shrink-0 rounded-full ring-1 ring-slate-300 transition" style={`background-color:${color.hex};`}></span>
                   {color.name}
                 </label>

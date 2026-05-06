@@ -82,7 +82,7 @@ function getDeptIcon(dept: string): string {
               )}
             </div>
 
-            <p class="text-sm text-[#44474d] leading-relaxed mb-6">{pos.description}</p>
+            <div class="text-sm text-[#44474d] leading-relaxed mb-6 prose prose-sm max-w-none" set:html={pos.description} />
 
             <div class="mb-8 flex-1">
               <h4 class="text-xs font-bold uppercase tracking-widest text-[#041632] mb-3">Key Requirements</h4>

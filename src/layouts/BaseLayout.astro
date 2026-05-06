@@ -93,11 +93,14 @@ const resolvedOgDesc = ogDescription ?? pageDescription;
 const resolvedTwitterTitle = twitterTitle ?? resolvedOgTitle;
 const resolvedTwitterDesc = twitterDescription ?? resolvedOgDesc;
 
-// Always resolve an absolute OG image — fallback to brand logo so og:image is never missing
-const defaultOgImage = `${siteBase}/images/icons/my_logo.webp`;
+// Always expose the 512x512 PNG brand icon from public for logo-aware crawlers.
+const brandOgLogo = `${siteBase}/icon-512.png`;
+const defaultOgImage = brandOgLogo;
 const resolvedOgImage = ogImage
   ? (ogImage.startsWith("http") ? ogImage : `${siteBase}${ogImage}`)
   : defaultOgImage;
+const resolvedOgImageWidth = ogImage ? 1200 : 512;
+const resolvedOgImageHeight = ogImage ? 630 : 512;
 const resolvedTwitterImage = twitterImage
   ? (twitterImage.startsWith("http") ? twitterImage : `${siteBase}${twitterImage}`)
   : resolvedOgImage;
@@ -240,9 +243,12 @@ const marketingTrackingConfig = {
     <meta property="og:description" content={resolvedOgDesc} />
     <meta property="og:url" content={resolvedCanonical ?? ""} />
     <meta property="og:site_name" content={companyName} />
+    <meta property="og:logo" content={brandOgLogo} />
+    <meta property="og:logo:width" content="512" />
+    <meta property="og:logo:height" content="512" />
     <meta property="og:image" content={resolvedOgImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content={resolvedOgImageWidth} />
+    <meta property="og:image:height" content={resolvedOgImageHeight} />
     <meta property="og:image:alt" content={resolvedOgTitle} />
 
     <!-- Twitter Card -->
