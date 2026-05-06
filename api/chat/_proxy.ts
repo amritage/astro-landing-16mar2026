@@ -4,7 +4,7 @@ type ChatProxyRequest = IncomingMessage & {
   body?: unknown;
 };
 
-const DEFAULT_API_BASE = "https://espobackend.vercel.app";
+const DEFAULT_API_BASE = "https://amrita-espo-backend.vercel.app";
 
 function normalizeBaseUrl(value: string | undefined): string {
   const trimmed = value?.trim();

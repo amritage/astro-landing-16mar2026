@@ -24,7 +24,7 @@ const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
 const apiBaseUrl =
   normalizeBaseUrl(process.env.PUBLIC_API_BASE_URL) ??
   normalizeBaseUrl(env.PUBLIC_API_BASE_URL) ??
-  'https://espobackend.vercel.app';
+  'https://amrita-espo-backend.vercel.app';
 
 process.env.PUBLIC_API_BASE_URL = apiBaseUrl;
 process.env.PUBLIC_SITE_URL =
