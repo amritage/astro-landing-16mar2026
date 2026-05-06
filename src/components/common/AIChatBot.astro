@@ -1,21 +1,12 @@
 ---
 import { getCompanyInfo, buildWaLink } from "../../lib/api";
 
-function cleanBaseUrl(value: string | undefined): string {
-  const trimmed = value?.trim();
-  if (!trimmed || trimmed === "undefined" || trimmed === "null") {
-    return "https://espobackend.vercel.app";
-  }
-  return trimmed.replace(/\/$/, "");
-}
-
-const API_BASE = cleanBaseUrl(import.meta.env.PUBLIC_API_BASE_URL as string | undefined);
 const CHAT_URL = "/api/chat/message";
 const HEALTH_URL = "/api/chat/health";
 
 const company = await getCompanyInfo("AGE");
 const COMPANY = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
-const WHATSAPP_URL = buildWaLink(company?.whatsappNumber);
+const WHATSAPP_URL = buildWaLink(company?.whatsappNumber, "https://wa.me/919925155141");
 const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare specifications, check MOQ or lead-time questions, and prepare a bulk inquiry for the sales team.`;
 ---
 
@@ -132,6 +123,32 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
 <div id="cb-backdrop" class="fixed inset-0 z-[201] hidden bg-black/40" aria-hidden="true"></div>
 
 <style is:global>
+  #cb-fab {
+    isolation: isolate;
+  }
+
+  #cb-fab::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    z-index: -1;
+    border: 1px solid rgba(4, 22, 50, 0.3);
+    border-radius: 999px;
+    pointer-events: none;
+    animation: cb-cta-pulse 3s ease-out infinite;
+  }
+
+  @keyframes cb-cta-pulse {
+    0% { transform: scale(.9); opacity: .55; }
+    70%, 100% { transform: scale(1.25); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #cb-fab::after {
+      animation: none;
+    }
+  }
+
   .cb-scroll::-webkit-scrollbar { width: 4px; }
   .cb-scroll::-webkit-scrollbar-track { background: transparent; }
   .cb-scroll::-webkit-scrollbar-thumb { background: #c3c6d1; border-radius: 10px; }
@@ -192,7 +209,7 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
   .cb-chip:hover { background: #f4f3f9; border-color: #385b99; }
 </style>
 
-<script define:vars={{ CHAT_URL, HEALTH_URL, WELCOME, COMPANY }}>
+<script define:vars={{ CHAT_URL, HEALTH_URL, WELCOME, COMPANY, WHATSAPP_URL }}>
   const refs = {
     fab: document.getElementById("cb-fab"),
     win: document.getElementById("cb-window"),
@@ -589,8 +606,8 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
 
       fetch(HEALTH_URL)
         .then((response) => {
-          statusDot.style.background = response.ok ? "#86efac" : "#385b99";
-          statusText.textContent = response.ok ? "Ready" : "AI Assistant";
+          statusDot.style.background = response.ok ? "#385b99" : "#747781";
+          statusText.textContent = "AI Assistant";
         })
         .catch(() => {
           statusDot.style.background = "#385b99";
@@ -687,10 +704,14 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
       msgList.appendChild(typingEl);
       scrollBottom();
 
+      const requestController = new AbortController();
+      const requestTimeout = window.setTimeout(() => requestController.abort(), 12000);
+
       try {
         const res = await fetch(CHAT_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          signal: requestController.signal,
           body: JSON.stringify({
             message: trimmed,
             context: ctx,
@@ -735,6 +756,8 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
           suggestions_count: chips.length,
           links_count: links.length,
         });
+        statusDot.style.background = "#86efac";
+        statusText.textContent = "Active";
 
         if (data.leadCaptured || data.leadCreated || data.leadId || data.crmLeadId || data.context?.leadId) {
           track("ai_chat_lead_success", { chat_session_id: sessionId });
@@ -756,7 +779,7 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
         const errMsg = {
           id: `e_${Date.now()}`,
           role: "bot",
-          text: "The AI assistant could not connect for this message. You can still continue through the catalogue or send your requirement directly to our team.",
+          text: "Live AI catalogue results are temporarily unavailable. You can still move forward through the catalogue, direct inquiry form, or WhatsApp for MOQ, quote, and lead-time support.",
           time: fmtTime(new Date()),
           suggestions: [],
           links: fallbackLinks,
@@ -766,8 +789,11 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
         typingEl.remove();
         msgList.appendChild(makeBubble(errMsg));
         scrollBottom();
+        statusDot.style.background = "#385b99";
+        statusText.textContent = "AI Assistant";
         track("ai_chat_error", { chat_session_id: sessionId, error_message: message });
       } finally {
+        window.clearTimeout(requestTimeout);
         isLoading = false;
         persist();
         setTimeout(() => inputEl.focus(), 50);

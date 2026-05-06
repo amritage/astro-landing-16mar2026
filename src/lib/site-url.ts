@@ -25,12 +25,33 @@ export function getSiteOrigin(value?: string | URL | null): string {
   return normalizeSiteOrigin(value ?? import.meta.env.PUBLIC_SITE_URL) ?? DEFAULT_SITE_ORIGIN;
 }
 
+function isLikelyAbsoluteHost(value: string, siteHost: string): boolean {
+  const lowerValue = value.toLowerCase();
+  const lowerSiteHost = siteHost.toLowerCase();
+  const bareSiteHost = lowerSiteHost.replace(/^www\./, "");
+
+  return (
+    lowerValue === lowerSiteHost ||
+    lowerValue.startsWith(`${lowerSiteHost}/`) ||
+    lowerValue === bareSiteHost ||
+    lowerValue.startsWith(`${bareSiteHost}/`) ||
+    lowerValue.startsWith("www.")
+  );
+}
+
 export function toAbsoluteSiteUrl(path: string, siteOrigin = getSiteOrigin()): string {
   const normalizedInput = path.trim() || "/";
   const siteUrl = new URL(siteOrigin);
-  const resolvedUrl = /^https?:\/\//i.test(normalizedInput)
-    ? new URL(normalizedInput)
-    : new URL(normalizedInput.startsWith("/") ? normalizedInput : `/${normalizedInput}`, `${siteOrigin}/`);
+  const inputForResolution = normalizedInput.startsWith("//")
+    ? `${siteUrl.protocol}${normalizedInput}`
+    : /^https?:\/\//i.test(normalizedInput)
+    ? normalizedInput
+    : isLikelyAbsoluteHost(normalizedInput, siteUrl.hostname)
+    ? `https://${normalizedInput}`
+    : normalizedInput.startsWith("/")
+    ? normalizedInput
+    : `/${normalizedInput}`;
+  const resolvedUrl = new URL(inputForResolution, `${siteOrigin}/`);
 
   resolvedUrl.protocol = siteUrl.protocol;
   resolvedUrl.host = siteUrl.host;

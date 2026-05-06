@@ -1,6 +1,18 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/www.amritaglobaltextiles.com",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/www.amritaglobaltextiles.com/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

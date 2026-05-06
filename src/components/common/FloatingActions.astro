@@ -9,16 +9,17 @@ const { waMessage } = Astro.props;
 
 const company = await getCompanyInfo("AGE");
 
-const baseWaLink = buildWaLink(company?.whatsappNumber);
+const fallbackWaLink = buildWaLink("+91-9925155141");
+const baseWaLink = buildWaLink(company?.whatsappNumber, fallbackWaLink);
 const whatsappHref = baseWaLink && waMessage
   ? `${baseWaLink}?text=${encodeURIComponent(waMessage)}`
   : baseWaLink;
-const phoneHref = buildPhoneHref(company?.phone1 ?? company?.phone2);
+const phoneHref = buildPhoneHref(company?.phone1 ?? company?.phone2, "tel:+919925155141");
 const emailHref = company?.primaryEmail
   ? `mailto:${company.primaryEmail}`
   : company?.salesEmail
   ? `mailto:${company.salesEmail}`
-  : null;
+  : "mailto:connect.age@outlook.com";
 ---
 
 <!-- Floating Action Buttons -->

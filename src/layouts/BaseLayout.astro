@@ -9,7 +9,7 @@ import BreadcrumbSchema from "../components/schema/BreadcrumbSchema.astro";
 import ProductInquiryRoot from "../components/product/ProductInquiryRoot.astro";
 
 import { getSiteSettings, getCompanyInfo } from "../lib/api";
-import { getSiteOrigin } from "../lib/site-url";
+import { getSiteOrigin, toAbsoluteSiteUrl } from "../lib/site-url";
 
 interface Props {
   title?: string | null;
@@ -87,7 +87,8 @@ const pathname = Astro.url.pathname;
 const normalizedPath = pathname.replace(/\.html$/, '').replace(/\/index$/, '') || '/';
 const rawPath = normalizedPath;
 const cleanPath = rawPath === '/' ? '' : rawPath;
-const resolvedCanonical = canonical ?? undefined;
+const fallbackCanonical = toAbsoluteSiteUrl(cleanPath || "/");
+const resolvedCanonical = canonical ? toAbsoluteSiteUrl(canonical) : fallbackCanonical;
 const resolvedOgType = ogType ?? "website";
 const resolvedOgTitle = ogTitle ?? pageTitle;
 const resolvedOgDesc = ogDescription ?? pageDescription;
@@ -227,8 +228,8 @@ const marketingTrackingConfig = {
       <meta name="keywords" content={keywords.join(", ")} />
     )}
     {resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}
-    <link rel="alternate" hreflang="en" href={resolvedCanonical ?? `${siteBase}${cleanPath}`} />
-    <link rel="alternate" hreflang="x-default" href={resolvedCanonical ?? `${siteBase}${cleanPath}`} />
+    <link rel="alternate" hreflang="en" href={resolvedCanonical} />
+    <link rel="alternate" hreflang="x-default" href={resolvedCanonical} />
 
     <!-- Site Verification -->
     {site?.googleVerification && (
@@ -242,7 +243,7 @@ const marketingTrackingConfig = {
     <meta property="og:type" content={resolvedOgType} />
     <meta property="og:title" content={resolvedOgTitle} />
     <meta property="og:description" content={resolvedOgDesc} />
-    <meta property="og:url" content={resolvedCanonical ?? ""} />
+    <meta property="og:url" content={resolvedCanonical} />
     <meta property="og:site_name" content={companyName} />
     <meta property="og:logo" content={brandOgLogo} />
     <meta property="og:logo:width" content="512" />
