@@ -1,5 +1,5 @@
 ---
-import { getCompanyInfo } from "../../lib/api";
+import { getCompanyInfo, buildWaLink } from "../../lib/api";
 
 function cleanBaseUrl(value: string | undefined): string {
   const trimmed = value?.trim();
@@ -10,11 +10,12 @@ function cleanBaseUrl(value: string | undefined): string {
 }
 
 const API_BASE = cleanBaseUrl(import.meta.env.PUBLIC_API_BASE_URL as string | undefined);
-const CHAT_URL = `${API_BASE}/api/chat/message`;
-const HEALTH_URL = `${API_BASE}/api/chat/health`;
+const CHAT_URL = "/api/chat/message";
+const HEALTH_URL = "/api/chat/health";
 
 const company = await getCompanyInfo("AGE");
 const COMPANY = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
+const WHATSAPP_URL = buildWaLink(company?.whatsappNumber);
 const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare specifications, check MOQ or lead-time questions, and prepare a bulk inquiry for the sales team.`;
 ---
 
@@ -227,7 +228,7 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
       statusText,
     } = refs;
 
-    const LS_KEY = "age_chat_v2";
+    const LS_KEY = "age_chat_v3";
     const QUICK_STARTERS = [
       "Show me your fabric catalogue",
       "Find cotton twill fabrics",
@@ -746,13 +747,19 @@ const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare 
         }
       } catch (error) {
         const message = error instanceof Error ? error.message : "Network error";
+        const fallbackLinks = [
+          { url: "/fabric", label: "Browse fabric catalogue" },
+          { url: "/support", label: "Send inquiry" },
+        ];
+        if (WHATSAPP_URL) fallbackLinks.push({ url: WHATSAPP_URL, label: "Chat on WhatsApp" });
+
         const errMsg = {
           id: `e_${Date.now()}`,
           role: "bot",
-          text: `Sorry, I could not reach the server right now. Please try again in a moment. (${message})`,
+          text: "The AI assistant could not connect for this message. You can still continue through the catalogue or send your requirement directly to our team.",
           time: fmtTime(new Date()),
           suggestions: [],
-          links: [],
+          links: fallbackLinks,
         };
 
         msgs.push(errMsg);
