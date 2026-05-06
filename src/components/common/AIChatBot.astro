@@ -1,0 +1,830 @@
+---
+import { getCompanyInfo } from "../../lib/api";
+
+function cleanBaseUrl(value: string | undefined): string {
+  const trimmed = value?.trim();
+  if (!trimmed || trimmed === "undefined" || trimmed === "null") {
+    return "https://espobackend.vercel.app";
+  }
+  return trimmed.replace(/\/$/, "");
+}
+
+const API_BASE = cleanBaseUrl(import.meta.env.PUBLIC_API_BASE_URL as string | undefined);
+const CHAT_URL = `${API_BASE}/api/chat/message`;
+const HEALTH_URL = `${API_BASE}/api/chat/health`;
+
+const company = await getCompanyInfo("AGE");
+const COMPANY = company?.legalName ?? company?.name ?? "Amrita Global Enterprises";
+const WELCOME = `Welcome to ${COMPANY}.\nI can help you search fabrics, compare specifications, check MOQ or lead-time questions, and prepare a bulk inquiry for the sales team.`;
+---
+
+<!-- AI Chatbot Widget -->
+<button
+  id="cb-fab"
+  type="button"
+  aria-label="Open AI fabric assistant"
+  aria-expanded="false"
+  class="fixed right-4 z-[201] flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-[#041632] opacity-0 shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#385b99] active:scale-95 pointer-events-none"
+  style="bottom: 206px;"
+>
+  <svg id="cb-icon-chat" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M5.75 18.25h-.6a2.4 2.4 0 0 1-2.4-2.4V7.65a2.4 2.4 0 0 1 2.4-2.4h13.7a2.4 2.4 0 0 1 2.4 2.4v8.2a2.4 2.4 0 0 1-2.4 2.4h-6.1l-4.9 3.15v-3.15h-2.1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M8 10.25h5.5M8 13.25h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M17.7 6.4l.45 1.05 1.05.45-1.05.45-.45 1.05-.45-1.05-1.05-.45 1.05-.45.45-1.05Z" fill="currentColor"/>
+  </svg>
+  <svg id="cb-icon-close" class="hidden h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+  </svg>
+  <span
+    id="cb-badge"
+    class="absolute -right-1 -top-1 hidden min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white"
+    aria-live="polite"
+  ></span>
+</button>
+
+<div
+  id="cb-window"
+  role="dialog"
+  aria-label={`${COMPANY} AI fabric assistant`}
+  aria-modal="true"
+  aria-hidden="true"
+  data-nosnippet
+  class="fixed z-[202] flex flex-col overflow-hidden rounded-2xl opacity-0 shadow-2xl transition-all duration-300 pointer-events-none"
+  style="background:#ffffff; border:1px solid rgba(195,198,209,0.2); transform:scale(0.95);"
+>
+  <header class="flex flex-shrink-0 items-center justify-between border-b border-[#e8e7ed] bg-white px-5 py-4">
+    <div class="flex items-center gap-3">
+      <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[#e8e7ed] bg-white">
+        <img src="/images/icons/my_logo.webp" alt={COMPANY} class="h-full w-full object-contain p-0.5" />
+      </div>
+      <div>
+        <p class="font-headline text-lg font-bold leading-tight tracking-tight text-[#1a1b20]">{COMPANY}</p>
+        <div class="mt-0.5 flex items-center gap-1.5">
+          <span id="cb-status-dot" class="inline-block h-2 w-2 rounded-full bg-[#385b99]"></span>
+          <span id="cb-status-text" class="font-label text-[10px] uppercase tracking-wider text-[#747781]">AI Assistant</span>
+        </div>
+      </div>
+    </div>
+    <div class="flex gap-1">
+      <button
+        id="cb-reset"
+        type="button"
+        aria-label="Start new conversation"
+        title="New conversation"
+        class="rounded-full p-2 text-[#747781] transition-colors hover:bg-[#f4f3f9]"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 12a8 8 0 0 1-13.65 5.65M4 12A8 8 0 0 1 17.65 6.35" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+          <path d="M6.25 17.75H3.5V20.5M17.75 6.25h2.75V3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button
+        id="cb-close"
+        type="button"
+        aria-label="Close chat"
+        class="rounded-full p-2 text-[#747781] transition-colors hover:bg-[#f4f3f9]"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <div
+    id="cb-messages"
+    role="log"
+    aria-live="polite"
+    aria-label="Chat messages"
+    class="cb-scroll flex-1 overflow-y-auto bg-white"
+    style="padding:20px 20px 8px; display:flex; flex-direction:column; gap:16px;"
+  ></div>
+
+  <div
+    id="cb-starters"
+    class="flex flex-shrink-0 flex-wrap gap-2 bg-white px-5 pb-3 pt-2"
+  ></div>
+
+  <footer class="flex flex-shrink-0 items-center gap-3 border-t border-[#e8e7ed] bg-white px-5 py-4">
+    <input
+      id="cb-input"
+      type="text"
+      maxlength="1000"
+      placeholder="Ask about fabrics, MOQ, quotes..."
+      aria-label="Message input"
+      class="font-body flex-1 rounded-xl border border-[#c3c6d1] bg-white px-5 py-3.5 text-sm text-[#1a1b20] shadow-inner transition-colors placeholder:text-[#747781]/60 focus:border-[#385b99] focus:outline-none focus:ring-0"
+    />
+    <button
+      id="cb-send"
+      type="button"
+      aria-label="Send message"
+      disabled
+      class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#385b99] text-white transition-all hover:bg-[#1f4682] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h13M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </footer>
+</div>
+
+<div id="cb-backdrop" class="fixed inset-0 z-[201] hidden bg-black/40" aria-hidden="true"></div>
+
+<style is:global>
+  .cb-scroll::-webkit-scrollbar { width: 4px; }
+  .cb-scroll::-webkit-scrollbar-track { background: transparent; }
+  .cb-scroll::-webkit-scrollbar-thumb { background: #c3c6d1; border-radius: 10px; }
+  #cb-messages { scrollbar-width: thin; scrollbar-color: #c3c6d1 transparent; }
+
+  @keyframes cb-bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: .4; }
+    40% { transform: translateY(-5px); opacity: 1; }
+  }
+  .cb-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #385b99;
+    animation: cb-bounce 1.2s infinite ease-in-out;
+  }
+  .cb-dot:nth-child(2) { animation-delay: .2s; }
+  .cb-dot:nth-child(3) { animation-delay: .4s; }
+
+  .cb-md {
+    font-family: "Inter Variable", Inter, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .cb-md p { margin: 0 0 .35em; font-weight: 400; }
+  .cb-md p:last-child { margin-bottom: 0; }
+  .cb-md ul, .cb-md ol { margin: .25em 0 .35em 1.1em; padding: 0; }
+  .cb-md li { margin-bottom: .15em; }
+  .cb-md h4, .cb-md h5, .cb-md h6 { margin: .4em 0 .2em; font-weight: 600; }
+  .cb-md code {
+    border-radius: 3px;
+    background: #f0eff5;
+    color: #385b99;
+    padding: .1em .3em;
+    font-size: .85em;
+  }
+  .cb-md a { color: #385b99; text-decoration: underline; }
+  .cb-md hr { margin: .5em 0; border: none; border-top: 1px solid #c3c6d1; }
+  .cb-md strong { font-weight: 600; }
+  .cb-md em { font-style: italic; }
+
+  .cb-chip {
+    display: inline-block;
+    border: 1px solid #c3c6d1;
+    border-radius: .75rem;
+    background: #ffffff;
+    color: #385b99;
+    cursor: pointer;
+    font-family: "Inter Variable", Inter, sans-serif;
+    font-size: .75rem;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: .3rem .75rem;
+    transition: background .15s, border-color .15s;
+    white-space: nowrap;
+  }
+  .cb-chip:hover { background: #f4f3f9; border-color: #385b99; }
+</style>
+
+<script define:vars={{ CHAT_URL, HEALTH_URL, WELCOME, COMPANY }}>
+  const refs = {
+    fab: document.getElementById("cb-fab"),
+    win: document.getElementById("cb-window"),
+    msgList: document.getElementById("cb-messages"),
+    starters: document.getElementById("cb-starters"),
+    inputEl: document.getElementById("cb-input"),
+    sendBtn: document.getElementById("cb-send"),
+    closeBtn: document.getElementById("cb-close"),
+    resetBtn: document.getElementById("cb-reset"),
+    backdrop: document.getElementById("cb-backdrop"),
+    badge: document.getElementById("cb-badge"),
+    iconChat: document.getElementById("cb-icon-chat"),
+    iconClose: document.getElementById("cb-icon-close"),
+    statusDot: document.getElementById("cb-status-dot"),
+    statusText: document.getElementById("cb-status-text"),
+  };
+
+  if (Object.values(refs).every(Boolean)) {
+    const {
+      fab,
+      win,
+      msgList,
+      starters,
+      inputEl,
+      sendBtn,
+      closeBtn,
+      resetBtn,
+      backdrop,
+      badge,
+      iconChat,
+      iconClose,
+      statusDot,
+      statusText,
+    } = refs;
+
+    const LS_KEY = "age_chat_v2";
+    const QUICK_STARTERS = [
+      "Show me your fabric catalogue",
+      "Find cotton twill fabrics",
+      "Request a bulk fabric quote",
+      "Ask about MOQ and lead time",
+    ];
+    const LEAD_INTENT_RE = /\b(quote|pricing|price|sample|samples|moq|minimum order|bulk|order|buy|purchase|contact|call|whatsapp|email|lead time|requirement|sourcing|export)\b/i;
+    const BOT_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" style="width:17px;height:17px;color:white;" aria-hidden="true"><path d="M5.5 16.5h-.25A2.25 2.25 0 0 1 3 14.25v-6.5A2.25 2.25 0 0 1 5.25 5.5h13.5A2.25 2.25 0 0 1 21 7.75v6.5a2.25 2.25 0 0 1-2.25 2.25h-5.5L8 20v-3.5H5.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 10h5M8 13h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    const USER_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" style="width:17px;height:17px;color:white;" aria-hidden="true"><path d="M18.5 20a6.5 6.5 0 0 0-13 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.9"/></svg>';
+
+    const fmtTime = (date) => date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    function loadStore() {
+      try {
+        return JSON.parse(localStorage.getItem(LS_KEY) || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function saveStore(data) {
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(data));
+      } catch {
+        // Storage failures should not block chat.
+      }
+    }
+
+    function clearStore() {
+      try {
+        localStorage.removeItem(LS_KEY);
+      } catch {
+        // Storage failures should not block chat.
+      }
+    }
+
+    function getAttribution() {
+      try {
+        return typeof window.ageGetAttribution === "function" ? window.ageGetAttribution() : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function track(name, params = {}) {
+      const payload = {
+        source: "ai_chatbot",
+        page_path: window.location.pathname,
+        page_location: window.location.href,
+        ...params,
+      };
+
+      try {
+        if (typeof window.ageTrack === "function") {
+          window.ageTrack(name, payload);
+          return;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        if (typeof window.gtag === "function") {
+          window.gtag("event", name, payload);
+        } else {
+          window.dataLayer.push({ event: name, ...payload });
+        }
+      } catch {
+        // Analytics must never interrupt the chat flow.
+      }
+    }
+
+    function safeHttpUrl(value) {
+      try {
+        const url = new URL(String(value), window.location.href);
+        return url.protocol === "http:" || url.protocol === "https:" ? url.href : null;
+      } catch {
+        return null;
+      }
+    }
+
+    const WELCOME_MSG = {
+      id: "welcome",
+      role: "bot",
+      text: WELCOME,
+      time: fmtTime(new Date()),
+      suggestions: [],
+      links: [],
+    };
+
+    function initStore() {
+      const existing = loadStore();
+      if (existing?.sessionId) {
+        return {
+          sessionId: existing.sessionId,
+          context: existing.context || {},
+          messages: Array.isArray(existing.messages) && existing.messages.length ? existing.messages : [WELCOME_MSG],
+        };
+      }
+
+      const sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+      const store = { sessionId, context: {}, messages: [WELCOME_MSG] };
+      saveStore(store);
+      return store;
+    }
+
+    function renderMarkdown(text) {
+      if (!text) return "";
+
+      const esc = (value) =>
+        value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+
+      const inline = (value) =>
+        value
+          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*(.+?)\*/g, "<em>$1</em>")
+          .replace(/`([^`]+)`/g, "<code>$1</code>")
+          .replace(
+            /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+            '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+          );
+
+      const lines = text.split("\n");
+      let html = "";
+      let i = 0;
+
+      while (i < lines.length) {
+        const line = lines[i];
+
+        if (/^---+$/.test(line.trim())) {
+          html += "<hr>";
+          i++;
+          continue;
+        }
+
+        const heading = line.match(/^(#{1,3})\s+(.+)/);
+        if (heading) {
+          const level = heading[1].length + 2;
+          html += `<h${level}>${inline(esc(heading[2]))}</h${level}>`;
+          i++;
+          continue;
+        }
+
+        if (/^[-*]\s/.test(line)) {
+          html += "<ul>";
+          while (i < lines.length && /^[-*]\s/.test(lines[i])) {
+            html += `<li>${inline(esc(lines[i].replace(/^[-*]\s/, "")))}</li>`;
+            i++;
+          }
+          html += "</ul>";
+          continue;
+        }
+
+        if (/^\d+\.\s/.test(line)) {
+          html += "<ol>";
+          while (i < lines.length && /^\d+\.\s/.test(lines[i])) {
+            html += `<li>${inline(esc(lines[i].replace(/^\d+\.\s/, "")))}</li>`;
+            i++;
+          }
+          html += "</ol>";
+          continue;
+        }
+
+        if (line.trim() === "") {
+          html += '<div style="height:.35em"></div>';
+          i++;
+          continue;
+        }
+
+        html += `<p>${inline(esc(line))}</p>`;
+        i++;
+      }
+
+      return html;
+    }
+
+    let store = initStore();
+    let msgs = store.messages;
+    let ctx = store.context;
+    let sessionId = store.sessionId;
+    let isOpen = false;
+    let isLoading = false;
+    let unread = 0;
+    let showStarters = msgs.length <= 1;
+    let healthChecked = false;
+    let scrollThreshold = window.innerHeight * 0.8;
+
+    function persist() {
+      saveStore({ sessionId, context: ctx, messages: msgs });
+    }
+
+    function makeBubble(msg) {
+      const isBot = msg.role === "bot";
+      const container = document.createElement("div");
+      container.style.cssText = "display:flex; flex-direction:column; gap:5px;";
+
+      const time = document.createElement("div");
+      time.style.cssText = `font-family:"Inter Variable",Inter,sans-serif; font-size:10px; color:#747781; text-transform:uppercase; letter-spacing:0.08em; font-weight:500; ${isBot ? "padding-left:42px;" : "text-align:right; padding-right:42px;"}`;
+      time.textContent = `${isBot ? "ASSISTANT" : "YOU"} - ${msg.time}`;
+
+      const row = document.createElement("div");
+      row.style.cssText = `display:flex; align-items:flex-end; gap:10px; ${isBot ? "" : "flex-direction:row-reverse;"}`;
+
+      const av = document.createElement("div");
+      av.setAttribute("aria-hidden", "true");
+      av.style.cssText = "flex-shrink:0; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#385b99;";
+      av.innerHTML = isBot ? BOT_ICON_SVG : USER_ICON_SVG;
+
+      const bubble = document.createElement("div");
+      bubble.style.cssText = isBot
+        ? 'max-width:80%; background:#eeedf3; border:1px solid rgba(195,198,209,0.15); border-radius:0 12px 12px 12px; padding:12px 14px; color:#1a1b20; font-family:"Inter Variable",Inter,sans-serif; font-size:14px; font-weight:400; line-height:1.6;'
+        : 'max-width:80%; background:#385b99; border-radius:12px 0 12px 12px; padding:12px 14px; color:white; font-family:"Inter Variable",Inter,sans-serif; font-size:14px; font-weight:400; line-height:1.6; box-shadow:0 2px 8px rgba(56,91,153,0.25);';
+
+      if (isBot) {
+        const md = document.createElement("div");
+        md.className = "cb-md";
+        md.innerHTML = renderMarkdown(msg.text);
+        bubble.appendChild(md);
+
+        if (msg.suggestions?.length) {
+          const chips = document.createElement("div");
+          chips.style.cssText = "display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;";
+          msg.suggestions.forEach((suggestion) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "cb-chip";
+            btn.textContent = suggestion.fabricCode || suggestion.label || "View option";
+            btn.addEventListener("click", () => {
+              const url = safeHttpUrl(suggestion.url);
+              if (url) {
+                track("ai_chat_suggestion_link_click", { chat_session_id: sessionId });
+                window.open(url, "_blank", "noopener,noreferrer");
+              } else {
+                sendMessage(`Tell me more about ${suggestion.label || suggestion.fabricCode}`);
+              }
+            });
+            chips.appendChild(btn);
+          });
+          bubble.appendChild(chips);
+        }
+
+        if (msg.links?.length) {
+          const linksDiv = document.createElement("div");
+          linksDiv.style.cssText = "display:flex; flex-direction:column; gap:6px; margin-top:10px;";
+          msg.links.forEach((link) => {
+            const url = safeHttpUrl(link.url);
+            if (!url) return;
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.style.cssText = 'display:flex; align-items:center; gap:8px; padding:8px 10px; background:white; border-radius:8px; border:1px solid #e2e8f0; font-family:"Inter Variable",Inter,sans-serif; font-size:12px; color:#385b99; text-decoration:none;';
+
+            const label = document.createElement("span");
+            label.textContent = link.label || "Open link";
+
+            a.insertAdjacentHTML(
+              "beforeend",
+              '<svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px;flex-shrink:0;color:#755700;" aria-hidden="true"><path d="M8 7H5.75A1.75 1.75 0 0 0 4 8.75v9.5C4 19.22 4.78 20 5.75 20h9.5c.97 0 1.75-.78 1.75-1.75V16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M13 4h7v7M11 13 20 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+            );
+            a.appendChild(label);
+            a.addEventListener("click", () => track("ai_chat_response_link_click", { chat_session_id: sessionId }));
+            linksDiv.appendChild(a);
+          });
+          bubble.appendChild(linksDiv);
+        }
+      } else {
+        const p = document.createElement("p");
+        p.style.margin = "0";
+        p.textContent = msg.text;
+        bubble.appendChild(p);
+      }
+
+      row.appendChild(av);
+      row.appendChild(bubble);
+      container.appendChild(time);
+      container.appendChild(row);
+      return container;
+    }
+
+    function makeTyping() {
+      const row = document.createElement("div");
+      row.id = "cb-typing";
+      row.style.cssText = "display:flex; gap:10px; align-items:flex-end;";
+
+      const av = document.createElement("div");
+      av.setAttribute("aria-hidden", "true");
+      av.style.cssText = "flex-shrink:0; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#385b99;";
+      av.innerHTML = BOT_ICON_SVG;
+
+      const bubble = document.createElement("div");
+      bubble.style.cssText = "background:#eeedf3; border:1px solid rgba(195,198,209,0.15); border-radius:0 12px 12px 12px; padding:12px 14px; display:flex; align-items:center; gap:5px;";
+      bubble.innerHTML = '<span class="cb-dot"></span><span class="cb-dot"></span><span class="cb-dot"></span>';
+
+      row.appendChild(av);
+      row.appendChild(bubble);
+      return row;
+    }
+
+    function scrollBottom() {
+      msgList.scrollTop = msgList.scrollHeight;
+    }
+
+    function renderAll() {
+      msgList.innerHTML = "";
+      msgs.forEach((message) => msgList.appendChild(makeBubble(message)));
+      scrollBottom();
+    }
+
+    function renderStarters() {
+      starters.innerHTML = "";
+      if (!showStarters) return;
+
+      QUICK_STARTERS.forEach((question) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cb-chip";
+        btn.textContent = question;
+        btn.addEventListener("click", () => {
+          track("ai_chat_quick_starter_click", { chat_session_id: sessionId, starter_label: question });
+          sendMessage(question);
+        });
+        starters.appendChild(btn);
+      });
+    }
+
+    function isMobile() {
+      return window.innerWidth < 640;
+    }
+
+    function applyWindowPosition() {
+      if (isMobile()) {
+        win.style.left = "0";
+        win.style.right = "0";
+        win.style.bottom = "0";
+        win.style.top = "auto";
+        win.style.width = "100%";
+        win.style.height = "85dvh";
+        win.style.maxHeight = "85dvh";
+        win.style.borderRadius = "20px 20px 0 0";
+      } else {
+        win.style.left = "";
+        win.style.right = "76px";
+        win.style.bottom = "32px";
+        win.style.top = "auto";
+        win.style.width = "380px";
+        win.style.height = "min(620px, calc(100dvh - 64px))";
+        win.style.maxHeight = "min(620px, calc(100dvh - 64px))";
+        win.style.borderRadius = "16px";
+      }
+    }
+
+    function checkHealth() {
+      if (healthChecked || !HEALTH_URL) return;
+      healthChecked = true;
+
+      fetch(HEALTH_URL)
+        .then((response) => {
+          statusDot.style.background = response.ok ? "#86efac" : "#385b99";
+          statusText.textContent = response.ok ? "Ready" : "AI Assistant";
+        })
+        .catch(() => {
+          statusDot.style.background = "#385b99";
+          statusText.textContent = "AI Assistant";
+        });
+    }
+
+    function openChat() {
+      isOpen = true;
+      unread = 0;
+      badge.classList.add("hidden");
+      badge.textContent = "";
+      fab.setAttribute("aria-expanded", "true");
+      fab.setAttribute("aria-label", "Close AI fabric assistant");
+      win.setAttribute("aria-hidden", "false");
+      iconChat.classList.add("hidden");
+      iconClose.classList.remove("hidden");
+
+      applyWindowPosition();
+      win.style.transform = "scale(1)";
+      win.style.opacity = "1";
+      win.style.pointerEvents = "auto";
+
+      if (isMobile()) {
+        backdrop.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        fab.style.opacity = "0";
+        fab.style.pointerEvents = "none";
+      } else {
+        backdrop.classList.add("hidden");
+      }
+
+      renderAll();
+      renderStarters();
+      checkHealth();
+      track("ai_chat_open", { chat_session_id: sessionId });
+      setTimeout(() => inputEl.focus(), 100);
+    }
+
+    function closeChat() {
+      isOpen = false;
+      fab.setAttribute("aria-expanded", "false");
+      fab.setAttribute("aria-label", "Open AI fabric assistant");
+      win.setAttribute("aria-hidden", "true");
+      iconChat.classList.remove("hidden");
+      iconClose.classList.add("hidden");
+      win.style.transform = isMobile() ? "translateY(100%)" : "scale(0.95)";
+      win.style.opacity = "0";
+      win.style.pointerEvents = "none";
+      backdrop.classList.add("hidden");
+      document.body.style.overflow = "";
+      updateFabVisibility();
+      track("ai_chat_close", { chat_session_id: sessionId });
+    }
+
+    function hasLeadIntent(text) {
+      return LEAD_INTENT_RE.test(text);
+    }
+
+    async function sendMessage(text) {
+      const trimmed = text.trim();
+      if (!trimmed || isLoading) return;
+
+      showStarters = false;
+      renderStarters();
+      inputEl.value = "";
+      sendBtn.disabled = true;
+
+      const leadIntent = hasLeadIntent(trimmed);
+      track("ai_chat_message_send", {
+        chat_session_id: sessionId,
+        message_length: trimmed.length,
+        lead_intent: leadIntent,
+      });
+      if (leadIntent) {
+        track("ai_chat_lead_intent", { chat_session_id: sessionId });
+      }
+
+      const userMsg = {
+        id: `u_${Date.now()}`,
+        role: "user",
+        text: trimmed,
+        time: fmtTime(new Date()),
+        suggestions: [],
+        links: [],
+      };
+
+      msgs.push(userMsg);
+      msgList.appendChild(makeBubble(userMsg));
+      scrollBottom();
+
+      isLoading = true;
+      const typingEl = makeTyping();
+      msgList.appendChild(typingEl);
+      scrollBottom();
+
+      try {
+        const res = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: trimmed,
+            context: ctx,
+            sessionId,
+            cPageUrl: window.location.href,
+            cPageTitle: document.title,
+            cReferrer: document.referrer,
+            cUserAgent: navigator.userAgent,
+            cAttribution: getAttribution(),
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || "Server error");
+
+        if (data.context) ctx = data.context;
+
+        const chips = (data.suggestions || []).filter((suggestion) => suggestion.fabricCode || suggestion.label);
+        const links = (data.suggestionsV2 || [])
+          .map((suggestion) => ({
+            url: safeHttpUrl(suggestion.url),
+            label: suggestion.label || suggestion.entity || "Open link",
+          }))
+          .filter((link) => link.url)
+          .slice(0, 4);
+
+        const botMsg = {
+          id: `b_${Date.now()}`,
+          role: "bot",
+          text: data.replyText || "I am here to help with fabric sourcing questions.",
+          time: fmtTime(new Date()),
+          suggestions: chips,
+          links,
+        };
+
+        msgs.push(botMsg);
+        typingEl.remove();
+        msgList.appendChild(makeBubble(botMsg));
+        scrollBottom();
+
+        track("ai_chat_response_received", {
+          chat_session_id: sessionId,
+          suggestions_count: chips.length,
+          links_count: links.length,
+        });
+
+        if (data.leadCaptured || data.leadCreated || data.leadId || data.crmLeadId || data.context?.leadId) {
+          track("ai_chat_lead_success", { chat_session_id: sessionId });
+        }
+
+        if (!isOpen) {
+          unread++;
+          badge.textContent = String(unread);
+          badge.classList.remove("hidden");
+        }
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Network error";
+        const errMsg = {
+          id: `e_${Date.now()}`,
+          role: "bot",
+          text: `Sorry, I could not reach the server right now. Please try again in a moment. (${message})`,
+          time: fmtTime(new Date()),
+          suggestions: [],
+          links: [],
+        };
+
+        msgs.push(errMsg);
+        typingEl.remove();
+        msgList.appendChild(makeBubble(errMsg));
+        scrollBottom();
+        track("ai_chat_error", { chat_session_id: sessionId, error_message: message });
+      } finally {
+        isLoading = false;
+        persist();
+        setTimeout(() => inputEl.focus(), 50);
+      }
+    }
+
+    function updateFabVisibility() {
+      const visible = window.scrollY > scrollThreshold;
+      fab.style.opacity = visible ? "1" : "0";
+      fab.style.pointerEvents = visible ? "auto" : "none";
+      fab.style.transition = "opacity 0.3s";
+
+      if (!visible && isOpen) closeChat();
+    }
+
+    fab.addEventListener("click", () => (isOpen ? closeChat() : openChat()));
+    closeBtn.addEventListener("click", closeChat);
+    backdrop.addEventListener("click", closeChat);
+    sendBtn.addEventListener("click", () => sendMessage(inputEl.value));
+
+    resetBtn.addEventListener("click", () => {
+      clearStore();
+      sessionId = `sess_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+      ctx = {};
+      msgs = [{ ...WELCOME_MSG, id: "welcome", time: fmtTime(new Date()) }];
+      showStarters = true;
+      unread = 0;
+      badge.classList.add("hidden");
+      badge.textContent = "";
+      persist();
+      renderAll();
+      renderStarters();
+      track("ai_chat_reset", { chat_session_id: sessionId });
+    });
+
+    inputEl.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage(inputEl.value);
+      }
+    });
+
+    inputEl.addEventListener("input", () => {
+      sendBtn.disabled = isLoading || !inputEl.value.trim();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && isOpen) closeChat();
+    });
+
+    window.addEventListener("scroll", updateFabVisibility, { passive: true });
+    window.addEventListener("resize", () => {
+      scrollThreshold = window.innerHeight * 0.8;
+      if (isOpen) {
+        applyWindowPosition();
+        if (!isMobile()) {
+          backdrop.classList.add("hidden");
+          document.body.style.overflow = "";
+        }
+      }
+      updateFabVisibility();
+    });
+
+    applyWindowPosition();
+    updateFabVisibility();
+  }
+</script>

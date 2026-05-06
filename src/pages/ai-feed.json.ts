@@ -8,7 +8,13 @@ export const GET: APIRoute = () =>
         name: "Amrita Global Enterprises",
         type: "B2B fabric catalogue and lead-generation website",
         website: getSiteOrigin(),
-        primaryActions: ["Send fabric inquiry", "Request fabric samples", "WhatsApp", "Call"],
+        primaryActions: [
+          "Ask AI fabric assistant",
+          "Send fabric inquiry",
+          "Request fabric samples",
+          "WhatsApp",
+          "Call",
+        ],
         audience: ["garment manufacturers", "textile traders", "wholesalers", "exporters", "bulk fabric buyers"],
         machineReadable: {
           llms: `${getSiteOrigin()}/llms.txt`,

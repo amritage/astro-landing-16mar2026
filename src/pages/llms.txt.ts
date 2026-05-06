@@ -81,6 +81,7 @@ Menswear, Womenswear, Workwear, Uniforms, Sportswear, Industrial Textiles, and m
 - The site does not handle cart, checkout, login, or orders. Those are in a separate commerce application.
 - All fabric data is fetched from a backend API at build time (Astro static generation).
 - The primary call-to-action is a WhatsApp or phone inquiry, not an add-to-cart.
+- The site includes an AI fabric catalogue assistant for fabric discovery, MOQ questions, quote preparation, and sales lead routing.
 
 ## Contact for inquiries
 

@@ -11,6 +11,7 @@ Amrita Global Enterprises is a B2B fabric supplier and manufacturer website focu
 
 - Send fabric inquiry
 - Request fabric samples
+- Ask AI fabric assistant for fabric discovery, MOQ questions, and quote preparation
 - Contact by WhatsApp
 - Contact by phone
 

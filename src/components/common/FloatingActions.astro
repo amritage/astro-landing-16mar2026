@@ -22,7 +22,7 @@ const emailHref = company?.primaryEmail
 ---
 
 <!-- Floating Action Buttons -->
-<div id="floating-left" class="fixed bottom-8 z-[200] flex flex-col gap-2.5 left-4 transition-opacity duration-300 opacity-0 pointer-events-none">
+<div id="floating-contact" class="fixed bottom-8 right-4 z-[200] flex flex-col gap-2.5 transition-opacity duration-300 opacity-0 pointer-events-none">
   <!-- WhatsApp -->
   {whatsappHref && (
     <button
@@ -46,12 +46,12 @@ const emailHref = company?.primaryEmail
       class="w-12 h-12 flex items-center justify-center rounded-xl shadow-lg hover:scale-105 transition-transform"
       style="background-color: #1a9e6e;"
     >
-      <span class="material-symbols-outlined text-white" style="font-size: 24px; font-variation-settings: 'FILL' 1;">call</span>
+      <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M7.1 4.75 9 4.25c.78-.2 1.6.18 1.95.9l1 2.05c.3.62.17 1.36-.33 1.85l-1.05 1.05a12.2 12.2 0 0 0 3.35 3.35l1.03-1.03c.5-.5 1.24-.63 1.87-.33l2.05 1c.72.35 1.1 1.17.9 1.95l-.5 1.9c-.2.78-.9 1.33-1.7 1.33C10.7 18.25 5.75 13.3 5.75 6.43c0-.8.55-1.5 1.35-1.68Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
     </a>
   )}
-</div>
 
-<div id="floating-right" class="fixed bottom-8 z-[200] flex flex-col gap-2.5 right-4 transition-opacity duration-300 opacity-0 pointer-events-none">
   <!-- Email -->
   {emailHref && (
     <a
@@ -60,15 +60,17 @@ const emailHref = company?.primaryEmail
       class="w-12 h-12 flex items-center justify-center rounded-xl shadow-lg hover:scale-105 transition-transform"
       style="background-color: #2563eb;"
     >
-      <span class="material-symbols-outlined text-white" style="font-size: 24px; font-variation-settings: 'FILL' 1;">mail</span>
+      <svg class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4.75 6.75h14.5v10.5H4.75V6.75Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="m5.25 7.25 6.75 5 6.75-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </a>
   )}
 </div>
 
 <script>
   const floatingEls = [
-    document.getElementById('floating-left'),
-    document.getElementById('floating-right'),
+    document.getElementById('floating-contact'),
   ].filter(Boolean) as HTMLElement[];
 
   // Show after user scrolls past ~80vh (past the hero)
