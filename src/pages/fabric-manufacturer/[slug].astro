@@ -1,28 +1,28 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PLProductDetail from "../../../components/fabric-manufacturer/PLProductDetail.astro";
-import PLFAQ from "../../../components/fabric-manufacturer/PLFAQ.astro";
-import PLCollection from "../../../components/fabric-manufacturer/PLCollection.astro";
-import PLLandingHeader from "../../../components/fabric-manufacturer-landing/PLLandingHeader.astro";
-import PLLandingHero from "../../../components/fabric-manufacturer-landing/PLLandingHero.astro";
-import PLLandingTrustMetrics from "../../../components/fabric-manufacturer-landing/PLLandingTrustMetrics.astro";
-import PLLandingOrderInfo from "../../../components/fabric-manufacturer-landing/PLLandingOrderInfo.astro";
-import PLLandingApplications from "../../../components/fabric-manufacturer-landing/PLLandingApplications.astro";
-import PLLandingFooter from "../../../components/fabric-manufacturer-landing/PLLandingFooter.astro";
-import PLLandingStickyBar from "../../../components/fabric-manufacturer-landing/PLLandingStickyBar.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PLProductDetail from "../../components/fabric-manufacturer/PLProductDetail.astro";
+import PLFAQ from "../../components/fabric-manufacturer/PLFAQ.astro";
+import PLCollection from "../../components/fabric-manufacturer/PLCollection.astro";
+import PLLandingHeader from "../../components/fabric-manufacturer-landing/PLLandingHeader.astro";
+import PLLandingHero from "../../components/fabric-manufacturer-landing/PLLandingHero.astro";
+import PLLandingTrustMetrics from "../../components/fabric-manufacturer-landing/PLLandingTrustMetrics.astro";
+import PLLandingOrderInfo from "../../components/fabric-manufacturer-landing/PLLandingOrderInfo.astro";
+import PLLandingApplications from "../../components/fabric-manufacturer-landing/PLLandingApplications.astro";
+import PLLandingFooter from "../../components/fabric-manufacturer-landing/PLLandingFooter.astro";
+import PLLandingStickyBar from "../../components/fabric-manufacturer-landing/PLLandingStickyBar.astro";
 import {
   getAllProductLocations,
   getCompanyInfo,
   buildPhoneHref,
   buildWaLink,
-} from "../../../lib/api";
-import type { ApiProductLocation } from "../../../lib/api";
-import { stripHtml } from "../../../data/products";
-import { getSiteOrigin } from "../../../lib/site-url";
+} from "../../lib/api";
+import type { ApiProductLocation } from "../../lib/api";
+import { stripHtml } from "../../data/products";
+import { getSiteOrigin } from "../../lib/site-url";
 import {
   applyFabricManufacturerLandingPreview,
   getFabricManufacturerLandingPreview,
-} from "../../../data/fabricManufacturerLandingPreview";
+} from "../../data/fabricManufacturerLandingPreview";
 
 const SITE_BASE = getSiteOrigin();
 
@@ -41,7 +41,6 @@ const company = await getCompanyInfo("AGE");
 const landing = getFabricManufacturerLandingPreview(data);
 const previewData = applyFabricManufacturerLandingPreview(data, landing);
 
-const previewUrl = `${SITE_BASE}/preview/fabric-manufacturer/${previewData.slug}`;
 const liveUrl = `${SITE_BASE}/fabric-manufacturer/${previewData.slug}`;
 const previewTitle = `${landing.headline} | ${company?.legalName ?? "Amrita Global Enterprises"}`;
 const metaDescription =
@@ -70,20 +69,20 @@ const additionalProperties = [
   { name: "Location Served", value: previewData.location.name },
 ].filter((item) => item.value);
 
-const previewSchema = {
+const pageSchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "WebPage",
-      "@id": `${previewUrl}#webpage`,
-      url: previewUrl,
+      "@id": `${liveUrl}#webpage`,
+      url: liveUrl,
       name: previewTitle,
       description: metaDescription,
       inLanguage: "en",
     },
     {
       "@type": "Product",
-      "@id": `${previewUrl}#product`,
+      "@id": `${liveUrl}#product`,
       name: landing.headline,
       description: metaDescription,
       image: [ogImage].filter(Boolean),
@@ -114,8 +113,7 @@ const previewSchema = {
   keywords={previewData.keywords?.length ? previewData.keywords : undefined}
   ogImage={ogImage}
   ogType="product"
-  schemaMarkup={previewSchema}
-  noindex={true}
+  schemaMarkup={pageSchema}
   preloadImage={ogImage}
   hideHeader={true}
   hideFooter={true}
